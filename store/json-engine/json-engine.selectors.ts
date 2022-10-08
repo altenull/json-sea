@@ -1,11 +1,19 @@
 import { selector } from 'recoil';
 import { isValidJson } from '../../src/utils/json.utils';
-import { jsonCodeAtom, JSON_ENGINE_PREFIX } from './json-engine.atoms';
+import { JSON_ENGINE_PREFIX, latestValidStringifiedJsonAtom, stringifiedJsonAtom } from './json-engine.atoms';
 
-export const isValidJsonCodeSelector = selector<boolean>({
-  key: `${JSON_ENGINE_PREFIX}/is-valid-json-code-selector`,
+export const isValidJsonSelector = selector<boolean>({
+  key: `${JSON_ENGINE_PREFIX}/isValidJsonSelector`,
   get: ({ get }) => {
-    const jsonCode: string = get(jsonCodeAtom);
-    return isValidJson(jsonCode);
+    const stringifiedJson: string = get(stringifiedJsonAtom);
+    return isValidJson(stringifiedJson);
+  },
+});
+
+export const latestValidJsonSelector = selector<object>({
+  key: `${JSON_ENGINE_PREFIX}/latestValidJsonSelector`,
+  get: ({ get }) => {
+    const latestValidStringifiedJson: string = get(latestValidStringifiedJsonAtom);
+    return JSON.parse(latestValidStringifiedJson);
   },
 });

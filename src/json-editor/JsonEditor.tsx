@@ -1,21 +1,21 @@
 import Editor from '@monaco-editor/react';
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
-import { jsonCodeAtom, latestValidJsonCodeAtom } from '../../store/json-engine/json-engine.atoms';
-import { DEFAULT_JSON_CODE } from '../../store/json-engine/json-engine.constants';
+import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atoms';
+import { DEFAULT_STRINGIFIED_JSON } from '../../store/json-engine/json-engine.constants';
 import { isValidJson } from '../utils/json.utils';
 
 const JsonEditor = () => {
-  const [jsonCode, setJsonCode] = useRecoilState(jsonCodeAtom);
-  const [, setLatestValidJsonCode] = useRecoilState(latestValidJsonCodeAtom);
+  const [stringifiedJson, setStringifiedJson] = useRecoilState(stringifiedJsonAtom);
+  const [, setLatestValidStringifiedJson] = useRecoilState(latestValidStringifiedJsonAtom);
 
   const handleChange = useCallback((value: string | undefined) => {
     if (value === undefined) return;
 
-    setJsonCode(value);
+    setStringifiedJson(value);
 
     if (isValidJson(value)) {
-      setLatestValidJsonCode(value);
+      setLatestValidStringifiedJson(value);
     }
   }, []);
 
@@ -26,8 +26,8 @@ const JsonEditor = () => {
       theme="vs-dark"
       defaultLanguage="json"
       onChange={handleChange}
-      defaultValue={DEFAULT_JSON_CODE}
-      value={jsonCode}
+      defaultValue={DEFAULT_STRINGIFIED_JSON}
+      value={stringifiedJson}
     />
   );
 };

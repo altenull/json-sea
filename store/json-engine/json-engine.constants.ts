@@ -1,4 +1,4 @@
-export const DEFAULT_JSON_CODE: string = `
+export const DEFAULT_STRINGIFIED_JSON: string = `
 {
   "field1": 1,
   "field2": 2,
