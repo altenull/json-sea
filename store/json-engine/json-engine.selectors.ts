@@ -1,16 +1,9 @@
 import { selector } from 'recoil';
+import { isValidJson } from '../../src/utils/json.utils';
 import { jsonCodeAtom, JSON_ENGINE_PREFIX } from './json-engine.atoms';
 
-const isValidJson = (code: string): boolean => {
-  try {
-    return typeof JSON.parse(code) === 'object';
-  } catch (error) {
-    return false;
-  }
-};
-
 export const isValidJsonCodeSelector = selector<boolean>({
-  key: `${JSON_ENGINE_PREFIX}/isValidJsonCodeSelector`,
+  key: `${JSON_ENGINE_PREFIX}/is-valid-json-code-selector`,
   get: ({ get }) => {
     const jsonCode: string = get(jsonCodeAtom);
     return isValidJson(jsonCode);
