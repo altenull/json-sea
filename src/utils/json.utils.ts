@@ -1,5 +1,5 @@
 /**
- * Returns true if argument is an array and false otherwise.
+ * Returns true if argument is an 'array' and false otherwise.
  * @param {unknown} value - the value to check
  */
 export const isArray = (value: unknown): boolean => {
@@ -7,7 +7,7 @@ export const isArray = (value: unknown): boolean => {
 };
 
 /**
- * Returns true if argument is an object and false otherwise.
+ * Returns true if argument is an 'object' and false otherwise.
  * Since the result of 'typeof []' is 'object', checks value with isArray() funciton.
  * @param {unknown} value - the value to check
  */
@@ -16,7 +16,7 @@ export const isObject = (value: unknown): boolean => {
 };
 
 /**
- * Returns true if argument is a string and false otherwise.
+ * Returns true if argument is a 'string' and false otherwise.
  * @param {unknown} value - the value to check
  */
 export const isString = (value: unknown): boolean => {
@@ -24,7 +24,7 @@ export const isString = (value: unknown): boolean => {
 };
 
 /**
- * Returns true if argument is a number and false otherwise.
+ * Returns true if argument is a 'number' and false otherwise.
  * @param {unknown} value - the value to check
  */
 export const isNumber = (value: unknown): boolean => {
@@ -32,7 +32,7 @@ export const isNumber = (value: unknown): boolean => {
 };
 
 /**
- * Returns true if argument is a boolean and false otherwise.
+ * Returns true if argument is a 'boolean' and false otherwise.
  * @param {unknown} value - the value to check
  */
 export const isBoolean = (value: unknown): boolean => {
@@ -40,7 +40,7 @@ export const isBoolean = (value: unknown): boolean => {
 };
 
 /**
- * Returns true if argument is a null and false otherwise.
+ * Returns true if argument is a 'null' and false otherwise.
  * @param {unknown} value - the value to check
  */
 export const isNull = (value: unknown): boolean => {
