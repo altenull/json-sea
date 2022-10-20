@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { DEFAULT_STRINGIFIED_JSON } from './json-engine.constants';
+import { DEFAULT_STRINGIFIED_JSON } from './json-engine.constant';
 
 export const JSON_ENGINE_PREFIX = '@json-engine';
 

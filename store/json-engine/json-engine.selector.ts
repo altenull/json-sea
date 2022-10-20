@@ -1,6 +1,6 @@
 import { selector } from 'recoil';
-import { isValidJson } from '../../src/utils/json.utils';
-import { JSON_ENGINE_PREFIX, latestValidStringifiedJsonAtom, stringifiedJsonAtom } from './json-engine.atoms';
+import { isValidJson } from '../../src/utils/json.util';
+import { JSON_ENGINE_PREFIX, latestValidStringifiedJsonAtom, stringifiedJsonAtom } from './json-engine.atom';
 
 export const isValidJsonSelector = selector<boolean>({
   key: `${JSON_ENGINE_PREFIX}/isValidJsonSelector`,
