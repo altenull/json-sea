@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useMemo, useState } from 'react';
 import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MiniMap, Node } from 'reactflow';
 import 'reactflow/dist/style.css';

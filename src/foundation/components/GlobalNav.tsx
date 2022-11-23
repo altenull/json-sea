@@ -1,7 +1,7 @@
 import { Image, Input, Navbar, Text } from '@nextui-org/react';
 import SearchIcon from '../../ui/components/SearchIcon';
 
-const AppHeader = () => {
+const GlobalNav = () => {
   return (
     <Navbar isBordered isCompact variant="sticky">
       <Navbar.Brand css={{ mr: '$4' }}>
@@ -57,4 +57,4 @@ const AppHeader = () => {
   );
 };
 
-export default AppHeader;
+export default GlobalNav;
