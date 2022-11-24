@@ -1,3 +1,5 @@
+'use client';
+
 import Editor from '@monaco-editor/react';
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';

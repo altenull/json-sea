@@ -1,3 +1,5 @@
+import Providers from './providers';
+
 type Props = {
   children: React.ReactNode;
 };
@@ -7,7 +9,7 @@ const RootLayout = ({ children }: Props) => {
     <html lang="en">
       <head />
       <body>
-        <main>{children}</main>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

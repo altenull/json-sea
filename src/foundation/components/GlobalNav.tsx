@@ -1,3 +1,5 @@
+'use client';
+
 import { Image, Input, Navbar, Text } from '@nextui-org/react';
 import SearchIcon from '../../ui/components/SearchIcon';
 
