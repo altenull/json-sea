@@ -7,6 +7,7 @@ import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store
 import { DEFAULT_STRINGIFIED_JSON } from '../../store/json-engine/json-engine.constant';
 import { isValidJson } from '../utils/json.util';
 
+// TODO: useDefferedValue hook to opt?
 const JsonEditor = () => {
   const [stringifiedJson, setStringifiedJson] = useRecoilState(stringifiedJsonAtom);
   const [, setLatestValidStringifiedJson] = useRecoilState(latestValidStringifiedJsonAtom);
