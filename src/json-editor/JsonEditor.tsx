@@ -3,8 +3,8 @@
 import Editor from '@monaco-editor/react';
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
-import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
-import { DEFAULT_STRINGIFIED_JSON } from '../../store/json-engine/json-engine.constant';
+import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../store/json-engine/json-engine.atom';
+import { DEFAULT_STRINGIFIED_JSON } from '../store/json-engine/json-engine.constant';
 import { isValidJson } from '../utils/json.util';
 
 // TODO: useDefferedValue hook to opt?

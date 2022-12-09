@@ -1,5 +1,5 @@
 import { Edge, Node, Position } from 'reactflow';
-import { JsonDiagramLayout } from '../../../store/json-diagram-view/enums/json-diagram-layout.enum';
+import { JsonDiagramLayout } from '../../store/json-diagram-view/enums/json-diagram-layout.enum';
 
 // const initialNodes = [
 //   {

@@ -1,4 +1,4 @@
-import { isArray, isBoolean, isNull, isNumber, isObject, isString } from '../../src/utils/json.util';
+import { isArray, isBoolean, isNull, isNumber, isObject, isString } from '../../utils/json.util';
 import { JsonDataType } from './enums/json-data-type.enum';
 
 export const validateJsonPropertyType = (

@@ -1,5 +1,5 @@
 import { selector } from 'recoil';
-import { isValidJson } from '../../src/utils/json.util';
+import { isValidJson } from '../../utils/json.util';
 import { JSON_ENGINE_PREFIX, latestValidStringifiedJsonAtom, stringifiedJsonAtom } from './json-engine.atom';
 
 export const isValidJsonSelector = selector<boolean>({

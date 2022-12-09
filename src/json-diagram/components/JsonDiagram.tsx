@@ -4,8 +4,8 @@ import { useMemo } from 'react';
 import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MiniMap, Node } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useRecoilValue } from 'recoil';
-import { jsonDiagramLayoutAtom } from '../../../store/json-diagram-view/json-diagram-view.atom';
-import { latestValidJsonSelector } from '../../../store/json-engine/json-engine.selector';
+import { jsonDiagramLayoutAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
+import { latestValidJsonSelector } from '../../store/json-engine/json-engine.selector';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { generateEdges, generateNodes } from '../helpers/json-diagram.helper';
 
