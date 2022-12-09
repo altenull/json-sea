@@ -1,7 +1,6 @@
 import GlobalNav from '../src/foundation/components/GlobalNav';
 import JsonDiagram from '../src/json-diagram/components/JsonDiagram';
 import JsonEditor from '../src/json-editor/JsonEditor';
-import '../styles/globals.css';
 
 const RootPage = () => {
   return (
