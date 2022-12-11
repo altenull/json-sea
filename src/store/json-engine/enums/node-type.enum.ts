@@ -3,7 +3,7 @@
  * @see https://www.w3schools.com/js/js_json_datatypes.asp
  */
 export enum NodeType {
-  Object = 'object',
-  Array = 'array',
-  Primitive = 'primitive', // string, number, boolean and null. (not undefined)
+  Object = 'objectNode',
+  Array = 'arrayNode',
+  Primitive = 'primitiveNode', // string, number, boolean and null. (not undefined)
 }
