@@ -24,10 +24,15 @@ const JsonEditor = () => {
 
   return (
     <Editor
-      width="480px"
+      width="540px"
       height="100vh"
       theme="vs-dark"
       defaultLanguage="json"
+      options={{
+        minimap: {
+          enabled: false,
+        },
+      }}
       onChange={handleChange}
       defaultValue={DEFAULT_STRINGIFIED_JSON}
       value={stringifiedJson}
