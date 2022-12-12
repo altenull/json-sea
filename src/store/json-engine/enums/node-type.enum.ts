@@ -5,5 +5,10 @@
 export enum NodeType {
   Object = 'objectNode',
   Array = 'arrayNode',
-  Primitive = 'primitiveNode', // string, number, boolean and null. (not undefined)
+
+  /**
+   * Primitive node exists to express Array node items only.
+   * It can be `string`, `number`, `boolean` or `null`. (`undefined` doesn't supported in JSON)
+   */
+  Primitive = 'primitiveNode',
 }
