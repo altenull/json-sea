@@ -17,7 +17,7 @@ import { validateJsonDataType } from './json-data-type.helper';
 
 // object 내의 필드는 node가 아니라 handle만 있어도 됨 -> handle만 있어도 edge를 그릴 수 있기 때문에
 
-const formatNodeId = (nodeSequence: number): string => `node${nodeSequence}`;
+const formatNodeId = (nodeSequence: number): string => `n${nodeSequence}`;
 
 const convertObjectToJsonNode = ({
   obj,

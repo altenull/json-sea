@@ -24,6 +24,6 @@ export const jsonNodesSelector = selector<JsonNode[]>({
   key: `${JSON_ENGINE_PREFIX}/jsonNodesSelector`,
   get: ({ get }) => {
     const latestValidJson: object = get(latestValidJsonSelector);
-    return jsonParser(latestValidJson);
+    return jsonParser(latestValidJson).nodes;
   },
 });

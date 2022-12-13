@@ -1,12 +1,22 @@
 'use client';
 
-import { useMemo } from 'react';
-import ReactFlow, { Background, BackgroundVariant, Controls, Edge, MiniMap, Node, NodeTypes } from 'reactflow';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import ReactFlow, {
+  applyNodeChanges,
+  Background,
+  BackgroundVariant,
+  Controls,
+  Edge,
+  MiniMap,
+  Node,
+  NodeChange,
+  NodeTypes,
+} from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useRecoilValue } from 'recoil';
-import { jsonDiagramLayoutAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
-import { latestValidJsonSelector } from '../../store/json-engine/json-engine.selector';
+import { jsonNodesSelector, latestValidJsonSelector } from '../../store/json-engine/json-engine.selector';
+import { JsonNode } from '../../store/json-engine/types/json-node.type';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { generateEdges, generateNodes } from '../helpers/json-diagram.helper';
 import { ArrayNode } from './ArrayNode';
@@ -14,8 +24,9 @@ import { ObjectNode } from './ObjectNode';
 import { PrimitiveNode } from './PrimitiveNode';
 
 const JsonDiagram = () => {
-  const jsonDiagramLayout = useRecoilValue(jsonDiagramLayoutAtom);
+  const [nodes, setNodes] = useState<Node[]>([]);
   const latestValidJson = useRecoilValue(latestValidJsonSelector);
+  const jsonNodes: JsonNode[] = useRecoilValue(jsonNodesSelector);
 
   const isMounted = useIsMounted();
 
@@ -28,11 +39,18 @@ const JsonDiagram = () => {
     []
   );
 
-  const nodes: Node[] = useMemo(
-    () => generateNodes({ json: latestValidJson, jsonDiagramLayout }),
-    [jsonDiagramLayout, latestValidJson]
-  );
+  useEffect(() => {
+    setNodes(generateNodes(jsonNodes));
+  }, [jsonNodes]);
+
+  // const nodes: Node[] = useMemo(() => generateNodes(jsonNodes), [jsonNodes]);
   const edges: Edge[] = useMemo(() => generateEdges(latestValidJson), [latestValidJson]);
+
+  // TODO: Remove onNodesChange function (keeping for debugging)
+  const onNodesChange = useCallback(
+    (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes]
+  );
 
   return (
     <div
@@ -52,6 +70,7 @@ const JsonDiagram = () => {
           nodeTypes={nodeTypes}
           nodes={nodes}
           edges={edges}
+          onNodesChange={onNodesChange}
         >
           <MiniMap position="top-right" />
           <Controls position="bottom-right" />

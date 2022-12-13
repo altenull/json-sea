@@ -1,6 +1,7 @@
 import { Edge, Node, Position } from 'reactflow';
 import { JsonDiagramLayout } from '../../store/json-diagram-view/enums/json-diagram-layout.enum';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
+import { JsonNode } from '../../store/json-engine/types/json-node.type';
 
 // const initialNodes = [
 //   {
@@ -74,8 +75,7 @@ import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 //   { id: 'e4b1-4b2', source: '4b1', target: '4b2' },
 // ];
 
-// TODO: Implement generateNodes function.
-export const generateNodes = ({
+export const generateNodesLegacy = ({
   json,
   jsonDiagramLayout,
 }: {
@@ -113,6 +113,17 @@ export const generateNodes = ({
       ...(isHorizontalLayout && { targetPosition: Position.Left }),
     },
   ];
+};
+
+export const generateNodes = (jsonNodes: JsonNode[]): Node[] => {
+  return jsonNodes.map(({ id, depth, nodeType, dataType, data }) => {
+    return {
+      id,
+      type: nodeType,
+      data,
+      position: { x: depth * 200, y: 50 },
+    };
+  });
 };
 
 // TODO: Implement generateEdges function.
