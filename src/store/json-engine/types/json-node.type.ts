@@ -2,24 +2,27 @@ import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
 import { ArrayNodeData, ObjectNodeData, PrimitiveNodeData } from './node-data.type';
 
-export type SharedBaseNode = {
+export type SharedJsonNode = {
   id: string;
   depth: number; // The depth of root node is 0.
 };
-export type ObjectBaseNode = SharedBaseNode & {
+
+export type ObjectJsonNode = SharedJsonNode & {
   nodeType: NodeType.Object;
-  jsonDataType: JsonDataType.Object;
+  dataType: JsonDataType.Object;
   data: ObjectNodeData;
 };
-export type ArrayBaseNode = SharedBaseNode & {
+
+export type ArrayJsonNode = SharedJsonNode & {
   nodeType: NodeType.Array;
-  jsonDataType: JsonDataType.Array;
+  dataType: JsonDataType.Array;
   data: ArrayNodeData;
 };
-export type PrimitiveBaseNode = SharedBaseNode & {
+
+export type PrimitiveJsonNode = SharedJsonNode & {
   nodeType: NodeType.Primitive;
-  jsonDataType: JsonDataType.String | JsonDataType.Number | JsonDataType.Boolean | JsonDataType.Null;
+  dataType: JsonDataType.String | JsonDataType.Number | JsonDataType.Boolean | JsonDataType.Null;
   data: PrimitiveNodeData;
 };
 
-export type BaseNode = ObjectBaseNode | ArrayBaseNode | PrimitiveBaseNode;
+export type JsonNode = ObjectJsonNode | ArrayJsonNode | PrimitiveJsonNode;
