@@ -2,8 +2,9 @@ import { memo } from 'react';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { styled } from '../../../stitches.config';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
-import { ObjectNodeData } from '../../store/json-engine/types/node-data.type';
+import { ObjectNodeData, Primitive } from '../../store/json-engine/types/node-data.type';
 import { NodeShell } from './NodeShell';
+import { PrimitiveDataPipe } from './PrimitiveDataPipe';
 
 /**
  * ObjectNode `<Handle>` Details
@@ -23,8 +24,7 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
       </StyledNodeHeader>
 
       {Object.entries(data.value).map(([key, value]) => {
-        const { isStringType, isNumberType, isBooleanType, isNullType } = validateJsonDataType(value);
-        const canRenderValue: boolean = isStringType || isNumberType || isBooleanType || isNullType;
+        const { isPrimitiveData } = validateJsonDataType(value);
 
         return (
           <StyledField key={key}>
@@ -33,7 +33,11 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
               {key}
               {`"`}
             </span>
-            {canRenderValue && <span>{value === null ? 'null' : value}</span>}
+            {isPrimitiveData && (
+              <span>
+                <PrimitiveDataPipe value={value as Primitive} />
+              </span>
+            )}
           </StyledField>
         );
       })}
