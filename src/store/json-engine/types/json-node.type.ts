@@ -19,9 +19,14 @@ export type ArrayJsonNode = SharedJsonNode & {
   data: ArrayNodeData;
 };
 
+export type PrimitiveJsonDataType =
+  | JsonDataType.String
+  | JsonDataType.Number
+  | JsonDataType.Boolean
+  | JsonDataType.Null;
 export type PrimitiveJsonNode = SharedJsonNode & {
   nodeType: NodeType.Primitive;
-  dataType: JsonDataType.String | JsonDataType.Number | JsonDataType.Boolean | JsonDataType.Null;
+  dataType: PrimitiveJsonDataType;
   data: PrimitiveNodeData;
 };
 

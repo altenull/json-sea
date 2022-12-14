@@ -15,6 +15,7 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
   return (
     <NodeShell>
       {/* TODO: RootNode doesn't have any Handle. */}
+      {/* TODO: Handle empty object ({}) */}
       <Handle type="target" position={Position.Left} style={{ background: '#555' }} isConnectable={false} />
 
       <StyledNodeHeader>
@@ -32,7 +33,7 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
               {key}
               {`"`}
             </span>
-            {canRenderValue && <span>{value}</span>}
+            {canRenderValue && <span>{value === null ? 'null' : value}</span>}
           </StyledField>
         );
       })}

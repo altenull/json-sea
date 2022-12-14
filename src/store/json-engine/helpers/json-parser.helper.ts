@@ -1,13 +1,9 @@
 import { Edge } from 'reactflow';
 import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
-import { JsonNode } from '../types/json-node.type';
-import { validateJsonDataType } from './json-data-type.helper';
-
-// TODO: NodeProps는 이렇게만 필요할 듯.
-// 1. id(required)
-// 2. position(required)
-// 3. data(required)
+import { JsonNode, PrimitiveJsonDataType } from '../types/json-node.type';
+import { ArrayIndex, Primitive } from '../types/node-data.type';
+import { getJsonDataType, validateJsonDataType } from './json-data-type.helper';
 
 // from 'reactflow'
 // type XYPosition = {
@@ -18,6 +14,7 @@ import { validateJsonDataType } from './json-data-type.helper';
 // object 내의 필드는 node가 아니라 handle만 있어도 됨 -> handle만 있어도 edge를 그릴 수 있기 때문에
 
 const formatNodeId = (nodeSequence: number): string => `n${nodeSequence}`;
+const formatEdgeId = (from: string, to: string): string => `e${from}-${to}`;
 
 const convertObjectToJsonNode = ({
   obj,
@@ -40,6 +37,48 @@ const convertObjectToJsonNode = ({
   };
 };
 
+const convertArrayToJsonNode = ({
+  arrayIndex,
+  nodeSequence,
+  depth,
+}: {
+  arrayIndex: ArrayIndex;
+  nodeSequence: number;
+  depth: number;
+}): JsonNode => {
+  return {
+    id: formatNodeId(nodeSequence),
+    depth,
+    nodeType: NodeType.Array,
+    dataType: JsonDataType.Array,
+    data: {
+      stringifiedJson: JSON.stringify(arrayIndex),
+      value: arrayIndex,
+    },
+  };
+};
+
+const convertPrimitiveToJsonNode = ({
+  value,
+  nodeSequence,
+  depth,
+}: {
+  value: Primitive;
+  nodeSequence: number;
+  depth: number;
+}): JsonNode => {
+  return {
+    id: formatNodeId(nodeSequence),
+    depth,
+    nodeType: NodeType.Primitive,
+    dataType: getJsonDataType(value) as PrimitiveJsonDataType,
+    data: {
+      stringifiedJson: JSON.stringify(value),
+      value,
+    },
+  };
+};
+
 export const jsonParser = (
   jsonObj: object
 ): {
@@ -48,25 +87,63 @@ export const jsonParser = (
 } => {
   let nodeSequence = 0;
 
-  // TODO: 재귀함수이니까 object, array를 한번에 처리해야 할수도..?
-  const traverseObject = ({ obj, depth }: { obj: object; depth: number }): JsonNode[] => {
+  // TODO: Handling array..
+  const traverse = ({ obj, depth }: { obj: object; depth: number }): JsonNode[] => {
     let jsonNodes: JsonNode[] = [convertObjectToJsonNode({ obj, nodeSequence, depth })];
+    const nextDepth: number = depth + 1;
 
-    Object.entries(obj).forEach(([key, value]) => {
-      const { isObjectType, isArrayType } = validateJsonDataType(value);
+    Object.values(obj).forEach((objValue) => {
+      const objValueValidator = validateJsonDataType(objValue);
 
-      if (isObjectType) {
+      /**
+       * Case 1: `object` field of object.
+       * Case 2: `array` field of object.
+       * Exception 1: `primitive` field of object should be skipped.
+       *              (These are treated as just fields, not a Node)
+       */
+      if (objValueValidator.isObjectData) {
+        // Case 1
         nodeSequence++;
 
         jsonNodes = jsonNodes.concat(
-          traverseObject({
-            obj: value as object,
-            depth: depth + 1,
+          traverse({
+            obj: objValue as object,
+            depth: nextDepth,
           })
         );
-      } else if (isArrayType) {
-        // TODO: traverseArray() 호출?
-        console.log(`${key} field is (Array).`);
+      } else if (objValueValidator.isArrayData) {
+        // Case 2
+        (objValue as any[]).forEach((arrayItem: any, arrayIndex: number) => {
+          const arrayItemValidator = validateJsonDataType(arrayItem);
+
+          nodeSequence++;
+
+          if (arrayItemValidator.isObjectData) {
+            jsonNodes = jsonNodes.concat(
+              traverse({
+                obj: arrayItem as object,
+                depth: nextDepth,
+              })
+            );
+          } else if (arrayItemValidator.isArrayData) {
+            jsonNodes = jsonNodes.concat(
+              convertArrayToJsonNode({
+                arrayIndex,
+                nodeSequence,
+                depth: nextDepth,
+              })
+            );
+            // TODO: array node 1개 추가한 후에 내부 array를 또 loop 해야함. -> 재귀호출 필요.
+          } else if (arrayItemValidator.isPrimitiveData) {
+            jsonNodes = jsonNodes.concat(
+              convertPrimitiveToJsonNode({
+                value: arrayItem as Primitive,
+                nodeSequence,
+                depth: nextDepth,
+              })
+            );
+          }
+        });
       }
     });
 
@@ -74,8 +151,8 @@ export const jsonParser = (
   };
 
   return {
-    // Root node is always object, so starts with `traverseObject` function with root depth(0).
-    nodes: traverseObject({ obj: jsonObj, depth: 0 }),
+    // In JSON root node is always object, so starts with `traverse` function with depth 0.
+    nodes: traverse({ obj: jsonObj, depth: 0 }),
     edges: [], // TODO: getEdges
   };
 };

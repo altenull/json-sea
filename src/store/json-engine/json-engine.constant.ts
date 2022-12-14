@@ -1,5 +1,28 @@
 export const DEFAULT_STRINGIFIED_JSON: string = `
 {
+  "field0": [
+    10,
+    20,
+    30,
+    null,
+    "AAA",
+    "BBB",
+    "CCC",
+    null,
+    true,
+    false,
+    {
+      "field1": 1,
+      "field2": 2,
+      "field3": null,
+      "field4": "4",
+      "field5": "5",
+      "field6": null,
+      "field7": true,
+      "field8": false,
+      "array0": [100, 200, 300]
+    }
+  ],
   "field1": 1,
   "field2": 2,
   "field3": null,

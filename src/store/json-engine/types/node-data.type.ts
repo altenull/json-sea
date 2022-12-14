@@ -6,10 +6,12 @@ export type ObjectNodeData = StringifiedJson & {
   value: object;
 };
 
+export type ArrayIndex = number;
 export type ArrayNodeData = StringifiedJson & {
-  value: number; // It means array item index.
+  value: ArrayIndex;
 };
 
+export type Primitive = string | number | boolean | null;
 export type PrimitiveNodeData = StringifiedJson & {
-  value: string | number | boolean | null;
+  value: Primitive;
 };
