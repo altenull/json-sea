@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { styled } from '../../../stitches.config';
+import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { ObjectNodeData, Primitive } from '../../store/json-engine/types/node-data.type';
 import { NodeShell } from './NodeShell';
@@ -14,7 +15,7 @@ import { PrimitiveDataPipe } from './PrimitiveDataPipe';
  */
 const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
   return (
-    <NodeShell>
+    <NodeShell nodeType={NodeType.Object}>
       {/* TODO: RootNode doesn't have any Handle. */}
       {/* TODO: Handle empty object ({}) */}
       <Handle type="target" position={Position.Left} style={{ background: '#555' }} isConnectable={false} />
