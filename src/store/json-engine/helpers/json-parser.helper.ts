@@ -1,7 +1,13 @@
 import { Edge } from 'reactflow';
 import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
-import { JsonNode, PrimitiveJsonDataType } from '../types/json-node.type';
+import {
+  JsonNode,
+  PrimitiveJsonDataType,
+  ObjectJsonNode,
+  ArrayJsonNode,
+  PrimitiveJsonNode,
+} from '../types/json-node.type';
 import { ArrayIndex, Primitive } from '../types/node-data.type';
 import { getJsonDataType, validateJsonDataType } from './json-data-type.helper';
 
@@ -24,7 +30,7 @@ const convertObjectToJsonNode = ({
   obj: object;
   nodeSequence: number;
   depth: number;
-}): JsonNode => {
+}): ObjectJsonNode => {
   return {
     id: formatNodeId(nodeSequence),
     depth,
@@ -45,7 +51,7 @@ const convertArrayToJsonNode = ({
   arrayIndex: ArrayIndex;
   nodeSequence: number;
   depth: number;
-}): JsonNode => {
+}): ArrayJsonNode => {
   return {
     id: formatNodeId(nodeSequence),
     depth,
@@ -66,7 +72,7 @@ const convertPrimitiveToJsonNode = ({
   value: Primitive;
   nodeSequence: number;
   depth: number;
-}): JsonNode => {
+}): PrimitiveJsonNode => {
   return {
     id: formatNodeId(nodeSequence),
     depth,
@@ -87,72 +93,124 @@ export const jsonParser = (
 } => {
   let nodeSequence = 0;
 
-  // TODO: Handling array..
-  const traverse = ({ obj, depth }: { obj: object; depth: number }): JsonNode[] => {
-    let jsonNodes: JsonNode[] = [convertObjectToJsonNode({ obj, nodeSequence, depth })];
+  /**
+   * `traverse` function flow
+   * - if object
+   *   - add 1 ObjectNode
+   *   - loop object
+   *     - if object field -> traverse
+   *     - if array field
+   *       - loop array field
+   *         - if object item -> traverse
+   *         - if array item -> add 1 ArrayNode & traverse(if not empty)
+   *         - if primitive item -> add 1 PrimitiveNode
+   * - if array
+   *   - loop array
+   *     - if object item -> traverse
+   *     - if array item -> add 1 ArrayNode & traverse(if not empty)
+   *     - if primitive item -> add 1 PrimitiveNode
+   */
+  const traverse = (traverseTarget: object | any[], depth: number): JsonNode[] => {
+    let jsonNodes: JsonNode[] = [];
     const nextDepth: number = depth + 1;
 
-    Object.values(obj).forEach((objValue) => {
-      const objValueValidator = validateJsonDataType(objValue);
+    const traverseTargetValidator = validateJsonDataType(traverseTarget);
 
-      /**
-       * Case 1: `object` field of object.
-       * Case 2: `array` field of object.
-       * Exception 1: `primitive` field of object should be skipped.
-       *              (These are treated as just fields, not a Node)
-       */
-      if (objValueValidator.isObjectData) {
-        // Case 1
-        nodeSequence++;
+    if (traverseTargetValidator.isObjectData) {
+      jsonNodes = jsonNodes.concat(convertObjectToJsonNode({ obj: traverseTarget, nodeSequence, depth }));
 
-        jsonNodes = jsonNodes.concat(
-          traverse({
-            obj: objValue as object,
-            depth: nextDepth,
-          })
-        );
-      } else if (objValueValidator.isArrayData) {
-        // Case 2
-        (objValue as any[]).forEach((arrayItem: any, arrayIndex: number) => {
-          const arrayItemValidator = validateJsonDataType(arrayItem);
+      Object.values(traverseTarget as object).forEach((objValue) => {
+        const objValueValidator = validateJsonDataType(objValue);
 
+        /**
+         * Case 1: `object` field of object.
+         * Case 2: `array` field of object.
+         * Exception 1: `primitive` field of object should be skipped.
+         *              (These are treated as just fields, not a Node)
+         */
+        if (objValueValidator.isObjectData) {
+          // Case 1
           nodeSequence++;
 
-          if (arrayItemValidator.isObjectData) {
-            jsonNodes = jsonNodes.concat(
-              traverse({
-                obj: arrayItem as object,
-                depth: nextDepth,
-              })
-            );
-          } else if (arrayItemValidator.isArrayData) {
-            jsonNodes = jsonNodes.concat(
-              convertArrayToJsonNode({
-                arrayIndex,
-                nodeSequence,
-                depth: nextDepth,
-              })
-            );
-            // TODO: array node 1개 추가한 후에 내부 array를 또 loop 해야함. -> 재귀호출 필요.
-          } else if (arrayItemValidator.isPrimitiveData) {
-            jsonNodes = jsonNodes.concat(
-              convertPrimitiveToJsonNode({
-                value: arrayItem as Primitive,
-                nodeSequence,
-                depth: nextDepth,
-              })
-            );
+          jsonNodes = jsonNodes.concat(traverse(objValue as object, nextDepth));
+        } else if (objValueValidator.isArrayData) {
+          // Case 2
+          (objValue as any[]).forEach((arrayItem: any, arrayIndex: number) => {
+            const arrayItemValidator = validateJsonDataType(arrayItem);
+
+            nodeSequence++;
+
+            if (arrayItemValidator.isObjectData) {
+              jsonNodes = jsonNodes.concat(traverse(arrayItem as object, nextDepth));
+            } else if (arrayItemValidator.isArrayData) {
+              jsonNodes = jsonNodes.concat(
+                convertArrayToJsonNode({
+                  arrayIndex,
+                  nodeSequence,
+                  depth: nextDepth,
+                })
+              );
+
+              const isEmptyArray: boolean = (arrayItem as any[]).length === 0;
+
+              if (!isEmptyArray) {
+                jsonNodes = jsonNodes.concat(traverse(arrayItem as any[], nextDepth));
+              }
+            } else if (arrayItemValidator.isPrimitiveData) {
+              jsonNodes = jsonNodes.concat(
+                convertPrimitiveToJsonNode({
+                  value: arrayItem as Primitive,
+                  nodeSequence,
+                  depth: nextDepth,
+                })
+              );
+            }
+          });
+        }
+      });
+    } else if (traverseTargetValidator.isArrayData) {
+      (traverseTarget as any[]).forEach((arrayItem: any, arrayIndex: number) => {
+        const arrayItemValidator = validateJsonDataType(arrayItem);
+
+        nodeSequence++;
+
+        if (arrayItemValidator.isObjectData) {
+          jsonNodes = jsonNodes.concat(traverse(arrayItem as object, nextDepth));
+        } else if (arrayItemValidator.isArrayData) {
+          jsonNodes = jsonNodes.concat(
+            convertArrayToJsonNode({
+              arrayIndex,
+              nodeSequence,
+              depth: nextDepth,
+            })
+          );
+
+          const isEmptyArray: boolean = (arrayItem as any[]).length === 0;
+
+          if (!isEmptyArray) {
+            jsonNodes = jsonNodes.concat(traverse(arrayItem as any[], nextDepth));
           }
-        });
-      }
-    });
+        } else if (arrayItemValidator.isPrimitiveData) {
+          jsonNodes = jsonNodes.concat(
+            convertPrimitiveToJsonNode({
+              value: arrayItem as Primitive,
+              nodeSequence,
+              depth: nextDepth,
+            })
+          );
+        }
+      });
+    }
 
     return jsonNodes;
   };
 
   return {
-    // In JSON root node is always object, so starts with `traverse` function with depth 0.
-    nodes: traverse({ obj: jsonObj, depth: 0 }),
+    /**
+     * In JSON, root node is always object.
+     * So starts with `traverse` function with depth 0.
+     */
+    nodes: traverse(jsonObj, 0),
     edges: [], // TODO: getEdges
   };
 };
