@@ -13,6 +13,8 @@ import { TargetHandle } from './TargetHandle';
  * target: always have.
  */
 const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
+  const { arrayIndex, items } = data;
+
   return (
     <NodeShell nodeType={NodeType.Array}>
       <TargetHandle id={id} />
@@ -21,10 +23,9 @@ const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
         I{`'`}m ArrayNode (id: {id})
       </StyledNodeHeader>
 
-      <StyledArrayIndex>{data.value}</StyledArrayIndex>
+      <StyledArrayIndex>{arrayIndex}</StyledArrayIndex>
 
-      {/* TODO: Check whether array includes at least one item or not. */}
-      <Handle id={id} type="source" position={Position.Right} style={{ background: '#555' }} />
+      {items.length > 0 && <Handle id={id} type="source" position={Position.Right} style={{ background: '#555' }} />}
     </NodeShell>
   );
 };

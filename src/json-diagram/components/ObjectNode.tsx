@@ -1,5 +1,5 @@
-import { memo } from 'react';
-import { Handle, NodeProps, Position } from 'reactflow';
+import { memo, useCallback } from 'react';
+import { Handle, NodeProps, Position, useEdges } from 'reactflow';
 import { styled } from '../../../stitches.config';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
@@ -14,31 +14,38 @@ import { TargetHandle } from './TargetHandle';
  * target: always have except for RootNode.
  */
 const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
+  const { obj, isRootNode } = data;
+
+  const edges = useEdges();
+
+  const renderProperties = useCallback(() => {
+    return Object.entries(obj).map(([propertyK, propertyV]) => {
+      const { isPrimitiveData } = validateJsonDataType(propertyV);
+      const hasChild: boolean = edges.some((edge) => edge.source === id && edge.sourceHandle === propertyK);
+
+      return (
+        <StyledField key={propertyK}>
+          <span style={{ color: 'blueviolet' }}>
+            {`"`}
+            {propertyK}
+            {`"`}
+          </span>
+          {isPrimitiveData && <span>{JSON.stringify(propertyV)}</span>}
+          {hasChild && <Handle id={propertyK} type="source" position={Position.Right} style={{ background: '#555' }} />}
+        </StyledField>
+      );
+    });
+  }, [obj, edges, id]);
+
   return (
     <NodeShell nodeType={NodeType.Object}>
-      {/* TODO: RootNode doesn't have any Handle. */}
-      {/* TODO: Handle empty object ({}) */}
-      <TargetHandle id={id} />
+      {!isRootNode && <TargetHandle id={id} />}
 
       <StyledNodeHeader>
         I{`'`}m ObjectNode (id: {id})
       </StyledNodeHeader>
 
-      {Object.entries(data.value).map(([propertyK, propertyV]) => {
-        const { isPrimitiveData } = validateJsonDataType(propertyV);
-
-        return (
-          <StyledField key={propertyK}>
-            <span style={{ color: 'blueviolet' }}>
-              {`"`}
-              {propertyK}
-              {`"`}
-            </span>
-            {isPrimitiveData && <span>{JSON.stringify(propertyV)}</span>}
-            <Handle id={propertyK} type="source" position={Position.Right} style={{ background: '#ff0' }} />
-          </StyledField>
-        );
-      })}
+      {renderProperties()}
     </NodeShell>
   );
 };

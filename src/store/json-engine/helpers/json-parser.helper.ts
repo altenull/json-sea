@@ -9,7 +9,7 @@ import {
   PrimitiveJsonDataType,
   PrimitiveJsonNode,
 } from '../types/json-node.type';
-import { ArrayIndex, Primitive } from '../types/node-data.type';
+import { Primitive } from '../types/node-data.type';
 import { getJsonDataType, validateJsonDataType } from './json-data-type.helper';
 
 // from 'reactflow'
@@ -37,10 +37,12 @@ const convertObjectToJsonNode = ({
   obj,
   nodeId,
   depth,
+  isRootNode,
 }: {
   obj: object;
   nodeId: string;
   depth: number;
+  isRootNode: boolean;
 }): ObjectJsonNode => {
   return {
     id: nodeId,
@@ -49,17 +51,20 @@ const convertObjectToJsonNode = ({
     dataType: JsonDataType.Object,
     data: {
       stringifiedJson: JSON.stringify(obj),
-      value: obj,
+      obj,
+      isRootNode,
     },
   };
 };
 
 const convertArrayToJsonNode = ({
   arrayIndex,
+  items,
   nodeId,
   depth,
 }: {
-  arrayIndex: ArrayIndex;
+  arrayIndex: number;
+  items: any[];
   nodeId: string;
   depth: number;
 }): ArrayJsonNode => {
@@ -70,7 +75,8 @@ const convertArrayToJsonNode = ({
     dataType: JsonDataType.Array,
     data: {
       stringifiedJson: JSON.stringify(arrayIndex),
-      value: arrayIndex,
+      arrayIndex,
+      items,
     },
   };
 };
@@ -116,7 +122,7 @@ const getEdge = ({ source, target, sourceHandle }: { source: string; target: str
 export const jsonParser = (
   jsonObj: object
 ): {
-  nodes: JsonNode[];
+  jsonNodes: JsonNode[];
   edges: Edge[];
 } => {
   let nodeSequence = 0;
@@ -159,16 +165,16 @@ export const jsonParser = (
     const traverseTargetValidator = validateJsonDataType(traverseTarget);
 
     if (traverseTargetValidator.isObjectData) {
-      jsonNodes = jsonNodes.concat(convertObjectToJsonNode({ obj: traverseTarget, nodeId: currentNodeId, depth }));
+      const isRootNode: boolean = sourceSet.source === undefined;
 
-      /**
-       * Root node doesn't have `sourceSet.source` value as string.
-       * If `sourceSet.source` is string, it means that it is not Root node.
-       */
-      if (isString(sourceSet.source)) {
+      jsonNodes = jsonNodes.concat(
+        convertObjectToJsonNode({ obj: traverseTarget, nodeId: currentNodeId, depth, isRootNode })
+      );
+
+      if (!isRootNode) {
         edges = edges.concat(
           getEdge({
-            source: sourceSet.source,
+            source: sourceSet.source as string,
             target: currentNodeId,
             sourceHandle: sourceSet.sourceHandle,
           })
@@ -225,9 +231,12 @@ export const jsonParser = (
               );
             } else if (arrayItemValidator.isArrayData) {
               // Object > Array > Array
+              const items: any[] = arrayItem as any[];
+
               jsonNodes = jsonNodes.concat(
                 convertArrayToJsonNode({
                   arrayIndex,
+                  items,
                   nodeId: nextNodeId,
                   depth: nextDepth,
                 })
@@ -240,11 +249,11 @@ export const jsonParser = (
                 })
               );
 
-              const isEmptyArray: boolean = (arrayItem as any[]).length === 0;
+              const isEmptyArray: boolean = items.length === 0;
 
               if (!isEmptyArray) {
                 jsonNodes = jsonNodes.concat(
-                  traverse(arrayItem as any[], nextDepth, {
+                  traverse(items, nextDepth, {
                     source,
                     sourceHandle,
                   })
@@ -289,9 +298,12 @@ export const jsonParser = (
           );
         } else if (arrayItemValidator.isArrayData) {
           // Array > Array
+          const items: any[] = arrayItem as any[];
+
           jsonNodes = jsonNodes.concat(
             convertArrayToJsonNode({
               arrayIndex,
+              items,
               nodeId: nextNodeId,
               depth: nextDepth,
             })
@@ -303,11 +315,11 @@ export const jsonParser = (
             })
           );
 
-          const isEmptyArray: boolean = (arrayItem as any[]).length === 0;
+          const isEmptyArray: boolean = items.length === 0;
 
           if (!isEmptyArray) {
             jsonNodes = jsonNodes.concat(
-              traverse(arrayItem as any[], nextDepth, {
+              traverse(items, nextDepth, {
                 source,
               })
             );
@@ -339,7 +351,7 @@ export const jsonParser = (
      * In JSON, root node is always object.
      * So starts with `traverse` function with depth 0.
      */
-    nodes: traverse(jsonObj, 0, {}),
+    jsonNodes: traverse(jsonObj, 0, {}),
     edges,
   };
 };

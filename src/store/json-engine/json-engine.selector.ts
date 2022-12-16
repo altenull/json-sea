@@ -25,8 +25,8 @@ export const nodesAndEdgesSelector = selector<[Node[], Edge[]]>({
   key: `${JSON_ENGINE_PREFIX}/nodesAndEdgesSelector`,
   get: ({ get }) => {
     const latestValidJson: object = get(latestValidJsonSelector);
-    const { nodes, edges } = jsonParser(latestValidJson);
+    const { jsonNodes, edges } = jsonParser(latestValidJson);
 
-    return [generateNodes(nodes), edges];
+    return [generateNodes(jsonNodes), edges];
   },
 });
