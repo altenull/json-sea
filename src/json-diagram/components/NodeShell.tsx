@@ -12,6 +12,7 @@ const _NodeShell = ({ nodeType, children }: Props) => {
 
 // TODO: Styling
 const StyledHost = styled('div', {
+  position: 'relative',
   backgroundColor: '#ffffff',
   border: '1px solid #1a192b',
   padding: '8px',

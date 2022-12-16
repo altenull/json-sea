@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import ReactFlow, {
   applyNodeChanges,
   Background,
@@ -11,22 +11,23 @@ import ReactFlow, {
   Node,
   NodeChange,
   NodeTypes,
+  useEdgesState,
+  useNodesState,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
-import { jsonNodesSelector, latestValidJsonSelector } from '../../store/json-engine/json-engine.selector';
-import { JsonNode } from '../../store/json-engine/types/json-node.type';
+import { nodesAndEdgesSelector } from '../../store/json-engine/json-engine.selector';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
-import { generateEdges, generateNodes } from '../helpers/json-diagram.helper';
 import { ArrayNode } from './ArrayNode';
 import { ObjectNode } from './ObjectNode';
 import { PrimitiveNode } from './PrimitiveNode';
 
 const JsonDiagram = () => {
-  const [nodes, setNodes] = useState<Node[]>([]);
-  const latestValidJson = useRecoilValue(latestValidJsonSelector);
-  const jsonNodes: JsonNode[] = useRecoilValue(jsonNodesSelector);
+  const [nodes, setNodes] = useNodesState([]);
+  const [edges, setEdges] = useEdgesState([]);
+
+  const nodesAndEdges: [Node[], Edge[]] = useRecoilValue(nodesAndEdgesSelector);
 
   const isMounted = useIsMounted();
 
@@ -40,11 +41,10 @@ const JsonDiagram = () => {
   );
 
   useEffect(() => {
-    setNodes(generateNodes(jsonNodes));
-  }, [jsonNodes]);
-
-  // const nodes: Node[] = useMemo(() => generateNodes(jsonNodes), [jsonNodes]);
-  const edges: Edge[] = useMemo(() => generateEdges(latestValidJson), [latestValidJson]);
+    const [nodes, edges] = nodesAndEdges;
+    setNodes(nodes);
+    setEdges(edges);
+  }, [nodesAndEdges, setNodes, setEdges]);
 
   // TODO: Remove onNodesChange function (keeping for debugging)
   const onNodesChange = useCallback(

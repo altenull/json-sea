@@ -11,7 +11,7 @@ export const isArray = (value: unknown): boolean => {
  * Since the result of 'typeof []' is 'object', checks value with isArray() funciton.
  * @param {unknown} value - the value to check
  */
-export const isObject = (value: unknown): boolean => {
+export const isObject = (value: unknown): value is object => {
   return value !== null && !isArray(value) && typeof value === 'object';
 };
 
@@ -19,7 +19,7 @@ export const isObject = (value: unknown): boolean => {
  * Returns true if argument is a 'string' and false otherwise.
  * @param {unknown} value - the value to check
  */
-export const isString = (value: unknown): boolean => {
+export const isString = (value: unknown): value is string => {
   return typeof value === 'string';
 };
 
@@ -27,7 +27,7 @@ export const isString = (value: unknown): boolean => {
  * Returns true if argument is a 'number' and false otherwise.
  * @param {unknown} value - the value to check
  */
-export const isNumber = (value: unknown): boolean => {
+export const isNumber = (value: unknown): value is number => {
   return typeof value === 'number';
 };
 
@@ -35,7 +35,7 @@ export const isNumber = (value: unknown): boolean => {
  * Returns true if argument is a 'boolean' and false otherwise.
  * @param {unknown} value - the value to check
  */
-export const isBoolean = (value: unknown): boolean => {
+export const isBoolean = (value: unknown): value is boolean => {
   return typeof value === 'boolean';
 };
 
@@ -43,7 +43,7 @@ export const isBoolean = (value: unknown): boolean => {
  * Returns true if argument is a 'null' and false otherwise.
  * @param {unknown} value - the value to check
  */
-export const isNull = (value: unknown): boolean => {
+export const isNull = (value: unknown): value is null => {
   return value === null;
 };
 

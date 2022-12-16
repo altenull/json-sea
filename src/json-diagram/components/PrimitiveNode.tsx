@@ -4,7 +4,6 @@ import { styled } from '../../../stitches.config';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { PrimitiveNodeData } from '../../store/json-engine/types/node-data.type';
 import { NodeShell } from './NodeShell';
-import { PrimitiveDataPipe } from './PrimitiveDataPipe';
 
 /**
  * PrimitiveNode `<Handle>` Details
@@ -15,15 +14,13 @@ import { PrimitiveDataPipe } from './PrimitiveDataPipe';
 const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
   return (
     <NodeShell nodeType={NodeType.Primitive}>
-      <Handle type="target" position={Position.Left} style={{ background: '#555' }} isConnectable={false} />
+      <Handle id={id} type="target" position={Position.Left} style={{ background: '#555' }} />
 
       <StyledNodeHeader>
         I{`'`}m PrimitiveNode (id: {id})
       </StyledNodeHeader>
 
-      <StyledPrimitive>
-        <PrimitiveDataPipe value={data.value} />
-      </StyledPrimitive>
+      <StyledPrimitive>{data.stringifiedJson}</StyledPrimitive>
     </NodeShell>
   );
 };

@@ -14,7 +14,7 @@ import { NodeShell } from './NodeShell';
 const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
   return (
     <NodeShell nodeType={NodeType.Array}>
-      <Handle type="target" position={Position.Left} style={{ background: '#555' }} isConnectable={false} />
+      <Handle id={id} type="target" position={Position.Left} style={{ background: '#555' }} />
 
       <StyledNodeHeader>
         I{`'`}m ArrayNode (id: {id})
@@ -23,7 +23,7 @@ const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
       <StyledArrayIndex>{data.value}</StyledArrayIndex>
 
       {/* TODO: Check whether array includes at least one item or not. */}
-      <Handle type="source" position={Position.Right} style={{ background: '#555' }} isConnectable={false} />
+      <Handle id={id} type="source" position={Position.Right} style={{ background: '#555' }} />
     </NodeShell>
   );
 };

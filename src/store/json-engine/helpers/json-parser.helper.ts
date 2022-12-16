@@ -1,11 +1,12 @@
-import { Edge } from 'reactflow';
+import { Edge, MarkerType } from 'reactflow';
+import { isString } from '../../../utils/json.util';
 import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
 import {
-  JsonNode,
-  PrimitiveJsonDataType,
-  ObjectJsonNode,
   ArrayJsonNode,
+  JsonNode,
+  ObjectJsonNode,
+  PrimitiveJsonDataType,
   PrimitiveJsonNode,
 } from '../types/json-node.type';
 import { ArrayIndex, Primitive } from '../types/node-data.type';
@@ -17,22 +18,32 @@ import { getJsonDataType, validateJsonDataType } from './json-data-type.helper';
 //   y: number;
 // };
 
-// object 내의 필드는 node가 아니라 handle만 있어도 됨 -> handle만 있어도 edge를 그릴 수 있기 때문에
-
 const formatNodeId = (nodeSequence: number): string => `n${nodeSequence}`;
-const formatEdgeId = (from: string, to: string): string => `e${from}-${to}`;
+const formatEdgeId = ({
+  source,
+  target,
+  sourceHandle,
+}: {
+  source: string;
+  target: string;
+  sourceHandle?: string;
+}): string => {
+  const concatenatedSource: string = `${source}${isString(sourceHandle) ? `_${sourceHandle}` : ''}`;
+
+  return `e--${concatenatedSource}--${target}`;
+};
 
 const convertObjectToJsonNode = ({
   obj,
-  nodeSequence,
+  nodeId,
   depth,
 }: {
   obj: object;
-  nodeSequence: number;
+  nodeId: string;
   depth: number;
 }): ObjectJsonNode => {
   return {
-    id: formatNodeId(nodeSequence),
+    id: nodeId,
     depth,
     nodeType: NodeType.Object,
     dataType: JsonDataType.Object,
@@ -45,15 +56,15 @@ const convertObjectToJsonNode = ({
 
 const convertArrayToJsonNode = ({
   arrayIndex,
-  nodeSequence,
+  nodeId,
   depth,
 }: {
   arrayIndex: ArrayIndex;
-  nodeSequence: number;
+  nodeId: string;
   depth: number;
 }): ArrayJsonNode => {
   return {
-    id: formatNodeId(nodeSequence),
+    id: nodeId,
     depth,
     nodeType: NodeType.Array,
     dataType: JsonDataType.Array,
@@ -66,21 +77,38 @@ const convertArrayToJsonNode = ({
 
 const convertPrimitiveToJsonNode = ({
   value,
-  nodeSequence,
+  nodeId,
   depth,
 }: {
   value: Primitive;
-  nodeSequence: number;
+  nodeId: string;
   depth: number;
 }): PrimitiveJsonNode => {
   return {
-    id: formatNodeId(nodeSequence),
+    id: nodeId,
     depth,
     nodeType: NodeType.Primitive,
     dataType: getJsonDataType(value) as PrimitiveJsonDataType,
     data: {
       stringifiedJson: JSON.stringify(value),
       value,
+    },
+  };
+};
+
+const getEdge = ({ source, target, sourceHandle }: { source: string; target: string; sourceHandle?: string }): Edge => {
+  return {
+    id: formatEdgeId({
+      source,
+      target,
+      sourceHandle,
+    }),
+    source,
+    target,
+    sourceHandle,
+    animated: true,
+    markerEnd: {
+      type: MarkerType.Arrow,
     },
   };
 };
@@ -92,76 +120,150 @@ export const jsonParser = (
   edges: Edge[];
 } => {
   let nodeSequence = 0;
+  let edges: Edge[] = [];
 
   /**
    * `traverse` function flow
    * - if object
-   *   - add 1 ObjectNode
+   *   - add node(object)
    *   - loop object
    *     - if object field -> traverse
    *     - if array field
    *       - loop array field
    *         - if object item -> traverse
-   *         - if array item -> add 1 ArrayNode & traverse(if not empty)
-   *         - if primitive item -> add 1 PrimitiveNode
+   *         - if array item -> add node(array) & traverse(if not empty)
+   *         - if primitive item -> add node(primitive)
    * - if array
    *   - loop array
    *     - if object item -> traverse
-   *     - if array item -> add 1 ArrayNode & traverse(if not empty)
-   *     - if primitive item -> add 1 PrimitiveNode
+   *     - if array item -> add node(array) & traverse(if not empty)
+   *     - if primitive item -> add node(primitive)
+   *
+   * @param sourceSet
+   * - [source, sourceHandle]
+   * - [undefined, undefined] -> No parent, {traverseTarget} is root node.
+   * - [string, undefined] -> Parent is array node
+   * - [string, string] -> Parent is object node (arrow is from object field)
    */
-  const traverse = (traverseTarget: object | any[], depth: number): JsonNode[] => {
+  const traverse = (
+    traverseTarget: object | any[],
+    depth: number,
+    sourceSet: { source?: string; sourceHandle?: string }
+  ): JsonNode[] => {
     let jsonNodes: JsonNode[] = [];
+
+    const currentNodeId: string = formatNodeId(nodeSequence);
+    const source: string = currentNodeId;
     const nextDepth: number = depth + 1;
 
     const traverseTargetValidator = validateJsonDataType(traverseTarget);
 
     if (traverseTargetValidator.isObjectData) {
-      jsonNodes = jsonNodes.concat(convertObjectToJsonNode({ obj: traverseTarget, nodeSequence, depth }));
+      jsonNodes = jsonNodes.concat(convertObjectToJsonNode({ obj: traverseTarget, nodeId: currentNodeId, depth }));
 
-      Object.values(traverseTarget as object).forEach((objValue) => {
+      /**
+       * Root node doesn't have `sourceSet.source` value as string.
+       * If `sourceSet.source` is string, it means that it is not Root node.
+       */
+      if (isString(sourceSet.source)) {
+        edges = edges.concat(
+          getEdge({
+            source: sourceSet.source,
+            target: currentNodeId,
+            sourceHandle: sourceSet.sourceHandle,
+          })
+        );
+      }
+
+      Object.entries(traverseTarget as object).forEach(([objKey, objValue]) => {
         const objValueValidator = validateJsonDataType(objValue);
 
-        /**
-         * Case 1: `object` field of object.
-         * Case 2: `array` field of object.
-         * Exception 1: `primitive` field of object should be skipped.
-         *              (These are treated as just fields, not a Node)
-         */
-        if (objValueValidator.isObjectData) {
-          // Case 1
-          nodeSequence++;
+        const sourceHandle: string = objKey;
 
-          jsonNodes = jsonNodes.concat(traverse(objValue as object, nextDepth));
+        if (objValueValidator.isObjectData) {
+          // Object > Object
+          nodeSequence++;
+          const nextNodeId = formatNodeId(nodeSequence);
+          const target: string = nextNodeId;
+
+          jsonNodes = jsonNodes.concat(
+            traverse(objValue as object, nextDepth, {
+              source,
+              sourceHandle,
+            })
+          );
+          edges = edges.concat(
+            getEdge({
+              source,
+              target,
+              sourceHandle,
+            })
+          );
         } else if (objValueValidator.isArrayData) {
-          // Case 2
+          // Object > Array
           (objValue as any[]).forEach((arrayItem: any, arrayIndex: number) => {
             const arrayItemValidator = validateJsonDataType(arrayItem);
 
             nodeSequence++;
+            const nextNodeId = formatNodeId(nodeSequence);
+            const target: string = nextNodeId;
 
             if (arrayItemValidator.isObjectData) {
-              jsonNodes = jsonNodes.concat(traverse(arrayItem as object, nextDepth));
+              // Object > Array > Object
+              jsonNodes = jsonNodes.concat(
+                traverse(arrayItem as object, nextDepth, {
+                  source,
+                  sourceHandle,
+                })
+              );
+              edges = edges.concat(
+                getEdge({
+                  source,
+                  target,
+                  sourceHandle,
+                })
+              );
             } else if (arrayItemValidator.isArrayData) {
+              // Object > Array > Array
               jsonNodes = jsonNodes.concat(
                 convertArrayToJsonNode({
                   arrayIndex,
-                  nodeSequence,
+                  nodeId: nextNodeId,
                   depth: nextDepth,
+                })
+              );
+              edges = edges.concat(
+                getEdge({
+                  source,
+                  target,
+                  sourceHandle,
                 })
               );
 
               const isEmptyArray: boolean = (arrayItem as any[]).length === 0;
 
               if (!isEmptyArray) {
-                jsonNodes = jsonNodes.concat(traverse(arrayItem as any[], nextDepth));
+                jsonNodes = jsonNodes.concat(
+                  traverse(arrayItem as any[], nextDepth, {
+                    source,
+                    sourceHandle,
+                  })
+                );
               }
             } else if (arrayItemValidator.isPrimitiveData) {
+              // Object > Array > Primitive
               jsonNodes = jsonNodes.concat(
                 convertPrimitiveToJsonNode({
                   value: arrayItem as Primitive,
-                  nodeSequence,
+                  nodeId: nextNodeId,
                   depth: nextDepth,
+                })
+              );
+              edges = edges.concat(
+                getEdge({
+                  source,
+                  target,
+                  sourceHandle,
                 })
               );
             }
@@ -173,29 +275,56 @@ export const jsonParser = (
         const arrayItemValidator = validateJsonDataType(arrayItem);
 
         nodeSequence++;
+        const nextNodeId = formatNodeId(nodeSequence);
+        const target: string = nextNodeId;
 
         if (arrayItemValidator.isObjectData) {
-          jsonNodes = jsonNodes.concat(traverse(arrayItem as object, nextDepth));
+          // Array > Object
+          jsonNodes = jsonNodes.concat(traverse(arrayItem as object, nextDepth, { source: currentNodeId }));
+          edges = edges.concat(
+            getEdge({
+              source,
+              target,
+            })
+          );
         } else if (arrayItemValidator.isArrayData) {
+          // Array > Array
           jsonNodes = jsonNodes.concat(
             convertArrayToJsonNode({
               arrayIndex,
-              nodeSequence,
+              nodeId: nextNodeId,
               depth: nextDepth,
+            })
+          );
+          edges = edges.concat(
+            getEdge({
+              source,
+              target,
             })
           );
 
           const isEmptyArray: boolean = (arrayItem as any[]).length === 0;
 
           if (!isEmptyArray) {
-            jsonNodes = jsonNodes.concat(traverse(arrayItem as any[], nextDepth));
+            jsonNodes = jsonNodes.concat(
+              traverse(arrayItem as any[], nextDepth, {
+                source,
+              })
+            );
           }
         } else if (arrayItemValidator.isPrimitiveData) {
+          // Array > Primitive
           jsonNodes = jsonNodes.concat(
             convertPrimitiveToJsonNode({
               value: arrayItem as Primitive,
-              nodeSequence,
+              nodeId: nextNodeId,
               depth: nextDepth,
+            })
+          );
+          edges = edges.concat(
+            getEdge({
+              source,
+              target,
             })
           );
         }
@@ -210,10 +339,7 @@ export const jsonParser = (
      * In JSON, root node is always object.
      * So starts with `traverse` function with depth 0.
      */
-    nodes: traverse(jsonObj, 0),
-    edges: [], // TODO: getEdges
+    nodes: traverse(jsonObj, 0, {}),
+    edges,
   };
 };
-
-// 2. 생성된 배열을 통해 nodes 생성 -> 바로 node 생성하는 편이 loop를 덜 수행하니까 2번 단계는 없애는 쪽으로
-// 3. 생성된 node를 통해 edges 생성

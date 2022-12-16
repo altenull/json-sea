@@ -1,8 +1,9 @@
+import { Edge, Node } from 'reactflow';
 import { selector } from 'recoil';
+import { generateNodes } from '../../json-diagram/helpers/json-diagram.helper';
 import { isValidJson } from '../../utils/json.util';
 import { jsonParser } from './helpers/json-parser.helper';
 import { JSON_ENGINE_PREFIX, latestValidStringifiedJsonAtom, stringifiedJsonAtom } from './json-engine.atom';
-import { JsonNode } from './types/json-node.type';
 
 export const isValidJsonSelector = selector<boolean>({
   key: `${JSON_ENGINE_PREFIX}/isValidJsonSelector`,
@@ -20,10 +21,12 @@ export const latestValidJsonSelector = selector<object>({
   },
 });
 
-export const jsonNodesSelector = selector<JsonNode[]>({
-  key: `${JSON_ENGINE_PREFIX}/jsonNodesSelector`,
+export const nodesAndEdgesSelector = selector<[Node[], Edge[]]>({
+  key: `${JSON_ENGINE_PREFIX}/nodesAndEdgesSelector`,
   get: ({ get }) => {
     const latestValidJson: object = get(latestValidJsonSelector);
-    return jsonParser(latestValidJson).nodes;
+    const { nodes, edges } = jsonParser(latestValidJson);
+
+    return [generateNodes(nodes), edges];
   },
 });
