@@ -4,6 +4,7 @@ import { styled } from '../../../stitches.config';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { ArrayNodeData } from '../../store/json-engine/types/node-data.type';
 import { NodeShell } from './NodeShell';
+import { TargetHandle } from './TargetHandle';
 
 /**
  * ArrayNode `<Handle>` Details
@@ -14,7 +15,7 @@ import { NodeShell } from './NodeShell';
 const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
   return (
     <NodeShell nodeType={NodeType.Array}>
-      <Handle id={id} type="target" position={Position.Left} style={{ background: '#555' }} />
+      <TargetHandle id={id} />
 
       <StyledNodeHeader>
         I{`'`}m ArrayNode (id: {id})

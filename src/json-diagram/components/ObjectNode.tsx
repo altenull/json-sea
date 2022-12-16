@@ -5,6 +5,7 @@ import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { ObjectNodeData } from '../../store/json-engine/types/node-data.type';
 import { NodeShell } from './NodeShell';
+import { TargetHandle } from './TargetHandle';
 
 /**
  * ObjectNode `<Handle>` Details
@@ -17,24 +18,24 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
     <NodeShell nodeType={NodeType.Object}>
       {/* TODO: RootNode doesn't have any Handle. */}
       {/* TODO: Handle empty object ({}) */}
-      <Handle id={id} type="target" position={Position.Left} style={{ background: '#555' }} />
+      <TargetHandle id={id} />
 
       <StyledNodeHeader>
         I{`'`}m ObjectNode (id: {id})
       </StyledNodeHeader>
 
-      {Object.entries(data.value).map(([objKey, objValue]) => {
-        const { isPrimitiveData } = validateJsonDataType(objValue);
+      {Object.entries(data.value).map(([propertyK, propertyV]) => {
+        const { isPrimitiveData } = validateJsonDataType(propertyV);
 
         return (
-          <StyledField key={objKey}>
+          <StyledField key={propertyK}>
             <span style={{ color: 'blueviolet' }}>
               {`"`}
-              {objKey}
+              {propertyK}
               {`"`}
             </span>
-            {isPrimitiveData && <span>{JSON.stringify(objValue)}</span>}
-            <Handle id={objKey} type="source" position={Position.Right} style={{ background: '#ff0' }} />
+            {isPrimitiveData && <span>{JSON.stringify(propertyV)}</span>}
+            <Handle id={propertyK} type="source" position={Position.Right} style={{ background: '#ff0' }} />
           </StyledField>
         );
       })}

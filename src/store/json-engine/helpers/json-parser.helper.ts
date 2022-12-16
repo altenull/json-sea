@@ -175,19 +175,19 @@ export const jsonParser = (
         );
       }
 
-      Object.entries(traverseTarget as object).forEach(([objKey, objValue]) => {
-        const objValueValidator = validateJsonDataType(objValue);
+      Object.entries(traverseTarget as object).forEach(([propertyK, propertyV]) => {
+        const propertyVValidator = validateJsonDataType(propertyV);
 
-        const sourceHandle: string = objKey;
+        const sourceHandle: string = propertyK;
 
-        if (objValueValidator.isObjectData) {
+        if (propertyVValidator.isObjectData) {
           // Object > Object
           nodeSequence++;
           const nextNodeId = formatNodeId(nodeSequence);
           const target: string = nextNodeId;
 
           jsonNodes = jsonNodes.concat(
-            traverse(objValue as object, nextDepth, {
+            traverse(propertyV as object, nextDepth, {
               source,
               sourceHandle,
             })
@@ -199,9 +199,9 @@ export const jsonParser = (
               sourceHandle,
             })
           );
-        } else if (objValueValidator.isArrayData) {
+        } else if (propertyVValidator.isArrayData) {
           // Object > Array
-          (objValue as any[]).forEach((arrayItem: any, arrayIndex: number) => {
+          (propertyV as any[]).forEach((arrayItem: any, arrayIndex: number) => {
             const arrayItemValidator = validateJsonDataType(arrayItem);
 
             nodeSequence++;

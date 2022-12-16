@@ -1,9 +1,10 @@
 import { memo } from 'react';
-import { Handle, NodeProps, Position } from 'reactflow';
+import { NodeProps } from 'reactflow';
 import { styled } from '../../../stitches.config';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { PrimitiveNodeData } from '../../store/json-engine/types/node-data.type';
 import { NodeShell } from './NodeShell';
+import { TargetHandle } from './TargetHandle';
 
 /**
  * PrimitiveNode `<Handle>` Details
@@ -14,7 +15,7 @@ import { NodeShell } from './NodeShell';
 const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
   return (
     <NodeShell nodeType={NodeType.Primitive}>
-      <Handle id={id} type="target" position={Position.Left} style={{ background: '#555' }} />
+      <TargetHandle id={id} />
 
       <StyledNodeHeader>
         I{`'`}m PrimitiveNode (id: {id})
