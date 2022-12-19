@@ -1,4 +1,4 @@
-const SearchIcon = ({ width = 24, height = 24, ...props }) => {
+const _SearchIcon = ({ width = 24, height = 24, ...props }) => {
   return (
     <svg fill="none" width={width} height={height} viewBox="0 0 24 24" {...props}>
       <path
@@ -12,4 +12,4 @@ const SearchIcon = ({ width = 24, height = 24, ...props }) => {
   );
 };
 
-export default SearchIcon;
+export const SearchIcon = _SearchIcon;

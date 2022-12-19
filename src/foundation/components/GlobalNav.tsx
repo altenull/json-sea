@@ -1,9 +1,9 @@
 'use client';
 
 import { Image, Input, Navbar, Text } from '@nextui-org/react';
-import SearchIcon from '../../ui/components/SearchIcon';
+import { SearchIcon } from '../../ui/components/SearchIcon';
 
-const GlobalNav = () => {
+const _GlobalNav = () => {
   return (
     <Navbar isBordered isCompact variant="sticky">
       <Navbar.Brand css={{ mr: '$4' }}>
@@ -59,4 +59,4 @@ const GlobalNav = () => {
   );
 };
 
-export default GlobalNav;
+export const GlobalNav = _GlobalNav;

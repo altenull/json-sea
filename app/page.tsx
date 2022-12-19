@@ -1,7 +1,7 @@
-import GlobalNav from '../src/foundation/components/GlobalNav';
-import JsonDiagram from '../src/json-diagram/components/JsonDiagram';
-import { NodeDetailFixedPanel } from '../src/json-diagram/components/NodeDetailFixedPanel';
-import JsonEditor from '../src/json-editor/JsonEditor';
+import { GlobalNav } from '../src/foundation/components/GlobalNav';
+import { JsonDiagram } from '../src/json-diagram/components/JsonDiagram';
+import { JsonEditor } from '../src/json-editor/JsonEditor';
+import { NodeDetailFixedPanel } from '../src/node-detail/components/NodeDetailFixedPanel';
 
 const RootPage = () => {
   return (

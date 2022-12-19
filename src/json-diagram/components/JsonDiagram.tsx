@@ -7,7 +7,6 @@ import ReactFlow, {
   BackgroundVariant,
   Controls,
   Edge,
-  MiniMap,
   Node,
   NodeChange,
   NodeTypes,
@@ -23,7 +22,7 @@ import { ArrayNode } from './ArrayNode';
 import { ObjectNode } from './ObjectNode';
 import { PrimitiveNode } from './PrimitiveNode';
 
-const JsonDiagram = () => {
+const _JsonDiagram = () => {
   const [nodes, setNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
 
@@ -81,4 +80,4 @@ const JsonDiagram = () => {
   );
 };
 
-export default JsonDiagram;
+export const JsonDiagram = _JsonDiagram;
