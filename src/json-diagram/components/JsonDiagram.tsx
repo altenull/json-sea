@@ -72,7 +72,7 @@ const JsonDiagram = () => {
           edges={edges}
           onNodesChange={onNodesChange}
         >
-          <MiniMap position="top-right" />
+          {/* <MiniMap position="top-right" /> */}
           <Controls position="bottom-right" />
           <Background variant={BackgroundVariant.Dots} />
         </ReactFlow>
