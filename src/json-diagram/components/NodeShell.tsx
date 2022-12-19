@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { styled } from '../../../stitches.config';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
@@ -11,14 +11,14 @@ type Props = {
 };
 
 const _NodeShell = ({ nodeId, nodeType, children }: Props) => {
-  const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
+  const [selectedNodeId, setSelectedNodeId] = useRecoilState(selectedNodeIdAtom);
 
   const handleClick = useCallback(() => {
     setSelectedNodeId(nodeId);
   }, [nodeId, setSelectedNodeId]);
 
   return (
-    <StyledHost nodeType={nodeType} onClick={handleClick}>
+    <StyledHost isSelected={nodeId === selectedNodeId} nodeType={nodeType} onClick={handleClick}>
       {children}
     </StyledHost>
   );
@@ -32,10 +32,15 @@ const StyledHost = styled('div', {
   padding: '8px',
 
   '&:hover': {
-    border: '2px solid green',
+    border: '1px solid green',
   },
 
   variants: {
+    isSelected: {
+      true: {
+        border: '2px solid blue',
+      },
+    },
     nodeType: {
       [NodeType.Object]: {
         borderRadius: '4px',
