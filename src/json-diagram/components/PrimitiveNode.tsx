@@ -14,7 +14,7 @@ import { TargetHandle } from './TargetHandle';
  */
 const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
   return (
-    <NodeShell nodeType={NodeType.Primitive}>
+    <NodeShell nodeId={id} nodeType={NodeType.Primitive}>
       <TargetHandle id={id} />
 
       <StyledNodeHeader>

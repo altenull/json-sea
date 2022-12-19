@@ -12,12 +12,6 @@ import {
 import { Primitive } from '../types/node-data.type';
 import { getJsonDataType, validateJsonDataType } from './json-data-type.helper';
 
-// from 'reactflow'
-// type XYPosition = {
-//   x: number;
-//   y: number;
-// };
-
 const formatNodeId = (nodeSequence: number): string => `n${nodeSequence}`;
 const formatEdgeId = ({
   source,
@@ -48,8 +42,8 @@ const convertObjectToJsonNode = ({
     id: nodeId,
     depth,
     nodeType: NodeType.Object,
-    dataType: JsonDataType.Object,
     data: {
+      dataType: JsonDataType.Object,
       stringifiedJson: JSON.stringify(obj),
       obj,
       isRootNode,
@@ -72,8 +66,8 @@ const convertArrayToJsonNode = ({
     id: nodeId,
     depth,
     nodeType: NodeType.Array,
-    dataType: JsonDataType.Array,
     data: {
+      dataType: JsonDataType.Array,
       stringifiedJson: JSON.stringify(arrayIndex),
       arrayIndex,
       items,
@@ -94,8 +88,8 @@ const convertPrimitiveToJsonNode = ({
     id: nodeId,
     depth,
     nodeType: NodeType.Primitive,
-    dataType: getJsonDataType(value) as PrimitiveJsonDataType,
     data: {
+      dataType: getJsonDataType(value) as PrimitiveJsonDataType,
       stringifiedJson: JSON.stringify(value),
       value,
     },

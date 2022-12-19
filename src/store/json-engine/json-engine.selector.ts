@@ -4,6 +4,7 @@ import { generateNodes } from '../../json-diagram/helpers/json-diagram.helper';
 import { isValidJson } from '../../utils/json.util';
 import { jsonParser } from './helpers/json-parser.helper';
 import { JSON_ENGINE_PREFIX, latestValidStringifiedJsonAtom, stringifiedJsonAtom } from './json-engine.atom';
+import { ObjectNodeData, ArrayNodeData, PrimitiveNodeData } from './types/node-data.type';
 
 export const isValidJsonSelector = selector<boolean>({
   key: `${JSON_ENGINE_PREFIX}/isValidJsonSelector`,
@@ -31,15 +32,15 @@ export const nodesAndEdgesSelector = selector<[Node[], Edge[]]>({
   },
 });
 
-export type NodeEntities = { [nodeId: string]: Node };
+export type NodeEntities = { [nodeId: string]: Node<ObjectNodeData | ArrayNodeData | PrimitiveNodeData> };
 
 export const nodeEntitiesSelector = selector<NodeEntities>({
   key: `${JSON_ENGINE_PREFIX}/nodeEntitiesSelector`,
   get: ({ get }) => {
-    const [nodes]: [Node[], Edge[]] = get(nodesAndEdgesSelector);
+    const [nodes]: [Node<ObjectNodeData | ArrayNodeData | PrimitiveNodeData>[], Edge[]] = get(nodesAndEdgesSelector);
 
     return nodes.reduce(
-      (acc: NodeEntities, node: Node) => ({
+      (acc: NodeEntities, node: Node<ObjectNodeData | ArrayNodeData | PrimitiveNodeData>) => ({
         ...acc,
         [node.id]: node,
       }),

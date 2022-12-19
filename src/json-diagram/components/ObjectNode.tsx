@@ -38,7 +38,7 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
   }, [obj, edges, id]);
 
   return (
-    <NodeShell nodeType={NodeType.Object}>
+    <NodeShell nodeId={id} nodeType={NodeType.Object}>
       {!isRootNode && <TargetHandle id={id} />}
 
       <StyledNodeHeader>

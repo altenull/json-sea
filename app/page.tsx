@@ -1,5 +1,6 @@
 import GlobalNav from '../src/foundation/components/GlobalNav';
 import JsonDiagram from '../src/json-diagram/components/JsonDiagram';
+import { NodeDetailFixedPanel } from '../src/json-diagram/components/NodeDetailFixedPanel';
 import JsonEditor from '../src/json-editor/JsonEditor';
 
 const RootPage = () => {
@@ -11,6 +12,8 @@ const RootPage = () => {
         <JsonEditor />
         <JsonDiagram />
       </div>
+
+      <NodeDetailFixedPanel />
     </main>
   );
 };

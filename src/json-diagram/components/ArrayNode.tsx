@@ -16,7 +16,7 @@ const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
   const { arrayIndex, items } = data;
 
   return (
-    <NodeShell nodeType={NodeType.Array}>
+    <NodeShell nodeId={id} nodeType={NodeType.Array}>
       <TargetHandle id={id} />
 
       <StyledNodeHeader>
