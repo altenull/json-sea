@@ -7,3 +7,8 @@ export const jsonDiagramLayoutAtom = atom<JsonDiagramLayout>({
   key: `${JSON_DIAGRAM_VIEW_PREFIX}/jsonDiagramLayoutAtom`,
   default: JsonDiagramLayout.Vertical,
 });
+
+export const selectedNodeIdAtom = atom<string | null>({
+  key: `${JSON_DIAGRAM_VIEW_PREFIX}/selectedNodeIdAtom`,
+  default: null,
+});

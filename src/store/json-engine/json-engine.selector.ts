@@ -30,3 +30,20 @@ export const nodesAndEdgesSelector = selector<[Node[], Edge[]]>({
     return [generateNodes(jsonNodes), edges];
   },
 });
+
+export type NodeEntities = { [nodeId: string]: Node };
+
+export const nodeEntitiesSelector = selector<NodeEntities>({
+  key: `${JSON_ENGINE_PREFIX}/nodeEntitiesSelector`,
+  get: ({ get }) => {
+    const [nodes]: [Node[], Edge[]] = get(nodesAndEdgesSelector);
+
+    return nodes.reduce(
+      (acc: NodeEntities, node: Node) => ({
+        ...acc,
+        [node.id]: node,
+      }),
+      {}
+    );
+  },
+});

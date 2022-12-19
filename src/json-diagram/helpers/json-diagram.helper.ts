@@ -49,7 +49,7 @@ export const generateNodes = (jsonNodes: JsonNode[]): Node[] => {
       id,
       type: nodeType,
       data,
-      position: { x: depth * 200, y: 50 },
+      position: { x: depth * 500, y: 50 },
     };
   });
 };
