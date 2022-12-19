@@ -1,50 +1,50 @@
 /**
  * Returns true if argument is an 'array' and false otherwise.
- * @param {unknown} value - the value to check
+ * @param {unknown} v - the value to check
  */
-export const isArray = (value: unknown): boolean => {
-  return Array.isArray(value);
+export const isArray = (v: unknown): boolean => {
+  return Array.isArray(v);
 };
 
 /**
  * Returns true if argument is an 'object' and false otherwise.
  * Since the result of 'typeof []' is 'object', checks value with isArray() funciton.
- * @param {unknown} value - the value to check
+ * @param {unknown} v - the value to check
  */
-export const isObject = (value: unknown): value is object => {
-  return value !== null && !isArray(value) && typeof value === 'object';
+export const isObject = (v: unknown): v is object => {
+  return v !== null && !isArray(v) && typeof v === 'object';
 };
 
 /**
  * Returns true if argument is a 'string' and false otherwise.
- * @param {unknown} value - the value to check
+ * @param {unknown} v - the value to check
  */
-export const isString = (value: unknown): value is string => {
-  return typeof value === 'string';
+export const isString = (v: unknown): v is string => {
+  return typeof v === 'string';
 };
 
 /**
  * Returns true if argument is a 'number' and false otherwise.
- * @param {unknown} value - the value to check
+ * @param {unknown} v - the value to check
  */
-export const isNumber = (value: unknown): value is number => {
-  return typeof value === 'number';
+export const isNumber = (v: unknown): v is number => {
+  return typeof v === 'number';
 };
 
 /**
  * Returns true if argument is a 'boolean' and false otherwise.
- * @param {unknown} value - the value to check
+ * @param {unknown} v - the value to check
  */
-export const isBoolean = (value: unknown): value is boolean => {
-  return typeof value === 'boolean';
+export const isBoolean = (v: unknown): v is boolean => {
+  return typeof v === 'boolean';
 };
 
 /**
  * Returns true if argument is a 'null' and false otherwise.
- * @param {unknown} value - the value to check
+ * @param {unknown} v - the value to check
  */
-export const isNull = (value: unknown): value is null => {
-  return value === null;
+export const isNull = (v: unknown): v is null => {
+  return v === null;
 };
 
 /**

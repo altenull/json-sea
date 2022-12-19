@@ -44,7 +44,7 @@ export const generateNodesLegacy = ({
 };
 
 export const generateNodes = (jsonNodes: JsonNode[]): Node[] => {
-  return jsonNodes.map(({ id, depth, nodeType, dataType, data }) => {
+  return jsonNodes.map(({ id, depth, nodeType, data }) => {
     return {
       id,
       type: nodeType,
