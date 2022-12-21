@@ -62,7 +62,7 @@ const _JsonDiagram = () => {
         <ReactFlow
           style={{
             height: '100%',
-            minHeight: '100vh',
+            minHeight: '100%',
           }}
           className="json-diagram-react-flow"
           fitView

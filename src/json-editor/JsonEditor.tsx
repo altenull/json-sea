@@ -3,6 +3,7 @@
 import Editor from '@monaco-editor/react';
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
+import { styled } from '../../stitches.config';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../store/json-engine/json-engine.atom';
 import { DEFAULT_STRINGIFIED_JSON } from '../store/json-engine/json-engine.constant';
 import { isValidJson } from '../utils/json.util';
@@ -23,21 +24,26 @@ const _JsonEditor = () => {
   }, []);
 
   return (
-    <Editor
-      width="540px"
-      height="100vh"
-      theme="vs-dark"
-      defaultLanguage="json"
-      options={{
-        minimap: {
-          enabled: false,
-        },
-      }}
-      onChange={handleChange}
-      defaultValue={DEFAULT_STRINGIFIED_JSON}
-      value={stringifiedJson}
-    />
+    <StyledHost>
+      <Editor
+        theme="light" //  'vs-dark' | 'light'
+        defaultLanguage="json"
+        options={{
+          minimap: {
+            enabled: false,
+          },
+        }}
+        onChange={handleChange}
+        defaultValue={DEFAULT_STRINGIFIED_JSON}
+        value={stringifiedJson}
+      />
+    </StyledHost>
   );
 };
+
+const StyledHost = styled('div', {
+  minWidth: '$jsonEditorWidth',
+  height: '100%',
+});
 
 export const JsonEditor = _JsonEditor;

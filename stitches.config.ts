@@ -8,6 +8,11 @@ const stitches = createStitches({
       gray400: 'gainsboro',
       gray500: 'lightgray',
     },
+    sizes: {
+      jsonEditorWidth: '360px',
+      nodeDetailPanelWidth: '360px',
+      globalNavHeight: '54px', // height of <Navbar isCompacted>
+    },
   },
   media: {
     bp1: '(min-width: 480px)',

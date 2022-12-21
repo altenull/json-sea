@@ -5,17 +5,16 @@ import { SearchIcon } from '../../ui/components/SearchIcon';
 
 const _GlobalNav = () => {
   return (
-    <Navbar isBordered isCompact variant="sticky">
-      <Navbar.Brand css={{ mr: '$4' }}>
+    <Navbar isBordered isCompact maxWidth="fluid">
+      <Navbar.Brand>
         <Image
           width={48}
           height={48}
-          style={{ marginRight: 8 }}
           src="http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/water-wave.png"
           alt="JSON Sea Logo"
         />
 
-        <Text b color="inherit" css={{ mr: '$11' }} hideIn="xs">
+        <Text b color="inherit" css={{ ml: '$8' }} hideIn="xs">
           JSON Sea
         </Text>
       </Navbar.Brand>

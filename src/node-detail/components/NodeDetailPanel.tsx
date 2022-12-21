@@ -36,10 +36,10 @@ const _NodeDetailPanel = () => {
 };
 
 const StyledHost = styled('div', {
-  width: 320,
-  minWidth: 320,
+  width: '$nodeDetailPanelWidth',
+  minWidth: '$nodeDetailPanelWidth',
   minHeight: '100%',
-  padding: 16,
+  padding: 24,
   overflow: 'auto',
   backgroundColor: 'aliceblue',
 });
