@@ -3,14 +3,15 @@ import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
 import { PropertyInspector } from './PropertyInspector';
 
 type Props = {
-  data: ObjectNodeData;
+  nodeId: string;
+  nodeData: ObjectNodeData;
 };
 
-const _ObjectNodeDetail = ({ data }: Props) => {
+const _ObjectNodeDetail = ({ nodeId, nodeData }: Props) => {
   return (
     <>
-      {Object.entries(data.obj).map(([propertyK, propertyV]) => (
-        <PropertyInspector key={propertyK} propertyK={propertyK} propertyV={propertyV} />
+      {Object.entries(nodeData.obj).map(([propertyK, propertyV]) => (
+        <PropertyInspector key={propertyK} nodeId={nodeId} propertyK={propertyK} propertyV={propertyV} />
       ))}
     </>
   );

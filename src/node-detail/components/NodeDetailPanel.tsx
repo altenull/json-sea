@@ -23,10 +23,12 @@ const _NodeDetailPanel = () => {
           <br />
 
           <p>
-            {selectedNode.type === NodeType.Object && <ObjectNodeDetail data={selectedNode.data as ObjectNodeData} />}
-            {selectedNode.type === NodeType.Array && <ArrayNodeDetail data={selectedNode.data as ArrayNodeData} />}
+            {selectedNode.type === NodeType.Object && (
+              <ObjectNodeDetail nodeId={selectedNode.id} nodeData={selectedNode.data as ObjectNodeData} />
+            )}
+            {selectedNode.type === NodeType.Array && <ArrayNodeDetail nodeData={selectedNode.data as ArrayNodeData} />}
             {selectedNode.type === NodeType.Primitive && (
-              <PrimitiveNodeDetail data={selectedNode.data as PrimitiveNodeData} />
+              <PrimitiveNodeDetail nodeData={selectedNode.data as PrimitiveNodeData} />
             )}
           </p>
         </>

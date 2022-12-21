@@ -2,20 +2,20 @@ import { isArray, isBoolean, isNull, isNumber, isObject, isString } from '../../
 import { JsonDataType } from '../enums/json-data-type.enum';
 
 export const validateJsonDataType = (
-  value: unknown
+  v: unknown
 ): {
   [P in keyof typeof JsonDataType as `is${P}Data`]: boolean;
 } & {
   isPrimitiveData: boolean;
 } => {
-  const isStringData: boolean = isString(value);
-  const isNumberData: boolean = isNumber(value);
-  const isBooleanData: boolean = isBoolean(value);
-  const isNullData: boolean = isNull(value);
+  const isStringData: boolean = isString(v);
+  const isNumberData: boolean = isNumber(v);
+  const isBooleanData: boolean = isBoolean(v);
+  const isNullData: boolean = isNull(v);
 
   return {
-    isObjectData: isObject(value),
-    isArrayData: isArray(value),
+    isObjectData: isObject(v),
+    isArrayData: isArray(v),
     isStringData,
     isNumberData,
     isBooleanData,
