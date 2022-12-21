@@ -27,11 +27,15 @@ const _JsonEditor = () => {
   return (
     <StyledHost>
       <Editor
-        theme="light" //  'vs-dark' | 'light'
+        theme="light" // 'vs-dark' | 'light'
         defaultLanguage="json"
         options={{
           minimap: {
             enabled: false,
+          },
+          scrollbar: {
+            horizontal: 'hidden',
+            vertical: 'hidden',
           },
         }}
         onChange={handleChange}
@@ -43,6 +47,7 @@ const _JsonEditor = () => {
 };
 
 const StyledHost = styled('div', {
+  borderRight: '1px solid $border',
   minWidth: sizes.jsonEditorWidth,
   height: '100%',
 });
