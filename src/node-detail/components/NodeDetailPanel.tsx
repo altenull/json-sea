@@ -1,19 +1,17 @@
 'use client';
 
 import { memo } from 'react';
-import { Node } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { styled } from '../../../stitches.config';
-import { selectedNodeSelector } from '../../store/json-diagram-view/json-diagram-view.selector';
-import { isArrayNode, isObjectNode, isPrimitiveNode } from '../../store/json-engine/helpers/node-type.helper';
-import { ArrayNodeData, ObjectNodeData, PrimitiveNodeData } from '../../store/json-engine/types/node-data.type';
+import { selectedSeaNodeSelector } from '../../store/json-diagram-view/json-diagram-view.selector';
+import { NodeType } from '../../store/json-engine/enums/node-type.enum';
+import { ArrayNodeData, ObjectNodeData, PrimitiveNodeData, SeaNode } from '../../store/json-engine/types/sea-node.type';
 import { ArrayNodeDetail } from './ArrayNodeDetail';
 import { ObjectNodeDetail } from './ObjectNodeDetail';
 import { PrimitiveNodeDetail } from './PrimitiveNodeDetail';
 
 const _NodeDetailPanel = () => {
-  const selectedNode: Node<ObjectNodeData | ArrayNodeData | PrimitiveNodeData> | null =
-    useRecoilValue(selectedNodeSelector);
+  const selectedNode: SeaNode | null = useRecoilValue(selectedSeaNodeSelector);
 
   return (
     <StyledHost>
@@ -25,9 +23,11 @@ const _NodeDetailPanel = () => {
           <br />
 
           <p>
-            {isObjectNode(selectedNode) && <ObjectNodeDetail data={selectedNode.data} />}
-            {isArrayNode(selectedNode) && <ArrayNodeDetail data={selectedNode.data} />}
-            {isPrimitiveNode(selectedNode) && <PrimitiveNodeDetail data={selectedNode.data} />}
+            {selectedNode.type === NodeType.Object && <ObjectNodeDetail data={selectedNode.data as ObjectNodeData} />}
+            {selectedNode.type === NodeType.Array && <ArrayNodeDetail data={selectedNode.data as ArrayNodeData} />}
+            {selectedNode.type === NodeType.Primitive && (
+              <PrimitiveNodeDetail data={selectedNode.data as PrimitiveNodeData} />
+            )}
           </p>
         </>
       )}

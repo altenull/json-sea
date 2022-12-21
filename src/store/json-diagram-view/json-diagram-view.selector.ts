@@ -1,14 +1,14 @@
-import { Node } from 'reactflow';
 import { selector } from 'recoil';
-import { NodeEntities, nodeEntitiesSelector } from '../json-engine/json-engine.selector';
+import { SeaNodeEntities, seaNodeEntitiesSelector } from '../json-engine/json-engine.selector';
+import { SeaNode } from '../json-engine/types/sea-node.type';
 import { JSON_DIAGRAM_VIEW_PREFIX, selectedNodeIdAtom } from './json-diagram-view.atom';
 
-export const selectedNodeSelector = selector<Node | null>({
-  key: `${JSON_DIAGRAM_VIEW_PREFIX}/selectedNodeSelector`,
+export const selectedSeaNodeSelector = selector<SeaNode | null>({
+  key: `${JSON_DIAGRAM_VIEW_PREFIX}/selectedSeaNodeSelector`,
   get: ({ get }) => {
     const selectedNodeId: string | null = get(selectedNodeIdAtom);
-    const nodeEntities: NodeEntities = get(nodeEntitiesSelector);
+    const seaNodeEntities: SeaNodeEntities = get(seaNodeEntitiesSelector);
 
-    return selectedNodeId === null ? null : nodeEntities[selectedNodeId] ?? null;
+    return selectedNodeId === null ? null : seaNodeEntities[selectedNodeId] ?? null;
   },
 });

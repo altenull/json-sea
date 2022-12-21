@@ -1,7 +1,6 @@
 import { Node, Position } from 'reactflow';
 import { JsonDiagramLayout } from '../../store/json-diagram-view/enums/json-diagram-layout.enum';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
-import { JsonNode } from '../../store/json-engine/types/json-node.type';
 
 export const generateNodesLegacy = ({
   json,
@@ -41,15 +40,4 @@ export const generateNodesLegacy = ({
       ...(isHorizontalLayout && { targetPosition: Position.Left }),
     },
   ];
-};
-
-export const generateNodes = (jsonNodes: JsonNode[]): Node[] => {
-  return jsonNodes.map(({ id, depth, nodeType, data }) => {
-    return {
-      id,
-      type: nodeType,
-      data,
-      position: { x: depth * 500, y: 50 },
-    };
-  });
 };

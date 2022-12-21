@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { ObjectNodeData } from '../../store/json-engine/types/node-data.type';
+import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
 import { PropertyInspector } from './PropertyInspector';
 
 type Props = {

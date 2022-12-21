@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { styled } from '../../../stitches.config';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
-import { ArrayNodeData } from '../../store/json-engine/types/node-data.type';
+import { ArrayNodeData } from '../../store/json-engine/types/sea-node.type';
 import { NodeShell } from './NodeShell';
 import { TargetHandle } from './TargetHandle';
 

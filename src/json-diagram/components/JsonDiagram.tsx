@@ -7,7 +7,6 @@ import ReactFlow, {
   BackgroundVariant,
   Controls,
   Edge,
-  Node,
   NodeChange,
   NodeTypes,
   useEdgesState,
@@ -16,17 +15,18 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
-import { nodesAndEdgesSelector } from '../../store/json-engine/json-engine.selector';
+import { seaNodesAndEdgesSelector } from '../../store/json-engine/json-engine.selector';
+import { SeaNode } from '../../store/json-engine/types/sea-node.type';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { ArrayNode } from './ArrayNode';
 import { ObjectNode } from './ObjectNode';
 import { PrimitiveNode } from './PrimitiveNode';
 
 const _JsonDiagram = () => {
-  const [nodes, setNodes] = useNodesState([]);
+  const [seaNodes, setSeaNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
 
-  const nodesAndEdges: [Node[], Edge[]] = useRecoilValue(nodesAndEdgesSelector);
+  const seaNodesAndEdges: [SeaNode[], Edge[]] = useRecoilValue(seaNodesAndEdgesSelector);
 
   const isMounted = useIsMounted();
 
@@ -40,15 +40,15 @@ const _JsonDiagram = () => {
   );
 
   useEffect(() => {
-    const [nodes, edges] = nodesAndEdges;
-    setNodes(nodes);
+    const [seaNodes, edges] = seaNodesAndEdges;
+    setSeaNodes(seaNodes);
     setEdges(edges);
-  }, [nodesAndEdges, setNodes, setEdges]);
+  }, [seaNodesAndEdges, setSeaNodes, setEdges]);
 
   // TODO: Remove onNodesChange function (keeping for debugging)
   const onNodesChange = useCallback(
-    (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
+    (changes: NodeChange[]) => setSeaNodes((nds) => applyNodeChanges(changes, nds)),
+    [setSeaNodes]
   );
 
   return (
@@ -67,7 +67,7 @@ const _JsonDiagram = () => {
           className="json-diagram-react-flow"
           fitView
           nodeTypes={nodeTypes}
-          nodes={nodes}
+          nodes={seaNodes}
           edges={edges}
           onNodesChange={onNodesChange}
         >
