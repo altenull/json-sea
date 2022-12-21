@@ -1,6 +1,6 @@
+import { styled } from '@nextui-org/react';
 import { memo } from 'react';
 import { NodeProps } from 'reactflow';
-import { styled } from '../../../stitches.config';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { PrimitiveNodeData } from '../../store/json-engine/types/sea-node.type';
 import { NodeShell } from './NodeShell';

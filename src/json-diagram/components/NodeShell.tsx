@@ -1,6 +1,6 @@
+import { styled } from '@nextui-org/react';
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
-import { styled } from '../../../stitches.config';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 
@@ -27,18 +27,22 @@ const _NodeShell = ({ nodeId, nodeType, children }: Props) => {
 // TODO: Styling
 const StyledHost = styled('div', {
   position: 'relative',
-  backgroundColor: '#ffffff',
-  border: '1px solid #1a192b',
+  backgroundColor: '$white',
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: '$gray400',
   padding: '8px',
 
   '&:hover': {
-    border: '1px solid green',
+    borderColor: '$gray500',
+    backgroundColor: '$gray700',
   },
 
   variants: {
     isSelected: {
       true: {
-        border: '2px solid blue',
+        borderWidth: 2,
+        borderColor: '$yellow700',
       },
     },
     nodeType: {
