@@ -42,7 +42,7 @@ const _PropertyInspector = ({ nodeId, propertyK, propertyV }: Props) => {
         </Grid.Container>
       </Card.Header>
 
-      <Card.Body>
+      <Card.Body css={{ paddingTop: '$sm' }}>
         {isString(childObjectNodeId) ? (
           <Button flat size="sm" color="primary" onClick={() => setSelectedNodeId(childObjectNodeId)}>
             View object

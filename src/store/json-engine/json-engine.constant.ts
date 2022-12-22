@@ -30,6 +30,9 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
   "root-field-4": "Root Field 4",
   "root-field-5": "Root Field 5",
   "root-field-6": {
+    "boolean_true": true,
+    "boolean_false": false,
+    "field_null": null,
     "id": 1,
     "first_name": "Patrick",
     "last_name": "Conquest",
