@@ -1,11 +1,13 @@
-import { Badge, Button, Card, Grid, Text } from '@nextui-org/react';
+import { Button, Card, Grid } from '@nextui-org/react';
 import { memo, useMemo } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
-import { getJsonDataType, validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
+import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { seaNodesAndEdgesSelector } from '../../store/json-engine/json-engine.selector';
 import { isArray, isString } from '../../utils/json.util';
+import { JsonDataTypeText } from './JsonDataTypeText';
 import { PrimitiveInspector } from './PrimitiveInspector';
+import { PropertyKeyBadge } from './PropertyKeyBadge';
 
 type Props = {
   nodeId: string;
@@ -32,23 +34,10 @@ const _PropertyInspector = ({ nodeId, propertyK, propertyV }: Props) => {
       <Card.Header>
         <Grid.Container direction="column">
           <Grid>
-            <Badge variant="flat" color="secondary" size="md">
-              {`"`}
-              {propertyK}
-              {`"`}
-            </Badge>
+            <PropertyKeyBadge propertyK={propertyK} />
           </Grid>
           <Grid>
-            <Text
-              h6
-              size="$xs"
-              css={{
-                color: '$gray800',
-                margin: 0,
-              }}
-            >
-              {getJsonDataType(propertyV)}
-            </Text>
+            <JsonDataTypeText value={propertyV} />
           </Grid>
         </Grid.Container>
       </Card.Header>
@@ -56,7 +45,7 @@ const _PropertyInspector = ({ nodeId, propertyK, propertyV }: Props) => {
       <Card.Body>
         {isString(childObjectNodeId) ? (
           <Button flat size="sm" color="primary" onClick={() => setSelectedNodeId(childObjectNodeId)}>
-            View
+            View object
           </Button>
         ) : isArray(propertyV) ? (
           <span>{JSON.stringify(propertyV)}</span>
