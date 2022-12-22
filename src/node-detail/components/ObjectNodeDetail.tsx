@@ -1,3 +1,4 @@
+import { styled } from '@nextui-org/react';
 import { memo } from 'react';
 import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
 import { PropertyInspector } from './PropertyInspector';
@@ -9,12 +10,18 @@ type Props = {
 
 const _ObjectNodeDetail = ({ nodeId, nodeData }: Props) => {
   return (
-    <>
+    <StyledHost>
       {Object.entries(nodeData.obj).map(([propertyK, propertyV]) => (
         <PropertyInspector key={propertyK} nodeId={nodeId} propertyK={propertyK} propertyV={propertyV} />
       ))}
-    </>
+    </StyledHost>
   );
 };
+
+const StyledHost = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$8',
+});
 
 export const ObjectNodeDetail = memo(_ObjectNodeDetail);

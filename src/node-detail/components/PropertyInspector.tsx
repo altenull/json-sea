@@ -1,4 +1,4 @@
-import { Badge, Button, styled, Text } from '@nextui-org/react';
+import { Badge, Button, Card, Grid, Text } from '@nextui-org/react';
 import { memo, useMemo } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
@@ -28,43 +28,44 @@ const _PropertyInspector = ({ nodeId, propertyK, propertyV }: Props) => {
   }, [edges, nodeId, propertyK, propertyV]);
 
   return (
-    <StyledHost>
-      <Badge variant="flat" color="secondary" size="md">
-        {`"`}
-        {propertyK}
-        {`"`}
-      </Badge>
+    <Card>
+      <Card.Header>
+        <Grid.Container direction="column">
+          <Grid>
+            <Badge variant="flat" color="secondary" size="md">
+              {`"`}
+              {propertyK}
+              {`"`}
+            </Badge>
+          </Grid>
+          <Grid>
+            <Text
+              h6
+              size="$xs"
+              css={{
+                color: '$gray800',
+                margin: 0,
+              }}
+            >
+              {getJsonDataType(propertyV)}
+            </Text>
+          </Grid>
+        </Grid.Container>
+      </Card.Header>
 
-      <Text
-        h6
-        size="$xs"
-        css={{
-          color: '$gray800',
-          marginBottom: '$4',
-        }}
-      >
-        {getJsonDataType(propertyV)}
-      </Text>
-
-      {isString(childObjectNodeId) ? (
-        <Button flat size="sm" color="primary" onClick={() => setSelectedNodeId(childObjectNodeId)}>
-          View
-        </Button>
-      ) : isArray(propertyV) ? (
-        <span>{JSON.stringify(propertyV)}</span>
-      ) : (
-        <PrimitiveInspector value={propertyV} />
-      )}
-    </StyledHost>
+      <Card.Body>
+        {isString(childObjectNodeId) ? (
+          <Button flat size="sm" color="primary" onClick={() => setSelectedNodeId(childObjectNodeId)}>
+            View
+          </Button>
+        ) : isArray(propertyV) ? (
+          <span>{JSON.stringify(propertyV)}</span>
+        ) : (
+          <PrimitiveInspector value={propertyV} />
+        )}
+      </Card.Body>
+    </Card>
   );
 };
-
-const StyledHost = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  borderBottom: '1px solid #ced4da',
-  paddingTop: '16px',
-  paddingBottom: '80px',
-});
 
 export const PropertyInspector = memo(_PropertyInspector);

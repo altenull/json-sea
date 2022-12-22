@@ -27,22 +27,18 @@ const _NodeShell = ({ nodeId, nodeType, children }: Props) => {
 // TODO: Styling
 const StyledHost = styled('div', {
   position: 'relative',
-  backgroundColor: '$white',
-  borderWidth: 1,
-  borderStyle: 'solid',
-  borderColor: '$gray400',
+  backgroundColor: '$background',
+  border: '2px solid $gray400',
   padding: '8px',
 
   '&:hover': {
-    borderColor: '$gray500',
-    backgroundColor: '$gray700',
+    border: '2px solid $gray500',
   },
 
   variants: {
     isSelected: {
       true: {
-        borderWidth: 2,
-        borderColor: '$yellow700',
+        backgroundColor: '$blue100',
       },
     },
     nodeType: {

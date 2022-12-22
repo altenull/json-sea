@@ -1,5 +1,4 @@
-export const DEFAULT_STRINGIFIED_JSON: string = `
-{
+export const DEFAULT_STRINGIFIED_JSON: string = `{
   "root-field-1": [
     10,
     20,
