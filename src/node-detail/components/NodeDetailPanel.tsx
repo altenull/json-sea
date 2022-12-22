@@ -7,9 +7,9 @@ import { selectedSeaNodeSelector } from '../../store/json-diagram-view/json-diag
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { ArrayNodeData, ObjectNodeData, PrimitiveNodeData, SeaNode } from '../../store/json-engine/types/sea-node.type';
 import { sizes } from '../../ui/constants/sizes.constant';
-import { ArrayNodeDetail } from './ArrayNodeDetail';
-import { ObjectNodeDetail } from './ObjectNodeDetail';
-import { PrimitiveNodeDetail } from './PrimitiveNodeDetail';
+import { ArrayNodeDetail } from '../array/components/ArrayNodeDetail';
+import { ObjectNodeDetail } from '../object/components/ObjectNodeDetail';
+import { PrimitiveNodeDetail } from '../primitive/components/PrimitiveNodeDetail';
 
 const _NodeDetailPanel = () => {
   const selectedNode: SeaNode | null = useRecoilValue(selectedSeaNodeSelector);

@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { ArrayNodeData } from '../../store/json-engine/types/sea-node.type';
+import { ArrayNodeData } from '../../../store/json-engine/types/sea-node.type';
 
 type Props = {
   nodeData: ArrayNodeData;

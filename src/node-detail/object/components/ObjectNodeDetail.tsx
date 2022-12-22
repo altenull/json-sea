@@ -1,6 +1,6 @@
 import { styled } from '@nextui-org/react';
 import { memo } from 'react';
-import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
+import { ObjectNodeData } from '../../../store/json-engine/types/sea-node.type';
 import { PropertyCard } from './PropertyCard';
 
 type Props = {

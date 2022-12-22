@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { PrimitiveNodeData } from '../../store/json-engine/types/sea-node.type';
+import { PrimitiveNodeData } from '../../../store/json-engine/types/sea-node.type';
 
 type Props = {
   nodeData: PrimitiveNodeData;

@@ -1,6 +1,6 @@
 import { styled, Text } from '@nextui-org/react';
 import { memo } from 'react';
-import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
+import { validateJsonDataType } from '../../../store/json-engine/helpers/json-data-type.helper';
 import { StringInspector } from './StringInspector';
 
 type Props = {
