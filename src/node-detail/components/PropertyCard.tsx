@@ -15,7 +15,7 @@ type Props = {
   propertyV: any;
 };
 
-const _PropertyInspector = ({ nodeId, propertyK, propertyV }: Props) => {
+const _PropertyCard = ({ nodeId, propertyK, propertyV }: Props) => {
   const [, edges] = useRecoilValue(seaNodesAndEdgesSelector);
   const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
 
@@ -57,4 +57,4 @@ const _PropertyInspector = ({ nodeId, propertyK, propertyV }: Props) => {
   );
 };
 
-export const PropertyInspector = memo(_PropertyInspector);
+export const PropertyCard = memo(_PropertyCard);
