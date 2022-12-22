@@ -40,6 +40,8 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
     "gender": "Male",
     "ip_address": "60.253.130.221",
     "color": "#86720b",
+    "color2": "rgba(30%, 60%, 25%)",
+    "color3": "rgba(72, 122, 180, .2)",
     "img_url": "http://dummyimage.com/218x100.png/cc0000/ffffff",
     "date": "2022-09-26T07:52:59Z",
     "field6-inner1": {

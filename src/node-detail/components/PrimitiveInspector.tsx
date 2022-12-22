@@ -1,6 +1,7 @@
 import { styled, Text } from '@nextui-org/react';
 import { memo } from 'react';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
+import { StringInspector } from './StringInspector';
 
 type Props = {
   value: string | number | boolean | null;
@@ -11,8 +12,7 @@ const _PrimitiveInspector = ({ value }: Props) => {
 
   return (
     <StyledHost>
-      {/* TODO: Handle isStringData */}
-      {isStringData && <Text>{JSON.stringify(value)}</Text>}
+      {isStringData && <StringInspector value={value as string} />}
       {/* TODO: Handle isNumberData */}
       {isNumberData && <Text>{JSON.stringify(value)}</Text>}
       {(isBooleanData || isNullData) && <Text>{JSON.stringify(value)}</Text>}
