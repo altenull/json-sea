@@ -1,6 +1,7 @@
-import { styled, Text } from '@nextui-org/react';
+import { Text } from '@nextui-org/react';
 import { memo } from 'react';
-import { validateJsonDataType } from '../../../store/json-engine/helpers/json-data-type.helper';
+import { isBoolean, isNull, isNumber, isString } from '../../../utils/json.util';
+import { NumberInspector } from './NumberInspector';
 import { StringInspector } from './StringInspector';
 
 type Props = {
@@ -8,20 +9,19 @@ type Props = {
 };
 
 const _PrimitiveInspector = ({ value }: Props) => {
-  const { isStringData, isNumberData, isBooleanData, isNullData } = validateJsonDataType(value);
-
   return (
-    <StyledHost>
-      {isStringData && <StringInspector value={value as string} />}
-      {/* TODO: Handle isNumberData */}
-      {isNumberData && <Text>{JSON.stringify(value)}</Text>}
-      {(isBooleanData || isNullData) && <Text>{JSON.stringify(value)}</Text>}
-    </StyledHost>
+    <>
+      {isString(value) && <StringInspector value={value} />}
+
+      {isNumber(value) && <NumberInspector value={value} />}
+
+      {(isBoolean(value) || isNull(value)) && (
+        <Text css={{ textAlign: 'right' }} weight="medium">
+          {JSON.stringify(value)}
+        </Text>
+      )}
+    </>
   );
 };
-
-const StyledHost = styled('div', {
-  textAlign: 'right',
-});
 
 export const PrimitiveInspector = memo(_PrimitiveInspector);

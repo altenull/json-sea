@@ -13,7 +13,9 @@ const _StringInspector = ({ value }: Props) => {
 
   return (
     <>
-      <Text>{doubleQuotedValue}</Text>
+      <Text css={{ textAlign: 'right' }} weight="medium">
+        {doubleQuotedValue}
+      </Text>
       {isColor && <ColorPreview color={value} />}
     </>
   );

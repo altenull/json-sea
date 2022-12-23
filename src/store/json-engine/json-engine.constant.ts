@@ -25,8 +25,8 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
     [],
     []
   ],
-  "root-field-2": 2,
-  "root-field-3": 3,
+  "root-field-2": 200.123451234512345,
+  "root-field-3": 3123,
   "root-field-4": "Root Field 4",
   "root-field-5": "Root Field 5",
   "root-field-6": {
