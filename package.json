@@ -12,6 +12,7 @@
     "@monaco-editor/react": "^4.4.6",
     "@nextui-org/react": "^1.0.0-beta.10",
     "next": "13.0.6",
+    "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "reactflow": "^11.3.3",
