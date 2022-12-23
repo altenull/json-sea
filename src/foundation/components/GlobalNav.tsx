@@ -2,6 +2,7 @@
 
 import { Image, Input, Navbar, Text } from '@nextui-org/react';
 import { SearchIcon } from '../../ui/components/SearchIcon';
+import { ThemeToggle } from './ThemeToggle';
 
 const _GlobalNav = () => {
   return (
@@ -27,6 +28,17 @@ const _GlobalNav = () => {
           },
         }}
       >
+        <Navbar.Item
+          css={{
+            '@xsMax': {
+              w: '100%',
+              jc: 'center',
+            },
+          }}
+        >
+          <ThemeToggle />
+        </Navbar.Item>
+
         <Navbar.Item
           css={{
             '@xsMax': {

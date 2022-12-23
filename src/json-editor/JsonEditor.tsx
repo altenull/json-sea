@@ -1,7 +1,7 @@
 'use client';
 
 import Editor from '@monaco-editor/react';
-import { styled } from '@nextui-org/react';
+import { styled, useTheme } from '@nextui-org/react';
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../store/json-engine/json-engine.atom';
@@ -13,6 +13,8 @@ import { isValidJson } from '../utils/json.util';
 const _JsonEditor = () => {
   const [stringifiedJson, setStringifiedJson] = useRecoilState(stringifiedJsonAtom);
   const [, setLatestValidStringifiedJson] = useRecoilState(latestValidStringifiedJsonAtom);
+
+  const { isDark } = useTheme();
 
   const handleChange = useCallback((value: string | undefined) => {
     if (value === undefined) return;
@@ -27,7 +29,7 @@ const _JsonEditor = () => {
   return (
     <StyledHost>
       <Editor
-        theme="light" // 'vs-dark' | 'light'
+        theme={isDark ? 'vs-dark' : 'light'}
         defaultLanguage="json"
         options={{
           minimap: {
