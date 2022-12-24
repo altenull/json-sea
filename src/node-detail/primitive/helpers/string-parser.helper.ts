@@ -18,12 +18,24 @@ const isValidImage = (v: string): Promise<boolean> => {
   });
 };
 
+const isValidHttpUrl = (v: string): boolean => {
+  let url: URL | undefined;
+
+  try {
+    url = new URL(v);
+  } catch (e) {
+    return false;
+  }
+
+  return ['http:', 'https:'].includes(url.protocol);
+};
+
 export type StringParserReturn = {
   isColor: boolean;
   isDatetime: boolean;
   isEmail: boolean;
   isImage: boolean;
-  isLink: boolean;
+  isHttpUrl: boolean;
 };
 
 export const stringParser = async (v: string): Promise<StringParserReturn> => {
@@ -35,18 +47,25 @@ export const stringParser = async (v: string): Promise<StringParserReturn> => {
       isDatetime: FALSE,
       isEmail: FALSE,
       isImage: FALSE,
-      isLink: FALSE,
+      isHttpUrl: FALSE,
     };
   }
 
   if (await isValidImage(v)) {
-    // TODO: Check link
     return {
       isColor: FALSE,
       isDatetime: FALSE,
       isEmail: FALSE,
       isImage: true,
-      isLink: FALSE,
+      isHttpUrl: isValidHttpUrl(v),
+    };
+  } else if (isValidHttpUrl(v)) {
+    return {
+      isColor: FALSE,
+      isDatetime: FALSE,
+      isEmail: FALSE,
+      isImage: FALSE,
+      isHttpUrl: true,
     };
   } else {
     return {
@@ -54,7 +73,7 @@ export const stringParser = async (v: string): Promise<StringParserReturn> => {
       isDatetime: FALSE,
       isEmail: FALSE,
       isImage: FALSE,
-      isLink: FALSE,
+      isHttpUrl: FALSE,
     };
   }
 };

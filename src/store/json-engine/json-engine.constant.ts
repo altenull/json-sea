@@ -42,6 +42,7 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
     "color": "#86720b",
     "color2": "rgba(30%, 60%, 25%)",
     "color3": "rgba(72, 122, 180, .2)",
+    "http_url": "https://www.naver.com/",
     "img_url": "https://s.pstatic.net/static/www/mobile/edit/20221223/mobile_115956303877.png",
     "date": "2022-09-26T07:52:59Z",
     "field6-inner1": {
