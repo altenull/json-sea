@@ -5,7 +5,7 @@ type Props = {
   color: string;
 };
 
-const _ColorPreview = ({ color }: Props) => {
+const _PreviewColor = ({ color }: Props) => {
   return <StyledHost css={{ backgroundColor: color }} />;
 };
 
@@ -15,4 +15,4 @@ const StyledHost = styled('div', {
   borderRadius: '$lg',
 });
 
-export const ColorPreview = memo(_ColorPreview);
+export const PreviewColor = memo(_PreviewColor);

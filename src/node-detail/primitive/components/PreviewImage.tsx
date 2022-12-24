@@ -12,7 +12,7 @@ type ImageMeta = {
   size: number; // bytes
 };
 
-const _ImagePreview = ({ imageSrc }: Props) => {
+const _PreviewImage = ({ imageSrc }: Props) => {
   const [imageMeta, setImageMeta] = useState<ImageMeta | null>(null);
 
   useEffect(() => {
@@ -68,4 +68,4 @@ const StyledImageMetaContainer = styled('div', {
   alignItems: 'center',
 });
 
-export const ImagePreview = memo(_ImagePreview);
+export const PreviewImage = memo(_PreviewImage);

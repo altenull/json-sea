@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from 'react';
 import { stringParser, StringParserReturn } from '../helpers/string-parser.helper';
-import { ColorPreview } from './ColorPreview';
-import { ImagePreview } from './ImagePreview';
+import { PreviewColor } from './PreviewColor';
+import { PreviewImage } from './PreviewImage';
 import { TextCopyBox } from './TextCopyBox';
 
 type Props = {
@@ -24,8 +24,8 @@ const _StringInspector = ({ value }: Props) => {
   return (
     <>
       <TextCopyBox text={`"${value}"`} />
-      {isColor && <ColorPreview color={value} />}
-      {isImage && <ImagePreview imageSrc={value} />}
+      {isColor && <PreviewColor color={value} />}
+      {isImage && <PreviewImage imageSrc={value} />}
     </>
   );
 };
