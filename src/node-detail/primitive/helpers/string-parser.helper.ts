@@ -1,16 +1,27 @@
 /**
  * Invalid color value can't be assigned to `style.color` attribute.
  */
-const isValidColor = (v: string): boolean => {
+const isValidColor = (dirtyColor: string): boolean => {
   const optionStyle = new Option().style;
-  optionStyle.color = v;
+  optionStyle.color = dirtyColor;
 
   return !!optionStyle.color;
 };
 
-const isValidImage = (v: string): Promise<boolean> => {
+const isValidDate = (dirtyDate: string): boolean => {
+  return new Date(dirtyDate).toString() !== 'Invalid Date';
+};
+
+const isValidEmail = (dirtyEmail: string): boolean => {
+  const emailRegex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  return emailRegex.test(dirtyEmail.toLowerCase());
+};
+
+const isValidImage = (dirtyImage: string): Promise<boolean> => {
   const img = new Image();
-  img.src = v;
+  img.src = dirtyImage;
 
   return new Promise((resolve) => {
     img.onerror = () => resolve(false);
@@ -18,11 +29,11 @@ const isValidImage = (v: string): Promise<boolean> => {
   });
 };
 
-const isValidHttpUrl = (v: string): boolean => {
+const isValidHttpUrl = (dirtyHttpUrl: string): boolean => {
   let url: URL | undefined;
 
   try {
-    url = new URL(v);
+    url = new URL(dirtyHttpUrl);
   } catch (e) {
     return false;
   }
@@ -39,41 +50,49 @@ export type StringParserReturn = {
 };
 
 export const stringParser = async (v: string): Promise<StringParserReturn> => {
-  const FALSE: boolean = false; // For readability of return statement.
+  const falseProperties: StringParserReturn = {
+    isColor: false,
+    isDatetime: false,
+    isEmail: false,
+    isImage: false,
+    isHttpUrl: false,
+  };
 
   if (isValidColor(v)) {
     return {
+      ...falseProperties,
       isColor: true,
-      isDatetime: FALSE,
-      isEmail: FALSE,
-      isImage: FALSE,
-      isHttpUrl: FALSE,
+    };
+  }
+
+  if (isValidDate(v)) {
+    return {
+      ...falseProperties,
+      isDatetime: true,
+    };
+  }
+
+  if (isValidEmail(v)) {
+    return {
+      ...falseProperties,
+      isEmail: true,
     };
   }
 
   if (await isValidImage(v)) {
     return {
-      isColor: FALSE,
-      isDatetime: FALSE,
-      isEmail: FALSE,
+      ...falseProperties,
       isImage: true,
       isHttpUrl: isValidHttpUrl(v),
     };
-  } else if (isValidHttpUrl(v)) {
+  }
+
+  if (isValidHttpUrl(v)) {
     return {
-      isColor: FALSE,
-      isDatetime: FALSE,
-      isEmail: FALSE,
-      isImage: FALSE,
+      ...falseProperties,
       isHttpUrl: true,
     };
-  } else {
-    return {
-      isColor: FALSE,
-      isDatetime: FALSE,
-      isEmail: FALSE,
-      isImage: FALSE,
-      isHttpUrl: FALSE,
-    };
   }
+
+  return falseProperties;
 };
