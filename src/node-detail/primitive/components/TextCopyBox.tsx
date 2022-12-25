@@ -1,5 +1,6 @@
 import { Badge, styled, Text } from '@nextui-org/react';
 import { memo, useCallback, useEffect } from 'react';
+import { isNull } from '../../../utils/json.util';
 import useCopyToClipboard from '../../../utils/react-hooks/useCopyToClipboard';
 import { useHover } from '../../../utils/react-hooks/useHover';
 
@@ -25,7 +26,7 @@ const _TextCopyBox = ({ text }: Props) => {
     <StyledHost ref={hostRef} onClick={copyText}>
       {isHostHovered && (
         <StyledBadge variant="flat" color="success" size="xs">
-          {copiedText === null ? 'Copy?' : 'Copied!'}
+          {isNull(copiedText) ? 'Copy?' : 'Copied!'}
         </StyledBadge>
       )}
 

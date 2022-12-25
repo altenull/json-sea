@@ -1,7 +1,7 @@
 import { styled, Text } from '@nextui-org/react';
 import prettyBytes from 'pretty-bytes';
 import { memo, useEffect, useState } from 'react';
-import { isString } from '../../../utils/json.util';
+import { isNull, isString } from '../../../utils/json.util';
 
 type Props = {
   imageSrc: string;
@@ -36,7 +36,7 @@ const _PreviewImage = ({ imageSrc }: Props) => {
     <StyledHost>
       <StyledImg src={imageSrc} alt="image preview" />
 
-      {imageMeta !== null && (
+      {!isNull(imageMeta) && (
         <StyledImageMetaContainer>
           <Text size="$xs" color="$gray800">
             {imageMeta.type}
