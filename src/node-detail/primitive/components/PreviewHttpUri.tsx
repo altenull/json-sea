@@ -2,7 +2,7 @@ import { Table } from '@nextui-org/react';
 import { Key, memo, useEffect, useRef, useState } from 'react';
 
 type Props = {
-  httpUrl: string;
+  httpUri: string;
 };
 
 type URLProperty = keyof Pick<
@@ -48,9 +48,9 @@ type Row = {
  * hash: '#abc?query=test';
  * search: '?query=test';
  */
-const _PreviewHttpUrl = ({ httpUrl }: Props) => {
+const _PreviewHttpUri = ({ httpUri }: Props) => {
   const [rows, setRows] = useState<Row[]>([]);
-  const httpUrlObject: URL = useRef(new URL(httpUrl)).current;
+  const httpUrlObject: URL = useRef(new URL(httpUri)).current;
 
   useEffect(() => {
     const rows: Row[] = DISPLAY_TARGET_URL_PROPERTIES.filter(
@@ -94,4 +94,4 @@ const _PreviewHttpUrl = ({ httpUrl }: Props) => {
   );
 };
 
-export const PreviewHttpUrl = memo(_PreviewHttpUrl);
+export const PreviewHttpUri = memo(_PreviewHttpUri);

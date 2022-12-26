@@ -2,12 +2,11 @@ import { Button, Card, Grid } from '@nextui-org/react';
 import { memo, useMemo } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../../store/json-diagram-view/json-diagram-view.atom';
-import { validateJsonDataType } from '../../../store/json-engine/helpers/json-data-type.helper';
 import { seaNodesAndEdgesSelector } from '../../../store/json-engine/json-engine.selector';
-import { isArray, isString } from '../../../utils/json.util';
-import { PropertyKeyBadge } from './PropertyKeyBadge';
+import { isArray, isObject, isString } from '../../../utils/json.util';
 import { JsonDataTypeText } from '../../components/JsonDataTypeText';
 import { PrimitiveInspector } from '../../primitive/components/PrimitiveInspector';
+import { PropertyKeyBadge } from './PropertyKeyBadge';
 
 type Props = {
   nodeId: string;
@@ -20,9 +19,7 @@ const _PropertyCard = ({ nodeId, propertyK, propertyV }: Props) => {
   const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
 
   const childObjectNodeId: string | null = useMemo(() => {
-    const { isObjectData } = validateJsonDataType(propertyV);
-
-    if (!isObjectData) {
+    if (!isObject(propertyV)) {
       return null;
     }
 

@@ -1,9 +1,9 @@
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 import { doubleQuote } from '../../../utils/string.util';
-import { stringParser, StringParserReturn } from '../helpers/string-parser.helper';
+import { useStringSubtypeValidator } from '../hooks/useStringSubtypeValidator';
 import { PreviewColor } from './PreviewColor';
 import { PreviewDatetime } from './PreviewDatetime';
-import { PreviewHttpUrl } from './PreviewHttpUrl';
+import { PreviewHttpUri } from './PreviewHttpUri';
 import { PreviewImage } from './PreviewImage';
 import { TextCopyBox } from './TextCopyBox';
 
@@ -12,17 +12,7 @@ type Props = {
 };
 
 const _StringInspector = ({ value }: Props) => {
-  const [{ isColor, isDatetime, isEmail, isImage, isHttpUrl }, setStringParserReturn] = useState<StringParserReturn>({
-    isColor: false,
-    isDatetime: false,
-    isEmail: false,
-    isImage: false,
-    isHttpUrl: false,
-  });
-
-  useEffect(() => {
-    stringParser(value).then(setStringParserReturn);
-  }, [value]);
+  const { isColor, isDatetime, isEmail, isImage, isHttpUri } = useStringSubtypeValidator(value);
 
   return (
     <>
@@ -30,7 +20,7 @@ const _StringInspector = ({ value }: Props) => {
       {isColor && <PreviewColor color={value} />}
       {isDatetime && <PreviewDatetime datetime={value} />}
       {isImage && <PreviewImage imageSrc={value} />}
-      {isHttpUrl && <PreviewHttpUrl httpUrl={value} />}
+      {isHttpUri && <PreviewHttpUri httpUri={value} />}
     </>
   );
 };

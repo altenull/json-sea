@@ -1,3 +1,6 @@
+import { allFalseStringSubtypeValidator } from '../constants/string-subtype.constant';
+import { StringSubtype } from '../enums/string-subtype.enum';
+
 /**
  * Invalid color value can't be assigned to `style.color` attribute.
  */
@@ -29,11 +32,11 @@ const isValidImage = (dirtyImage: string): Promise<boolean> => {
   });
 };
 
-const isValidHttpUrl = (dirtyHttpUrl: string): boolean => {
+const isValidHttpUri = (dirtyHttpUri: string): boolean => {
   let url: URL | undefined;
 
   try {
-    url = new URL(dirtyHttpUrl);
+    url = new URL(dirtyHttpUri);
   } catch (e) {
     return false;
   }
@@ -41,58 +44,44 @@ const isValidHttpUrl = (dirtyHttpUrl: string): boolean => {
   return ['http:', 'https:'].includes(url.protocol);
 };
 
-export type StringParserReturn = {
-  isColor: boolean;
-  isDatetime: boolean;
-  isEmail: boolean;
-  isImage: boolean;
-  isHttpUrl: boolean;
-};
+export type StringSubtypeValidator = { [P in keyof typeof StringSubtype as `is${P}`]: boolean };
 
-export const stringParser = async (v: string): Promise<StringParserReturn> => {
-  const falseProperties: StringParserReturn = {
-    isColor: false,
-    isDatetime: false,
-    isEmail: false,
-    isImage: false,
-    isHttpUrl: false,
-  };
-
+export const validateStringSubtype = async (v: string): Promise<StringSubtypeValidator> => {
   if (isValidColor(v)) {
     return {
-      ...falseProperties,
+      ...allFalseStringSubtypeValidator,
       isColor: true,
     };
   }
 
   if (isValidDate(v)) {
     return {
-      ...falseProperties,
+      ...allFalseStringSubtypeValidator,
       isDatetime: true,
     };
   }
 
   if (isValidEmail(v)) {
     return {
-      ...falseProperties,
+      ...allFalseStringSubtypeValidator,
       isEmail: true,
     };
   }
 
   if (await isValidImage(v)) {
     return {
-      ...falseProperties,
+      ...allFalseStringSubtypeValidator,
       isImage: true,
-      isHttpUrl: isValidHttpUrl(v),
+      isHttpUri: isValidHttpUri(v),
     };
   }
 
-  if (isValidHttpUrl(v)) {
+  if (isValidHttpUri(v)) {
     return {
-      ...falseProperties,
-      isHttpUrl: true,
+      ...allFalseStringSubtypeValidator,
+      isHttpUri: true,
     };
   }
 
-  return falseProperties;
+  return allFalseStringSubtypeValidator;
 };
