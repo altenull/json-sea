@@ -68,14 +68,21 @@ const _PreviewHttpUrl = ({ httpUrl }: Props) => {
 
   return (
     <Table
+      lined
+      sticked
       aria-label="http/https URL table"
       css={{
         height: 'auto',
         minWidth: '100%',
+        padding: '$2',
       }}
     >
       <Table.Header columns={COLUMNS}>
-        {({ key, label }) => <Table.Column key={key}>{label}</Table.Column>}
+        {({ key, label }) => (
+          <Table.Column css={{ display: 'none' }} key={key}>
+            {label}
+          </Table.Column>
+        )}
       </Table.Header>
 
       <Table.Body items={rows} css={{ fontSize: '$xs' }}>
