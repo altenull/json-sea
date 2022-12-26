@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.4.6",
-    "@nextui-org/react": "^1.0.0-beta.10",
+    "@nextui-org/react": "^1.0.0-beta.11",
     "date-fns": "^2.29.3",
     "next": "13.0.6",
     "next-themes": "^0.2.1",
