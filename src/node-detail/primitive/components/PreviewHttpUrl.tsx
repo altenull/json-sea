@@ -74,7 +74,7 @@ const _PreviewHttpUrl = ({ httpUrl }: Props) => {
       css={{
         height: 'auto',
         minWidth: '100%',
-        padding: '$2',
+        padding: '$1',
       }}
     >
       <Table.Header columns={COLUMNS}>

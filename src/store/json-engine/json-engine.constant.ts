@@ -44,7 +44,8 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
     "color3": "rgba(72, 122, 180, .2)",
     "http_url": "https://www.naver.com/",
     "img_url": "https://s.pstatic.net/static/www/mobile/edit/20221223/mobile_115956303877.png",
-    "date": "2022-09-26T07:52:59Z",
+    "date": "2022-12-26T06:20:59Z",
+    "date2": "2023-09-26T07:52:59Z",
     "field6-inner1": {
       "id": 2,
       "first_name": "Corry",

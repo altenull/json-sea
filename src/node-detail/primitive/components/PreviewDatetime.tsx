@@ -1,14 +1,15 @@
 import { Table } from '@nextui-org/react';
 import { addMinutes, format } from 'date-fns';
 import { Key, memo, useEffect, useState } from 'react';
+import { RelativeTimeFormatter } from './RelativeTimeFormatter';
 
 type Props = {
   datetime: string;
 };
 
-type PropertyName = 'GMT' | 'Your timezone' | 'Unix(ms)' | 'Unix(s)' | 'Relative';
+type PropertyName = 'Unix(ms)' | 'Unix(s)' | 'GMT' | 'Your timezone' | 'Relative';
 
-const PROPERTY_NAMES: PropertyName[] = ['GMT', 'Your timezone', 'Unix(ms)', 'Unix(s)', 'Relative'];
+const PROPERTY_NAMES: PropertyName[] = ['Unix(ms)', 'Unix(s)', 'GMT', 'Your timezone', 'Relative'];
 
 const COLUMNS = [
   {
@@ -36,12 +37,14 @@ const _PreviewDatetime = ({ datetime }: Props) => {
     const formatWithoutGMT: string = 'EEE, MMM M, yyyy, HH:mm:ss';
     const formatWithGMT: string = `${formatWithoutGMT} OOOO`;
 
+    const unixTimestamp = date.getTime(); // (ms)
+
     const map: Record<PropertyName, string | number> = {
+      'Unix(ms)': unixTimestamp,
+      'Unix(s)': unixTimestamp / 1000,
       GMT: `${format(gmtDate, formatWithoutGMT)} GMT+00:00`,
       'Your timezone': format(date, formatWithGMT),
-      'Unix(ms)': date.getTime(),
-      'Unix(s)': date.getTime() / 1000,
-      Relative: 'TODO:',
+      Relative: unixTimestamp,
     };
 
     const rows: Row[] = PROPERTY_NAMES.map(
@@ -63,7 +66,7 @@ const _PreviewDatetime = ({ datetime }: Props) => {
       css={{
         height: 'auto',
         minWidth: '100%',
-        padding: '$2',
+        padding: '$1',
       }}
     >
       <Table.Header columns={COLUMNS}>
@@ -76,7 +79,17 @@ const _PreviewDatetime = ({ datetime }: Props) => {
 
       <Table.Body items={rows} css={{ fontSize: '$xs' }}>
         {(row) => (
-          <Table.Row key={row.property}>{(columnKey: Key) => <Table.Cell>{row[columnKey]}</Table.Cell>}</Table.Row>
+          <Table.Row key={row.property}>
+            {(columnKey: Key) => (
+              <Table.Cell>
+                {row.property === 'Relative' && columnKey === 'value' ? (
+                  <RelativeTimeFormatter unixTimestamp={row[columnKey] as number} />
+                ) : (
+                  row[columnKey]
+                )}
+              </Table.Cell>
+            )}
+          </Table.Row>
         )}
       </Table.Body>
     </Table>
