@@ -4,6 +4,7 @@ import { Handle, NodeProps, Position, useEdges } from 'reactflow';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
+import { doubleQuote } from '../../utils/string.util';
 import { NodeShell } from './NodeShell';
 import { TargetHandle } from './TargetHandle';
 
@@ -25,11 +26,7 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
 
       return (
         <StyledField key={propertyK}>
-          <span style={{ color: 'blueviolet' }}>
-            {`"`}
-            {propertyK}
-            {`"`}
-          </span>
+          <span style={{ color: 'blueviolet' }}>{doubleQuote(propertyK)}</span>
           {isPrimitiveData && <span>{JSON.stringify(propertyV)}</span>}
           {hasChild && <Handle id={propertyK} type="source" position={Position.Right} style={{ background: '#555' }} />}
         </StyledField>

@@ -1,16 +1,15 @@
 import { Badge } from '@nextui-org/react';
 import { memo } from 'react';
+import { doubleQuote } from '../../../utils/string.util';
 
 type Props = {
   propertyK: string;
 };
 
 const _PropertyKeyBadge = ({ propertyK }: Props) => {
-  const doubleQuotedPropertyK = `"${propertyK}"`;
-
   return (
     <Badge variant="flat" color="secondary" size="md">
-      {doubleQuotedPropertyK}
+      {doubleQuote(propertyK)}
     </Badge>
   );
 };
