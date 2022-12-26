@@ -11,20 +11,25 @@ type PropertyName = 'Unix(ms)' | 'Unix(s)' | 'GMT' | 'Your timezone' | 'Relative
 
 const PROPERTY_NAMES: PropertyName[] = ['Unix(ms)', 'Unix(s)', 'GMT', 'Your timezone', 'Relative'];
 
+enum ColumnKey {
+  Property = 'property',
+  Value = 'value',
+}
+
 const COLUMNS = [
   {
-    key: 'property',
-    label: 'Property',
+    key: ColumnKey.Property,
+    label: 'PROPERTY',
   },
   {
-    key: 'value',
-    label: 'Value',
+    key: ColumnKey.Value,
+    label: 'VALUE',
   },
 ];
 
 type Row = {
-  property: string;
-  value: string;
+  [ColumnKey.Property]: PropertyName;
+  [ColumnKey.Value]: string | number;
 };
 
 const _PreviewDatetime = ({ datetime }: Props) => {
@@ -42,7 +47,7 @@ const _PreviewDatetime = ({ datetime }: Props) => {
     const map: Record<PropertyName, string | number> = {
       'Unix(ms)': unixTimestamp,
       'Unix(s)': unixTimestamp / 1000,
-      GMT: `${format(gmtDate, formatWithoutGMT)} GMT+00:00`,
+      GMT: format(gmtDate, formatWithoutGMT).concat(' GMT+00:00'),
       'Your timezone': format(date, formatWithGMT),
       Relative: unixTimestamp,
     };
@@ -82,10 +87,10 @@ const _PreviewDatetime = ({ datetime }: Props) => {
           <Table.Row key={row.property}>
             {(columnKey: Key) => (
               <Table.Cell>
-                {row.property === 'Relative' && columnKey === 'value' ? (
-                  <RelativeTimeFormatter unixTimestamp={row[columnKey] as number} />
+                {row.property === 'Relative' && columnKey === ColumnKey.Value ? (
+                  <RelativeTimeFormatter unixTimestamp={row[columnKey as ColumnKey] as number} />
                 ) : (
-                  row[columnKey]
+                  row[columnKey as ColumnKey]
                 )}
               </Table.Cell>
             )}

@@ -21,20 +21,24 @@ const DISPLAY_TARGET_URL_PROPERTIES: URLProperty[] = [
   'search',
 ];
 
+enum ColumnKey {
+  Property = 'property',
+  Value = 'value',
+}
+
 const COLUMNS = [
   {
-    key: 'property',
-    label: 'Property',
+    key: ColumnKey.Property,
+    label: 'PROPERTY',
   },
   {
-    key: 'value',
-    label: 'Value',
+    key: ColumnKey.Value,
+    label: 'VALUE',
   },
 ];
 
 type Row = {
-  property: string;
-  value: string;
+  [P in ColumnKey]: string;
 };
 
 /**
@@ -87,7 +91,9 @@ const _PreviewHttpUri = ({ httpUri }: Props) => {
 
       <Table.Body items={rows} css={{ fontSize: '$xs' }}>
         {(row) => (
-          <Table.Row key={row.property}>{(columnKey: Key) => <Table.Cell>{row[columnKey]}</Table.Cell>}</Table.Row>
+          <Table.Row key={row.property}>
+            {(columnKey: Key) => <Table.Cell>{row[columnKey as ColumnKey]}</Table.Cell>}
+          </Table.Row>
         )}
       </Table.Body>
     </Table>
