@@ -21,7 +21,7 @@ const _ObjectNodeDetail = ({ nodeId, nodeData }: Props) => {
 const StyledHost = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '$8',
+  gap: '$10',
 });
 
 export const ObjectNodeDetail = memo(_ObjectNodeDetail);

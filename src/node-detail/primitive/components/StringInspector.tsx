@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from 'react';
 import { stringParser, StringParserReturn } from '../helpers/string-parser.helper';
 import { PreviewColor } from './PreviewColor';
+import { PreviewDatetime } from './PreviewDatetime';
 import { PreviewHttpUrl } from './PreviewHttpUrl';
 import { PreviewImage } from './PreviewImage';
 import { TextCopyBox } from './TextCopyBox';
@@ -26,6 +27,7 @@ const _StringInspector = ({ value }: Props) => {
     <>
       <TextCopyBox text={`"${value}"`} />
       {isColor && <PreviewColor color={value} />}
+      {isDatetime && <PreviewDatetime datetime={value} />}
       {isImage && <PreviewImage imageSrc={value} />}
       {isHttpUrl && <PreviewHttpUrl httpUrl={value} />}
     </>

@@ -51,7 +51,7 @@ const StyledHost = styled('div', {
   minWidth: sizes.nodeDetailPanelWidth,
   minHeight: '100%',
   borderLeft: '1px solid $border',
-  padding: 24,
+  padding: '$8',
   overflow: 'auto',
   backgroundColor: '$cyan50',
 });
