@@ -5,6 +5,7 @@ import { PreviewColor } from './PreviewColor';
 import { PreviewDatetime } from './PreviewDatetime';
 import { PreviewHttpUri } from './PreviewHttpUri';
 import { PreviewImage } from './PreviewImage';
+import { PreviewImageUri } from './PreviewImageUri';
 import { TextCopyBox } from './TextCopyBox';
 
 type Props = {
@@ -19,8 +20,9 @@ const _StringInspector = ({ value }: Props) => {
       <TextCopyBox text={doubleQuote(value)} />
       {isColor && <PreviewColor color={value} />}
       {isDatetime && <PreviewDatetime datetime={value} />}
-      {isImage && <PreviewImage imageSrc={value} />}
-      {isHttpUri && <PreviewHttpUri httpUri={value} isImage={isImage} />}
+      {isImage && !isHttpUri && <PreviewImage imageSrc={value} />}
+      {isImage && isHttpUri && <PreviewImageUri imageUri={value} />}
+      {!isImage && isHttpUri && <PreviewHttpUri httpUri={value} />}
     </>
   );
 };
