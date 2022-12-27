@@ -1,4 +1,4 @@
-import { Text } from '@nextui-org/react';
+import { Badge } from '@nextui-org/react';
 import { memo } from 'react';
 import { isBoolean, isNull, isNumber, isString } from '../../../utils/json.util';
 import { NumberInspector } from './NumberInspector';
@@ -16,9 +16,9 @@ const _PrimitiveInspector = ({ value }: Props) => {
       {isNumber(value) && <NumberInspector value={value} />}
 
       {(isBoolean(value) || isNull(value)) && (
-        <Text css={{ textAlign: 'right' }} weight="medium">
+        <Badge css={{ marginLeft: 'auto' }} isSquared variant="flat">
           {JSON.stringify(value)}
-        </Text>
+        </Badge>
       )}
     </>
   );
