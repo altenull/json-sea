@@ -20,7 +20,7 @@ const _StringInspector = ({ value }: Props) => {
       {isColor && <PreviewColor color={value} />}
       {isDatetime && <PreviewDatetime datetime={value} />}
       {isImage && <PreviewImage imageSrc={value} />}
-      {isHttpUri && <PreviewHttpUri httpUri={value} />}
+      {isHttpUri && <PreviewHttpUri httpUri={value} isImage={isImage} />}
     </>
   );
 };

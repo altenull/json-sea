@@ -1,8 +1,13 @@
 import { Table } from '@nextui-org/react';
 import { Key, memo, useEffect, useRef, useState } from 'react';
+import { featureFlag } from '../../../environment';
+import { isNull } from '../../../utils/json.util';
+import { JsonLink, useJsonLinkApi } from '../hooks/useJsonLinkApi';
+import { PreviewOgMeta } from './PreviewOgMeta';
 
 type Props = {
   httpUri: string;
+  isImage: boolean;
 };
 
 type URLProperty = keyof Pick<
@@ -52,9 +57,11 @@ type Row = {
  * hash: '#abc?query=test';
  * search: '?query=test';
  */
-const _PreviewHttpUri = ({ httpUri }: Props) => {
+const _PreviewHttpUri = ({ httpUri, isImage }: Props) => {
   const [rows, setRows] = useState<Row[]>([]);
   const httpUrlObject: URL = useRef(new URL(httpUri)).current;
+
+  const jsonLink: JsonLink | null = useJsonLinkApi(isImage || !featureFlag.ogMetaPreview ? null : httpUri);
 
   useEffect(() => {
     const rows: Row[] = DISPLAY_TARGET_URL_PROPERTIES.filter(
@@ -71,32 +78,36 @@ const _PreviewHttpUri = ({ httpUri }: Props) => {
   }, [httpUrlObject]);
 
   return (
-    <Table
-      lined
-      sticked
-      aria-label="http/https URL table"
-      css={{
-        height: 'auto',
-        minWidth: '100%',
-        padding: '$1',
-      }}
-    >
-      <Table.Header columns={COLUMNS}>
-        {({ key, label }) => (
-          <Table.Column css={{ display: 'none' }} key={key}>
-            {label}
-          </Table.Column>
-        )}
-      </Table.Header>
+    <>
+      {!isNull(jsonLink) && <PreviewOgMeta jsonLink={jsonLink} />}
 
-      <Table.Body items={rows} css={{ fontSize: '$xs' }}>
-        {(row) => (
-          <Table.Row key={row.property}>
-            {(columnKey: Key) => <Table.Cell>{row[columnKey as ColumnKey]}</Table.Cell>}
-          </Table.Row>
-        )}
-      </Table.Body>
-    </Table>
+      <Table
+        lined
+        sticked
+        aria-label="http/https URL table"
+        css={{
+          height: 'auto',
+          minWidth: '100%',
+          padding: '$1',
+        }}
+      >
+        <Table.Header columns={COLUMNS}>
+          {({ key, label }) => (
+            <Table.Column css={{ display: 'none' }} key={key}>
+              {label}
+            </Table.Column>
+          )}
+        </Table.Header>
+
+        <Table.Body items={rows} css={{ fontSize: '$xs' }}>
+          {(row) => (
+            <Table.Row key={row.property}>
+              {(columnKey: Key) => <Table.Cell>{row[columnKey as ColumnKey]}</Table.Cell>}
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table>
+    </>
   );
 };
 
