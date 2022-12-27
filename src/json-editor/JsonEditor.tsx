@@ -39,6 +39,7 @@ const _JsonEditor = () => {
             horizontal: 'hidden',
             vertical: 'hidden',
           },
+          overviewRulerLanes: 0,
         }}
         onChange={handleChange}
         defaultValue={DEFAULT_STRINGIFIED_JSON}

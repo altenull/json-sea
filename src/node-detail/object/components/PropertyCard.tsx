@@ -4,6 +4,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../../store/json-diagram-view/json-diagram-view.atom';
 import { seaNodesAndEdgesSelector } from '../../../store/json-engine/json-engine.selector';
 import { isArray, isObject, isString } from '../../../utils/json.util';
+import { ArrayInspector } from '../../array/components/ArrayInspector';
 import { JsonDataTypeText } from '../../components/JsonDataTypeText';
 import { PrimitiveInspector } from '../../primitive/components/PrimitiveInspector';
 import { PropertyKeyBadge } from './PropertyKeyBadge';
@@ -45,7 +46,7 @@ const _PropertyCard = ({ nodeId, propertyK, propertyV }: Props) => {
             View object
           </Button>
         ) : isArray(propertyV) ? (
-          <span>{JSON.stringify(propertyV)}</span>
+          <ArrayInspector array={propertyV} />
         ) : (
           <PrimitiveInspector value={propertyV} />
         )}
