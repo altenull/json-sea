@@ -1,6 +1,6 @@
 'use client';
 
-import { styled } from '@nextui-org/react';
+import { styled, Text } from '@nextui-org/react';
 import { memo, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { selectedSeaNodeSelector } from '../../store/json-diagram-view/json-diagram-view.selector';
@@ -11,6 +11,7 @@ import { isNull } from '../../utils/json.util';
 import { ArrayNodeDetail } from '../array/components/ArrayNodeDetail';
 import { ObjectNodeDetail } from '../object/components/ObjectNodeDetail';
 import { PrimitiveNodeDetail } from '../primitive/components/PrimitiveNodeDetail';
+import { NodeTypeText } from './NodeTypeText';
 
 const _NodeDetailPanel = () => {
   const selectedNode: SeaNode | null = useRecoilValue(selectedSeaNodeSelector);
@@ -25,11 +26,10 @@ const _NodeDetailPanel = () => {
   return (
     <StyledHost ref={hostRef}>
       {isNull(selectedNode) ? (
-        <h3>No selected node.</h3>
+        <Text h3>No selected node.</Text>
       ) : (
         <>
-          <h3>Node type ({selectedNode.type})</h3>
-          <br />
+          <NodeTypeText nodeType={selectedNode.type} />
 
           <>
             {selectedNode.type === NodeType.Object && (

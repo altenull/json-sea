@@ -2,7 +2,7 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
   "root-field-1": [
     10,
     20,
-    "AAA",
+    "https://s.pstatic.net/static/www/mobile/edit/20221223/mobile_115956303877.png",
     "BBB",
     true,
     false,
