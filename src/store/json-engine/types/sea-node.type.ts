@@ -21,6 +21,7 @@ export type ArrayNodeData = SharedNodeData & {
 
 export type PrimitiveNodeData = SharedNodeData & {
   dataType: JsonDataType.String | JsonDataType.Number | JsonDataType.Boolean | JsonDataType.Null;
+  arrayIndex: number;
   value: string | number | boolean | null;
 };
 

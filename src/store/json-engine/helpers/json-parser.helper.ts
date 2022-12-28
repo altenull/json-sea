@@ -77,10 +77,12 @@ const convertArrayToNode = ({
 const convertPrimitiveToNode = ({
   nodeId,
   depth,
+  arrayIndex,
   value,
 }: {
   nodeId: string;
   depth: number;
+  arrayIndex: number;
   value: string | number | boolean | null;
 }): SeaNode => {
   return {
@@ -95,6 +97,7 @@ const convertPrimitiveToNode = ({
         | JsonDataType.Boolean
         | JsonDataType.Null,
       stringifiedJson: JSON.stringify(value),
+      arrayIndex,
       value,
     },
   };
@@ -263,6 +266,7 @@ export const jsonParser = (
                 convertPrimitiveToNode({
                   nodeId: nextNodeId,
                   depth: nextDepth,
+                  arrayIndex,
                   value: arrayItem as string | number | boolean | null,
                 })
               );
@@ -328,6 +332,7 @@ export const jsonParser = (
             convertPrimitiveToNode({
               nodeId: nextNodeId,
               depth: nextDepth,
+              arrayIndex,
               value: arrayItem as string | number | boolean | null,
             })
           );
