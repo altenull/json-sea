@@ -36,9 +36,16 @@ const _PreviewOgMeta = ({ jsonLink }: Props) => {
       )}
 
       <Card.Footer css={{ display: 'block', p: '$xs' }}>
-        {isString(title) && <Text css={{ ...textEllipsisCss, fontSize: '$sm', fontWeight: '$bold' }}>{title}</Text>}
+        {isString(title) && (
+          <Text css={{ ...textEllipsisCss, fontSize: '$sm', fontWeight: '$bold' }} title={title}>
+            {title}
+          </Text>
+        )}
         {isString(description) && (
-          <Text css={{ ...textEllipsisCss, color: '$accents7', fontSize: '$xs', fontWeight: '$medium' }}>
+          <Text
+            css={{ ...textEllipsisCss, color: '$accents7', fontSize: '$xs', fontWeight: '$medium' }}
+            title={description}
+          >
             {description}
           </Text>
         )}
