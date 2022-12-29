@@ -23,13 +23,7 @@ const _ArrayNodeDetail = ({ nodeId, nodeData }: Props) => {
         <Text h3>Empty Array</Text>
       ) : (
         items.map((value: any, index: number) => (
-          <ArrayItemCard
-            key={index}
-            parentNodeId={nodeId}
-            arrayItemIndex={index}
-            arrayItemName={`something[${index}]`}
-            value={value}
-          />
+          <ArrayItemCard key={index} parentNodeId={nodeId} arrayItemIndex={index} value={value} />
         ))
       )}
     </NodeDetailList>

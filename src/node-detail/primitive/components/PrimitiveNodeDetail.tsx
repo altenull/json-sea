@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { PrimitiveNodeData } from '../../../store/json-engine/types/sea-node.type';
-import { ArrayItemCard } from '../../array/components/ArrayItemCard';
+import { ArrayItemPrimitiveCard } from '../../array/components/ArrayItemPrimitiveCard';
 
 type Props = {
   nodeId: string;
@@ -10,14 +10,7 @@ type Props = {
 const _PrimitiveNodeDetail = ({ nodeId, nodeData }: Props) => {
   const { arrayIndex, value } = nodeData;
 
-  return (
-    <ArrayItemCard
-      parentNodeId={nodeId}
-      arrayItemIndex={arrayIndex}
-      arrayItemName={`something[${arrayIndex}]`}
-      value={value}
-    />
-  );
+  return <ArrayItemPrimitiveCard nodeId={nodeId} arrayItemIndex={arrayIndex} value={value} />;
 };
 
 export const PrimitiveNodeDetail = memo(_PrimitiveNodeDetail);

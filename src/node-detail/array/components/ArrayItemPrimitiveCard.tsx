@@ -5,49 +5,47 @@ import {
   seaNodeEntitiesSelector,
   seaNodesAndEdgesSelector,
 } from '../../../store/json-engine/json-engine.selector';
-import { isObject } from '../../../utils/json.util';
 import { encloseSquareBrackets } from '../../../utils/string.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
 import { getForeArrayItemName } from '../helpers/array-item-name.helper';
 import { ArrayItemNameBadge } from './ArrayItemNameBadge';
 
 type Props = {
-  parentNodeId: string;
+  nodeId: string;
   arrayItemIndex: number;
-  value: any;
+  value: string | number | boolean | null;
 };
 
-const _ArrayItemCard = ({ parentNodeId, arrayItemIndex, value }: Props) => {
+/**
+ * Parent node is always a ArrayNode.
+ */
+const _ArrayItemPrimitiveCard = ({ nodeId, arrayItemIndex, value }: Props) => {
   const [, edges] = useRecoilValue(seaNodesAndEdgesSelector);
   const seaNodeEntities: SeaNodeEntities = useRecoilValue(seaNodeEntitiesSelector);
 
-  const selfNodeId: string = useMemo(() => {
-    const connectedNodeIds: string[] = edges.filter((edge) => edge.source === parentNodeId).map((edge) => edge.target);
-    const uniqConnectedNodeIds: string[] = Array.from(new Set(connectedNodeIds));
-
-    return uniqConnectedNodeIds[arrayItemIndex];
-  }, [edges, parentNodeId, arrayItemIndex]);
+  const parentNodeId: string = useMemo(
+    () => edges.find((edge) => edge.target === nodeId)?.source as string,
+    [edges, nodeId]
+  );
 
   const arrayItemName: string = useMemo(() => {
     const foreArrayItemName: string = getForeArrayItemName({
       seaNodeEntities,
       edges,
       parentNodeId,
-      selfNodeId,
+      selfNodeId: nodeId,
     });
 
     return `${foreArrayItemName}${encloseSquareBrackets(arrayItemIndex)}`;
-  }, [seaNodeEntities, edges, parentNodeId, selfNodeId, arrayItemIndex]);
-
-  const objectNodeId: string | null = useMemo(() => (isObject(value) ? selfNodeId : null), [value, selfNodeId]);
+  }, [seaNodeEntities, edges, parentNodeId, nodeId, arrayItemIndex]);
 
   return (
     <NodeDetailCard
       badge={<ArrayItemNameBadge arrayItemName={arrayItemName} />}
       value={value}
-      childObjectNodeId={objectNodeId}
+      childObjectNodeId={null}
     />
   );
 };
 
-export const ArrayItemCard = memo(_ArrayItemCard);
+export const ArrayItemPrimitiveCard = memo(_ArrayItemPrimitiveCard);
