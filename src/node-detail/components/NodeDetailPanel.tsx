@@ -39,7 +39,7 @@ const _NodeDetailPanel = () => {
               <ArrayNodeDetail nodeId={selectedNode.id} nodeData={selectedNode.data as ArrayNodeData} />
             )}
             {selectedNode.type === NodeType.Primitive && (
-              <PrimitiveNodeDetail nodeData={selectedNode.data as PrimitiveNodeData} />
+              <PrimitiveNodeDetail nodeId={selectedNode.id} nodeData={selectedNode.data as PrimitiveNodeData} />
             )}
           </>
         </>

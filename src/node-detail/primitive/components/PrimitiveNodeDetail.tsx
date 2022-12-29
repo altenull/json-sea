@@ -3,12 +3,21 @@ import { PrimitiveNodeData } from '../../../store/json-engine/types/sea-node.typ
 import { ArrayItemCard } from '../../array/components/ArrayItemCard';
 
 type Props = {
+  nodeId: string;
   nodeData: PrimitiveNodeData;
 };
 
-const _PrimitiveNodeDetail = ({ nodeData }: Props) => {
-  // TODO: get arrayItemName.
-  return <ArrayItemCard arrayItemName={`something[${nodeData.arrayIndex}]`} value={nodeData.value} />;
+const _PrimitiveNodeDetail = ({ nodeId, nodeData }: Props) => {
+  const { arrayIndex, value } = nodeData;
+
+  return (
+    <ArrayItemCard
+      parentNodeId={nodeId}
+      arrayItemIndex={arrayIndex}
+      arrayItemName={`something[${arrayIndex}]`}
+      value={value}
+    />
+  );
 };
 
 export const PrimitiveNodeDetail = memo(_PrimitiveNodeDetail);

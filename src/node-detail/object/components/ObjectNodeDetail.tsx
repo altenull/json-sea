@@ -1,6 +1,6 @@
-import { styled } from '@nextui-org/react';
 import { memo } from 'react';
 import { ObjectNodeData } from '../../../store/json-engine/types/sea-node.type';
+import { NodeDetailList } from '../../components/NodeDetailList';
 import { PropertyCard } from './PropertyCard';
 
 type Props = {
@@ -10,18 +10,12 @@ type Props = {
 
 const _ObjectNodeDetail = ({ nodeId, nodeData }: Props) => {
   return (
-    <StyledHost>
+    <NodeDetailList>
       {Object.entries(nodeData.obj).map(([propertyK, propertyV]) => (
         <PropertyCard key={propertyK} nodeId={nodeId} propertyK={propertyK} propertyV={propertyV} />
       ))}
-    </StyledHost>
+    </NodeDetailList>
   );
 };
-
-const StyledHost = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '$10',
-});
 
 export const ObjectNodeDetail = memo(_ObjectNodeDetail);
