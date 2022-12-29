@@ -1,4 +1,4 @@
-import { allFalseStringSubtypeValidator } from '../constants/string-subtype.constant';
+import { ALL_FALSE_STRING_SUBTYPE_VALIDATOR } from '../constants/string-subtype.constant';
 import { StringSubtype } from '../enums/string-subtype.enum';
 
 /**
@@ -49,28 +49,28 @@ export type StringSubtypeValidator = { [P in keyof typeof StringSubtype as `is${
 export const validateStringSubtype = async (v: string): Promise<StringSubtypeValidator> => {
   if (isValidColor(v)) {
     return {
-      ...allFalseStringSubtypeValidator,
+      ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
       isColor: true,
     };
   }
 
   if (isValidDate(v)) {
     return {
-      ...allFalseStringSubtypeValidator,
+      ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
       isDatetime: true,
     };
   }
 
   if (isValidEmail(v)) {
     return {
-      ...allFalseStringSubtypeValidator,
+      ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
       isEmail: true,
     };
   }
 
   if (await isValidImage(v)) {
     return {
-      ...allFalseStringSubtypeValidator,
+      ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
       isImage: true,
       isHttpUri: isValidHttpUri(v),
     };
@@ -78,10 +78,10 @@ export const validateStringSubtype = async (v: string): Promise<StringSubtypeVal
 
   if (isValidHttpUri(v)) {
     return {
-      ...allFalseStringSubtypeValidator,
+      ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
       isHttpUri: true,
     };
   }
 
-  return allFalseStringSubtypeValidator;
+  return ALL_FALSE_STRING_SUBTYPE_VALIDATOR;
 };
