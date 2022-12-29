@@ -58,8 +58,11 @@ const StyledHost = styled('div', {
 });
 
 const StyledImg = styled('img', {
-  width: '100%',
-  height: 'auto',
+  display: 'block',
+  width: 'auto',
+  height: '120px',
+  margin: 'auto',
+  boxShadow: '$md',
 });
 
 const StyledImageMetaContainer = styled('div', {
