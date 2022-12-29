@@ -35,7 +35,9 @@ const _NodeDetailPanel = () => {
             {selectedNode.type === NodeType.Object && (
               <ObjectNodeDetail nodeId={selectedNode.id} nodeData={selectedNode.data as ObjectNodeData} />
             )}
-            {selectedNode.type === NodeType.Array && <ArrayNodeDetail nodeData={selectedNode.data as ArrayNodeData} />}
+            {selectedNode.type === NodeType.Array && (
+              <ArrayNodeDetail nodeId={selectedNode.id} nodeData={selectedNode.data as ArrayNodeData} />
+            )}
             {selectedNode.type === NodeType.Primitive && (
               <PrimitiveNodeDetail nodeData={selectedNode.data as PrimitiveNodeData} />
             )}
