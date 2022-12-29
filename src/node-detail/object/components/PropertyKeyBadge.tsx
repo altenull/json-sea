@@ -1,6 +1,6 @@
 import { Badge } from '@nextui-org/react';
 import { memo } from 'react';
-import { doubleQuote } from '../../../utils/string.util';
+import { encloseDoubleQuote } from '../../../utils/string.util';
 
 type Props = {
   propertyK: string;
@@ -9,7 +9,7 @@ type Props = {
 const _PropertyKeyBadge = ({ propertyK }: Props) => {
   return (
     <Badge variant="flat" color="secondary" size="md">
-      {doubleQuote(propertyK)}
+      {encloseDoubleQuote(propertyK)}
     </Badge>
   );
 };

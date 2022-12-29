@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { doubleQuote } from '../../../utils/string.util';
+import { encloseDoubleQuote } from '../../../utils/string.util';
 import { useStringSubtypeValidator } from '../hooks/useStringSubtypeValidator';
 import { PreviewColor } from './PreviewColor';
 import { PreviewDatetime } from './PreviewDatetime';
@@ -17,7 +17,7 @@ const _StringInspector = ({ value }: Props) => {
 
   return (
     <>
-      <TextCopyBox text={doubleQuote(value)} />
+      <TextCopyBox text={encloseDoubleQuote(value)} />
       {isColor && <PreviewColor color={value} />}
       {isDatetime && <PreviewDatetime datetime={value} />}
       {isImage && !isHttpUri && <PreviewImage imageSrc={value} />}
