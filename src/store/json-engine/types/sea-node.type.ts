@@ -28,4 +28,8 @@ export type PrimitiveNodeData = SharedNodeData & {
 /**
  * @property data: ObjectNodeData | ArrayNodeData | PrimitiveNodeData;
  */
-export type SeaNode = Node<ObjectNodeData | ArrayNodeData | PrimitiveNodeData> & { type: NodeType };
+export type ObjectSeaNode = Node<ObjectNodeData> & { type: NodeType };
+export type ArraySeaNode = Node<ArrayNodeData> & { type: NodeType };
+export type PrimitiveSeaNode = Node<PrimitiveNodeData> & { type: NodeType };
+
+export type SeaNode = ObjectSeaNode | ArraySeaNode | PrimitiveSeaNode;
