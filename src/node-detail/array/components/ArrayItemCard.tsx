@@ -36,7 +36,7 @@ const _ArrayItemCard = ({ parentNodeId, arrayItemIndex, value }: Props) => {
       selfNodeId,
     });
 
-    return `${foreArrayItemName}${encloseSquareBrackets(arrayItemIndex)}`;
+    return foreArrayItemName.concat(encloseSquareBrackets(arrayItemIndex));
   }, [seaNodeEntities, edges, parentNodeId, selfNodeId, arrayItemIndex]);
 
   const objectNodeId: string | null = useMemo(() => (isObject(value) ? selfNodeId : null), [value, selfNodeId]);

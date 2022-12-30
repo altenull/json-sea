@@ -8,6 +8,8 @@ import { isArraySeaNode, isObjectSeaNode, isPrimitiveSeaNode } from '../../store
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { isNull } from '../../utils/json.util';
+import { useEnv } from '../../utils/react-hooks/useEnv';
+import { encloseDoubleQuote } from '../../utils/string.util';
 import { ArrayNodeDetail } from '../array/components/ArrayNodeDetail';
 import { ObjectNodeDetail } from '../object/components/ObjectNodeDetail';
 import { PrimitiveNodeDetail } from '../primitive/components/PrimitiveNodeDetail';
@@ -16,6 +18,8 @@ import { NodeTypeText } from './NodeTypeText';
 const _NodeDetailPanel = () => {
   const selectedNode: SeaNode | null = useRecoilValue(selectedSeaNodeSelector);
   const hostRef = useRef<HTMLDivElement | null>(null);
+
+  const { isLocalhost } = useEnv();
 
   useEffect(() => {
     if (!!hostRef?.current) {
@@ -30,6 +34,11 @@ const _NodeDetailPanel = () => {
       ) : (
         <>
           <NodeTypeText nodeType={selectedNode.type} />
+          {isLocalhost && (
+            <Text h5 color="warning">
+              nodeId: {encloseDoubleQuote(selectedNode.id)}
+            </Text>
+          )}
 
           <>
             {isObjectSeaNode(selectedNode) && (

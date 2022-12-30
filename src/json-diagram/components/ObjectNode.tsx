@@ -4,6 +4,7 @@ import { Handle, NodeProps, Position, useEdges } from 'reactflow';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
+import { useEnv } from '../../utils/react-hooks/useEnv';
 import { encloseDoubleQuote } from '../../utils/string.util';
 import { NodeShell } from './NodeShell';
 import { TargetHandle } from './TargetHandle';
@@ -18,6 +19,7 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
   const { obj, isRootNode } = data;
 
   const edges = useEdges();
+  const { isLocalhost } = useEnv();
 
   const renderProperties = useCallback(() => {
     return Object.entries(obj).map(([propertyK, propertyV]) => {
@@ -38,9 +40,11 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
     <NodeShell nodeId={id} nodeType={NodeType.Object}>
       {!isRootNode && <TargetHandle id={id} />}
 
-      <StyledNodeHeader>
-        I{`'`}m ObjectNode (id: {id})
-      </StyledNodeHeader>
+      {isLocalhost && (
+        <StyledNodeHeader>
+          I{`'`}m ObjectNode (id: {id})
+        </StyledNodeHeader>
+      )}
 
       {renderProperties()}
     </NodeShell>

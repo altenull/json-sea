@@ -1,10 +1,13 @@
 'use client';
 
-import { Image, Input, Navbar, Text } from '@nextui-org/react';
+import { Badge, Image, Input, Navbar, Text } from '@nextui-org/react';
 import { SearchIcon } from '../../ui/components/SearchIcon';
+import { useEnv } from '../../utils/react-hooks/useEnv';
 import { ThemeToggle } from './ThemeToggle';
 
 const _GlobalNav = () => {
+  const { isLocalhost } = useEnv();
+
   return (
     <Navbar isBordered isCompact maxWidth="fluid">
       <Navbar.Brand>
@@ -19,6 +22,16 @@ const _GlobalNav = () => {
           JSON Sea
         </Text>
       </Navbar.Brand>
+
+      {isLocalhost && (
+        <Badge
+          style={{ position: 'fixed', left: '50%', top: 0, transform: 'translateX(-50%)' }}
+          isSquared
+          color="warning"
+        >
+          Localhost
+        </Badge>
+      )}
 
       <Navbar.Content
         css={{

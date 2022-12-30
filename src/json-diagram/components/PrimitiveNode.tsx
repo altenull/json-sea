@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { NodeProps } from 'reactflow';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { PrimitiveNodeData } from '../../store/json-engine/types/sea-node.type';
+import { useEnv } from '../../utils/react-hooks/useEnv';
 import { NodeShell } from './NodeShell';
 import { TargetHandle } from './TargetHandle';
 
@@ -13,13 +14,17 @@ import { TargetHandle } from './TargetHandle';
  * target: always have.
  */
 const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
+  const { isLocalhost } = useEnv();
+
   return (
     <NodeShell nodeId={id} nodeType={NodeType.Primitive}>
       <TargetHandle id={id} />
 
-      <StyledNodeHeader>
-        I{`'`}m PrimitiveNode (id: {id})
-      </StyledNodeHeader>
+      {isLocalhost && (
+        <StyledNodeHeader>
+          I{`'`}m PrimitiveNode (id: {id})
+        </StyledNodeHeader>
+      )}
 
       <StyledPrimitive>{data.stringifiedJson}</StyledPrimitive>
     </NodeShell>

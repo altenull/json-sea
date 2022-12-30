@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { ArrayNodeData } from '../../store/json-engine/types/sea-node.type';
+import { useEnv } from '../../utils/react-hooks/useEnv';
 import { NodeShell } from './NodeShell';
 import { TargetHandle } from './TargetHandle';
 
@@ -15,14 +16,19 @@ import { TargetHandle } from './TargetHandle';
 const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
   const { arrayIndex, items } = data;
 
+  const { isLocalhost } = useEnv();
+
   return (
     <NodeShell nodeId={id} nodeType={NodeType.Array}>
       <TargetHandle id={id} />
 
-      <StyledNodeHeader>
-        I{`'`}m ArrayNode (id: {id})
-      </StyledNodeHeader>
+      {isLocalhost && (
+        <StyledNodeHeader>
+          I{`'`}m ArrayNode (id: {id})
+        </StyledNodeHeader>
+      )}
 
+      {/* TODO: Display arrayIndex. -> 'something[8]' */}
       <StyledArrayIndex>{arrayIndex}</StyledArrayIndex>
 
       {items.length > 0 && <Handle id={id} type="source" position={Position.Right} style={{ background: '#555' }} />}

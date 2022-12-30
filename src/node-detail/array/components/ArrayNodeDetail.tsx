@@ -10,17 +10,14 @@ type Props = {
 };
 
 const _ArrayNodeDetail = ({ nodeId, nodeData }: Props) => {
-  const { arrayIndex, items } = nodeData;
-
+  const { items } = nodeData;
   const isEmpty: boolean = items.length < 1;
 
   return (
     <NodeDetailList>
-      {/* TODO: Display arrayIndex. */}
-
       {isEmpty ? (
-        // Handle empty items.
-        <Text h3>Empty Array</Text>
+        // TODO: Handle empty items.
+        <Text h4>This is empty array.</Text>
       ) : (
         items.map((value: any, index: number) => (
           <ArrayItemCard key={index} parentNodeId={nodeId} arrayItemIndex={index} value={value} />

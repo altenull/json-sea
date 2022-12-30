@@ -1,5 +1,9 @@
 export const featureFlag = {
-  ogMetaPreview: false,
+  ogMetaPreview: true,
+};
+
+export const env = {
+  localhost: 'localhost',
 };
 
 export const endPoint = {
