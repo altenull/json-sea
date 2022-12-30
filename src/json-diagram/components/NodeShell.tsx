@@ -13,12 +13,11 @@ type Props = {
 
 const _NodeShell = ({ nodeId, nodeType, children }: Props) => {
   const [selectedNodeId, setSelectedNodeId] = useRecoilState(selectedNodeIdAtom);
-
   const { isLocalhost } = useEnv();
 
   return (
     <StyledHost isSelected={nodeId === selectedNodeId} nodeType={nodeType} onClick={() => setSelectedNodeId(nodeId)}>
-      {!isLocalhost && (
+      {isLocalhost && (
         <StyledNodeHeader>
           {nodeType} Node (nodeId: {nodeId})
         </StyledNodeHeader>
@@ -46,7 +45,7 @@ const StyledHost = styled('div', {
   variants: {
     isSelected: {
       true: {
-        backgroundColor: '$blue100',
+        backgroundColor: '$blue50',
       },
     },
     nodeType: {
@@ -54,10 +53,7 @@ const StyledHost = styled('div', {
         minWidth: sizes.primitiveNodeMinWidth,
         borderTopLeftRadius: '$3xl',
         borderBottomLeftRadius: '$3xl',
-        paddingTop: sizes.nodePadding,
-        paddingBottom: sizes.nodePadding,
-        paddingLeft: sizes.nodePadding,
-        paddingRight: 0,
+        padding: `${sizes.nodePadding} 0 ${sizes.nodePadding} ${sizes.nodePadding}`,
       },
       [NodeType.Array]: {
         borderRadius: '50%',
@@ -71,10 +67,7 @@ const StyledHost = styled('div', {
         minWidth: sizes.primitiveNodeMinWidth,
         borderTopLeftRadius: '9999px',
         borderBottomLeftRadius: '9999px',
-        paddingTop: sizes.nodePadding,
-        paddingBottom: sizes.nodePadding,
-        paddingLeft: sizes.nodePadding,
-        paddingRight: 0,
+        padding: `${sizes.nodePadding} 0 ${sizes.nodePadding} ${sizes.nodePadding}`,
       },
     },
   },
@@ -93,7 +86,7 @@ const StyledLeftCenterTip = styled('span', {
   minHeight: '24px',
   borderTop: '12px solid transparent',
   borderBottom: '12px solid transparent',
-  borderRight: '10px solid $gray500',
+  borderRight: '10px solid $gray400',
 });
 
 export const NodeShell = _NodeShell;
