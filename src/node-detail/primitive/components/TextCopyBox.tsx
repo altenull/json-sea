@@ -30,7 +30,10 @@ const _TextCopyBox = ({ text }: Props) => {
         </StyledBadge>
       )}
 
-      <Text css={{ overflowX: 'auto', textAlign: 'right' }} weight="medium">
+      <Text
+        css={{ overflowX: 'auto', whiteSpace: 'nowrap', wordBreak: 'break-all', textAlign: 'right' }}
+        weight="medium"
+      >
         {text}
       </Text>
     </StyledHost>
