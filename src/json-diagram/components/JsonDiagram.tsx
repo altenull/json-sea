@@ -65,7 +65,7 @@ const _JsonDiagram = () => {
             minHeight: '100%',
           }}
           className="json-diagram-react-flow"
-          fitView
+          // fitView
           nodeTypes={nodeTypes}
           nodes={seaNodes}
           edges={edges}

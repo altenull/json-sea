@@ -4,8 +4,8 @@ import { Handle, NodeProps, Position, useEdges } from 'reactflow';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
-import { useEnv } from '../../utils/react-hooks/useEnv';
 import { encloseDoubleQuote } from '../../utils/string.util';
+import { handleStyle } from '../styles/handle.style';
 import { NodeShell } from './NodeShell';
 import { TargetHandle } from './TargetHandle';
 
@@ -19,7 +19,6 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
   const { obj, isRootNode } = data;
 
   const edges = useEdges();
-  const { isLocalhost } = useEnv();
 
   const renderProperties = useCallback(() => {
     return Object.entries(obj).map(([propertyK, propertyV]) => {
@@ -30,7 +29,7 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
         <StyledField key={propertyK}>
           <span style={{ color: 'blueviolet' }}>{encloseDoubleQuote(propertyK)}</span>
           {isPrimitiveData && <span>{JSON.stringify(propertyV)}</span>}
-          {hasChild && <Handle id={propertyK} type="source" position={Position.Right} style={{ background: '#555' }} />}
+          {hasChild && <Handle style={handleStyle} id={propertyK} type="source" position={Position.Right} />}
         </StyledField>
       );
     });
@@ -40,20 +39,10 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
     <NodeShell nodeId={id} nodeType={NodeType.Object}>
       {!isRootNode && <TargetHandle id={id} />}
 
-      {isLocalhost && (
-        <StyledNodeHeader>
-          I{`'`}m ObjectNode (id: {id})
-        </StyledNodeHeader>
-      )}
-
       {renderProperties()}
     </NodeShell>
   );
 };
-
-const StyledNodeHeader = styled('h4', {
-  fontSize: '22px',
-});
 
 const StyledField = styled('div', {
   position: 'relative',

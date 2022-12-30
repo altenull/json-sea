@@ -1,9 +1,9 @@
-import { styled } from '@nextui-org/react';
+import { Text } from '@nextui-org/react';
 import { memo } from 'react';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { ArrayNodeData } from '../../store/json-engine/types/sea-node.type';
-import { useEnv } from '../../utils/react-hooks/useEnv';
+import { handleStyle } from '../styles/handle.style';
 import { NodeShell } from './NodeShell';
 import { TargetHandle } from './TargetHandle';
 
@@ -16,36 +16,17 @@ import { TargetHandle } from './TargetHandle';
 const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
   const { arrayIndex, items } = data;
 
-  const { isLocalhost } = useEnv();
+  const isEmpty: boolean = items.length < 1;
 
   return (
     <NodeShell nodeId={id} nodeType={NodeType.Array}>
       <TargetHandle id={id} />
 
-      {isLocalhost && (
-        <StyledNodeHeader>
-          I{`'`}m ArrayNode (id: {id})
-        </StyledNodeHeader>
-      )}
+      <Text css={{ margin: 'auto' }}>{arrayIndex}</Text>
 
-      {/* TODO: Display arrayIndex. -> 'something[8]' */}
-      <StyledArrayIndex>{arrayIndex}</StyledArrayIndex>
-
-      {items.length > 0 && <Handle id={id} type="source" position={Position.Right} style={{ background: '#555' }} />}
+      {!isEmpty && <Handle style={handleStyle} id={id} type="source" position={Position.Right} />}
     </NodeShell>
   );
 };
-
-const StyledNodeHeader = styled('h4', {
-  fontSize: '22px',
-});
-
-const StyledArrayIndex = styled('div', {
-  border: '1px solid $gray400',
-  padding: '4px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-});
 
 export const ArrayNode = memo(_ArrayNode);

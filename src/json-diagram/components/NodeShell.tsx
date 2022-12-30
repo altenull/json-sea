@@ -1,8 +1,9 @@
 import { styled } from '@nextui-org/react';
-import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
+import { sizes } from '../../ui/constants/sizes.constant';
+import { useEnv } from '../../utils/react-hooks/useEnv';
 
 type Props = {
   nodeId: string;
@@ -13,23 +14,30 @@ type Props = {
 const _NodeShell = ({ nodeId, nodeType, children }: Props) => {
   const [selectedNodeId, setSelectedNodeId] = useRecoilState(selectedNodeIdAtom);
 
-  const handleClick = useCallback(() => {
-    setSelectedNodeId(nodeId);
-  }, [nodeId, setSelectedNodeId]);
+  const { isLocalhost } = useEnv();
 
   return (
-    <StyledHost isSelected={nodeId === selectedNodeId} nodeType={nodeType} onClick={handleClick}>
+    <StyledHost isSelected={nodeId === selectedNodeId} nodeType={nodeType} onClick={() => setSelectedNodeId(nodeId)}>
+      {!isLocalhost && (
+        <StyledNodeHeader>
+          {nodeType} Node (nodeId: {nodeId})
+        </StyledNodeHeader>
+      )}
+
+      {nodeType === NodeType.Object && <StyledLeftCenterTip />}
+
       {children}
     </StyledHost>
   );
 };
 
-// TODO: Styling
 const StyledHost = styled('div', {
   position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
   backgroundColor: '$background',
   border: '2px solid $gray400',
-  padding: '8px',
+  maxWidth: sizes.nodeMaxWidth,
 
   '&:hover': {
     border: '2px solid $gray500',
@@ -43,17 +51,49 @@ const StyledHost = styled('div', {
     },
     nodeType: {
       [NodeType.Object]: {
-        borderRadius: '4px',
+        minWidth: sizes.primitiveNodeMinWidth,
+        borderTopLeftRadius: '$3xl',
+        borderBottomLeftRadius: '$3xl',
+        paddingTop: sizes.nodePadding,
+        paddingBottom: sizes.nodePadding,
+        paddingLeft: sizes.nodePadding,
+        paddingRight: 0,
       },
       [NodeType.Array]: {
         borderRadius: '50%',
+        padding: '0',
+        minWidth: sizes.arrayNodeSize,
+        minHeight: sizes.arrayNodeSize,
+        maxWidth: sizes.arrayNodeSize,
+        maxHeight: sizes.arrayNodeSize,
       },
       [NodeType.Primitive]: {
-        borderTopLeftRadius: '50%',
-        borderBottomLeftRadius: '50%',
+        minWidth: sizes.primitiveNodeMinWidth,
+        borderTopLeftRadius: '9999px',
+        borderBottomLeftRadius: '9999px',
+        paddingTop: sizes.nodePadding,
+        paddingBottom: sizes.nodePadding,
+        paddingLeft: sizes.nodePadding,
+        paddingRight: 0,
       },
     },
   },
+});
+
+const StyledNodeHeader = styled('h4', {
+  fontSize: '22px',
+});
+
+const StyledLeftCenterTip = styled('span', {
+  position: 'absolute',
+  left: '-24px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  minWidth: '24px',
+  minHeight: '24px',
+  borderTop: '12px solid transparent',
+  borderBottom: '12px solid transparent',
+  borderRight: '10px solid $gray500',
 });
 
 export const NodeShell = _NodeShell;
