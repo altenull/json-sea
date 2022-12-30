@@ -33,7 +33,10 @@ const _NodeDetailPanel = () => {
         <Text h3>No selected node.</Text>
       ) : (
         <>
-          <NodeTypeText nodeType={selectedNode.type} />
+          <NodeTypeText
+            nodeType={selectedNode.type}
+            isRootNode={isObjectSeaNode(selectedNode) && selectedNode.data.isRootNode}
+          />
           {isLocalhost && (
             <Text h5 color="warning">
               nodeId: {encloseDoubleQuote(selectedNode.id)}

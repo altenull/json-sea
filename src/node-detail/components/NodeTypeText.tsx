@@ -4,9 +4,10 @@ import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 
 type Props = {
   nodeType: NodeType;
+  isRootNode: boolean;
 };
 
-const _NodeTypeText = ({ nodeType }: Props) => {
+const _NodeTypeText = ({ nodeType, isRootNode }: Props) => {
   const nodeTypeToTextMap: Record<NodeType, string> = useMemo(
     () => ({
       [NodeType.Object]: 'Object',
@@ -16,7 +17,12 @@ const _NodeTypeText = ({ nodeType }: Props) => {
     []
   );
 
-  return <Text h3>{nodeTypeToTextMap[nodeType]}</Text>;
+  return (
+    <Text h3>
+      {nodeTypeToTextMap[nodeType]}
+      {isRootNode && ' (root)'}
+    </Text>
+  );
 };
 
 export const NodeTypeText = memo(_NodeTypeText);
