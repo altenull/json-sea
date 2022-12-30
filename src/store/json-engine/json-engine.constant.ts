@@ -1,142 +1,74 @@
 export const DEFAULT_STRINGIFIED_JSON: string = `{
-  "root-field-1": [
-    10,
-    20,
-    "https://s.pstatic.net/static/www/mobile/edit/20221223/mobile_115956303877.png",
-    "BBB",
-    true,
-    false,
-    null,
+  "app_name": "JSON Sea",
+  "created_year": 2022,
+  "release_date": "2022-12-30T06:08:26.180Z",
+  "active": true,
+  "primary_color": "#fff000",
+  "null_field": null,
+  "sea_img_url": "https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  "random_members": [
     {
-      "field1-1": true,
-      "field1-2": false,
-      "field1-3": [
-        100,
-        [],
-        200,
-        [],
-        300,
-        {
-          "field1-3-1": 131,
-          "field1-3-2": 132
-        }
-      ]
+      "id": 1,
+      "first_name": "Torrin",
+      "last_name": "Chaimson",
+      "preferred_color": "#315e33",
+      "birth": "2022-10-23T00:30:51Z",
+      "random_url": "https://wikimedia.org/justo.aspx?nisi=vivamus&volutpat=in&eleifend=felis",
+      "random_img_url": "http://dummyimage.com/136x207.png/dddddd/000000"
     },
-    [],
-    []
-  ],
-  "root-field-2": 200.123451234512345,
-  "root-field-3": 3123,
-  "root-field-4": "Root Field 4",
-  "root-field-5": "Root Field 5",
-  "root-field-6": {
-    "boolean_true": true,
-    "boolean_false": false,
-    "field_null": null,
-    "id": 1,
-    "first_name": "Patrick",
-    "last_name": "Conquest",
-    "email": "pconquest0@state.tx.us",
-    "gender": "Male",
-    "ip_address": "60.253.130.221",
-    "color": "#86720b",
-    "color2": "rgba(30%, 60%, 25%)",
-    "color3": "rgba(72, 122, 180, .2)",
-    "http_url": "https://www.naver.com/",
-    "img_url": "https://s.pstatic.net/static/www/mobile/edit/20221223/mobile_115956303877.png",
-    "date": "2022-12-26T06:20:59Z",
-    "date2": "2023-09-26T07:52:59Z",
-    "field6-inner1": {
+    {
       "id": 2,
-      "first_name": "Corry",
-      "last_name": "Eddleston",
-      "email": "ceddleston1@nature.com",
-      "gender": "Genderfluid",
-      "ip_address": "172.54.76.241",
-      "color": "#ff460a",
-      "img_url": "http://dummyimage.com/178x100.png/ff4444/ffffff",
-      "date": "2022-08-10T08:25:34Z"
+      "first_name": "Iggy",
+      "last_name": "Dymick",
+      "preferred_color": "#aef195",
+      "birth": "2022-07-13T13:03:36Z",
+      "random_url": "http://etsy.com/cum/sociis/natoque/penatibus/et/magnis.html?dui=vel",
+      "random_img_url": "http://dummyimage.com/109x260.png/dddddd/000000"
     },
-    "field6-inner2": {
+    {
       "id": 3,
-      "first_name": "Keelby",
-      "last_name": "Ganley",
-      "email": "kganley2@sohu.com",
-      "gender": "Male",
-      "ip_address": "50.171.246.80",
-      "color": "#c3ca02",
-      "img_url": "http://dummyimage.com/126x100.png/ff4444/ffffff",
-      "date": "2022-06-03T19:59:14Z"
+      "first_name": "Lowell",
+      "last_name": "Orsman",
+      "preferred_color": "#f7a2e2",
+      "birth": "2022-12-13T18:06:06Z",
+      "random_url": "https://cbc.ca/nunc/commodo/placerat/praesent/blandit/nam.aspx?ipsum=felis&aliquam=ut",
+      "random_img_url": "http://dummyimage.com/127x233.png/ff4444/ffffff"
+    },
+    {
+      "id": 4,
+      "first_name": "Ulla",
+      "last_name": "Tyas",
+      "preferred_color": "#534161",
+      "birth": "2022-02-17T11:17:30Z",
+      "random_url": "http://google.ca/nullam/molestie.png?amet=ut&lobortis=odio&sapien=cras&sapien=mi",
+      "random_img_url": "http://dummyimage.com/105x248.png/ff4444/ffffff"
+    }
+  ],
+  "complex_object": {
+    "field_1": 234828153200,
+    "field_2": 2123451234.2214,
+    "field_3": {
+      "field_3-1": true,
+      "field_3-2": false,
+      "field_3-3": [
+        "J",
+        "S",
+        "O",
+        "N",
+        "S",
+        "E",
+        "A",
+        [
+          2,
+          0,
+          2,
+          2,
+          {
+            "inner_field_1": 1,
+            "inner_field_2": 2
+          }
+        ]
+      ]
     }
   }
 }`;
-
-// export const DEFAULT_STRINGIFIED_JSON: string = `
-// {
-//   "field1": 1,
-//   "field2": 2,
-//   "field3": 3,
-//   "field4": 4,
-//   "field5": "5",
-//   "field6": "6",
-//   "field7": "7",
-//   "field8": true,
-//   "field9": true,
-//   "array": [
-//     {
-//       "id": 1,
-//       "first_name": "Patrick",
-//       "last_name": "Conquest",
-//       "email": "pconquest0@state.tx.us",
-//       "gender": "Male",
-//       "ip_address": "60.253.130.221",
-//       "color": "#86720b",
-//       "img_url": "http://dummyimage.com/218x100.png/cc0000/ffffff",
-//       "date": "2022-09-26T07:52:59Z"
-//     },
-//     {
-//       "id": 2,
-//       "first_name": "Corry",
-//       "last_name": "Eddleston",
-//       "email": "ceddleston1@nature.com",
-//       "gender": "Genderfluid",
-//       "ip_address": "172.54.76.241",
-//       "color": "#ff460a",
-//       "img_url": "http://dummyimage.com/178x100.png/ff4444/ffffff",
-//       "date": "2022-08-10T08:25:34Z"
-//     },
-//     {
-//       "id": 3,
-//       "first_name": "Keelby",
-//       "last_name": "Ganley",
-//       "email": "kganley2@sohu.com",
-//       "gender": "Male",
-//       "ip_address": "50.171.246.80",
-//       "color": "#c3ca02",
-//       "img_url": "http://dummyimage.com/126x100.png/ff4444/ffffff",
-//       "date": "2022-06-03T19:59:14Z"
-//     },
-//     {
-//       "id": 4,
-//       "first_name": "Dion",
-//       "last_name": "Ordidge",
-//       "email": "dordidge3@cornell.edu",
-//       "gender": "Male",
-//       "ip_address": "167.101.244.112",
-//       "color": "#3c11ee",
-//       "img_url": "http://dummyimage.com/208x100.png/cc0000/ffffff",
-//       "date": "2021-10-14T19:18:44Z"
-//     },
-//     {
-//       "id": 5,
-//       "first_name": "Janos",
-//       "last_name": "Olivia",
-//       "email": "jolivia4@sbwire.com",
-//       "gender": "Male",
-//       "ip_address": "29.74.108.123",
-//       "color": "#01d8e3",
-//       "img_url": "http://dummyimage.com/245x100.png/cc0000/ffffff",
-//       "date": "2022-08-24T18:46:14Z"
-//     }
-//   ]
-// }`;
