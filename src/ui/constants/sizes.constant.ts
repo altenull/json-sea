@@ -1,12 +1,13 @@
 export const sizes = {
-  jsonEditorWidth: '320px',
-  nodeDetailPanelWidth: '420px',
-  globalNavHeight: '54px', // height of <Navbar isCompacted>
+  jsonEditorWidth: 320,
+  nodeDetailPanelWidth: 420,
+  globalNavHeight: 54, // height of <Navbar isCompacted>
 
   // Node
-  nodeMaxWidth: '440px',
-  arrayNodeSize: '64px',
-  primitiveNodeMinWidth: '220px',
-  nodeContentHeight: '40px',
-  nodePadding: '12px',
+  nodeMaxWidth: 440,
+  nodeGap: 100,
+  arrayNodeSize: 64,
+  primitiveNodeMinWidth: 220,
+  nodeContentHeight: 40,
+  nodePadding: 12,
 };

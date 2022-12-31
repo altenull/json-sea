@@ -18,7 +18,7 @@ const _ObjectNodeProperty = ({ propertyK, propertyV, hasChildNode }: Props) => {
 
   return (
     <StyledHost>
-      <Text color="primary" css={{ marginRight: '$8' }}>
+      <Text color="primary" weight="semibold" css={{ marginRight: '$8' }}>
         {encloseDoubleQuote(propertyK)}
       </Text>
 
@@ -52,7 +52,7 @@ const StyledHost = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  paddingRight: '$2',
+  paddingRight: '$4',
 
   '& + &': {
     borderTop: '1px solid $gray400',

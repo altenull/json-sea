@@ -16,7 +16,7 @@ const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
   const textCss: CSS = useMemo(
     () => ({
       textAlign: 'center',
-      paddingRight: '$2',
+      paddingRight: '$4',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',

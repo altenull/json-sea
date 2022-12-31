@@ -1,4 +1,5 @@
 import { Edge, MarkerType, XYPosition } from 'reactflow';
+import { sizes } from '../../../ui/constants/sizes.constant';
 import { isString } from '../../../utils/json.util';
 import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
@@ -21,7 +22,7 @@ const formatEdgeId = ({
 };
 
 const getXYPosition = (depth: number): XYPosition => {
-  return { x: depth * 500, y: 50 } as XYPosition;
+  return { x: depth * sizes.nodeMaxWidth + depth * sizes.nodeGap, y: 50 } as XYPosition;
 };
 
 const convertObjectToNode = ({

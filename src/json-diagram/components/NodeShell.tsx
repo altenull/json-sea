@@ -53,7 +53,7 @@ const StyledHost = styled('div', {
         minWidth: sizes.primitiveNodeMinWidth,
         borderTopLeftRadius: '$3xl',
         borderBottomLeftRadius: '$3xl',
-        padding: `${sizes.nodePadding} 0 ${sizes.nodePadding} ${sizes.nodePadding}`,
+        padding: `${sizes.nodePadding}px 0 ${sizes.nodePadding}px ${sizes.nodePadding}px`,
       },
       [NodeType.Array]: {
         borderRadius: '50%',
@@ -67,7 +67,7 @@ const StyledHost = styled('div', {
         minWidth: sizes.primitiveNodeMinWidth,
         borderTopLeftRadius: '9999px',
         borderBottomLeftRadius: '9999px',
-        padding: `${sizes.nodePadding} 0 ${sizes.nodePadding} ${sizes.nodePadding}`,
+        padding: `${sizes.nodePadding}px 0 ${sizes.nodePadding}px ${sizes.nodePadding}px`,
       },
     },
   },
