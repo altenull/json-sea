@@ -14,7 +14,7 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
       "preferred_color": "#315e33",
       "birth": "2022-10-23T00:30:51Z",
       "random_url": "https://wikimedia.org/justo.aspx?nisi=vivamus&volutpat=in&eleifend=felis",
-      "random_img_url": "http://dummyimage.com/136x207.png/dddddd/000000"
+      "random_img_url": "http://dummyimage.com/136x207.png"
     },
     {
       "id": 2,
@@ -23,7 +23,7 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
       "preferred_color": "#aef195",
       "birth": "2022-07-13T13:03:36Z",
       "random_url": "http://etsy.com/cum/sociis/natoque/penatibus/et/magnis.html?dui=vel",
-      "random_img_url": "http://dummyimage.com/109x260.png/dddddd/000000"
+      "random_img_url": "http://dummyimage.com/109x260.png"
     },
     {
       "id": 3,
@@ -32,16 +32,7 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
       "preferred_color": "#f7a2e2",
       "birth": "2022-12-13T18:06:06Z",
       "random_url": "https://cbc.ca/nunc/commodo/placerat/praesent/blandit/nam.aspx?ipsum=felis&aliquam=ut",
-      "random_img_url": "http://dummyimage.com/127x233.png/ff4444/ffffff"
-    },
-    {
-      "id": 4,
-      "first_name": "Ulla",
-      "last_name": "Tyas",
-      "preferred_color": "#534161",
-      "birth": "2022-02-17T11:17:30Z",
-      "random_url": "http://google.ca/nullam/molestie.png?amet=ut&lobortis=odio&sapien=cras&sapien=mi",
-      "random_img_url": "http://dummyimage.com/105x248.png/ff4444/ffffff"
+      "random_img_url": "http://dummyimage.com/127x233.png"
     }
   ],
   "complex_object": {

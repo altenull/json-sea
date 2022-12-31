@@ -4,7 +4,7 @@ import { memo, useEffect, useState } from 'react';
 import { isNull, isString } from '../../../utils/json.util';
 
 type Props = {
-  imageSrc: string;
+  imageSrc: `data:image/${string}` | `http:${string}` | `https:${string}`;
 };
 
 type ImageMeta = {
@@ -16,20 +16,23 @@ const _ImageViewer = ({ imageSrc }: Props) => {
   const [imageMeta, setImageMeta] = useState<ImageMeta | null>(null);
 
   useEffect(() => {
-    // TODO: Determine whether imageSrc is a link or not.
-    fetch(imageSrc, { method: 'HEAD' }).then((response) => {
-      if (response.ok) {
-        const contentLength: string | null = response.headers.get('Content-Length');
-        const contentType: string | null = response.headers.get('Content-Type');
+    if (imageSrc.startsWith('http:') || imageSrc.startsWith('https:')) {
+      try {
+        fetch(imageSrc, { method: 'HEAD' }).then((response) => {
+          if (response.ok) {
+            const contentLength: string | null = response.headers.get('Content-Length');
+            const contentType: string | null = response.headers.get('Content-Type');
 
-        if (isString(contentLength) && isString(contentType)) {
-          setImageMeta({
-            type: contentType,
-            size: Number(contentLength),
-          });
-        }
-      }
-    });
+            if (isString(contentLength) && isString(contentType)) {
+              setImageMeta({
+                type: contentType,
+                size: Number(contentLength),
+              });
+            }
+          }
+        });
+      } catch (e) {}
+    }
   }, [imageSrc]);
 
   return (

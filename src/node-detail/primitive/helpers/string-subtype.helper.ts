@@ -22,14 +22,20 @@ const isValidEmail = (dirtyEmail: string): boolean => {
   return emailRegex.test(dirtyEmail.toLowerCase());
 };
 
-const isValidImage = (dirtyImage: string): Promise<boolean> => {
-  const img = new Image();
-  img.src = dirtyImage;
+const isValidImage = (dirtyImage: string, isHttpUri: boolean): Promise<boolean> => {
+  if (dirtyImage.startsWith('data:image/') || isHttpUri) {
+    const img = new Image();
+    img.src = dirtyImage;
 
-  return new Promise((resolve) => {
-    img.onerror = () => resolve(false);
-    img.onload = () => resolve(true);
-  });
+    return new Promise((resolve) => {
+      img.onerror = () => resolve(false);
+      img.onload = () => resolve(true);
+    });
+  } else {
+    return new Promise((resolve) => {
+      resolve(false);
+    });
+  }
 };
 
 const isValidHttpUri = (dirtyHttpUri: string): boolean => {
@@ -68,18 +74,20 @@ export const validateStringSubtype = async (v: string): Promise<StringSubtypeVal
     };
   }
 
-  if (await isValidImage(v)) {
+  const isHttpUri: boolean = isValidHttpUri(v);
+
+  if (await isValidImage(v, isHttpUri)) {
     return {
       ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
       isImage: true,
-      isHttpUri: isValidHttpUri(v),
+      isHttpUri,
     };
   }
 
-  if (isValidHttpUri(v)) {
+  if (isHttpUri) {
     return {
       ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
-      isHttpUri: true,
+      isHttpUri,
     };
   }
 
