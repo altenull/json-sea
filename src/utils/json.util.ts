@@ -60,3 +60,14 @@ export const isValidJson = (code: string): boolean => {
     return false;
   }
 };
+
+export const downloadAsJsonFile = (stringifiedJson: string, fileName: string): void => {
+  const anchor: HTMLAnchorElement = document.createElement('a');
+
+  anchor.style.display = 'none';
+  anchor.href = `data:text/json;charset=utf8,${encodeURIComponent(stringifiedJson)}`;
+  anchor.download = fileName;
+
+  anchor.click();
+  anchor.remove();
+};
