@@ -1,10 +1,11 @@
 'use client';
 
 import { Button, FormElement, Input, Modal, Row, Text } from '@nextui-org/react';
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
 import { isObject, isValidJson } from '../../utils/json.util';
+import { useString } from '../../utils/react-hooks/useString';
 
 type Props = {
   isModalOpen: boolean;
@@ -12,17 +13,20 @@ type Props = {
 };
 
 const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
-  const [jsonUrlValue, setJsonUrlValue] = useState<string>('');
+  const { string: jsonUrlValue, isEmpty: isJsonUrlValueEmpty, setString: setJsonUrlValue } = useString();
 
   const setStringifiedJson = useSetRecoilState(stringifiedJsonAtom);
   const setLatestValidStringifiedJson = useSetRecoilState(latestValidStringifiedJsonAtom);
 
-  const handleJsonUrlValueChange = useCallback((e: React.ChangeEvent<FormElement>) => {
-    setJsonUrlValue(e.target.value);
-  }, []);
+  const handleJsonUrlValueChange = useCallback(
+    (e: React.ChangeEvent<FormElement>) => {
+      setJsonUrlValue(e.target.value);
+    },
+    [setJsonUrlValue]
+  );
 
   const handleJsonUrlInputKeyDown: React.KeyboardEventHandler<FormElement> = (e: React.KeyboardEvent<FormElement>) => {
-    if (e.key === 'Enter' && jsonUrlValue.length > 0) {
+    if (e.key === 'Enter' && !isJsonUrlValueEmpty) {
       fetchJsonUrl();
     }
   };
@@ -66,7 +70,7 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
             onChange={handleJsonUrlValueChange}
             onKeyDown={handleJsonUrlInputKeyDown}
           />
-          <Button auto flat disabled={jsonUrlValue.length < 1} onClick={fetchJsonUrl}>
+          <Button auto flat disabled={isJsonUrlValueEmpty} onClick={fetchJsonUrl}>
             Fetch
           </Button>
         </Row>
