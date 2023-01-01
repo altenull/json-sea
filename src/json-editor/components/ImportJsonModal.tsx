@@ -6,6 +6,7 @@ import { useSetRecoilState } from 'recoil';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
 import { isObject, isValidJson } from '../../utils/json.util';
 import { useString } from '../../utils/react-hooks/useString';
+import { DragDropJsonFile } from './DragDropJsonFile';
 
 type Props = {
   isModalOpen: boolean;
@@ -75,8 +76,7 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
           </Button>
         </Row>
 
-        {/* TODO: File input with drag&drop */}
-        <div style={{ width: '100%', height: '120px', backgroundColor: '#999999' }}>File Drop zone</div>
+        <DragDropJsonFile successCallback={closeModal} />
       </Modal.Body>
     </Modal>
   );
