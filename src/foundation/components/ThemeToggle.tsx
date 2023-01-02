@@ -1,17 +1,18 @@
 'use client';
 
-import { Button, useTheme } from '@nextui-org/react';
+import { useTheme } from '@nextui-org/react';
 import { useTheme as useNextThemes } from 'next-themes';
+import { CircleTransparentButton } from '../../ui/components/CircleTransparentButton';
+import { Icon } from '../../ui/icon/Icon';
 
 const _ThemeToggle = () => {
+  const { isDark, theme } = useTheme();
   const { setTheme } = useNextThemes();
-  const { isDark } = useTheme();
 
   return (
-    // TODO: Change to theme icons (e.g. Sun & Moon).
-    <Button bordered size="sm" color="warning" onClick={() => setTheme(isDark ? 'light' : 'dark')}>
-      {isDark ? 'To light' : 'To dark'}
-    </Button>
+    <CircleTransparentButton onClick={() => setTheme(isDark ? 'light' : 'dark')}>
+      <Icon icon={isDark ? 'sun' : 'moon'} size={24} color={theme?.colors.accents8.value} />
+    </CircleTransparentButton>
   );
 };
 

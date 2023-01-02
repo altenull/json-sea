@@ -23,6 +23,7 @@ const _Icon = ({ icon, size, color = '#000000', style, onClick }: Props) => {
         width: size,
         height: size,
         cursor: typeof onClick === 'function' ? 'pointer' : 'initial',
+        pointerEvents: typeof onClick === 'function' ? 'initial' : 'none',
         ...style,
       }}
       onClick={onClick}
