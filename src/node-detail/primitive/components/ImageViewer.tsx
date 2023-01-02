@@ -1,6 +1,6 @@
 import { styled, Text } from '@nextui-org/react';
 import prettyBytes from 'pretty-bytes';
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { isNull, isString } from '../../../utils/json.util';
 
 type Props = {
@@ -12,11 +12,15 @@ type ImageMeta = {
   size: number; // bytes
 };
 
+const startsWithHttpOrHttps = (v: string): v is `http:${string}` | `https:${string}` => {
+  return v.startsWith('http:') || v.startsWith('https:');
+};
+
 const _ImageViewer = ({ imageSrc }: Props) => {
   const [imageMeta, setImageMeta] = useState<ImageMeta | null>(null);
 
   useEffect(() => {
-    if (imageSrc.startsWith('http:') || imageSrc.startsWith('https:')) {
+    if (startsWithHttpOrHttps(imageSrc)) {
       try {
         fetch(imageSrc, { method: 'HEAD' }).then((response) => {
           if (response.ok) {
@@ -35,9 +39,13 @@ const _ImageViewer = ({ imageSrc }: Props) => {
     }
   }, [imageSrc]);
 
+  const handleImageClick = useCallback(() => {
+    window.open(imageSrc, '_blank', 'noopener,noreferrer');
+  }, [imageSrc]);
+
   return (
     <StyledHost>
-      <StyledImg src={imageSrc} alt="image preview" />
+      <StyledImg src={imageSrc} alt="image preview" onClick={handleImageClick} />
 
       {!isNull(imageMeta) && (
         <StyledImageMetaContainer>
@@ -66,6 +74,7 @@ const StyledImg = styled('img', {
   height: '120px',
   margin: 'auto',
   boxShadow: '$md',
+  cursor: 'pointer',
 });
 
 const StyledImageMetaContainer = styled('div', {

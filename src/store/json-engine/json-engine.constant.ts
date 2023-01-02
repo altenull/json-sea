@@ -5,6 +5,7 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
   "active": true,
   "primary_color": "#fff000",
   "null_field": null,
+  "google_url": "https://www.google.com/",
   "sea_img_url": "https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
   "random_members": [
     {
