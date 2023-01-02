@@ -1,7 +1,6 @@
 'use client';
 
-import { Badge, Image, Input, Navbar, Text } from '@nextui-org/react';
-import { SearchIcon } from '../../ui/components/SearchIcon';
+import { Badge, Image, Navbar, Text } from '@nextui-org/react';
 import { useEnv } from '../../utils/react-hooks/useEnv';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -50,33 +49,6 @@ const _GlobalNav = () => {
           }}
         >
           <ThemeToggle />
-        </Navbar.Item>
-
-        <Navbar.Item
-          css={{
-            '@xsMax': {
-              w: '100%',
-              jc: 'center',
-            },
-          }}
-        >
-          <Input
-            clearable
-            contentLeft={<SearchIcon fill="var(--nextui-colors-accents6)" size={16} />}
-            contentLeftStyling={false}
-            css={{
-              w: '100%',
-              '@xsMax': {
-                mw: '300px',
-              },
-              '& .nextui-input-content--left': {
-                h: '100%',
-                ml: '$4',
-                dflex: 'center',
-              },
-            }}
-            placeholder="Search..."
-          />
         </Navbar.Item>
       </Navbar.Content>
     </Navbar>
