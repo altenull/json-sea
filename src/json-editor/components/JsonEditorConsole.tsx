@@ -1,17 +1,33 @@
-import { Button, styled } from '@nextui-org/react';
-import { memo } from 'react';
+import { Button, ButtonProps, styled, Tooltip, useTheme } from '@nextui-org/react';
+import { memo, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
 import { isValidJsonSelector } from '../../store/json-engine/json-engine.selector';
+import { Icon } from '../../ui/icon/Icon';
 import { downloadAsJsonFile } from '../../utils/json.util';
 import { useBoolean } from '../../utils/react-hooks/useBoolean';
 import { ImportJsonModal } from './ImportJsonModal';
 
-const _JsonEditorConsole = () => {
+type Props = {
+  style?: React.CSSProperties;
+};
+
+const _JsonEditorConsole = ({ style }: Props) => {
   const isValidJson: boolean = useRecoilValue(isValidJsonSelector);
   const stringifiedJson: string = useRecoilValue(stringifiedJsonAtom);
 
   const { bool: isImportJsonModalOpen, setTrue: openImportJsonModal, setFalse: closeImportJsonModal } = useBoolean();
+  const { theme } = useTheme();
+
+  const sharedButtonProps: Partial<ButtonProps> = useMemo(
+    () =>
+      ({
+        light: true,
+        color: 'primary',
+        size: 'sm',
+      } as ButtonProps),
+    []
+  );
 
   const handleDownloadJsonClick = () => {
     downloadAsJsonFile(stringifiedJson, 'json-sea.json');
@@ -21,29 +37,34 @@ const _JsonEditorConsole = () => {
     <>
       <ImportJsonModal isModalOpen={isImportJsonModalOpen} closeModal={closeImportJsonModal} />
 
-      <StyledHost>
-        {/* TODO: Button UI */}
-        <Button flat size="sm" onClick={openImportJsonModal}>
-          Import JSON
-        </Button>
-        <Button size="sm" disabled={!isValidJson} onClick={handleDownloadJsonClick}>
-          Download JSON
-        </Button>
+      <StyledHost style={style}>
+        <Tooltip content="Import JSON" color="primary">
+          <Button
+            {...sharedButtonProps}
+            icon={<Icon icon="file-plus" size={24} color={theme?.colors.primary.value} />}
+            onClick={openImportJsonModal}
+          />
+        </Tooltip>
+
+        <Tooltip content="Download JSON" color="primary">
+          <Button
+            {...sharedButtonProps}
+            disabled={!isValidJson}
+            icon={<Icon icon="download" size={24} color={theme?.colors.primary.value} />}
+            onClick={handleDownloadJsonClick}
+          />
+        </Tooltip>
       </StyledHost>
     </>
   );
 };
 
 const StyledHost = styled('div', {
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  bottom: 0,
-  height: '40px',
+  height: '44px',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  backgroundColor: '$background',
+  backgroundColor: '$cyan50',
   borderTop: '1px solid $border',
 });
 
