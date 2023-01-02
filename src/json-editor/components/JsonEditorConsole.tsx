@@ -35,7 +35,9 @@ const _JsonEditorConsole = ({ style }: Props) => {
 
   return (
     <>
-      <ImportJsonModal isModalOpen={isImportJsonModalOpen} closeModal={closeImportJsonModal} />
+      {isImportJsonModalOpen && (
+        <ImportJsonModal isModalOpen={isImportJsonModalOpen} closeModal={closeImportJsonModal} />
+      )}
 
       <StyledHost style={style}>
         <Tooltip content="Import JSON" color="primary">
