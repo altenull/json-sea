@@ -2,6 +2,7 @@
 
 import { Badge, Image, Navbar, Text } from '@nextui-org/react';
 import { useEnv } from '../../utils/react-hooks/useEnv';
+import { GithubButton } from './GithubButton';
 import { ThemeToggle } from './ThemeToggle';
 
 const _GlobalNav = () => {
@@ -32,22 +33,11 @@ const _GlobalNav = () => {
         </Badge>
       )}
 
-      <Navbar.Content
-        css={{
-          '@xsMax': {
-            w: '100%',
-            jc: 'space-between',
-          },
-        }}
-      >
-        <Navbar.Item
-          css={{
-            '@xsMax': {
-              w: '100%',
-              jc: 'center',
-            },
-          }}
-        >
+      <Navbar.Content gap="$4">
+        <Navbar.Item>
+          <GithubButton />
+        </Navbar.Item>
+        <Navbar.Item>
           <ThemeToggle />
         </Navbar.Item>
       </Navbar.Content>
