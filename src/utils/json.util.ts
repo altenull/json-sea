@@ -71,3 +71,14 @@ export const downloadAsJsonFile = (stringifiedJson: string, fileName: string): v
   anchor.click();
   anchor.remove();
 };
+
+export const formatJsonLikeData = (data: any): string => {
+  /**
+   * `replacer` is second param of JSON.stringify().
+   * `space` is third param of JSON.stringify().
+   */
+  const replacer: (number | string)[] | null = null;
+  const space: string | number = 2;
+
+  return isString(data) ? JSON.stringify(JSON.parse(data), replacer, space) : JSON.stringify(data, replacer, space);
+};

@@ -1,6 +1,7 @@
 import Editor from '@monaco-editor/react';
 import { Card, useTheme } from '@nextui-org/react';
 import { memo } from 'react';
+import { formatJsonLikeData } from '../../../utils/json.util';
 
 type Props = {
   array: any[];
@@ -25,7 +26,7 @@ const _ArrayInspector = ({ array }: Props) => {
           overviewRulerLanes: 0,
           readOnly: true,
         }}
-        defaultValue={JSON.stringify(array, null, 2)}
+        defaultValue={formatJsonLikeData(array)}
       />
     </Card>
   );

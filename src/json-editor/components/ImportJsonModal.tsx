@@ -4,7 +4,7 @@ import { Button, FormElement, Input, Modal, Row, Text } from '@nextui-org/react'
 import { memo, useCallback } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
-import { isObject, isValidJson } from '../../utils/json.util';
+import { formatJsonLikeData, isObject, isValidJson } from '../../utils/json.util';
 import { useString } from '../../utils/react-hooks/useString';
 import { DragDropJsonFile } from './DragDropJsonFile';
 
@@ -38,11 +38,11 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
       .then((data) => {
         // TODO: Handle array data?
         if (isObject(data)) {
-          const stringifiedObj: string = JSON.stringify(data, null, 2);
+          const formattedData: string = formatJsonLikeData(data);
 
-          if (isValidJson(stringifiedObj)) {
-            setStringifiedJson(stringifiedObj);
-            setLatestValidStringifiedJson(stringifiedObj);
+          if (isValidJson(formattedData)) {
+            setStringifiedJson(formattedData);
+            setLatestValidStringifiedJson(formattedData);
             closeModal();
           }
         }
@@ -76,7 +76,7 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
           </Button>
         </Row>
 
-        <DragDropJsonFile successCallback={closeModal} />
+        <DragDropJsonFile afterFileReadSuccess={closeModal} />
       </Modal.Body>
     </Modal>
   );
