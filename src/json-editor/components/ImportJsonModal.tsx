@@ -64,7 +64,6 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
       <Modal.Body>
         <Row css={{ gap: '2px' }} align="center">
           <Input
-            autoFocus
             clearable
             bordered
             fullWidth
