@@ -6,7 +6,6 @@ import ReactFlow, {
   Background,
   BackgroundVariant,
   Controls,
-  Edge,
   NodeChange,
   NodeTypes,
   useEdgesState,
@@ -16,7 +15,6 @@ import 'reactflow/dist/style.css';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { seaNodesAndEdgesSelector } from '../../store/json-engine/json-engine.selector';
-import { SeaNode } from '../../store/json-engine/types/sea-node.type';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { ArrayNode } from './ArrayNode';
 import { ObjectNode } from './ObjectNode';
@@ -26,8 +24,7 @@ const _JsonDiagram = () => {
   const [seaNodes, setSeaNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
 
-  const seaNodesAndEdges: [SeaNode[], Edge[]] = useRecoilValue(seaNodesAndEdgesSelector);
-
+  const seaNodesAndEdges = useRecoilValue(seaNodesAndEdgesSelector);
   const isMounted = useIsMounted();
 
   const nodeTypes: NodeTypes = useMemo(
@@ -40,7 +37,8 @@ const _JsonDiagram = () => {
   );
 
   useEffect(() => {
-    const [seaNodes, edges] = seaNodesAndEdges;
+    const { seaNodes, edges } = seaNodesAndEdges;
+
     setSeaNodes(seaNodes);
     setEdges(edges);
   }, [seaNodesAndEdges, setSeaNodes, setEdges]);

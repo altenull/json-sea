@@ -21,29 +21,25 @@ export const latestValidJsonSelector = selector<object>({
   },
 });
 
-export const seaNodesAndEdgesSelector = selector<[SeaNode[], Edge[]]>({
+export type SeaNodeEntities = { [nodeId: string]: SeaNode };
+
+export const seaNodesAndEdgesSelector = selector<{
+  seaNodes: SeaNode[];
+  seaNodeEntities: SeaNodeEntities;
+  edges: Edge[];
+}>({
   key: `${JSON_ENGINE_PREFIX}/seaNodesAndEdgesSelector`,
   get: ({ get }) => {
     const latestValidJson: object = get(latestValidJsonSelector);
     const { seaNodes, edges } = jsonParser(latestValidJson);
-
-    return [seaNodes, edges];
-  },
-});
-
-export type SeaNodeEntities = { [nodeId: string]: SeaNode };
-
-export const seaNodeEntitiesSelector = selector<SeaNodeEntities>({
-  key: `${JSON_ENGINE_PREFIX}/seaNodeEntitiesSelector`,
-  get: ({ get }) => {
-    const [seaNodes]: [SeaNode[], Edge[]] = get(seaNodesAndEdgesSelector);
-
-    return seaNodes.reduce(
+    const seaNodeEntities = seaNodes.reduce(
       (acc: SeaNodeEntities, seaNode: SeaNode) => ({
         ...acc,
         [seaNode.id]: seaNode,
       }),
       {}
     );
+
+    return { seaNodes, seaNodeEntities, edges };
   },
 });

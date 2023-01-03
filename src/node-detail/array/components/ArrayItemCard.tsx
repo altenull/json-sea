@@ -1,10 +1,6 @@
 import { memo, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import {
-  SeaNodeEntities,
-  seaNodeEntitiesSelector,
-  seaNodesAndEdgesSelector,
-} from '../../../store/json-engine/json-engine.selector';
+import { seaNodesAndEdgesSelector } from '../../../store/json-engine/json-engine.selector';
 import { isObject } from '../../../utils/json.util';
 import { encloseSquareBrackets } from '../../../utils/string.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
@@ -18,8 +14,7 @@ type Props = {
 };
 
 const _ArrayItemCard = ({ parentNodeId, arrayItemIndex, value }: Props) => {
-  const [, edges] = useRecoilValue(seaNodesAndEdgesSelector);
-  const seaNodeEntities: SeaNodeEntities = useRecoilValue(seaNodeEntitiesSelector);
+  const { seaNodeEntities, edges } = useRecoilValue(seaNodesAndEdgesSelector);
 
   const selfNodeId: string = useMemo(() => {
     const connectedNodeIds: string[] = edges.filter((edge) => edge.source === parentNodeId).map((edge) => edge.target);

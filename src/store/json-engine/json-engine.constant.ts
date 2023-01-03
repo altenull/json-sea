@@ -1,7 +1,8 @@
 export const DEFAULT_STRINGIFIED_JSON: string = `{
   "app_name": "JSON Sea",
   "created_year": 2022,
-  "release_date": "2022-12-30T06:08:26.180Z",
+  "release_date": "${new Date().toISOString()}",
+  "accessed_date": "${new Date().toISOString()}",
   "active": true,
   "primary_color": "#fff000",
   "null_field": null,

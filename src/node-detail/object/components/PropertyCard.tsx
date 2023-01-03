@@ -12,7 +12,7 @@ type Props = {
 };
 
 const _PropertyCard = ({ nodeId, propertyK, propertyV }: Props) => {
-  const [, edges] = useRecoilValue(seaNodesAndEdgesSelector);
+  const { edges } = useRecoilValue(seaNodesAndEdgesSelector);
 
   const childObjectNodeId: string | null = useMemo(() => {
     if (!isObject(propertyV)) {
