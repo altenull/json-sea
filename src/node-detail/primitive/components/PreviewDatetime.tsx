@@ -46,7 +46,7 @@ const _PreviewDatetime = ({ datetime }: Props) => {
 
     const map: Record<PropertyName, string | number> = {
       'Unix(ms)': unixTimestamp,
-      'Unix(s)': unixTimestamp / 1000,
+      'Unix(s)': Math.floor(unixTimestamp / 1000),
       GMT: format(gmtDate, formatWithoutGMT).concat(' GMT+00:00'),
       'Your timezone': format(date, formatWithGMT),
       Relative: unixTimestamp,
