@@ -119,6 +119,7 @@ const getEdge = ({ source, target, sourceHandle }: { source: string; target: str
     //   target,
     //   sourceHandle,
     // }),
+    type: 'default',
     source,
     target,
     sourceHandle,
@@ -181,15 +182,15 @@ export const jsonParser = (
         convertObjectToNode({ nodeId: currentNodeId, depth, obj: traverseTarget, isRootNode })
       );
 
-      if (!isRootNode) {
-        edges = edges.concat(
-          getEdge({
-            source: sourceSet.source as string,
-            target: currentNodeId,
-            sourceHandle: sourceSet.sourceHandle,
-          })
-        );
-      }
+      // if (!isRootNode) {
+      //   edges = edges.concat(
+      //     getEdge({
+      //       source: sourceSet.source as string,
+      //       target: currentNodeId,
+      //       sourceHandle: sourceSet.sourceHandle,
+      //     })
+      //   );
+      // }
 
       Object.entries(traverseTarget as object).forEach(([propertyK, propertyV]) => {
         const propertyVValidator = validateJsonDataType(propertyV);
