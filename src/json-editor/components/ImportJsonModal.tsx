@@ -2,7 +2,8 @@
 
 import { Button, FormElement, Input, Loading, Modal, Row, Text } from '@nextui-org/react';
 import { memo, useCallback, useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
+import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
 import { formatJsonLikeData, isObject, isValidJson } from '../../utils/json.util';
 import { useSimpleFetch } from '../../utils/react-hooks/useSimpleFetch';
@@ -26,6 +27,7 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
 
   const setStringifiedJson = useSetRecoilState(stringifiedJsonAtom);
   const setLatestValidStringifiedJson = useSetRecoilState(latestValidStringifiedJsonAtom);
+  const resetSelectedNodeId = useResetRecoilState(selectedNodeIdAtom);
 
   const handleJsonUrlValueChange = useCallback(
     (e: React.ChangeEvent<FormElement>) => {
@@ -48,10 +50,11 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
       if (isValidJson(formattedData)) {
         setStringifiedJson(formattedData);
         setLatestValidStringifiedJson(formattedData);
+        resetSelectedNodeId();
         closeModal();
       }
     }
-  }, [getJsonResponse, setStringifiedJson, setLatestValidStringifiedJson, closeModal]);
+  }, [getJsonResponse, setStringifiedJson, setLatestValidStringifiedJson, resetSelectedNodeId, closeModal]);
 
   return (
     <Modal closeButton aria-labelledby="modal-title" open={isModalOpen} onClose={closeModal}>

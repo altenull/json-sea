@@ -3,7 +3,8 @@
 import Editor from '@monaco-editor/react';
 import { styled, useTheme } from '@nextui-org/react';
 import { useCallback } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
 import { DEFAULT_STRINGIFIED_JSON } from '../../store/json-engine/json-engine.constant';
 import { sizes } from '../../ui/constants/sizes.constant';
@@ -14,6 +15,7 @@ import { JsonEditorConsole } from './JsonEditorConsole';
 const _JsonEditor = () => {
   const [stringifiedJson, setStringifiedJson] = useRecoilState(stringifiedJsonAtom);
   const setLatestValidStringifiedJson = useSetRecoilState(latestValidStringifiedJsonAtom);
+  const resetSelectedNodeId = useResetRecoilState(selectedNodeIdAtom);
 
   const { isDark } = useTheme();
 
@@ -25,9 +27,10 @@ const _JsonEditor = () => {
 
       if (isValidJson(value)) {
         setLatestValidStringifiedJson(value);
+        resetSelectedNodeId();
       }
     },
-    [setStringifiedJson, setLatestValidStringifiedJson]
+    [setStringifiedJson, setLatestValidStringifiedJson, resetSelectedNodeId]
   );
 
   return (

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
+import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
 import { formatJsonLikeData, isValidJson } from '../../utils/json.util';
 import { useBoolean } from '../../utils/react-hooks/useBoolean';
@@ -7,21 +8,23 @@ import { useBoolean } from '../../utils/react-hooks/useBoolean';
 export const useDragDropJsonFile = (afterFileReadSuccess: () => void) => {
   const setStringifiedJson = useSetRecoilState(stringifiedJsonAtom);
   const setLatestValidStringifiedJson = useSetRecoilState(latestValidStringifiedJsonAtom);
+  const resetSelectedNodeId = useResetRecoilState(selectedNodeIdAtom);
 
   const { bool: isDragging, setTrue: onIsDragging, setFalse: offIsDragging } = useBoolean();
   const dropzoneRef = useRef<HTMLLabelElement | null>(null);
 
   const processJsonFileText = useCallback(
     (jsonFileText: string): void => {
-      if (!isValidJson(jsonFileText)) return;
+      if (isValidJson(jsonFileText)) {
+        const formattedJson: string = formatJsonLikeData(jsonFileText);
 
-      const formattedJson: string = formatJsonLikeData(jsonFileText);
-
-      setStringifiedJson(formattedJson);
-      setLatestValidStringifiedJson(formattedJson);
-      afterFileReadSuccess();
+        setStringifiedJson(formattedJson);
+        setLatestValidStringifiedJson(formattedJson);
+        resetSelectedNodeId();
+        afterFileReadSuccess();
+      }
     },
-    [setStringifiedJson, setLatestValidStringifiedJson, afterFileReadSuccess]
+    [setStringifiedJson, setLatestValidStringifiedJson, resetSelectedNodeId, afterFileReadSuccess]
   );
 
   const handleDragIn = useCallback(
