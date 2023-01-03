@@ -1,25 +1,26 @@
+import { nanoid } from 'nanoid';
 import { Edge, MarkerType, XYPosition } from 'reactflow';
 import { sizes } from '../../../ui/constants/sizes.constant';
-import { isString } from '../../../utils/json.util';
 import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
 import { SeaNode } from '../types/sea-node.type';
 import { getJsonDataType, validateJsonDataType } from './json-data-type.helper';
 
 const formatNodeId = (nodeSequence: number): string => `n${nodeSequence}`;
-const formatEdgeId = ({
-  source,
-  target,
-  sourceHandle,
-}: {
-  source: string;
-  target: string;
-  sourceHandle?: string;
-}): string => {
-  const concatenatedSource: string = `${source}${isString(sourceHandle) ? `_${sourceHandle}` : ''}`;
 
-  return `e--${concatenatedSource}--${target}`;
-};
+// const formatEdgeId = ({
+//   source,
+//   target,
+//   sourceHandle,
+// }: {
+//   source: string;
+//   target: string;
+//   sourceHandle?: string;
+// }): string => {
+//   const concatenatedSource: string = `${source}${isString(sourceHandle) ? `_${sourceHandle}` : ''}`;
+
+//   return `e--${concatenatedSource}--${target}`;
+// };
 
 const getXYPosition = (depth: number): XYPosition => {
   return { x: depth * sizes.nodeMaxWidth + depth * sizes.nodeGap, y: 50 } as XYPosition;
@@ -106,11 +107,18 @@ const convertPrimitiveToNode = ({
 
 const getEdge = ({ source, target, sourceHandle }: { source: string; target: string; sourceHandle?: string }): Edge => {
   return {
-    id: formatEdgeId({
-      source,
-      target,
-      sourceHandle,
-    }),
+    /**
+     * @bugfix
+     * If the same edge id remains in `JsonDiagram` after update, the following bug occurs.
+     * Use `nanoid()` to resolve it.
+     * https://stackoverflow.com/questions/70114700/react-flow-renderer-edges-remain-in-ui-without-any-parents
+     */
+    id: nanoid(),
+    // id: formatEdgeId({
+    //   source,
+    //   target,
+    //   sourceHandle,
+    // }),
     source,
     target,
     sourceHandle,
