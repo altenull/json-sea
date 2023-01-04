@@ -35,7 +35,7 @@ const _InferredDetailCard = ({ propertyKeys, inferredDataType, children }: Props
         </Grid.Container>
       </Card.Header>
 
-      <Card.Body css={{ paddingTop: '$sm' }}>{children}</Card.Body>
+      <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>{children}</Card.Body>
     </Card>
   );
 };

@@ -27,7 +27,7 @@ const _NodeDetailCard = ({ badge, value, childObjectNodeId }: Props) => {
         </Grid.Container>
       </Card.Header>
 
-      <Card.Body css={{ paddingTop: '$sm' }}>
+      <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
         {isString(childObjectNodeId) ? (
           <Button flat size="sm" color="primary" onClick={() => setSelectedNodeId(childObjectNodeId)}>
             View object
