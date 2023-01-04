@@ -1,7 +1,7 @@
-import { Text } from '@nextui-org/react';
 import { memo } from 'react';
 import { JsonDataType } from '../../store/json-engine/enums/json-data-type.enum';
 import { getJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
+import { DataTypeText } from './DataTypeText';
 import { StringSubtypeText } from './StringSubtypeText';
 
 type Props = {
@@ -12,16 +12,10 @@ const _JsonDataTypeText = ({ value }: Props) => {
   const jsonDataType: JsonDataType = getJsonDataType(value);
 
   return (
-    <Text
-      i
-      size="$xs"
-      css={{
-        color: '$gray800',
-      }}
-    >
+    <DataTypeText>
       {jsonDataType}
       {jsonDataType === JsonDataType.String && <StringSubtypeText value={value as string} />}
-    </Text>
+    </DataTypeText>
   );
 };
 
