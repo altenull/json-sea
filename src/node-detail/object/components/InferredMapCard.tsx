@@ -2,15 +2,16 @@
 
 import { Card, Grid, styled } from '@nextui-org/react';
 import L, { LatLngTuple } from 'leaflet';
-import { memo, useCallback, useEffect, useRef } from 'react';
+import { ComponentProps, memo, useCallback, useEffect, useRef } from 'react';
 import { PropertyKeyBadge } from './PropertyKeyBadge';
 
 type Props = {
-  latLngPropertyKeys: [string, string];
+  latPropertyK: string;
+  lngPropertyK: string;
   latLng: LatLngTuple;
 };
 
-const _InferredMapCard = ({ latLngPropertyKeys, latLng }: Props) => {
+const _InferredMapCard = ({ latPropertyK, lngPropertyK, latLng }: Props) => {
   const leafletMapRef = useRef<HTMLDivElement | null>(null);
 
   const isLeafletInitialized = useCallback((leafletMapElement: HTMLDivElement): boolean => {
@@ -50,8 +51,6 @@ const _InferredMapCard = ({ latLngPropertyKeys, latLng }: Props) => {
     };
   }, [latLng, isLeafletInitialized, addTileLayer]);
 
-  const [latPropertyK, lngPropertyK] = latLngPropertyKeys;
-
   // TODO: Styling
   return (
     <Card>
@@ -76,3 +75,4 @@ const StyledMap = styled('div', {
 });
 
 export const InferredMapCard = memo(_InferredMapCard);
+export type InferredMapCardProps = ComponentProps<typeof InferredMapCard>;

@@ -1,6 +1,8 @@
-import { memo } from 'react';
+import { Fragment, memo, useCallback } from 'react';
 import { ObjectNodeData } from '../../../store/json-engine/types/sea-node.type';
 import { NodeDetailList } from '../../components/NodeDetailList';
+import { inferMap } from '../helpers/infer-map.helper';
+import { InferredMapCard, InferredMapCardProps } from './InferredMapCard';
 import { PropertyCard } from './PropertyCard';
 
 type Props = {
@@ -9,13 +11,26 @@ type Props = {
 };
 
 const _ObjectNodeDetail = ({ nodeId, nodeData }: Props) => {
-  return (
-    <NodeDetailList>
-      {Object.entries(nodeData.obj).map(([propertyK, propertyV]) => (
-        <PropertyCard key={propertyK} nodeId={nodeId} propertyK={propertyK} propertyV={propertyV} />
-      ))}
-    </NodeDetailList>
-  );
+  const renderPropertyCards = useCallback(() => {
+    const inferredMapCardProps: InferredMapCardProps[] = inferMap(nodeData.obj);
+
+    return Object.entries(nodeData.obj).map(([propertyK, propertyV]) => {
+      // Compare with `lngPropertyK` in order to insert `InferredMapCard` after kind of longitude property.
+      const inferredMapCardPropsIndex: number = inferredMapCardProps.findIndex(
+        ({ lngPropertyK }) => lngPropertyK === propertyK
+      );
+      const shouldInsert: boolean = inferredMapCardPropsIndex !== -1;
+
+      return (
+        <Fragment key={propertyK}>
+          <PropertyCard nodeId={nodeId} propertyK={propertyK} propertyV={propertyV} />
+          {shouldInsert && <InferredMapCard {...inferredMapCardProps[inferredMapCardPropsIndex]} />}
+        </Fragment>
+      );
+    });
+  }, [nodeId, nodeData]);
+
+  return <NodeDetailList>{renderPropertyCards()}</NodeDetailList>;
 };
 
 export const ObjectNodeDetail = memo(_ObjectNodeDetail);
