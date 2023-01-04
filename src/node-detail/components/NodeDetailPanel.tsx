@@ -1,6 +1,9 @@
 'use client';
 
 import { styled, Text } from '@nextui-org/react';
+import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import 'leaflet/dist/leaflet.css';
 import { memo, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { selectedSeaNodeSelector } from '../../store/json-diagram-view/json-diagram-view.selector';
@@ -20,6 +23,14 @@ const _NodeDetailPanel = () => {
   const hostRef = useRef<HTMLDivElement | null>(null);
 
   const { isLocalhost } = useEnv();
+
+  useEffect(() => {
+    L.Marker.prototype.setIcon(
+      L.icon({
+        iconUrl: markerIcon.src,
+      })
+    );
+  }, []);
 
   useEffect(() => {
     if (!!hostRef?.current) {
