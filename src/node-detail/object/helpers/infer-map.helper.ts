@@ -1,11 +1,11 @@
 import { isNumber } from '../../../utils/json.util';
-import { InferredMapCardProps } from '../components/InferredMapCard';
+import { InferredLatLngMapCardProps } from '../components/InferredLatLngMapCard';
 
 const isEveryPropertyNumber = (obj: object, propertyKeys: string[]): boolean => {
   return propertyKeys.every((key: string) => isNumber((obj as any)[key]));
 };
 
-const convertInferredMapCardProps = (obj: object, propertyKeys: [string, string]): InferredMapCardProps => {
+const convertInferredLatLngMapCardProps = (obj: object, propertyKeys: [string, string]): InferredLatLngMapCardProps => {
   const [latPropertyK, lngPropertyK] = propertyKeys;
 
   return {
@@ -24,25 +24,25 @@ const convertInferredMapCardProps = (obj: object, propertyKeys: [string, string]
  * One object node can have maximum 2 `InferredMapCard`. (Case 1 & Case 2)
  * If both 'Case 2-1' and 'Case 2-2' are met, only 'Case 2-1' is shown.
  */
-export const inferMap = (obj: object): InferredMapCardProps[] => {
+export const inferMap = (obj: object): InferredLatLngMapCardProps[] => {
   const case1: [string, string] = ['latitude', 'longitude'];
   const case2_1: [string, string] = ['lat', 'lng'];
   const case2_2: [string, string] = ['lat', 'long'];
 
-  let inferredMapCardProps: InferredMapCardProps[] = [];
+  let InferredLatLngMapCardProps: InferredLatLngMapCardProps[] = [];
 
   if (isEveryPropertyNumber(obj, case1)) {
-    inferredMapCardProps.push(convertInferredMapCardProps(obj, case1));
+    InferredLatLngMapCardProps.push(convertInferredLatLngMapCardProps(obj, case1));
   }
 
   if (isEveryPropertyNumber(obj, case2_1)) {
-    inferredMapCardProps.push(convertInferredMapCardProps(obj, case2_1));
-    return inferredMapCardProps;
+    InferredLatLngMapCardProps.push(convertInferredLatLngMapCardProps(obj, case2_1));
+    return InferredLatLngMapCardProps;
   }
 
   if (isEveryPropertyNumber(obj, case2_2)) {
-    inferredMapCardProps.push(convertInferredMapCardProps(obj, case2_2));
+    InferredLatLngMapCardProps.push(convertInferredLatLngMapCardProps(obj, case2_2));
   }
 
-  return inferredMapCardProps;
+  return InferredLatLngMapCardProps;
 };

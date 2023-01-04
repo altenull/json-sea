@@ -12,7 +12,7 @@ type Props = {
   latLng: LatLngTuple;
 };
 
-const _InferredMapCard = ({ latPropertyK, lngPropertyK, latLng }: Props) => {
+const _InferredLatLngMapCard = ({ latPropertyK, lngPropertyK, latLng }: Props) => {
   const leafletMapRef = useRef<HTMLDivElement | null>(null);
 
   const isLeafletInitialized = useCallback((leafletMapElement: HTMLDivElement): boolean => {
@@ -64,5 +64,5 @@ const StyledMap = styled('div', {
   height: '240px',
 });
 
-export const InferredMapCard = memo(_InferredMapCard);
-export type InferredMapCardProps = ComponentProps<typeof InferredMapCard>;
+export const InferredLatLngMapCard = memo(_InferredLatLngMapCard);
+export type InferredLatLngMapCardProps = ComponentProps<typeof InferredLatLngMapCard>;
