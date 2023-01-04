@@ -1,9 +1,10 @@
 'use client';
 
-import { Card, Grid, styled } from '@nextui-org/react';
+import { styled } from '@nextui-org/react';
 import L, { LatLngTuple } from 'leaflet';
 import { ComponentProps, memo, useCallback, useEffect, useRef } from 'react';
-import { PropertyKeyBadge } from './PropertyKeyBadge';
+import { InferredDataType } from '../enums/inferred-data-type.enum';
+import { InferredDetailCard } from './InferredDetailCard';
 
 type Props = {
   latPropertyK: string;
@@ -51,21 +52,10 @@ const _InferredMapCard = ({ latPropertyK, lngPropertyK, latLng }: Props) => {
     };
   }, [latLng, isLeafletInitialized, addTileLayer]);
 
-  // TODO: Styling
   return (
-    <Card>
-      <Card.Header>
-        <Grid.Container direction="column">
-          <Grid>
-            <PropertyKeyBadge propertyK={latPropertyK} /> + <PropertyKeyBadge propertyK={lngPropertyK} />
-          </Grid>
-        </Grid.Container>
-      </Card.Header>
-
-      <Card.Body css={{ paddingTop: '$sm' }}>
-        <StyledMap ref={leafletMapRef} />
-      </Card.Body>
-    </Card>
+    <InferredDetailCard propertyKeys={[latPropertyK, lngPropertyK]} inferredDataType={InferredDataType.LatLngMap}>
+      <StyledMap ref={leafletMapRef} />
+    </InferredDetailCard>
   );
 };
 
