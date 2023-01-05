@@ -23,6 +23,18 @@ const isValidEmail = (dirtyEmail: string): boolean => {
   return emailRegex.test(dirtyEmail.toLowerCase());
 };
 
+const isValidHttpUri = (dirtyHttpUri: string): dirtyHttpUri is HttpUri => {
+  let url: URL | undefined;
+
+  try {
+    url = new URL(dirtyHttpUri);
+  } catch (e) {
+    return false;
+  }
+
+  return ['http:', 'https:'].includes(url.protocol);
+};
+
 const isValidImage = (dirtyImage: string, isHttpUri: boolean): Promise<boolean> => {
   if (dirtyImage.startsWith('data:image/') || isHttpUri) {
     const img = new Image();
@@ -37,18 +49,6 @@ const isValidImage = (dirtyImage: string, isHttpUri: boolean): Promise<boolean> 
       resolve(false);
     });
   }
-};
-
-const isValidHttpUri = (dirtyHttpUri: string): dirtyHttpUri is HttpUri => {
-  let url: URL | undefined;
-
-  try {
-    url = new URL(dirtyHttpUri);
-  } catch (e) {
-    return false;
-  }
-
-  return ['http:', 'https:'].includes(url.protocol);
 };
 
 export type StringSubtypeValidator = { [P in keyof typeof StringSubtype as `is${P}`]: boolean };
@@ -80,8 +80,13 @@ export const validateStringSubtype = async (v: string): Promise<StringSubtypeVal
   if (await isValidImage(v, isHttpUri)) {
     return {
       ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
-      isImage: true,
-      isHttpUri,
+      ...(isHttpUri
+        ? {
+            isImageUri: true,
+          }
+        : {
+            isImage: true,
+          }),
     };
   }
 

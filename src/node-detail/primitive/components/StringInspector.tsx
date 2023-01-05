@@ -15,16 +15,16 @@ type Props = {
 };
 
 const _StringInspector = ({ value }: Props) => {
-  const { isColor, isDatetime, isEmail, isImage, isHttpUri } = useStringSubtypeValidator(value);
+  const { isColor, isDatetime, isEmail, isHttpUri, isImage, isImageUri } = useStringSubtypeValidator(value);
 
   return (
     <>
       <TextCopyBox text={encloseDoubleQuote(value)} />
       {isColor && <PreviewColor color={value} />}
       {isDatetime && <PreviewDatetime datetime={value} />}
-      {isImage && !isHttpUri && <PreviewImage imageSrc={value as Base64ImageSrc} />}
-      {isImage && isHttpUri && <PreviewImageUri imageUri={value as HttpUri} />}
-      {!isImage && isHttpUri && <PreviewHttpUri httpUri={value as HttpUri} />}
+      {isHttpUri && <PreviewHttpUri httpUri={value as HttpUri} />}
+      {isImage && <PreviewImage imageSrc={value as Base64ImageSrc} />}
+      {isImageUri && <PreviewImageUri imageUri={value as HttpUri} />}
     </>
   );
 };
