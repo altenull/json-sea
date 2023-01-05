@@ -2,17 +2,19 @@ import { styled, Text } from '@nextui-org/react';
 import prettyBytes from 'pretty-bytes';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { isNull, isString } from '../../../utils/json.util';
+import { HttpUri } from '../types/http-uri.type';
+import { ImageSrc } from '../types/image-src.type';
 
 type Props = {
-  imageSrc: `data:image/${string}` | `http:${string}` | `https:${string}`;
+  imageSrc: ImageSrc;
 };
 
 type ImageMeta = {
-  type: string;
+  type: string; // e.g. 'image/png', 'image/jpeg', ...
   size: number; // bytes
 };
 
-const startsWithHttpOrHttps = (v: string): v is `http:${string}` | `https:${string}` => {
+const startsWithHttpOrHttps = (v: string): v is HttpUri => {
   return v.startsWith('http:') || v.startsWith('https:');
 };
 

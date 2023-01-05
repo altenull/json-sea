@@ -1,6 +1,8 @@
 import { memo } from 'react';
 import { encloseDoubleQuote } from '../../../utils/string.util';
 import { useStringSubtypeValidator } from '../hooks/useStringSubtypeValidator';
+import { HttpUri } from '../types/http-uri.type';
+import { Base64ImageSrc } from '../types/image-src.type';
 import { PreviewColor } from './PreviewColor';
 import { PreviewDatetime } from './PreviewDatetime';
 import { PreviewHttpUri } from './PreviewHttpUri';
@@ -20,9 +22,9 @@ const _StringInspector = ({ value }: Props) => {
       <TextCopyBox text={encloseDoubleQuote(value)} />
       {isColor && <PreviewColor color={value} />}
       {isDatetime && <PreviewDatetime datetime={value} />}
-      {isImage && !isHttpUri && <PreviewImage imageSrc={value} />}
-      {isImage && isHttpUri && <PreviewImageUri imageUri={value} />}
-      {!isImage && isHttpUri && <PreviewHttpUri httpUri={value} />}
+      {isImage && !isHttpUri && <PreviewImage imageSrc={value as Base64ImageSrc} />}
+      {isImage && isHttpUri && <PreviewImageUri imageUri={value as HttpUri} />}
+      {!isImage && isHttpUri && <PreviewHttpUri httpUri={value as HttpUri} />}
     </>
   );
 };

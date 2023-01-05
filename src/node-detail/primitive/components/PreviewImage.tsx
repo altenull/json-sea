@@ -1,8 +1,9 @@
 import { memo } from 'react';
+import { ImageSrc } from '../types/image-src.type';
 import { ImageViewer } from './ImageViewer';
 
 type Props = {
-  imageSrc: string;
+  imageSrc: ImageSrc;
 };
 
 const _PreviewImage = ({ imageSrc }: Props) => {

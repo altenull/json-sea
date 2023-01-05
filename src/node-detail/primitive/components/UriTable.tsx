@@ -1,8 +1,9 @@
 import { Table } from '@nextui-org/react';
 import { Key, memo, useEffect, useRef, useState } from 'react';
+import { HttpUri } from '../types/http-uri.type';
 
 type Props = {
-  httpUri: string;
+  httpUri: HttpUri;
 };
 
 type URLProperty = keyof Pick<

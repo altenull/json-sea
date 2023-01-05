@@ -2,10 +2,11 @@ import { memo } from 'react';
 import { featureFlag } from '../../../environment';
 import { isNull } from '../../../utils/json.util';
 import { JsonLink, useJsonLinkApi } from '../hooks/useJsonLinkApi';
+import { HttpUri } from '../types/http-uri.type';
 import { PreviewOgMeta } from './PreviewOgMeta';
 
 type Props = {
-  httpUri: string;
+  httpUri: HttpUri;
 };
 
 const _LinkViewer = ({ httpUri }: Props) => {

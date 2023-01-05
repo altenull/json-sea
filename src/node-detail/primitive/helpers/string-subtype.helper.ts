@@ -1,5 +1,6 @@
 import { ALL_FALSE_STRING_SUBTYPE_VALIDATOR } from '../constants/string-subtype.constant';
 import { StringSubtype } from '../enums/string-subtype.enum';
+import { HttpUri } from '../types/http-uri.type';
 
 /**
  * Invalid color value can't be assigned to `style.color` attribute.
@@ -38,7 +39,7 @@ const isValidImage = (dirtyImage: string, isHttpUri: boolean): Promise<boolean> 
   }
 };
 
-const isValidHttpUri = (dirtyHttpUri: string): boolean => {
+const isValidHttpUri = (dirtyHttpUri: string): dirtyHttpUri is HttpUri => {
   let url: URL | undefined;
 
   try {

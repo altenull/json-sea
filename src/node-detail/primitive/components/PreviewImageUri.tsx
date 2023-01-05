@@ -1,9 +1,10 @@
 import { memo } from 'react';
+import { HttpUri } from '../types/http-uri.type';
 import { ImageViewer } from './ImageViewer';
 import { UriTable } from './UriTable';
 
 type Props = {
-  imageUri: string;
+  imageUri: HttpUri;
 };
 
 const _PreviewImageUri = ({ imageUri }: Props) => {
