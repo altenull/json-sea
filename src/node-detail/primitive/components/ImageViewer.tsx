@@ -9,35 +9,36 @@ type Props = {
   imageSrc: ImageSrc;
 };
 
-type ImageMeta = {
-  type: string; // e.g. 'image/png', 'image/jpeg', ...
-  size: number; // bytes
-};
-
 const startsWithHttpOrHttps = (v: string): v is HttpUri => {
   return v.startsWith('http:') || v.startsWith('https:');
 };
 
 const _ImageViewer = ({ imageSrc }: Props) => {
-  const [imageMeta, setImageMeta] = useState<ImageMeta | null>(null);
+  const [imageType, setImageType] = useState<string | null>(null); // e.g. 'image/png', 'image/jpeg', ...
+  const [imageBytes, setImageBytes] = useState<number | null>(null);
 
   useEffect(() => {
     if (startsWithHttpOrHttps(imageSrc)) {
       try {
         fetch(imageSrc, { method: 'HEAD' }).then((response) => {
           if (response.ok) {
-            const contentLength: string | null = response.headers.get('Content-Length');
             const contentType: string | null = response.headers.get('Content-Type');
+            const contentLength: string | null = response.headers.get('Content-Length');
 
-            if (isString(contentLength) && isString(contentType)) {
-              setImageMeta({
-                type: contentType,
-                size: Number(contentLength),
-              });
+            if (isString(contentType)) {
+              setImageType(contentType);
+            }
+            if (isString(contentLength)) {
+              setImageBytes(Number(contentLength));
             }
           }
         });
       } catch (e) {}
+    } else {
+      const sliceEnd: number = imageSrc.indexOf(';base64');
+      const base64ImageType: string = imageSrc.slice(0, sliceEnd).replace('data:', '');
+
+      setImageType(base64ImageType);
     }
   }, [imageSrc]);
 
@@ -49,15 +50,19 @@ const _ImageViewer = ({ imageSrc }: Props) => {
     <StyledHost>
       <StyledImg src={imageSrc} alt="image preview" onClick={handleImageClick} />
 
-      {!isNull(imageMeta) && (
+      {(!isNull(imageType) || !isNull(imageBytes)) && (
         <StyledImageMetaContainer>
-          <Text size="$xs" color="$gray800">
-            {imageMeta.type}
-          </Text>
+          {!isNull(imageType) && (
+            <Text size="$xs" color="$gray800">
+              {imageType}
+            </Text>
+          )}
 
-          <Text size="$xs" color="$gray800">
-            {prettyBytes(imageMeta.size)}
-          </Text>
+          {!isNull(imageBytes) && (
+            <Text size="$xs" color="$gray800">
+              {prettyBytes(imageBytes)}
+            </Text>
+          )}
         </StyledImageMetaContainer>
       )}
     </StyledHost>
