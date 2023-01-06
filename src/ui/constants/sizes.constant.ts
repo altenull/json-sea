@@ -1,5 +1,7 @@
 export const sizes = {
-  jsonEditorWidth: 320,
+  jsonEditorWidth: 400,
+  jsonEditorMinWidth: 240,
+  jsonEditorMaxWidth: 560,
   nodeDetailPanelWidth: 420,
   globalNavHeight: 54, // height of <Navbar isCompacted>
 

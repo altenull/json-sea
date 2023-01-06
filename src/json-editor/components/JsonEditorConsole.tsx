@@ -22,6 +22,10 @@ const _JsonEditorConsole = ({ style }: Props) => {
   const sharedButtonProps: Partial<ButtonProps> = useMemo(
     () =>
       ({
+        css: {
+          minWidth: 'initial',
+          width: '100%',
+        },
         light: true,
         color: 'primary',
         size: 'sm',
@@ -68,6 +72,10 @@ const StyledHost = styled('div', {
   alignItems: 'center',
   backgroundColor: '$cyan50',
   borderTop: '1px solid $border',
+
+  '*': {
+    flex: 1,
+  },
 });
 
 export const JsonEditorConsole = memo(_JsonEditorConsole);

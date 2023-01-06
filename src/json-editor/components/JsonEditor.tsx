@@ -2,6 +2,7 @@
 
 import Editor from '@monaco-editor/react';
 import { styled, useTheme } from '@nextui-org/react';
+import { Resizable } from 're-resizable';
 import { useCallback } from 'react';
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
@@ -34,41 +35,55 @@ const _JsonEditor = () => {
   );
 
   return (
-    <StyledHost>
-      <Editor
-        theme={isDark ? 'vs-dark' : 'light'}
-        defaultLanguage="json"
-        options={{
-          minimap: {
-            enabled: false,
-          },
-          scrollbar: {
-            horizontal: 'hidden',
-            vertical: 'hidden',
-          },
-          overviewRulerLanes: 0,
-        }}
-        defaultValue={DEFAULT_STRINGIFIED_JSON}
-        value={stringifiedJson}
-        onChange={handleChange}
-      />
-
-      <JsonEditorConsole
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-      />
-    </StyledHost>
+    <Resizable
+      style={{
+        overflow: 'hidden',
+      }}
+      defaultSize={{
+        width: sizes.jsonEditorWidth,
+        height: '100%',
+      }}
+      minWidth={sizes.jsonEditorMinWidth}
+      maxWidth={sizes.jsonEditorMaxWidth}
+      enable={{
+        right: true,
+      }}
+    >
+      <StyledEditorContainer>
+        <Editor
+          theme={isDark ? 'vs-dark' : 'light'}
+          defaultLanguage="json"
+          options={{
+            minimap: {
+              enabled: false,
+            },
+            scrollbar: {
+              horizontal: 'hidden',
+              vertical: 'hidden',
+            },
+            overviewRulerLanes: 0,
+          }}
+          defaultValue={DEFAULT_STRINGIFIED_JSON}
+          value={stringifiedJson}
+          onChange={handleChange}
+        />
+        <JsonEditorConsole
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+        />
+      </StyledEditorContainer>
+    </Resizable>
   );
 };
 
-const StyledHost = styled('div', {
+const StyledEditorContainer = styled('div', {
   position: 'relative',
   borderRight: '1px solid $border',
-  minWidth: sizes.jsonEditorWidth,
+  width: '100%',
   height: '100%',
 });
 

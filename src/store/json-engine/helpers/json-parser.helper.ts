@@ -23,7 +23,10 @@ const formatNodeId = (nodeSequence: number): string => `n${nodeSequence}`;
 // };
 
 const getXYPosition = (depth: number): XYPosition => {
-  return { x: depth * sizes.nodeMaxWidth + depth * sizes.nodeGap, y: 50 } as XYPosition;
+  const depthWidth = depth * sizes.nodeMaxWidth + depth * sizes.nodeGap;
+  const leftPadding = 50;
+
+  return { x: depthWidth + leftPadding, y: 50 } as XYPosition;
 };
 
 const convertObjectToNode = ({
