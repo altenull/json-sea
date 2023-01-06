@@ -1,5 +1,3 @@
-'use client';
-
 import { useTheme } from '@nextui-org/react';
 import { useTheme as useNextThemes } from 'next-themes';
 import { CircleTransparentButton } from '../../ui/components/CircleTransparentButton';

@@ -6,6 +6,7 @@ import { Resizable } from 're-resizable';
 import { useCallback } from 'react';
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
+import { useJsonEditorView } from '../../store/json-editor-view/hooks/useJsonEditorView';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
 import { DEFAULT_STRINGIFIED_JSON } from '../../store/json-engine/json-engine.constant';
 import { sizes } from '../../ui/constants/sizes.constant';
@@ -18,6 +19,7 @@ const _JsonEditor = () => {
   const setLatestValidStringifiedJson = useSetRecoilState(latestValidStringifiedJsonAtom);
   const resetSelectedNodeId = useResetRecoilState(selectedNodeIdAtom);
 
+  const { isJsonEditorVisible } = useJsonEditorView();
   const { isDark } = useTheme();
 
   const handleChange = useCallback(
@@ -38,6 +40,7 @@ const _JsonEditor = () => {
     <Resizable
       style={{
         overflow: 'hidden',
+        display: isJsonEditorVisible ? 'initial' : 'none',
       }}
       defaultSize={{
         width: sizes.jsonEditorWidth,

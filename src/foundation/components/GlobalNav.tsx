@@ -3,6 +3,7 @@
 import { Badge, Image, Navbar, Text } from '@nextui-org/react';
 import { useEnv } from '../../utils/react-hooks/useEnv';
 import { GithubButton } from './GithubButton';
+import { JsonEditorToggle } from './JsonEditorToggle';
 import { ThemeToggle } from './ThemeToggle';
 
 const _GlobalNav = () => {
@@ -10,6 +11,12 @@ const _GlobalNav = () => {
 
   return (
     <Navbar isBordered isCompact maxWidth="fluid">
+      <Navbar.Content gap="$4">
+        <Navbar.Item>
+          <JsonEditorToggle />
+        </Navbar.Item>
+      </Navbar.Content>
+
       <Navbar.Brand>
         <Image
           width={48}
