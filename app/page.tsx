@@ -1,7 +1,7 @@
 import { GlobalNav } from '../src/foundation/components/GlobalNav';
 import { Main } from '../src/foundation/components/Main';
 import { JsonDiagram } from '../src/json-diagram/components/JsonDiagram';
-import { JsonEditor } from '../src/json-editor/components/JsonEditor';
+import { ResizableJsonEditor } from '../src/json-editor/components/ResizableJsonEditor';
 import { NodeDetailPanel } from '../src/node-detail/components/NodeDetailPanel';
 
 const RootPage = () => {
@@ -10,7 +10,7 @@ const RootPage = () => {
       <GlobalNav />
 
       <Main>
-        <JsonEditor />
+        <ResizableJsonEditor />
         <JsonDiagram />
         <NodeDetailPanel />
       </Main>

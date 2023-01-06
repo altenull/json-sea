@@ -1,28 +1,22 @@
-'use client';
-
 import Editor from '@monaco-editor/react';
 import { styled, useTheme } from '@nextui-org/react';
-import { Resizable } from 're-resizable';
 import { useCallback } from 'react';
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
-import { useJsonEditorView } from '../../store/json-editor-view/hooks/useJsonEditorView';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
 import { DEFAULT_STRINGIFIED_JSON } from '../../store/json-engine/json-engine.constant';
-import { sizes } from '../../ui/constants/sizes.constant';
 import { isValidJson } from '../../utils/json.util';
 import { JsonEditorConsole } from './JsonEditorConsole';
 
-// TODO: useDefferedValue hook to opt?
+// TODO: useDefferedValue hook to optimize?
 const _JsonEditor = () => {
   const [stringifiedJson, setStringifiedJson] = useRecoilState(stringifiedJsonAtom);
   const setLatestValidStringifiedJson = useSetRecoilState(latestValidStringifiedJsonAtom);
   const resetSelectedNodeId = useResetRecoilState(selectedNodeIdAtom);
 
-  const { isJsonEditorVisible } = useJsonEditorView();
   const { isDark } = useTheme();
 
-  const handleChange = useCallback(
+  const handleEditorChange = useCallback(
     (value: string | undefined) => {
       if (value === undefined) return;
 
@@ -37,53 +31,38 @@ const _JsonEditor = () => {
   );
 
   return (
-    <Resizable
-      style={{
-        overflow: 'hidden',
-        display: isJsonEditorVisible ? 'initial' : 'none',
-      }}
-      defaultSize={{
-        width: sizes.jsonEditorWidth,
-        height: '100%',
-      }}
-      minWidth={sizes.jsonEditorMinWidth}
-      maxWidth={sizes.jsonEditorMaxWidth}
-      enable={{
-        right: true,
-      }}
-    >
-      <StyledEditorContainer>
-        <Editor
-          theme={isDark ? 'vs-dark' : 'light'}
-          defaultLanguage="json"
-          options={{
-            minimap: {
-              enabled: false,
-            },
-            scrollbar: {
-              horizontal: 'hidden',
-              vertical: 'hidden',
-            },
-            overviewRulerLanes: 0,
-          }}
-          defaultValue={DEFAULT_STRINGIFIED_JSON}
-          value={stringifiedJson}
-          onChange={handleChange}
-        />
-        <JsonEditorConsole
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-        />
-      </StyledEditorContainer>
-    </Resizable>
+    <StyledHost>
+      <Editor
+        theme={isDark ? 'vs-dark' : 'light'}
+        defaultLanguage="json"
+        options={{
+          minimap: {
+            enabled: false,
+          },
+          scrollbar: {
+            horizontal: 'hidden',
+            vertical: 'hidden',
+          },
+          overviewRulerLanes: 0,
+        }}
+        defaultValue={DEFAULT_STRINGIFIED_JSON}
+        value={stringifiedJson}
+        onChange={handleEditorChange}
+      />
+
+      <JsonEditorConsole
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}
+      />
+    </StyledHost>
   );
 };
 
-const StyledEditorContainer = styled('div', {
+const StyledHost = styled('div', {
   position: 'relative',
   borderRight: '1px solid $border',
   width: '100%',
