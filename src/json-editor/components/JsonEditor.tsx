@@ -7,6 +7,7 @@ import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store
 import { DEFAULT_STRINGIFIED_JSON } from '../../store/json-engine/json-engine.constant';
 import { isValidJson } from '../../utils/json.util';
 import { JsonEditorConsole } from './JsonEditorConsole';
+import { JsonValidityStatus } from './JsonValidityStatus';
 
 // TODO: useDefferedValue hook to optimize?
 const _JsonEditor = () => {
@@ -14,7 +15,7 @@ const _JsonEditor = () => {
   const setLatestValidStringifiedJson = useSetRecoilState(latestValidStringifiedJsonAtom);
   const resetSelectedNodeId = useResetRecoilState(selectedNodeIdAtom);
 
-  const { isDark } = useTheme();
+  const { theme, isDark } = useTheme();
 
   const handleEditorChange = useCallback(
     (value: string | undefined) => {
@@ -48,6 +49,15 @@ const _JsonEditor = () => {
         defaultValue={DEFAULT_STRINGIFIED_JSON}
         value={stringifiedJson}
         onChange={handleEditorChange}
+      />
+
+      <JsonValidityStatus
+        style={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          borderBottomLeftRadius: theme?.radii.xs.value,
+        }}
       />
 
       <JsonEditorConsole
