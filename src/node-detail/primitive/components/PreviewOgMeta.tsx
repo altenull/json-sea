@@ -19,7 +19,7 @@ const _PreviewOgMeta = ({ jsonLink }: Props) => {
     []
   );
 
-  const handlePress = useCallback(() => {
+  const handleClick = useCallback(() => {
     window.open(jsonLink.url, '_blank', 'noopener,noreferrer');
   }, [jsonLink.url]);
 
@@ -28,7 +28,7 @@ const _PreviewOgMeta = ({ jsonLink }: Props) => {
   }
 
   return (
-    <Card variant="bordered" isPressable onPress={handlePress}>
+    <Card variant="bordered" isPressable onClick={handleClick}>
       {images.length > 0 && (
         <Card.Body css={{ p: 0 }}>
           <Card.Image src={images[0]} objectFit="cover" width="100%" height={120} alt={title} />
@@ -41,6 +41,7 @@ const _PreviewOgMeta = ({ jsonLink }: Props) => {
             {title}
           </Text>
         )}
+
         {isString(description) && (
           <Text
             css={{ ...textEllipsisCss, color: '$accents7', fontSize: '$xs', fontWeight: '$medium' }}
