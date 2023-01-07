@@ -17,6 +17,7 @@ export type ArrayNodeData = SharedNodeData & {
   dataType: JsonDataType.Array;
   arrayIndex: number;
   items: any[];
+  isRootNode: boolean;
 };
 
 export type PrimitiveNodeData = SharedNodeData & {

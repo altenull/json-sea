@@ -53,9 +53,8 @@ export const isNull = (v: unknown): v is null => {
  */
 export const isValidJson = (code: string): boolean => {
   try {
-    // TODO: Consider including array type.
     const parsedCode = JSON.parse(code);
-    return isObject(parsedCode);
+    return isObject(parsedCode) || isArray(parsedCode);
   } catch (error) {
     return false;
   }

@@ -1,5 +1,6 @@
 import { Text } from '@nextui-org/react';
 import { memo, useMemo } from 'react';
+import { ROOT_NODE_NAME } from '../../json-diagram/constants/root-node.constant';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 
 type Props = {
@@ -20,7 +21,7 @@ const _NodeTypeText = ({ nodeType, isRootNode }: Props) => {
   return (
     <Text h3>
       {nodeTypeToTextMap[nodeType]}
-      {isRootNode && ' (root)'}
+      {isRootNode && ` (${ROOT_NODE_NAME})`}
     </Text>
   );
 };

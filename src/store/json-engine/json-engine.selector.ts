@@ -13,7 +13,7 @@ export const isValidJsonSelector = selector<boolean>({
   },
 });
 
-export const latestValidJsonSelector = selector<object>({
+export const latestValidJsonSelector = selector<object | any[]>({
   key: `${JSON_ENGINE_PREFIX}/latestValidJsonSelector`,
   get: ({ get }) => {
     const latestValidStringifiedJson: string = get(latestValidStringifiedJsonAtom);
@@ -30,7 +30,7 @@ export const seaNodesAndEdgesSelector = selector<{
 }>({
   key: `${JSON_ENGINE_PREFIX}/seaNodesAndEdgesSelector`,
   get: ({ get }) => {
-    const latestValidJson: object = get(latestValidJsonSelector);
+    const latestValidJson: object | any[] = get(latestValidJsonSelector);
     const { seaNodes, edges } = jsonParser(latestValidJson);
     const seaNodeEntities = seaNodes.reduce(
       (acc: SeaNodeEntities, seaNode: SeaNode) => ({

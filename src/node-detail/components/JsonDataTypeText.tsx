@@ -8,7 +8,7 @@ type Props = {
   value: unknown;
 };
 
-const getArrayItemsTotal = (array: Array<any>): string =>
+const getArrayItemsTotal = (array: any[]): string =>
   array.length === 0 ? '(empty)' : array.length === 1 ? '(1 item)' : `(${array.length} items)`;
 
 const _JsonDataTypeText = ({ value }: Props) => {
@@ -18,7 +18,7 @@ const _JsonDataTypeText = ({ value }: Props) => {
     <DataTypeText>
       {jsonDataType}
       {jsonDataType === JsonDataType.String && <StringSubtypeText value={value as string} />}
-      {jsonDataType === JsonDataType.Array && ` ${getArrayItemsTotal(value as Array<any>)}`}
+      {jsonDataType === JsonDataType.Array && ` ${getArrayItemsTotal(value as any[])}`}
     </DataTypeText>
   );
 };

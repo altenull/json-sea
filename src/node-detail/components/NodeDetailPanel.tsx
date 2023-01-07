@@ -46,7 +46,7 @@ const _NodeDetailPanel = () => {
         <>
           <NodeTypeText
             nodeType={selectedNode.type}
-            isRootNode={isObjectSeaNode(selectedNode) && selectedNode.data.isRootNode}
+            isRootNode={(isObjectSeaNode(selectedNode) || isArraySeaNode(selectedNode)) && selectedNode.data.isRootNode}
           />
           {isLocalhost && (
             <Text h5 color="warning">

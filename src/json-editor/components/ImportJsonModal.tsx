@@ -5,7 +5,7 @@ import { memo, useCallback, useEffect } from 'react';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
-import { formatJsonLikeData, isObject, isValidJson } from '../../utils/json.util';
+import { formatJsonLikeData, isObject, isValidJson, isArray } from '../../utils/json.util';
 import { useSimpleFetch } from '../../utils/react-hooks/useSimpleFetch';
 import { useString } from '../../utils/react-hooks/useString';
 import { DragDropJsonFile } from './DragDropJsonFile';
@@ -43,8 +43,7 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
   };
 
   useEffect(() => {
-    // TODO: Handle array data?
-    if (isObject(getJsonResponse)) {
+    if (isObject(getJsonResponse) || isArray(getJsonResponse)) {
       const formattedData: string = formatJsonLikeData(getJsonResponse);
 
       if (isValidJson(formattedData)) {

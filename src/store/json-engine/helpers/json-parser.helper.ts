@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import { Edge, MarkerType, XYPosition } from 'reactflow';
+import { ARRAY_ROOT_NODE_INDEX } from '../../../json-diagram/constants/root-node.constant';
 import { sizes } from '../../../ui/constants/sizes.constant';
 import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
@@ -59,11 +60,13 @@ const convertArrayToNode = ({
   depth,
   arrayIndex,
   items,
+  isRootNode,
 }: {
   nodeId: string;
   depth: number;
   arrayIndex: number;
   items: any[];
+  isRootNode: boolean;
 }): SeaNode => {
   return {
     id: nodeId,
@@ -75,6 +78,7 @@ const convertArrayToNode = ({
       stringifiedJson: JSON.stringify(arrayIndex),
       arrayIndex,
       items,
+      isRootNode,
     },
   };
 };
@@ -134,7 +138,7 @@ const getEdge = ({ source, target, sourceHandle }: { source: string; target: str
 };
 
 export const jsonParser = (
-  jsonObj: object
+  json: object | any[]
 ): {
   seaNodes: SeaNode[];
   edges: Edge[];
@@ -179,10 +183,10 @@ export const jsonParser = (
     const traverseTargetValidator = validateJsonDataType(traverseTarget);
 
     if (traverseTargetValidator.isObjectData) {
-      const isRootNode: boolean = sourceSet.source === undefined;
+      const isObjectRootNode: boolean = sourceSet.source === undefined;
 
       seaNodes = seaNodes.concat(
-        convertObjectToNode({ nodeId: currentNodeId, depth, obj: traverseTarget, isRootNode })
+        convertObjectToNode({ nodeId: currentNodeId, depth, obj: traverseTarget, isRootNode: isObjectRootNode })
       );
 
       // if (!isRootNode) {
@@ -253,6 +257,7 @@ export const jsonParser = (
                   depth: nextDepth,
                   arrayIndex,
                   items,
+                  isRootNode: false,
                 })
               );
               edges = edges.concat(
@@ -295,6 +300,20 @@ export const jsonParser = (
         }
       });
     } else if (traverseTargetValidator.isArrayData) {
+      const isArrayRootNode: boolean = sourceSet.source === undefined;
+
+      if (isArrayRootNode) {
+        seaNodes = seaNodes.concat(
+          convertArrayToNode({
+            nodeId: currentNodeId,
+            depth,
+            arrayIndex: ARRAY_ROOT_NODE_INDEX,
+            items: traverseTarget as any[],
+            isRootNode: true,
+          })
+        );
+      }
+
       (traverseTarget as any[]).forEach((arrayItem: any, arrayIndex: number) => {
         const arrayItemValidator = validateJsonDataType(arrayItem);
 
@@ -321,6 +340,7 @@ export const jsonParser = (
               depth: nextDepth,
               arrayIndex,
               items,
+              isRootNode: false,
             })
           );
           edges = edges.concat(
@@ -364,10 +384,10 @@ export const jsonParser = (
 
   return {
     /**
-     * In JSON, root node is always object.
+     * In JSON, root node can be object or array.
      * So starts with `traverse` function with depth 0.
      */
-    seaNodes: traverse(jsonObj, 0, {}),
+    seaNodes: traverse(json, 0, {}),
     edges,
   };
 };

@@ -1,4 +1,5 @@
 import { Edge } from 'reactflow';
+import { ROOT_NODE_NAME } from '../../../json-diagram/constants/root-node.constant';
 import { isArraySeaNode, isObjectSeaNode } from '../../../store/json-engine/helpers/sea-node.helper';
 import { SeaNodeEntities } from '../../../store/json-engine/json-engine.selector';
 import { SeaNode } from '../../../store/json-engine/types/sea-node.type';
@@ -24,23 +25,28 @@ export const getForeArrayItemName = ({
 
   if (isObjectSeaNode(parentNode)) {
     const propertyK: string | undefined = edges.find(
-      (edge) => edge.source === parentNodeId && edge.target === selfNodeId
+      ({ source, target }) => source === parentNodeId && target === selfNodeId
     )?.sourceHandle as string;
 
     foreArrayItemName = `${propertyK}${foreArrayItemName}`;
   }
 
   if (isArraySeaNode(parentNode)) {
-    const grandparentNodeId: string | undefined = edges.find((edge) => edge.target === parentNodeId)?.source as string;
+    if (parentNode.data.isRootNode) {
+      foreArrayItemName = ROOT_NODE_NAME.concat(foreArrayItemName);
+    } else {
+      const grandparentNodeId: string | undefined = edges.find(({ target }) => target === parentNodeId)
+        ?.source as string;
 
-    foreArrayItemName = getForeArrayItemName({
-      seaNodeEntities,
-      edges,
-      parentNodeId: grandparentNodeId,
-      selfNodeId: parentNode.id,
-    })
-      .concat(encloseSquareBrackets(parentNode.data.arrayIndex))
-      .concat(foreArrayItemName);
+      foreArrayItemName = getForeArrayItemName({
+        seaNodeEntities,
+        edges,
+        parentNodeId: grandparentNodeId,
+        selfNodeId: parentNode.id,
+      })
+        .concat(encloseSquareBrackets(parentNode.data.arrayIndex))
+        .concat(foreArrayItemName);
+    }
   }
 
   return foreArrayItemName;
