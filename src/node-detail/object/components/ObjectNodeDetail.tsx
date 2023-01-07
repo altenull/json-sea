@@ -1,3 +1,4 @@
+import { Text } from '@nextui-org/react';
 import { Fragment, memo, useCallback } from 'react';
 import { ObjectNodeData } from '../../../store/json-engine/types/sea-node.type';
 import { NodeDetailList } from '../../components/NodeDetailList';
@@ -30,7 +31,18 @@ const _ObjectNodeDetail = ({ nodeId, nodeData }: Props) => {
     });
   }, [nodeId, nodeData]);
 
-  return <NodeDetailList>{renderPropertyCards()}</NodeDetailList>;
+  const isEmpty: boolean = Object.keys(nodeData.obj).length < 1;
+
+  return (
+    <NodeDetailList>
+      {isEmpty ? (
+        // TODO: Styling empty object.
+        <Text h4>This is empty object.</Text>
+      ) : (
+        renderPropertyCards()
+      )}
+    </NodeDetailList>
+  );
 };
 
 export const ObjectNodeDetail = memo(_ObjectNodeDetail);

@@ -16,7 +16,7 @@ const _ArrayNodeDetail = ({ nodeId, nodeData }: Props) => {
   return (
     <NodeDetailList>
       {isEmpty ? (
-        // TODO: Handle empty items.
+        // TODO: Styling empty items.
         <Text h4>This is empty array.</Text>
       ) : (
         items.map((value: any, index: number) => (
