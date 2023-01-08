@@ -6,6 +6,7 @@ import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-
 import { hoveredNodeDetailCardAtom } from '../../store/node-detail-view/node-detail-view.atom';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { encloseDoubleQuote } from '../../utils/string.util';
+import { HoveringBlueDot } from './HoveringBlueDot';
 
 type Props = {
   nodeId: string;
@@ -26,8 +27,6 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
   return (
     <StyledHost>
       <Text color="primary" weight="semibold" css={{ marginRight: '$8' }}>
-        {/* TODO: Styling */}
-        {isHoveredFromNodeDetail && '(me!)'}
         {encloseDoubleQuote(propertyK)}
       </Text>
 
@@ -51,6 +50,8 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
           position={Position.Right}
         />
       )}
+
+      {isHoveredFromNodeDetail && <HoveringBlueDot />}
     </StyledHost>
   );
 };

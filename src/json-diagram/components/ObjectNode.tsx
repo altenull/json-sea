@@ -2,9 +2,12 @@ import { memo, useCallback } from 'react';
 import { NodeProps, useEdges } from 'reactflow';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
+import { HoveringBlueDot } from './HoveringBlueDot';
 import { NodeShell } from './NodeShell';
 import { ObjectNodeProperty } from './ObjectNodeProperty';
 import { TargetHandle } from './TargetHandle';
+import { useRecoilValue } from 'recoil';
+import { hoveredNodeDetailCardAtom } from '../../store/node-detail-view/node-detail-view.atom';
 
 /**
  * ObjectNode `<Handle>` Details
@@ -13,9 +16,10 @@ import { TargetHandle } from './TargetHandle';
  * target: always have except for RootNode.
  */
 const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
-  const { obj, isRootNode } = data;
-
+  const hoveredNodeDetailCard = useRecoilValue(hoveredNodeDetailCardAtom);
   const edges = useEdges();
+
+  const { obj, isRootNode } = data;
 
   const renderProperties = useCallback(() => {
     return Object.entries(obj).map(([propertyK, propertyV]) => {
@@ -33,11 +37,19 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
     });
   }, [obj, edges, id]);
 
+  /**
+   * undefined `propertyK` means a `ArrayItemCard` is hovered, not `PropertyCard`.
+   */
+  const isHoveredFromNodeDetail: boolean =
+    hoveredNodeDetailCard?.nodeId === id && hoveredNodeDetailCard?.propertyK === undefined;
+
   return (
     <NodeShell nodeId={id} nodeType={NodeType.Object}>
       {!isRootNode && <TargetHandle id={id} />}
 
       {renderProperties()}
+
+      {isHoveredFromNodeDetail && <HoveringBlueDot />}
     </NodeShell>
   );
 };

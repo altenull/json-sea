@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { PrimitiveNodeData } from '../../store/json-engine/types/sea-node.type';
 import { hoveredNodeDetailCardAtom } from '../../store/node-detail-view/node-detail-view.atom';
+import { HoveringBlueDot } from './HoveringBlueDot';
 import { NodeShell } from './NodeShell';
 import { TargetHandle } from './TargetHandle';
 
@@ -34,11 +35,9 @@ const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
     <NodeShell nodeId={id} nodeType={NodeType.Primitive}>
       <TargetHandle id={id} />
 
-      <Text css={textCss}>
-        {/* TODO: Styling */}
-        {isHoveredFromNodeDetail && '(me!)'}
-        {data.stringifiedJson}
-      </Text>
+      <Text css={textCss}>{data.stringifiedJson}</Text>
+
+      {isHoveredFromNodeDetail && <HoveringBlueDot />}
     </NodeShell>
   );
 };
