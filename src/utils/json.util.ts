@@ -2,7 +2,7 @@
  * Returns true if argument is an 'array' and false otherwise.
  * @param {unknown} v - the value to check
  */
-export const isArray = (v: unknown): boolean => {
+export const isArray = <T extends any[]>(v: unknown): v is T => {
   return Array.isArray(v);
 };
 
