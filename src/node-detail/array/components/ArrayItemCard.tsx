@@ -1,6 +1,7 @@
 import { memo, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { seaNodesAndEdgesSelector } from '../../../store/json-engine/json-engine.selector';
+import { useHoverNodeDetailCard } from '../../../store/node-detail-view/hooks/useHoverNodeDetailCard';
 import { isObject } from '../../../utils/json.util';
 import { encloseSquareBrackets } from '../../../utils/string.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
@@ -9,19 +10,15 @@ import { ArrayItemNameBadge } from './ArrayItemNameBadge';
 
 type Props = {
   parentNodeId: string;
+  selfNodeId: string;
   arrayItemIndex: number;
   value: any;
 };
 
-const _ArrayItemCard = ({ parentNodeId, arrayItemIndex, value }: Props) => {
+const _ArrayItemCard = ({ parentNodeId, selfNodeId, arrayItemIndex, value }: Props) => {
   const { seaNodeEntities, edges } = useRecoilValue(seaNodesAndEdgesSelector);
 
-  const selfNodeId: string = useMemo(() => {
-    const connectedNodeIds: string[] = edges.filter((edge) => edge.source === parentNodeId).map((edge) => edge.target);
-    const uniqConnectedNodeIds: string[] = Array.from(new Set(connectedNodeIds));
-
-    return uniqConnectedNodeIds[arrayItemIndex];
-  }, [edges, parentNodeId, arrayItemIndex]);
+  const { cardRef } = useHoverNodeDetailCard({ nodeId: selfNodeId });
 
   const arrayItemName: string = useMemo(() => {
     const foreArrayItemName: string = getForeArrayItemName({
@@ -38,6 +35,7 @@ const _ArrayItemCard = ({ parentNodeId, arrayItemIndex, value }: Props) => {
 
   return (
     <NodeDetailCard
+      ref={cardRef}
       badge={<ArrayItemNameBadge arrayItemName={arrayItemName} />}
       value={value}
       childObjectNodeId={objectNodeId}

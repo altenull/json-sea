@@ -13,16 +13,12 @@ export const useHover = (): [MutableRefObject<HTMLElement | null>, boolean] => {
     () => {
       const element = ref.current;
 
-      if (element) {
-        element.addEventListener('mouseover', handleMouseOver);
-        element.addEventListener('mouseout', handleMouseOut);
-      }
+      element?.addEventListener('mouseover', handleMouseOver);
+      element?.addEventListener('mouseout', handleMouseOut);
 
       return () => {
-        if (element) {
-          element.removeEventListener('mouseover', handleMouseOver);
-          element.removeEventListener('mouseout', handleMouseOut);
-        }
+        element?.removeEventListener('mouseover', handleMouseOver);
+        element?.removeEventListener('mouseout', handleMouseOut);
       };
     },
     [ref, handleMouseOver, handleMouseOut] // Recall only if ref changes

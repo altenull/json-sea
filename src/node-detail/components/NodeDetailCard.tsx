@@ -1,5 +1,5 @@
 import { Button, Card, Grid } from '@nextui-org/react';
-import { memo } from 'react';
+import { ForwardedRef, forwardRef, memo } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { isArray, isString } from '../../utils/json.util';
@@ -13,33 +13,37 @@ type Props = {
   childObjectNodeId: string | null;
 };
 
-const _NodeDetailCard = ({ badge, value, childObjectNodeId }: Props) => {
-  const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
+const _NodeDetailCard = forwardRef<HTMLDivElement, Props>(
+  ({ badge, value, childObjectNodeId }, ref: ForwardedRef<HTMLDivElement>) => {
+    const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
 
-  return (
-    <Card>
-      <Card.Header>
-        <Grid.Container direction="column">
-          <Grid>{badge}</Grid>
-          <Grid>
-            <JsonDataTypeText value={value} />
-          </Grid>
-        </Grid.Container>
-      </Card.Header>
+    return (
+      <Card ref={ref}>
+        <Card.Header>
+          <Grid.Container direction="column">
+            <Grid>{badge}</Grid>
+            <Grid>
+              <JsonDataTypeText value={value} />
+            </Grid>
+          </Grid.Container>
+        </Card.Header>
 
-      <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
-        {isString(childObjectNodeId) ? (
-          <Button flat size="sm" color="primary" onClick={() => setSelectedNodeId(childObjectNodeId)}>
-            View object
-          </Button>
-        ) : isArray(value) ? (
-          <ArrayInspector array={value} />
-        ) : (
-          <PrimitiveInspector value={value} />
-        )}
-      </Card.Body>
-    </Card>
-  );
-};
+        <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
+          {isString(childObjectNodeId) ? (
+            <Button flat size="sm" color="primary" onClick={() => setSelectedNodeId(childObjectNodeId)}>
+              View object
+            </Button>
+          ) : isArray(value) ? (
+            <ArrayInspector array={value} />
+          ) : (
+            <PrimitiveInspector value={value} />
+          )}
+        </Card.Body>
+      </Card>
+    );
+  }
+);
+
+_NodeDetailCard.displayName = 'NodeDetailCard';
 
 export const NodeDetailCard = memo(_NodeDetailCard);

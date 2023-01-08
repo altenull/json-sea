@@ -1,6 +1,7 @@
 import { memo, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { seaNodesAndEdgesSelector } from '../../../store/json-engine/json-engine.selector';
+import { useHoverNodeDetailCard } from '../../../store/node-detail-view/hooks/useHoverNodeDetailCard';
 import { isObject } from '../../../utils/json.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
 import { PropertyKeyBadge } from './PropertyKeyBadge';
@@ -14,6 +15,8 @@ type Props = {
 const _PropertyCard = ({ nodeId, propertyK, propertyV }: Props) => {
   const { edges } = useRecoilValue(seaNodesAndEdgesSelector);
 
+  const { cardRef } = useHoverNodeDetailCard({ nodeId, propertyK });
+
   const childObjectNodeId: string | null = useMemo(() => {
     if (!isObject(propertyV)) {
       return null;
@@ -24,6 +27,7 @@ const _PropertyCard = ({ nodeId, propertyK, propertyV }: Props) => {
 
   return (
     <NodeDetailCard
+      ref={cardRef}
       badge={<PropertyKeyBadge propertyK={propertyK} />}
       value={propertyV}
       childObjectNodeId={childObjectNodeId}

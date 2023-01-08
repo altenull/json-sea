@@ -22,7 +22,13 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
       const hasChildNode: boolean = edges.some((edge) => edge.source === id && edge.sourceHandle === propertyK);
 
       return (
-        <ObjectNodeProperty key={propertyK} propertyK={propertyK} propertyV={propertyV} hasChildNode={hasChildNode} />
+        <ObjectNodeProperty
+          key={propertyK}
+          nodeId={id}
+          propertyK={propertyK}
+          propertyV={propertyV}
+          hasChildNode={hasChildNode}
+        />
       );
     });
   }, [obj, edges, id]);

@@ -13,7 +13,7 @@ const _NodeTypeText = ({ nodeType, isRootNode }: Props) => {
     () => ({
       [NodeType.Object]: 'Object',
       [NodeType.Array]: 'Array',
-      [NodeType.Primitive]: 'Array item',
+      [NodeType.Primitive]: 'Primitive',
     }),
     []
   );
