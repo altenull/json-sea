@@ -1,9 +1,10 @@
 import { styled, Text } from '@nextui-org/react';
 import prettyBytes from 'pretty-bytes';
 import { memo, useCallback, useEffect, useState } from 'react';
+import { noop } from '../../../utils/function.util';
 import { isNull, isString } from '../../../utils/json.util';
 import { HttpUri } from '../types/http-uri.type';
-import { ImageSrc } from '../types/image-src.type';
+import { Base64ImageSrc, ImageSrc } from '../types/image-src.type';
 
 type Props = {
   imageSrc: ImageSrc;
@@ -13,14 +14,20 @@ const startsWithHttpOrHttps = (v: string): v is HttpUri => {
   return v.startsWith('http:') || v.startsWith('https:');
 };
 
+const extractBase64ImageType = (base64ImageSrc: Base64ImageSrc): string => {
+  const sliceEnd: number = base64ImageSrc.indexOf(';base64');
+
+  return base64ImageSrc.slice(0, sliceEnd).replace('data:', '');
+};
+
 const _ImageViewer = ({ imageSrc }: Props) => {
   const [imageType, setImageType] = useState<string | null>(null); // e.g. 'image/png', 'image/jpeg', ...
   const [imageBytes, setImageBytes] = useState<number | null>(null);
 
   useEffect(() => {
     if (startsWithHttpOrHttps(imageSrc)) {
-      try {
-        fetch(imageSrc, { method: 'HEAD' }).then((response) => {
+      fetch(imageSrc, { method: 'HEAD' })
+        .then((response) => {
           if (response.ok) {
             const contentType: string | null = response.headers.get('Content-Type');
             const contentLength: string | null = response.headers.get('Content-Length');
@@ -32,13 +39,10 @@ const _ImageViewer = ({ imageSrc }: Props) => {
               setImageBytes(Number(contentLength));
             }
           }
-        });
-      } catch (e) {}
+        })
+        .catch(noop);
     } else {
-      const sliceEnd: number = imageSrc.indexOf(';base64');
-      const base64ImageType: string = imageSrc.slice(0, sliceEnd).replace('data:', '');
-
-      setImageType(base64ImageType);
+      setImageType(extractBase64ImageType(imageSrc));
     }
   }, [imageSrc]);
 
