@@ -1,23 +1,33 @@
-'use client';
-
-import { Text } from '@nextui-org/react';
+import { Link, Text } from '@nextui-org/react';
 import { memo } from 'react';
+import { externalLink } from '../../environment';
 
 const _Copyright = () => {
-  const year: number = new Date().getFullYear();
+  const renderCreatedBy = () => (
+    <>
+      Created by{' '}
+      <Link href={externalLink.altenullGithub} target="_blank" rel="noopener noreferrer">
+        Altenull
+      </Link>
+    </>
+  );
+
+  const renderCopyright = () => {
+    const currentYear: number = new Date().getFullYear();
+
+    return <>© {currentYear} JSON SEA</>;
+  };
 
   return (
     <Text
       css={{
-        position: 'fixed',
-        bottom: 0,
-        left: '50%',
-        transform: 'translateX(-50%)',
+        marginTop: 'auto',
+        textAlign: 'right',
         color: '$gray600',
       }}
       size="$sm"
     >
-      © {year} JSON SEA
+      {renderCreatedBy()} · {renderCopyright()}
     </Text>
   );
 };

@@ -6,6 +6,7 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/leaflet.css';
 import { memo, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
+import { Copyright } from '../../foundation/components/Copyright';
 import { selectedSeaNodeSelector } from '../../store/json-diagram-view/json-diagram-view.selector';
 import { isArraySeaNode, isObjectSeaNode, isPrimitiveSeaNode } from '../../store/json-engine/helpers/sea-node.helper';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
@@ -65,11 +66,15 @@ const _NodeDetailPanel = () => {
           </>
         </>
       )}
+
+      <Copyright />
     </StyledHost>
   );
 };
 
 const StyledHost = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
   width: sizes.nodeDetailPanelWidth,
   minWidth: sizes.nodeDetailPanelWidth,
   minHeight: '100%',

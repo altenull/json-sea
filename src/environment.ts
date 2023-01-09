@@ -13,4 +13,5 @@ export const endPoint = {
 
 export const externalLink = {
   jsonSeaGithubRepo: 'https://github.com/altenull/json-sea',
+  altenullGithub: 'https://github.com/altenull',
 };

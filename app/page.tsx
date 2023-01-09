@@ -1,4 +1,3 @@
-import { Copyright } from '../src/foundation/components/Copyright';
 import { GlobalNav } from '../src/foundation/components/GlobalNav';
 import { LocalhostBadge } from '../src/foundation/components/LocalhostBadge';
 import { Main } from '../src/foundation/components/Main';
@@ -17,7 +16,6 @@ const RootPage = () => {
         <NodeDetailPanel />
       </Main>
 
-      <Copyright />
       <LocalhostBadge />
     </>
   );
