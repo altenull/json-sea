@@ -9,7 +9,7 @@ export const useHoverNodeDetailCard = ({ nodeId, propertyK }: HoveredNodeDetailC
   const setHoveredNodeDetailCard = useSetRecoilState(hoveredNodeDetailCardAtom);
   const resetHoveredNodeDetailCard = useResetRecoilState(hoveredNodeDetailCardAtom);
 
-  const [cardRef, isCardHovered] = useHover();
+  const [cardRef, isCardHovered] = useHover<HTMLDivElement>();
 
   useEffect(() => {
     if (isCardHovered) {

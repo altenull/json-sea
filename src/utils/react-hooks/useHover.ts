@@ -2,9 +2,9 @@
 
 import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 
-export const useHover = (): [MutableRefObject<HTMLElement | null>, boolean] => {
+export const useHover = <T extends HTMLElement>(): [MutableRefObject<T | null>, boolean] => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  const ref = useRef<HTMLElement | null>(null);
+  const ref = useRef<T | null>(null);
 
   const handleMouseOver = useCallback(() => setIsHovered(true), []);
   const handleMouseOut = useCallback(() => setIsHovered(false), []);

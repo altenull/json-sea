@@ -9,7 +9,7 @@ type Props = {
 };
 
 const _TextCopyBox = ({ text }: Props) => {
-  const [hostRef, isHostHovered] = useHover();
+  const [hostRef, isHostHovered] = useHover<HTMLDivElement>();
   const { copiedText, copyToClipboard, clearClipboard } = useCopyToClipboard();
 
   const copyText = useCallback(() => {

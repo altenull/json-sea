@@ -13,37 +13,33 @@ type Props = {
   childObjectNodeId: string | null;
 };
 
-const _NodeDetailCard = forwardRef<HTMLDivElement, Props>(
-  ({ badge, value, childObjectNodeId }, ref: ForwardedRef<HTMLDivElement>) => {
-    const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
+const _NodeDetailCard = ({ badge, value, childObjectNodeId }: Props, ref: ForwardedRef<HTMLDivElement>) => {
+  const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
 
-    return (
-      <Card ref={ref} isHoverable>
-        <Card.Header>
-          <Grid.Container direction="column">
-            <Grid>{badge}</Grid>
-            <Grid>
-              <JsonDataTypeText value={value} />
-            </Grid>
-          </Grid.Container>
-        </Card.Header>
+  return (
+    <Card ref={ref} isHoverable>
+      <Card.Header>
+        <Grid.Container direction="column">
+          <Grid>{badge}</Grid>
+          <Grid>
+            <JsonDataTypeText value={value} />
+          </Grid>
+        </Grid.Container>
+      </Card.Header>
 
-        <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
-          {isString(childObjectNodeId) ? (
-            <Button flat size="sm" color="primary" onClick={() => setSelectedNodeId(childObjectNodeId)}>
-              View object
-            </Button>
-          ) : isArray(value) ? (
-            <ArrayInspector array={value} />
-          ) : (
-            <PrimitiveInspector value={value} />
-          )}
-        </Card.Body>
-      </Card>
-    );
-  }
-);
+      <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
+        {isString(childObjectNodeId) ? (
+          <Button flat size="sm" color="primary" onClick={() => setSelectedNodeId(childObjectNodeId)}>
+            View object
+          </Button>
+        ) : isArray(value) ? (
+          <ArrayInspector array={value} />
+        ) : (
+          <PrimitiveInspector value={value} />
+        )}
+      </Card.Body>
+    </Card>
+  );
+};
 
-_NodeDetailCard.displayName = 'NodeDetailCard';
-
-export const NodeDetailCard = memo(_NodeDetailCard);
+export const NodeDetailCard = memo(forwardRef<HTMLDivElement, Props>(_NodeDetailCard));
