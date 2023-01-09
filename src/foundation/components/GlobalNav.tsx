@@ -1,8 +1,9 @@
 'use client';
 
-import { Image, Navbar, Text } from '@nextui-org/react';
+import { Navbar } from '@nextui-org/react';
 import { GithubButton } from './GithubButton';
 import { JsonEditorToggle } from './JsonEditorToggle';
+import { JsonSeaLogoTitle } from './JsonSeaLogoTitle';
 import { ThemeToggle } from './ThemeToggle';
 
 const _GlobalNav = () => {
@@ -15,16 +16,7 @@ const _GlobalNav = () => {
       </Navbar.Content>
 
       <Navbar.Brand>
-        <Image
-          width={48}
-          height={48}
-          src="http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/water-wave.png"
-          alt="JSON Sea Logo"
-        />
-
-        <Text b color="inherit" css={{ ml: '$8' }} hideIn="xs">
-          JSON Sea
-        </Text>
+        <JsonSeaLogoTitle height={36} />
       </Navbar.Brand>
 
       <Navbar.Content gap="$4">
