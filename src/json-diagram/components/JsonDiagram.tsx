@@ -18,6 +18,7 @@ import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { seaNodesAndEdgesSelector } from '../../store/json-engine/json-engine.selector';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { ArrayNode } from './ArrayNode';
+import { FitViewInvoker } from './FitViewInvoker';
 import { ObjectNode } from './ObjectNode';
 import { PrimitiveNode } from './PrimitiveNode';
 
@@ -72,6 +73,7 @@ const _JsonDiagram = () => {
           {/* <MiniMap position="top-right" /> */}
           <Controls position="bottom-right" showInteractive={false} />
           <Background variant={BackgroundVariant.Dots} />
+          <FitViewInvoker seaNodes={seaNodes} />
         </ReactFlow>
       )}
     </div>
