@@ -1,6 +1,7 @@
-import { Text } from '@nextui-org/react';
 import { Fragment, memo, useCallback } from 'react';
+import { NodeType } from '../../../store/json-engine/enums/node-type.enum';
 import { ObjectNodeData } from '../../../store/json-engine/types/sea-node.type';
+import { EmptyNodeMessage } from '../../components/EmptyNodeMessage';
 import { NodeDetailList } from '../../components/NodeDetailList';
 import { inferMap } from '../helpers/infer-map.helper';
 import { InferredLatLngMapCard, InferredLatLngMapCardProps } from './InferredLatLngMapCard';
@@ -34,14 +35,7 @@ const _ObjectNodeDetail = ({ nodeId, nodeData }: Props) => {
   const isEmpty: boolean = Object.keys(nodeData.obj).length < 1;
 
   return (
-    <NodeDetailList>
-      {isEmpty ? (
-        // TODO: Styling empty object.
-        <Text h4>This is empty object.</Text>
-      ) : (
-        renderPropertyCards()
-      )}
-    </NodeDetailList>
+    <NodeDetailList>{isEmpty ? <EmptyNodeMessage nodeType={NodeType.Object} /> : renderPropertyCards()}</NodeDetailList>
   );
 };
 

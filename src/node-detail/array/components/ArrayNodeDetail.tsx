@@ -1,9 +1,10 @@
-import { Text } from '@nextui-org/react';
 import { memo } from 'react';
 import { Edge } from 'reactflow';
 import { useRecoilValue } from 'recoil';
+import { NodeType } from '../../../store/json-engine/enums/node-type.enum';
 import { seaNodesAndEdgesSelector } from '../../../store/json-engine/json-engine.selector';
 import { ArrayNodeData } from '../../../store/json-engine/types/sea-node.type';
+import { EmptyNodeMessage } from '../../components/EmptyNodeMessage';
 import { NodeDetailList } from '../../components/NodeDetailList';
 import { ArrayItemCard } from './ArrayItemCard';
 
@@ -29,8 +30,7 @@ const _ArrayNodeDetail = ({ nodeId, nodeData }: Props) => {
   return (
     <NodeDetailList>
       {isEmpty ? (
-        // TODO: Styling empty items.
-        <Text h4>This is empty array.</Text>
+        <EmptyNodeMessage nodeType={NodeType.Array} />
       ) : (
         items.map((value: any, index: number) => (
           <ArrayItemCard

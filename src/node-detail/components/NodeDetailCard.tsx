@@ -18,7 +18,7 @@ const _NodeDetailCard = forwardRef<HTMLDivElement, Props>(
     const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
 
     return (
-      <Card ref={ref}>
+      <Card ref={ref} isHoverable>
         <Card.Header>
           <Grid.Container direction="column">
             <Grid>{badge}</Grid>
