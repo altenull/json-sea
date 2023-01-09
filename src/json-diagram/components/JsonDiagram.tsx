@@ -1,5 +1,6 @@
 'use client';
 
+import { styled } from '@nextui-org/react';
 import { useCallback, useEffect, useMemo } from 'react';
 import ReactFlow, {
   applyNodeChanges,
@@ -51,12 +52,7 @@ const _JsonDiagram = () => {
   );
 
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-      }}
-    >
+    <StyledHost>
       {isMounted && (
         <ReactFlow
           style={{
@@ -76,8 +72,23 @@ const _JsonDiagram = () => {
           <FitViewInvoker seaNodes={seaNodes} />
         </ReactFlow>
       )}
-    </div>
+    </StyledHost>
   );
 };
+
+const StyledHost = styled('div', {
+  width: '100%',
+  height: '100%',
+  '.react-flow': {
+    backgroundColor: '$backgroundContrast',
+  },
+  /**
+   * To remove attribution, need some money.
+   * @see https://reactflow.dev/docs/guides/remove-attribution/
+   */
+  '.react-flow__attribution': {
+    backgroundColor: 'transparent',
+  },
+});
 
 export const JsonDiagram = _JsonDiagram;
