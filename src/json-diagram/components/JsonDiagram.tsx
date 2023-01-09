@@ -13,6 +13,7 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useRecoilValue } from 'recoil';
+import { featureFlag } from '../../environment';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { seaNodesAndEdgesSelector } from '../../store/json-engine/json-engine.selector';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
@@ -43,8 +44,7 @@ const _JsonDiagram = () => {
     setEdges(edges);
   }, [seaNodesAndEdges, setSeaNodes, setEdges]);
 
-  // TODO: Remove onNodesChange function (keeping for debugging)
-  const onNodesChange = useCallback(
+  const handleNodesChange = useCallback(
     (changes: NodeChange[]) => setSeaNodes((nds) => applyNodeChanges(changes, nds)),
     [setSeaNodes]
   );
@@ -62,15 +62,15 @@ const _JsonDiagram = () => {
             height: '100%',
             minHeight: '100%',
           }}
-          className="json-diagram-react-flow"
-          // fitView
+          fitView
+          nodesConnectable={false}
           nodeTypes={nodeTypes}
           nodes={seaNodes}
           edges={edges}
-          onNodesChange={onNodesChange}
+          onNodesChange={featureFlag.debugMode ? handleNodesChange : undefined}
         >
           {/* <MiniMap position="top-right" /> */}
-          <Controls position="bottom-right" />
+          <Controls position="bottom-right" showInteractive={false} />
           <Background variant={BackgroundVariant.Dots} />
         </ReactFlow>
       )}
