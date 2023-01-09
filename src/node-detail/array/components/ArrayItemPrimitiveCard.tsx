@@ -1,6 +1,7 @@
 import { memo, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { seaNodesAndEdgesSelector } from '../../../store/json-engine/json-engine.selector';
+import { useHoverNodeDetailCard } from '../../../store/node-detail-view/hooks/useHoverNodeDetailCard';
 import { encloseSquareBrackets } from '../../../utils/string.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
 import { getForeArrayItemName } from '../helpers/array-item-name.helper';
@@ -17,6 +18,8 @@ type Props = {
  */
 const _ArrayItemPrimitiveCard = ({ nodeId, arrayItemIndex, value }: Props) => {
   const { seaNodeEntities, edges } = useRecoilValue(seaNodesAndEdgesSelector);
+
+  const { cardRef } = useHoverNodeDetailCard({ nodeId });
 
   const parentNodeId: string = useMemo(
     () => edges.find((edge) => edge.target === nodeId)?.source as string,
@@ -36,6 +39,7 @@ const _ArrayItemPrimitiveCard = ({ nodeId, arrayItemIndex, value }: Props) => {
 
   return (
     <NodeDetailCard
+      ref={cardRef}
       badge={<ArrayItemNameBadge arrayItemName={arrayItemName} />}
       value={value}
       childObjectNodeId={null}
