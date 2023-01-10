@@ -3,6 +3,7 @@
 import { styled } from '@nextui-org/react';
 import L, { LatLngTuple } from 'leaflet';
 import { ComponentProps, memo, useCallback, useEffect, useRef } from 'react';
+import { PropertyValueTable } from '../../primitive/components/PropertyValueTable';
 import { InferredDataType } from '../enums/inferred-data-type.enum';
 import { InferredDetailCard } from './InferredDetailCard';
 
@@ -55,6 +56,19 @@ const _InferredLatLngMapCard = ({ latPropertyK, lngPropertyK, latLng }: Props) =
   return (
     <InferredDetailCard propertyKeys={[latPropertyK, lngPropertyK]} inferredDataType={InferredDataType.LatLngMap}>
       <StyledMap ref={leafletMapRef} />
+
+      <PropertyValueTable
+        rows={[
+          {
+            property: latPropertyK,
+            value: latLng[0],
+          },
+          {
+            property: lngPropertyK,
+            value: latLng[1],
+          },
+        ]}
+      />
     </InferredDetailCard>
   );
 };
