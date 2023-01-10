@@ -1,6 +1,6 @@
 'use client';
 
-import { styled, Text } from '@nextui-org/react';
+import { styled, Text, useTheme } from '@nextui-org/react';
 import L from 'leaflet';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/leaflet.css';
@@ -23,6 +23,7 @@ const _NodeDetailPanel = () => {
   const selectedNode: SeaNode | null = useRecoilValue(selectedSeaNodeSelector);
   const hostRef = useRef<HTMLDivElement | null>(null);
 
+  const { isDark } = useTheme();
   const { isLocalhost } = useEnv();
 
   useEffect(() => {
@@ -40,7 +41,7 @@ const _NodeDetailPanel = () => {
   }, [selectedNode, hostRef]);
 
   return (
-    <StyledHost ref={hostRef}>
+    <StyledHost ref={hostRef} isDark={isDark}>
       {isNull(selectedNode) ? (
         <Text h3>No selected node.</Text>
       ) : (
@@ -73,6 +74,16 @@ const _NodeDetailPanel = () => {
 };
 
 const StyledHost = styled('div', {
+  variants: {
+    isDark: {
+      true: {
+        // [Leaflet Darkmode] https://blog.jamie.holdings/2022/05/15/dark-mode-for/
+        '.leaflet-tile': {
+          filter: 'brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7)',
+        },
+      },
+    },
+  },
   display: 'flex',
   flexDirection: 'column',
   width: sizes.nodeDetailPanelWidth,
