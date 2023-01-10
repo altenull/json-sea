@@ -1,6 +1,7 @@
 import { Table } from '@nextui-org/react';
 import { addMinutes, format } from 'date-fns';
 import { Key, memo, useEffect, useState } from 'react';
+import { PropertyValueTableColumnKey, PROPERTY_VALUE_TABLE_COLUMNS } from './PropertyValueTable';
 import { RelativeTimeFormatter } from './RelativeTimeFormatter';
 
 type Props = {
@@ -11,25 +12,9 @@ type PropertyName = 'Unix(ms)' | 'Unix(s)' | 'GMT' | 'Your timezone' | 'Relative
 
 const PROPERTY_NAMES: PropertyName[] = ['Unix(ms)', 'Unix(s)', 'GMT', 'Your timezone', 'Relative'];
 
-enum ColumnKey {
-  Property = 'property',
-  Value = 'value',
-}
-
-const COLUMNS = [
-  {
-    key: ColumnKey.Property,
-    label: 'PROPERTY',
-  },
-  {
-    key: ColumnKey.Value,
-    label: 'VALUE',
-  },
-];
-
 type Row = {
-  [ColumnKey.Property]: PropertyName;
-  [ColumnKey.Value]: string | number;
+  [PropertyValueTableColumnKey.Property]: PropertyName;
+  [PropertyValueTableColumnKey.Value]: string | number;
 };
 
 const _PreviewDatetime = ({ datetime }: Props) => {
@@ -74,9 +59,9 @@ const _PreviewDatetime = ({ datetime }: Props) => {
         padding: '$1',
       }}
     >
-      <Table.Header columns={COLUMNS}>
+      <Table.Header columns={PROPERTY_VALUE_TABLE_COLUMNS}>
         {({ key, label }) => (
-          <Table.Column css={{ display: 'none' }} key={key}>
+          <Table.Column key={key} css={{ display: 'none' }}>
             {label}
           </Table.Column>
         )}
@@ -86,11 +71,13 @@ const _PreviewDatetime = ({ datetime }: Props) => {
         {(row) => (
           <Table.Row key={row.property}>
             {(columnKey: Key) => (
-              <Table.Cell>
-                {row.property === 'Relative' && columnKey === ColumnKey.Value ? (
-                  <RelativeTimeFormatter unixTimestamp={row[columnKey as ColumnKey] as number} />
+              <Table.Cell
+                css={{ fontWeight: columnKey === PropertyValueTableColumnKey.Property ? '$medium' : '$normal' }}
+              >
+                {row.property === 'Relative' && columnKey === PropertyValueTableColumnKey.Value ? (
+                  <RelativeTimeFormatter unixTimestamp={row[columnKey as PropertyValueTableColumnKey] as number} />
                 ) : (
-                  row[columnKey as ColumnKey]
+                  row[columnKey as PropertyValueTableColumnKey]
                 )}
               </Table.Cell>
             )}
