@@ -13,8 +13,9 @@ import ReactFlow, {
   useNodesState,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { featureFlag } from '../../environment';
+import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { seaNodesAndEdgesSelector } from '../../store/json-engine/json-engine.selector';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
@@ -27,7 +28,9 @@ const _JsonDiagram = () => {
   const [seaNodes, setSeaNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
 
+  const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
   const seaNodesAndEdges = useRecoilValue(seaNodesAndEdgesSelector);
+
   const isMounted = useIsMounted();
 
   const nodeTypes: NodeTypes = useMemo(
@@ -44,7 +47,11 @@ const _JsonDiagram = () => {
 
     setSeaNodes(seaNodes);
     setEdges(edges);
-  }, [seaNodesAndEdges, setSeaNodes, setEdges]);
+
+    if (seaNodes.length > 0) {
+      setSelectedNodeId(seaNodes[0].id);
+    }
+  }, [seaNodesAndEdges, setSelectedNodeId, setSeaNodes, setEdges]);
 
   const handleNodesChange = useCallback(
     (changes: NodeChange[]) => setSeaNodes((nds) => applyNodeChanges(changes, nds)),
