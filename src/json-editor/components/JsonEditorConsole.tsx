@@ -48,7 +48,7 @@ const _JsonEditorConsole = ({ style }: Props) => {
           <Button
             {...sharedButtonProps}
             icon={<Icon icon="file-plus" size={24} color={theme?.colors.primary.value} />}
-            onClick={openImportJsonModal}
+            onPress={openImportJsonModal}
           />
         </Tooltip>
 
@@ -57,7 +57,7 @@ const _JsonEditorConsole = ({ style }: Props) => {
             {...sharedButtonProps}
             disabled={!isValidJson}
             icon={<Icon icon="download" size={24} color={theme?.colors.primary.value} />}
-            onClick={handleDownloadJsonClick}
+            onPress={handleDownloadJsonClick}
           />
         </Tooltip>
       </StyledHost>

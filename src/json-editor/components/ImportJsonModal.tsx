@@ -56,9 +56,9 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
   }, [getJsonResponse, setStringifiedJson, setLatestValidStringifiedJson, resetSelectedNodeId, closeModal]);
 
   return (
-    <Modal closeButton aria-labelledby="modal-title" open={isModalOpen} onClose={closeModal}>
+    <Modal closeButton aria-labelledby="import-json-modal-title" open={isModalOpen} onClose={closeModal}>
       <Modal.Header>
-        <Text b size={18}>
+        <Text id="import-json-modal-title" b size={18}>
           Import JSON via URL or File
         </Text>
       </Modal.Header>
@@ -66,6 +66,7 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
       <Modal.Body>
         <Row css={{ gap: '2px' }} align="center">
           <Input
+            aria-label="JSON URL input"
             clearable
             bordered
             fullWidth
@@ -81,7 +82,7 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
             css={{ width: '80px', minWidth: '80px' }}
             flat
             disabled={isJsonUrlValueEmpty}
-            onClick={() => fetchJsonUrl(jsonUrlValue)}
+            onPress={() => fetchJsonUrl(jsonUrlValue)}
           >
             {isGetJsonLoading ? <Loading color="currentColor" size="sm" /> : 'Fetch'}
           </Button>

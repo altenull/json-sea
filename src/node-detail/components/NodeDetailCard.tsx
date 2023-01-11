@@ -29,7 +29,7 @@ const _NodeDetailCard = ({ badge, value, childObjectNodeId }: Props, ref: Forwar
 
       <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
         {isString(childObjectNodeId) ? (
-          <Button flat size="sm" color="primary" onClick={() => setSelectedNodeId(childObjectNodeId)}>
+          <Button flat size="sm" color="primary" onPress={() => setSelectedNodeId(childObjectNodeId)}>
             View object
           </Button>
         ) : isArray(value) ? (
