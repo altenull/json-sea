@@ -7,7 +7,7 @@ const _Copyright = () => {
     <>
       Created by{' '}
       <Link href={externalLink.altenullGithub} target="_blank" rel="noopener noreferrer">
-        Altenull
+        altenull
       </Link>
     </>
   );

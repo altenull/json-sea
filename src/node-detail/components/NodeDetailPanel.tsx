@@ -1,9 +1,6 @@
 'use client';
 
 import { styled, Text, useTheme } from '@nextui-org/react';
-import L from 'leaflet';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import 'leaflet/dist/leaflet.css';
 import { memo, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Copyright } from '../../foundation/components/Copyright';
@@ -25,14 +22,6 @@ const _NodeDetailPanel = () => {
 
   const { isDark } = useTheme();
   const { isLocalhost } = useEnv();
-
-  useEffect(() => {
-    L.Marker.prototype.setIcon(
-      L.icon({
-        iconUrl: markerIcon.src,
-      })
-    );
-  }, []);
 
   useEffect(() => {
     if (!!hostRef?.current) {
