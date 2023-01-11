@@ -1,6 +1,7 @@
 import { Card, CSS, Text } from '@nextui-org/react';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { isString } from '../../../utils/json.util';
+import { openLinkAsNewTab } from '../../../utils/window.util';
 import { JsonLink } from '../hooks/useJsonLinkApi';
 
 type Props = {
@@ -19,16 +20,12 @@ const _PreviewOgMeta = ({ jsonLink }: Props) => {
     []
   );
 
-  const handleClick = useCallback(() => {
-    window.open(jsonLink.url, '_blank', 'noopener,noreferrer');
-  }, [jsonLink.url]);
-
   if (!isString(title) && !isString(description) && images.length < 1) {
     return null;
   }
 
   return (
-    <Card variant="bordered" isPressable onClick={handleClick}>
+    <Card variant="bordered" isPressable onClick={() => openLinkAsNewTab(jsonLink.url)}>
       {images.length > 0 && (
         <Card.Body css={{ p: 0 }}>
           <Card.Image src={images[0]} objectFit="cover" width="100%" height={120} alt={title} />

@@ -1,8 +1,11 @@
+'use client';
+
 import { styled, Text } from '@nextui-org/react';
 import prettyBytes from 'pretty-bytes';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { noop } from '../../../utils/function.util';
 import { isNull, isString } from '../../../utils/json.util';
+import { openLinkAsNewTab } from '../../../utils/window.util';
 import { HttpUri } from '../types/http-uri.type';
 import { Base64ImageSrc, ImageSrc } from '../types/image-src.type';
 
@@ -46,13 +49,9 @@ const _ImageViewer = ({ imageSrc }: Props) => {
     }
   }, [imageSrc]);
 
-  const handleImageClick = useCallback(() => {
-    window.open(imageSrc, '_blank', 'noopener,noreferrer');
-  }, [imageSrc]);
-
   return (
     <StyledHost>
-      <StyledImg src={imageSrc} alt="image preview" onClick={handleImageClick} />
+      <StyledImg src={imageSrc} alt="image preview" onClick={() => openLinkAsNewTab(imageSrc)} />
 
       {(!isNull(imageType) || !isNull(imageBytes)) && (
         <StyledImageMetaContainer>
