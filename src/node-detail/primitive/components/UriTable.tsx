@@ -35,7 +35,7 @@ const _UriTable = ({ httpUri }: Props) => {
     );
   }, []);
 
-  return <PropertyValueTable rows={getUriTableRows(httpUri)} />;
+  return <PropertyValueTable rows={getUriTableRows(httpUri)} ariaLabel="URL table" />;
 };
 
 /**

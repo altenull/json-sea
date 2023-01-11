@@ -31,6 +31,7 @@ const _InferredLatLngMapCard = ({ latPropertyK, lngPropertyK, latLng }: Props) =
             value: latLng[1],
           },
         ]}
+        ariaLabel="lat & lng table"
       />
     </InferredDetailCard>
   );

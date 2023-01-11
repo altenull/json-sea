@@ -3,6 +3,7 @@ import { Key, memo } from 'react';
 
 type Props = {
   rows: PropertyValueTableRow[];
+  ariaLabel: string; // To resolve warning message.
 };
 
 export enum PropertyValueTableColumnKey {
@@ -25,11 +26,12 @@ export const PROPERTY_VALUE_TABLE_COLUMNS = [
   },
 ];
 
-const _PropertyValueTable = ({ rows }: Props) => {
+const _PropertyValueTable = ({ rows, ariaLabel }: Props) => {
   return (
     <Table
       lined
       sticked
+      aria-label={ariaLabel}
       css={{
         height: 'auto',
         minWidth: '100%',
