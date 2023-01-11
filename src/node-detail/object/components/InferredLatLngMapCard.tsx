@@ -1,5 +1,3 @@
-'use client';
-
 import { LatLngTuple } from 'leaflet';
 import dynamic from 'next/dynamic';
 import { ComponentProps, memo } from 'react';

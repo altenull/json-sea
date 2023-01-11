@@ -1,5 +1,3 @@
-'use client';
-
 import { useTheme } from '@nextui-org/react';
 import { memo } from 'react';
 import { externalLink } from '../../environment';
