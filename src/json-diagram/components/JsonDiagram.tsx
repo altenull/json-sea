@@ -71,7 +71,7 @@ const _JsonDiagram = () => {
           nodeTypes={nodeTypes}
           nodes={seaNodes}
           edges={edges}
-          onNodesChange={featureFlag.debugMode ? handleNodesChange : undefined}
+          onNodesChange={featureFlag.nodesChange ? handleNodesChange : undefined}
         >
           {/* <MiniMap position="top-right" /> */}
           <Controls position="bottom-right" showInteractive={false} />

@@ -1,6 +1,7 @@
 export const featureFlag = {
   debugMode: false,
   ogMetaPreview: true,
+  nodesChange: true,
 };
 
 export const env = {
