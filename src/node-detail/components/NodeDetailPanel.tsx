@@ -41,7 +41,7 @@ const _NodeDetailPanel = () => {
           />
           {isLocalhost && (
             <Text h5 color="warning">
-              nodeId: {encloseDoubleQuote(selectedNode.id)}
+              nodeId is {encloseDoubleQuote(selectedNode.id)}
             </Text>
           )}
 

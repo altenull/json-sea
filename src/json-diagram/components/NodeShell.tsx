@@ -1,5 +1,6 @@
-import { styled } from '@nextui-org/react';
+import { styled, Text } from '@nextui-org/react';
 import { useRecoilState } from 'recoil';
+import { nodeTypeToAcronymMap } from '../../node-detail/array/helpers/node-type.helper';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { sizes } from '../../ui/constants/sizes.constant';
@@ -18,9 +19,9 @@ const _NodeShell = ({ nodeId, nodeType, children }: Props) => {
   return (
     <StyledHost isSelected={nodeId === selectedNodeId} nodeType={nodeType} onClick={() => setSelectedNodeId(nodeId)}>
       {isLocalhost && (
-        <StyledNodeHeader>
-          {nodeType} Node (nodeId: {nodeId})
-        </StyledNodeHeader>
+        <Text h4 color="warning">
+          {nodeTypeToAcronymMap[nodeType]} ({nodeId})
+        </Text>
       )}
 
       {nodeType === NodeType.Object && <StyledLeftCenterTip />}
@@ -71,10 +72,6 @@ const StyledHost = styled('div', {
       },
     },
   },
-});
-
-const StyledNodeHeader = styled('h4', {
-  fontSize: '22px',
 });
 
 const StyledLeftCenterTip = styled('span', {
