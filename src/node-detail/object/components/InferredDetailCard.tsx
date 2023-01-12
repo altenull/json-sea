@@ -1,8 +1,8 @@
 import { Card, Grid } from '@nextui-org/react';
-import { Fragment, memo, useCallback } from 'react';
+import { ForwardedRef, forwardRef, Fragment, memo, useCallback } from 'react';
+import { InferredDataType } from '../enums/inferred-data-type.enum';
 import { InferredDataTypeText } from './InferredDataTypeText';
 import { PropertyKeyBadge } from './PropertyKeyBadge';
-import { InferredDataType } from '../enums/inferred-data-type.enum';
 
 type Props = {
   propertyKeys: string[];
@@ -10,7 +10,10 @@ type Props = {
   children: React.ReactNode;
 };
 
-const _InferredDetailCard = ({ propertyKeys, inferredDataType, children }: Props) => {
+const _InferredDetailCard = (
+  { propertyKeys, inferredDataType, children }: Props,
+  ref: ForwardedRef<HTMLDivElement>
+) => {
   const renderPropertyKeyBadges = useCallback(() => {
     return propertyKeys.map((propertyK: string, index: number, selfArray: string[]) => {
       const isLast: boolean = index === selfArray.length - 1;
@@ -25,7 +28,7 @@ const _InferredDetailCard = ({ propertyKeys, inferredDataType, children }: Props
   }, [propertyKeys]);
 
   return (
-    <Card variant="bordered">
+    <Card ref={ref} variant="bordered" isHoverable>
       <Card.Header>
         <Grid.Container direction="column">
           <Grid>{renderPropertyKeyBadges()}</Grid>
@@ -40,4 +43,4 @@ const _InferredDetailCard = ({ propertyKeys, inferredDataType, children }: Props
   );
 };
 
-export const InferredDetailCard = memo(_InferredDetailCard);
+export const InferredDetailCard = memo(forwardRef<HTMLDivElement, Props>(_InferredDetailCard));

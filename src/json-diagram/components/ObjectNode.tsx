@@ -7,7 +7,7 @@ import { NodeShell } from './NodeShell';
 import { ObjectNodeProperty } from './ObjectNodeProperty';
 import { TargetHandle } from './TargetHandle';
 import { useRecoilValue } from 'recoil';
-import { hoveredNodeDetailCardAtom } from '../../store/node-detail-view/node-detail-view.atom';
+import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
 
 /**
  * ObjectNode `<Handle>` Details
@@ -16,7 +16,7 @@ import { hoveredNodeDetailCardAtom } from '../../store/node-detail-view/node-det
  * target: always have except for RootNode.
  */
 const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
-  const hoveredNodeDetailCard = useRecoilValue(hoveredNodeDetailCardAtom);
+  const hoveredNodeDetails = useRecoilValue(hoveredNodeDetailsAtom);
   const edges = useEdges();
 
   const { obj, isRootNode } = data;
@@ -40,8 +40,9 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
   /**
    * undefined `propertyK` means a `ArrayItemCard` is hovered, not `PropertyCard`.
    */
-  const isHoveredFromNodeDetail: boolean =
-    hoveredNodeDetailCard?.nodeId === id && hoveredNodeDetailCard?.propertyK === undefined;
+  const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(
+    ({ nodeId, propertyK }) => nodeId === id && propertyK === undefined
+  );
 
   return (
     <NodeShell nodeId={id} nodeType={NodeType.Object}>

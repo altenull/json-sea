@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { seaNodesAndEdgesSelector } from '../../../store/json-engine/json-engine.selector';
-import { useHoverNodeDetailCard } from '../../../store/node-detail-view/hooks/useHoverNodeDetailCard';
+import { useHoverNodeDetails } from '../../../store/node-detail-view/hooks/useHoverNodeDetails';
 import { isObject } from '../../../utils/json.util';
 import { encloseSquareBrackets } from '../../../utils/string.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
@@ -18,7 +18,7 @@ type Props = {
 const _ArrayItemCard = ({ parentNodeId, selfNodeId, arrayItemIndex, value }: Props) => {
   const { seaNodeEntities, edges } = useRecoilValue(seaNodesAndEdgesSelector);
 
-  const { cardRef } = useHoverNodeDetailCard({ nodeId: selfNodeId });
+  const { cardRef } = useHoverNodeDetails([{ nodeId: selfNodeId }]);
 
   const arrayItemName: string = useMemo(() => {
     const foreArrayItemName: string = getForeArrayItemName({

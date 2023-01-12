@@ -14,7 +14,7 @@ type Props = {
 
 const _ObjectNodeDetail = ({ nodeId, nodeData }: Props) => {
   const renderPropertyCards = useCallback(() => {
-    const InferredLatLngMapCardProps: InferredLatLngMapCardProps[] = inferMap(nodeData.obj);
+    const InferredLatLngMapCardProps: InferredLatLngMapCardProps[] = inferMap(nodeData.obj, nodeId);
 
     return Object.entries(nodeData.obj).map(([propertyK, propertyV]) => {
       // Compare with `lngPropertyK` in order to insert `InferredMapCard` after kind of longitude property.

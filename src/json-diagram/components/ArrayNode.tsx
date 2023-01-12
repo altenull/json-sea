@@ -4,7 +4,7 @@ import { Handle, NodeProps, Position } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { ArrayNodeData } from '../../store/json-engine/types/sea-node.type';
-import { hoveredNodeDetailCardAtom } from '../../store/node-detail-view/node-detail-view.atom';
+import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
 import { ROOT_NODE_NAME } from '../constants/root-node.constant';
 import { handleStyle } from '../styles/handle.style';
 import { HoveringBlueDot } from './HoveringBlueDot';
@@ -18,12 +18,12 @@ import { TargetHandle } from './TargetHandle';
  * target: always have except for RootNode.
  */
 const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
-  const hoveredNodeDetailCard = useRecoilValue(hoveredNodeDetailCardAtom);
+  const hoveredNodeDetails = useRecoilValue(hoveredNodeDetailsAtom);
 
   const { arrayIndex, items, isRootNode } = data;
 
   const isEmpty: boolean = items.length < 1;
-  const isHoveredFromNodeDetail: boolean = hoveredNodeDetailCard?.nodeId === id;
+  const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(({ nodeId }) => nodeId === id);
 
   return (
     <NodeShell nodeId={id} nodeType={NodeType.Array}>

@@ -4,7 +4,7 @@ import { NodeProps } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { PrimitiveNodeData } from '../../store/json-engine/types/sea-node.type';
-import { hoveredNodeDetailCardAtom } from '../../store/node-detail-view/node-detail-view.atom';
+import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
 import { HoveringBlueDot } from './HoveringBlueDot';
 import { NodeShell } from './NodeShell';
 import { TargetHandle } from './TargetHandle';
@@ -16,7 +16,7 @@ import { TargetHandle } from './TargetHandle';
  * target: always have.
  */
 const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
-  const hoveredNodeDetailCard = useRecoilValue(hoveredNodeDetailCardAtom);
+  const hoveredNodeDetails = useRecoilValue(hoveredNodeDetailsAtom);
 
   const textCss: CSS = useMemo(
     () => ({
@@ -29,7 +29,7 @@ const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
     []
   );
 
-  const isHoveredFromNodeDetail: boolean = hoveredNodeDetailCard?.nodeId === id;
+  const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(({ nodeId }) => nodeId === id);
 
   return (
     <NodeShell nodeId={id} nodeType={NodeType.Primitive}>

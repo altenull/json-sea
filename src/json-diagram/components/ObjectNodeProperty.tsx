@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { Handle, Position } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
-import { hoveredNodeDetailCardAtom } from '../../store/node-detail-view/node-detail-view.atom';
+import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { encloseDoubleQuote } from '../../utils/string.util';
 import { HoveringBlueDot } from './HoveringBlueDot';
@@ -16,13 +16,14 @@ type Props = {
 };
 
 const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Props) => {
-  const hoveredNodeDetailCard = useRecoilValue(hoveredNodeDetailCardAtom);
+  const hoveredNodeDetails = useRecoilValue(hoveredNodeDetailsAtom);
   const { theme } = useTheme();
 
   const { isPrimitiveData } = validateJsonDataType(propertyV);
 
-  const isHoveredFromNodeDetail: boolean =
-    hoveredNodeDetailCard?.nodeId === nodeId && hoveredNodeDetailCard?.propertyK === propertyK;
+  const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(
+    (item) => item.nodeId === nodeId && item.propertyK === propertyK
+  );
 
   return (
     <StyledHost>
