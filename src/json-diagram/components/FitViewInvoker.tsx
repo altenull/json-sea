@@ -10,6 +10,7 @@ const _FitViewInvoker = ({ seaNodes }: Props) => {
 
   useEffect(() => {
     reactFlowInstance.fitView();
+    reactFlowInstance.zoomOut();
   }, [reactFlowInstance, seaNodes]);
 
   return <></>;
