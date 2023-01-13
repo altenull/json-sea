@@ -12,6 +12,7 @@
     "@monaco-editor/react": "^4.4.6",
     "@next/font": "^13.1.1",
     "@nextui-org/react": "^1.0.0-beta.11",
+    "dagre": "^0.8.5",
     "date-fns": "^2.29.3",
     "leaflet": "^1.9.3",
     "nanoid": "^4.0.0",
@@ -26,6 +27,7 @@
     "timeago.js": "^4.0.2"
   },
   "devDependencies": {
+    "@types/dagre": "^0.7.48",
     "@types/leaflet": "^1.9.0",
     "@types/node": "^18.11.18",
     "@types/react": "18.0.26",
