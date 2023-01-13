@@ -19,7 +19,7 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
       "preferred_color": "#315e33",
       "birth": "2022-10-23T00:30:51Z",
       "random_url": "https://wikimedia.org/justo.aspx?nisi=vivamus&volutpat=in&eleifend=felis",
-      "random_img_url": "http://dummyimage.com/136x207.png"
+      "random_img_url": "https://dummyimage.com/136x207.png"
     },
     {
       "id": 2,
@@ -27,8 +27,8 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
       "last_name": "Dymick",
       "preferred_color": "#aef195",
       "birth": "2022-07-13T13:03:36Z",
-      "random_url": "http://etsy.com/cum/sociis/natoque/penatibus/et/magnis.html?dui=vel",
-      "random_img_url": "http://dummyimage.com/109x260.png"
+      "random_url": "https://etsy.com/cum/sociis/natoque/penatibus/et/magnis.html?dui=vel",
+      "random_img_url": "https://dummyimage.com/109x260.png"
     },
     {
       "id": 3,
@@ -37,7 +37,7 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
       "preferred_color": "#f7a2e2",
       "birth": "2022-12-13T18:06:06Z",
       "random_url": "https://cbc.ca/nunc/commodo/placerat/praesent/blandit/nam.aspx?ipsum=felis&aliquam=ut",
-      "random_img_url": "http://dummyimage.com/127x233.png"
+      "random_img_url": "https://dummyimage.com/127x233.png"
     }
   ],
   "complex_object": {

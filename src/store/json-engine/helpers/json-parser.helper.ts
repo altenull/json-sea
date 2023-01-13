@@ -1,11 +1,11 @@
 import { nanoid } from 'nanoid';
-import { Edge, MarkerType, XYPosition } from 'reactflow';
+import { Edge, MarkerType } from 'reactflow';
 import { ARRAY_ROOT_NODE_INDEX } from '../../../json-diagram/constants/root-node.constant';
-import { sizes } from '../../../ui/constants/sizes.constant';
 import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
 import { SeaNode } from '../types/sea-node.type';
 import { getJsonDataType, validateJsonDataType } from './json-data-type.helper';
+import { getXYPosition } from './sea-node-position.helper';
 
 const formatNodeId = (nodeSequence: number): string => `n${nodeSequence}`;
 
@@ -22,13 +22,6 @@ const formatNodeId = (nodeSequence: number): string => `n${nodeSequence}`;
 
 //   return `e--${concatenatedSource}--${target}`;
 // };
-
-const getXYPosition = (depth: number): XYPosition => {
-  const depthWidth = depth * sizes.nodeMaxWidth + depth * sizes.nodeGap;
-  const leftPadding = 50;
-
-  return { x: depthWidth + leftPadding, y: 50 } as XYPosition;
-};
 
 const convertObjectToNode = ({
   nodeId,

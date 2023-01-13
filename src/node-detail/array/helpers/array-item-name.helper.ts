@@ -1,8 +1,8 @@
 import { Edge } from 'reactflow';
 import { ROOT_NODE_NAME } from '../../../json-diagram/constants/root-node.constant';
 import { isArraySeaNode, isObjectSeaNode } from '../../../store/json-engine/helpers/sea-node.helper';
-import { SeaNodeEntities } from '../../../store/json-engine/json-engine.selector';
 import { SeaNode } from '../../../store/json-engine/types/sea-node.type';
+import { Entities } from '../../../utils/array.util';
 import { encloseSquareBrackets } from '../../../utils/string.util';
 
 /**
@@ -14,7 +14,7 @@ export const getForeArrayItemName = ({
   parentNodeId,
   selfNodeId,
 }: {
-  seaNodeEntities: SeaNodeEntities;
+  seaNodeEntities: Entities<SeaNode>;
   edges: Edge[];
   parentNodeId: string;
   selfNodeId: string;

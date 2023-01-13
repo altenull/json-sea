@@ -1,7 +1,9 @@
 import { Edge } from 'reactflow';
 import { selector } from 'recoil';
+import { arrayToEntities, Entities } from '../../utils/array.util';
 import { isValidJson } from '../../utils/json.util';
 import { jsonParser } from './helpers/json-parser.helper';
+import { getLayoutedSeaNodes } from './helpers/sea-node-position.helper';
 import { JSON_ENGINE_PREFIX, latestValidStringifiedJsonAtom, stringifiedJsonAtom } from './json-engine.atom';
 import { SeaNode } from './types/sea-node.type';
 
@@ -21,25 +23,19 @@ export const latestValidJsonSelector = selector<object | any[]>({
   },
 });
 
-export type SeaNodeEntities = { [nodeId: string]: SeaNode };
-
 export const seaNodesAndEdgesSelector = selector<{
   seaNodes: SeaNode[];
-  seaNodeEntities: SeaNodeEntities;
+  seaNodeEntities: Entities<SeaNode>;
   edges: Edge[];
 }>({
   key: `${JSON_ENGINE_PREFIX}/seaNodesAndEdgesSelector`,
   get: ({ get }) => {
     const latestValidJson: object | any[] = get(latestValidJsonSelector);
-    const { seaNodes, edges } = jsonParser(latestValidJson);
-    const seaNodeEntities = seaNodes.reduce(
-      (acc: SeaNodeEntities, seaNode: SeaNode) => ({
-        ...acc,
-        [seaNode.id]: seaNode,
-      }),
-      {}
-    );
 
-    return { seaNodes, seaNodeEntities, edges };
+    const { seaNodes, edges } = jsonParser(latestValidJson);
+    const layoutedSeaNodes: SeaNode[] = getLayoutedSeaNodes(seaNodes, edges);
+    const seaNodeEntities: Entities<SeaNode> = arrayToEntities<SeaNode>(layoutedSeaNodes, 'id');
+
+    return { seaNodes: layoutedSeaNodes, seaNodeEntities, edges };
   },
 });
