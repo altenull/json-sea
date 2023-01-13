@@ -67,6 +67,7 @@ const _JsonDiagram = () => {
             minHeight: '100%',
           }}
           nodesConnectable={false}
+          edgesFocusable={false}
           nodeTypes={nodeTypes}
           nodes={seaNodes}
           edges={edges}
