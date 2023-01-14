@@ -27,11 +27,13 @@ const convertObjectToNode = ({
   nodeId,
   depth,
   obj,
+  arrayIndexForObject,
   isRootNode,
 }: {
   nodeId: string;
   depth: number;
   obj: object;
+  arrayIndexForObject: number | null;
   isRootNode: boolean;
 }): SeaNode => {
   return {
@@ -43,6 +45,7 @@ const convertObjectToNode = ({
       dataType: JsonDataType.Object,
       stringifiedJson: JSON.stringify(obj),
       obj,
+      arrayIndexForObject,
       isRootNode,
     },
   };
@@ -130,6 +133,13 @@ const getEdge = ({ source, target, sourceHandle }: { source: string; target: str
   };
 };
 
+type TraverseParams = {
+  traverseTarget: object | any[];
+  depth: number;
+  arrayIndexForObject: number | null;
+  sourceSet: { source?: string; sourceHandle?: string };
+};
+
 export const jsonParser = (
   json: object | any[]
 ): {
@@ -162,11 +172,7 @@ export const jsonParser = (
    * - [string, undefined] -> Parent is array node
    * - [string, string] -> Parent is object node (arrow is from object field)
    */
-  const traverse = (
-    traverseTarget: object | any[],
-    depth: number,
-    sourceSet: { source?: string; sourceHandle?: string }
-  ): SeaNode[] => {
+  const traverse = ({ traverseTarget, depth, arrayIndexForObject, sourceSet }: TraverseParams): SeaNode[] => {
     let seaNodes: SeaNode[] = [];
 
     const currentNodeId: string = formatNodeId(nodeSequence);
@@ -179,7 +185,13 @@ export const jsonParser = (
       const isObjectRootNode: boolean = sourceSet.source === undefined;
 
       seaNodes = seaNodes.concat(
-        convertObjectToNode({ nodeId: currentNodeId, depth, obj: traverseTarget, isRootNode: isObjectRootNode })
+        convertObjectToNode({
+          nodeId: currentNodeId,
+          depth,
+          obj: traverseTarget,
+          arrayIndexForObject,
+          isRootNode: isObjectRootNode,
+        })
       );
 
       // if (!isRootNode) {
@@ -204,9 +216,14 @@ export const jsonParser = (
           const target: string = nextNodeId;
 
           seaNodes = seaNodes.concat(
-            traverse(propertyV as object, nextDepth, {
-              source,
-              sourceHandle,
+            traverse({
+              traverseTarget: propertyV as object,
+              depth: nextDepth,
+              arrayIndexForObject,
+              sourceSet: {
+                source,
+                sourceHandle,
+              },
             })
           );
           edges = edges.concat(
@@ -228,9 +245,14 @@ export const jsonParser = (
             if (arrayItemValidator.isObjectData) {
               // Object > Array > Object
               seaNodes = seaNodes.concat(
-                traverse(arrayItem as object, nextDepth, {
-                  source,
-                  sourceHandle,
+                traverse({
+                  traverseTarget: arrayItem as object,
+                  depth: nextDepth,
+                  arrayIndexForObject: arrayIndex,
+                  sourceSet: {
+                    source,
+                    sourceHandle,
+                  },
                 })
               );
               edges = edges.concat(
@@ -265,9 +287,14 @@ export const jsonParser = (
 
               if (!isEmptyArray) {
                 seaNodes = seaNodes.concat(
-                  traverse(items, nextDepth, {
-                    source,
-                    sourceHandle,
+                  traverse({
+                    traverseTarget: items,
+                    depth: nextDepth,
+                    arrayIndexForObject: arrayIndex,
+                    sourceSet: {
+                      source,
+                      sourceHandle,
+                    },
                   })
                 );
               }
@@ -316,7 +343,14 @@ export const jsonParser = (
 
         if (arrayItemValidator.isObjectData) {
           // Array > Object
-          seaNodes = seaNodes.concat(traverse(arrayItem as object, nextDepth, { source: currentNodeId }));
+          seaNodes = seaNodes.concat(
+            traverse({
+              traverseTarget: arrayItem as object,
+              depth: nextDepth,
+              arrayIndexForObject: arrayIndex,
+              sourceSet: { source: currentNodeId },
+            })
+          );
           edges = edges.concat(
             getEdge({
               source,
@@ -347,8 +381,13 @@ export const jsonParser = (
 
           if (!isEmptyArray) {
             seaNodes = seaNodes.concat(
-              traverse(items, nextDepth, {
-                source,
+              traverse({
+                traverseTarget: items,
+                depth: nextDepth,
+                arrayIndexForObject: arrayIndex,
+                sourceSet: {
+                  source,
+                },
               })
             );
           }
@@ -380,7 +419,12 @@ export const jsonParser = (
      * In JSON, root node can be object or array.
      * So starts with `traverse` function with depth 0.
      */
-    seaNodes: traverse(json, 0, {}),
+    seaNodes: traverse({
+      traverseTarget: json,
+      depth: 0,
+      arrayIndexForObject: null,
+      sourceSet: {},
+    }),
     edges,
   };
 };

@@ -2,6 +2,7 @@ import { memo, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { jsonTreeSelector } from '../../../store/json-engine/json-engine.selector';
 import { useHoverNodeDetails } from '../../../store/node-detail-view/hooks/useHoverNodeDetails';
+import { getParentNodeId } from '../../../utils/reactflow.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
 import { useArrayItemNameTracer } from '../hooks/useArrayItemNameTracer';
 import { ArrayItemNameBadge } from './ArrayItemNameBadge';
@@ -20,21 +21,14 @@ const _ArrayItemPrimitiveCard = ({ nodeId, arrayItemIndex, value }: Props) => {
 
   const { cardRef } = useHoverNodeDetails([{ nodeId }]);
 
-  const parentNodeId: string = useMemo(
-    () => edges.find((edge) => edge.target === nodeId)?.source as string,
-    [edges, nodeId]
-  );
+  const parentNodeId: string = useMemo(() => getParentNodeId(edges, nodeId), [edges, nodeId]);
 
-  const arrayItemName: string = useArrayItemNameTracer({
-    parentNodeId,
-    selfNodeId: nodeId,
-    lastArrayItemIndex: arrayItemIndex,
-  });
+  const { getArrayItemName } = useArrayItemNameTracer();
 
   return (
     <NodeDetailCard
       ref={cardRef}
-      badge={<ArrayItemNameBadge arrayItemName={arrayItemName} />}
+      badge={<ArrayItemNameBadge arrayItemName={getArrayItemName(parentNodeId, nodeId, arrayItemIndex)} />}
       value={value}
       childObjectNodeId={null}
     />

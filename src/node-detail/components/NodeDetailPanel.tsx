@@ -14,7 +14,7 @@ import { encloseDoubleQuote } from '../../utils/string.util';
 import { ArrayNodeDetail } from '../array/components/ArrayNodeDetail';
 import { ObjectNodeDetail } from '../object/components/ObjectNodeDetail';
 import { PrimitiveNodeDetail } from '../primitive/components/PrimitiveNodeDetail';
-import { NodeTypeText } from './NodeTypeText';
+import { NodeDetailPanelHeader } from './NodeDetailPanelHeader';
 
 const _NodeDetailPanel = () => {
   const selectedNode: SeaNode | null = useRecoilValue(selectedSeaNodeSelector);
@@ -35,10 +35,8 @@ const _NodeDetailPanel = () => {
         <Text h3>No selected node.</Text>
       ) : (
         <>
-          <NodeTypeText
-            nodeType={selectedNode.type}
-            isRootNode={(isObjectSeaNode(selectedNode) || isArraySeaNode(selectedNode)) && selectedNode.data.isRootNode}
-          />
+          <NodeDetailPanelHeader selectedNode={selectedNode} />
+
           {isLocalhost && (
             <Text h5 color="warning">
               nodeId is {encloseDoubleQuote(selectedNode.id)}

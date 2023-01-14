@@ -15,18 +15,14 @@ type Props = {
 const _ArrayItemCard = ({ parentNodeId, selfNodeId, arrayItemIndex, value }: Props) => {
   const { cardRef } = useHoverNodeDetails([{ nodeId: selfNodeId }]);
 
-  const arrayItemName: string = useArrayItemNameTracer({
-    parentNodeId,
-    selfNodeId,
-    lastArrayItemIndex: arrayItemIndex,
-  });
+  const { getArrayItemName } = useArrayItemNameTracer();
 
   const objectNodeId: string | null = useMemo(() => (isObject(value) ? selfNodeId : null), [value, selfNodeId]);
 
   return (
     <NodeDetailCard
       ref={cardRef}
-      badge={<ArrayItemNameBadge arrayItemName={arrayItemName} />}
+      badge={<ArrayItemNameBadge arrayItemName={getArrayItemName(parentNodeId, selfNodeId, arrayItemIndex)} />}
       value={value}
       childObjectNodeId={objectNodeId}
     />

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 import { Edge } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { ROOT_NODE_NAME } from '../../../json-diagram/constants/root-node.constant';
@@ -55,31 +55,24 @@ const traceArrayItemName = ({
   return foreArrayItemName;
 };
 
-type UseArrayItemNameTracerParam = {
-  parentNodeId: string;
-  selfNodeId: string;
-  lastArrayItemIndex: number;
-};
-
-export const useArrayItemNameTracer = ({
-  parentNodeId,
-  selfNodeId,
-  lastArrayItemIndex,
-}: UseArrayItemNameTracerParam) => {
+export const useArrayItemNameTracer = () => {
   const jsonTree = useRecoilValue(jsonTreeSelector);
 
-  const arrayItemName: string = useMemo(() => {
-    const { seaNodeEntities, edges } = jsonTree;
+  const getArrayItemName = useCallback(
+    (parentNodeId: string, selfNodeId: string, lastArrayItemIndex: number) => {
+      const { seaNodeEntities, edges } = jsonTree;
 
-    const foreArrayItemName: string = traceArrayItemName({
-      seaNodeEntities,
-      edges,
-      parentNodeId,
-      selfNodeId,
-    });
+      const foreArrayItemName: string = traceArrayItemName({
+        seaNodeEntities,
+        edges,
+        parentNodeId,
+        selfNodeId,
+      });
 
-    return foreArrayItemName.concat(encloseSquareBrackets(lastArrayItemIndex));
-  }, [jsonTree, parentNodeId, selfNodeId, lastArrayItemIndex]);
+      return foreArrayItemName.concat(encloseSquareBrackets(lastArrayItemIndex));
+    },
+    [jsonTree]
+  );
 
-  return arrayItemName;
+  return { getArrayItemName };
 };

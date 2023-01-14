@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { Edge } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../../store/json-engine/enums/node-type.enum';
@@ -25,7 +25,7 @@ const _ArrayNodeDetail = ({ nodeId, nodeData }: Props) => {
   const { items } = nodeData;
 
   const isEmpty: boolean = items.length < 1;
-  const parentNodeId: string = nodeId;
+  const parentNodeId: string = nodeId; // On each `ArrayItemCard` perspective, their parentNodeId is nodeId.
 
   return (
     <NodeDetailList>
