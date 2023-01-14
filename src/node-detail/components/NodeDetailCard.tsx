@@ -1,5 +1,5 @@
 import { Button, Card, Grid } from '@nextui-org/react';
-import { ForwardedRef, forwardRef, memo } from 'react';
+import { ForwardedRef, forwardRef, isValidElement, memo, ReactElement } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { isArray, isString } from '../../utils/json.util';
@@ -8,7 +8,7 @@ import { PrimitiveInspector } from '../primitive/components/PrimitiveInspector';
 import { JsonDataTypeText } from './JsonDataTypeText';
 
 type Props = {
-  badge: React.ReactElement;
+  badge?: ReactElement;
   value: any;
   childObjectNodeId: string | null;
 };
@@ -20,7 +20,7 @@ const _NodeDetailCard = ({ badge, value, childObjectNodeId }: Props, ref: Forwar
     <Card ref={ref} isHoverable>
       <Card.Header>
         <Grid.Container direction="column">
-          <Grid>{badge}</Grid>
+          {isValidElement(badge) && <Grid>{badge}</Grid>}
           <Grid>
             <JsonDataTypeText value={value} />
           </Grid>
