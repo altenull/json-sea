@@ -1,6 +1,9 @@
+import { useMemo } from 'react';
 import { Edge } from 'reactflow';
+import { useRecoilValue } from 'recoil';
 import { ROOT_NODE_NAME } from '../../../json-diagram/constants/root-node.constant';
 import { isArraySeaNode, isObjectSeaNode } from '../../../store/json-engine/helpers/sea-node.helper';
+import { jsonTreeSelector } from '../../../store/json-engine/json-engine.selector';
 import { SeaNode } from '../../../store/json-engine/types/sea-node.type';
 import { Entities } from '../../../utils/array.util';
 import { encloseSquareBrackets } from '../../../utils/string.util';
@@ -8,7 +11,7 @@ import { encloseSquareBrackets } from '../../../utils/string.util';
 /**
  * @returns e.g. 'something[0]', 'array[3][2]', ...
  */
-export const getForeArrayItemName = ({
+const traceArrayItemName = ({
   seaNodeEntities,
   edges,
   parentNodeId,
@@ -38,7 +41,7 @@ export const getForeArrayItemName = ({
       const grandparentNodeId: string | undefined = edges.find(({ target }) => target === parentNodeId)
         ?.source as string;
 
-      foreArrayItemName = getForeArrayItemName({
+      foreArrayItemName = traceArrayItemName({
         seaNodeEntities,
         edges,
         parentNodeId: grandparentNodeId,
@@ -50,4 +53,33 @@ export const getForeArrayItemName = ({
   }
 
   return foreArrayItemName;
+};
+
+type UseArrayItemNameTracerParam = {
+  parentNodeId: string;
+  selfNodeId: string;
+  lastArrayItemIndex: number;
+};
+
+export const useArrayItemNameTracer = ({
+  parentNodeId,
+  selfNodeId,
+  lastArrayItemIndex,
+}: UseArrayItemNameTracerParam) => {
+  const jsonTree = useRecoilValue(jsonTreeSelector);
+
+  const arrayItemName: string = useMemo(() => {
+    const { seaNodeEntities, edges } = jsonTree;
+
+    const foreArrayItemName: string = traceArrayItemName({
+      seaNodeEntities,
+      edges,
+      parentNodeId,
+      selfNodeId,
+    });
+
+    return foreArrayItemName.concat(encloseSquareBrackets(lastArrayItemIndex));
+  }, [jsonTree, parentNodeId, selfNodeId, lastArrayItemIndex]);
+
+  return arrayItemName;
 };

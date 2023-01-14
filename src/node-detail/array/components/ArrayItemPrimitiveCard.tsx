@@ -2,9 +2,8 @@ import { memo, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { jsonTreeSelector } from '../../../store/json-engine/json-engine.selector';
 import { useHoverNodeDetails } from '../../../store/node-detail-view/hooks/useHoverNodeDetails';
-import { encloseSquareBrackets } from '../../../utils/string.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
-import { getForeArrayItemName } from '../helpers/array-item-name.helper';
+import { useArrayItemNameTracer } from '../hooks/useArrayItemNameTracer';
 import { ArrayItemNameBadge } from './ArrayItemNameBadge';
 
 type Props = {
@@ -17,7 +16,7 @@ type Props = {
  * Parent node is always a ArrayNode.
  */
 const _ArrayItemPrimitiveCard = ({ nodeId, arrayItemIndex, value }: Props) => {
-  const { seaNodeEntities, edges } = useRecoilValue(jsonTreeSelector);
+  const { edges } = useRecoilValue(jsonTreeSelector);
 
   const { cardRef } = useHoverNodeDetails([{ nodeId }]);
 
@@ -26,16 +25,11 @@ const _ArrayItemPrimitiveCard = ({ nodeId, arrayItemIndex, value }: Props) => {
     [edges, nodeId]
   );
 
-  const arrayItemName: string = useMemo(() => {
-    const foreArrayItemName: string = getForeArrayItemName({
-      seaNodeEntities,
-      edges,
-      parentNodeId,
-      selfNodeId: nodeId,
-    });
-
-    return `${foreArrayItemName}${encloseSquareBrackets(arrayItemIndex)}`;
-  }, [seaNodeEntities, edges, parentNodeId, nodeId, arrayItemIndex]);
+  const arrayItemName: string = useArrayItemNameTracer({
+    parentNodeId,
+    selfNodeId: nodeId,
+    lastArrayItemIndex: arrayItemIndex,
+  });
 
   return (
     <NodeDetailCard
