@@ -24,7 +24,7 @@ const _NodeShell = ({ nodeId, nodeType, children }: Props) => {
         </Text>
       )}
 
-      {nodeType === NodeType.Object && <StyledLeftCenterTip />}
+      {nodeType === NodeType.Object && <StyledLeftCenterTip className="left-center-tip" />}
 
       {children}
     </StyledHost>
@@ -41,12 +41,15 @@ const StyledHost = styled('div', {
 
   '&:hover': {
     border: '2px solid $gray500',
+    '.left-center-tip': {
+      borderRightColor: '$gray500',
+    },
   },
 
   variants: {
     isSelected: {
       true: {
-        backgroundColor: '$blue50',
+        backgroundColor: '$blue100',
       },
     },
     nodeType: {
@@ -83,7 +86,9 @@ const StyledLeftCenterTip = styled('span', {
   minHeight: '24px',
   borderTop: '12px solid transparent',
   borderBottom: '12px solid transparent',
-  borderRight: '10px solid $gray400',
+  borderRightWidth: '10px',
+  borderRightStyle: 'solid',
+  borderRightColor: '$gray400',
 });
 
 export const NodeShell = _NodeShell;
