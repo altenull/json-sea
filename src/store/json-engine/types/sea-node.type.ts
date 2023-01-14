@@ -9,8 +9,8 @@ type SharedNodeData = {
 
 export type ObjectNodeData = SharedNodeData & {
   dataType: JsonDataType.Object;
-  obj: object;
   arrayIndexForObject: number | null; // Array can includes `Object` type item.
+  obj: object;
   isRootNode: boolean;
 };
 

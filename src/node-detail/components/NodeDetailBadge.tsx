@@ -7,7 +7,7 @@ type Props = {
 
 const _NodeDetailBadge = ({ value }: Props) => {
   return (
-    <Badge isSquared variant="flat" color="default" size="md">
+    <Badge isSquared enableShadow variant="flat" color="default" size="md">
       {value}
     </Badge>
   );

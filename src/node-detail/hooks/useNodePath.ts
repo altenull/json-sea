@@ -1,17 +1,18 @@
 import { useCallback } from 'react';
 import { Edge } from 'reactflow';
 import { useRecoilValue } from 'recoil';
-import { ROOT_NODE_NAME } from '../../../json-diagram/constants/root-node.constant';
-import { isArraySeaNode, isObjectSeaNode } from '../../../store/json-engine/helpers/sea-node.helper';
-import { jsonTreeSelector } from '../../../store/json-engine/json-engine.selector';
-import { SeaNode } from '../../../store/json-engine/types/sea-node.type';
-import { Entities } from '../../../utils/array.util';
-import { encloseSquareBrackets } from '../../../utils/string.util';
+import { ROOT_NODE_NAME } from '../../json-diagram/constants/root-node.constant';
+import { isArraySeaNode, isObjectSeaNode } from '../../store/json-engine/helpers/sea-node.helper';
+import { jsonTreeSelector } from '../../store/json-engine/json-engine.selector';
+import { SeaNode } from '../../store/json-engine/types/sea-node.type';
+import { Entities } from '../../utils/array.util';
+import { isNumber } from '../../utils/json.util';
+import { encloseSquareBrackets } from '../../utils/string.util';
 
 /**
- * @returns e.g. 'something[0]', 'array[3][2]', ...
+ * @returns e.g. 'field_1', 'something[0]', 'array[3][2]', ...
  */
-const traceArrayItemName = ({
+const tracePath = ({
   seaNodeEntities,
   edges,
   parentNodeId,
@@ -22,7 +23,7 @@ const traceArrayItemName = ({
   parentNodeId: string;
   selfNodeId: string;
 }): string => {
-  let foreArrayItemName: string = '';
+  let path: string = '';
 
   const parentNode: SeaNode = seaNodeEntities[parentNodeId];
 
@@ -31,48 +32,48 @@ const traceArrayItemName = ({
       ({ source, target }) => source === parentNodeId && target === selfNodeId
     )?.sourceHandle as string;
 
-    foreArrayItemName = `${propertyK}${foreArrayItemName}`;
+    path = `${propertyK}${path}`;
   }
 
   if (isArraySeaNode(parentNode)) {
     if (parentNode.data.isRootNode) {
-      foreArrayItemName = ROOT_NODE_NAME.concat(foreArrayItemName);
+      path = ROOT_NODE_NAME.concat(path);
     } else {
       const grandparentNodeId: string | undefined = edges.find(({ target }) => target === parentNodeId)
         ?.source as string;
 
-      foreArrayItemName = traceArrayItemName({
+      path = tracePath({
         seaNodeEntities,
         edges,
         parentNodeId: grandparentNodeId,
         selfNodeId: parentNode.id,
       })
         .concat(encloseSquareBrackets(parentNode.data.arrayIndex))
-        .concat(foreArrayItemName);
+        .concat(path);
     }
   }
 
-  return foreArrayItemName;
+  return path;
 };
 
-export const useArrayItemNameTracer = () => {
+export const useNodePath = () => {
   const jsonTree = useRecoilValue(jsonTreeSelector);
 
-  const getArrayItemName = useCallback(
-    (parentNodeId: string, selfNodeId: string, lastArrayItemIndex: number) => {
+  const getNodePath = useCallback(
+    (parentNodeId: string, selfNodeId: string, lastArrayItemIndex: number | null): string => {
       const { seaNodeEntities, edges } = jsonTree;
 
-      const foreArrayItemName: string = traceArrayItemName({
+      const nodePath: string = tracePath({
         seaNodeEntities,
         edges,
         parentNodeId,
         selfNodeId,
       });
 
-      return foreArrayItemName.concat(encloseSquareBrackets(lastArrayItemIndex));
+      return isNumber(lastArrayItemIndex) ? nodePath.concat(encloseSquareBrackets(lastArrayItemIndex)) : nodePath;
     },
     [jsonTree]
   );
 
-  return { getArrayItemName };
+  return { getNodePath };
 };

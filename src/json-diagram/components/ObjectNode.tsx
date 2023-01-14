@@ -1,13 +1,13 @@
 import { memo, useCallback } from 'react';
 import { NodeProps, useEdges } from 'reactflow';
+import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
+import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
 import { HoveringBlueDot } from './HoveringBlueDot';
 import { NodeShell } from './NodeShell';
 import { ObjectNodeProperty } from './ObjectNodeProperty';
 import { TargetHandle } from './TargetHandle';
-import { useRecoilValue } from 'recoil';
-import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
 
 /**
  * ObjectNode `<Handle>` Details
