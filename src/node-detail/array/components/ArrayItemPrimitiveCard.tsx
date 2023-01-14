@@ -1,6 +1,6 @@
 import { memo, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { seaNodesAndEdgesSelector } from '../../../store/json-engine/json-engine.selector';
+import { jsonTreeSelector } from '../../../store/json-engine/json-engine.selector';
 import { useHoverNodeDetails } from '../../../store/node-detail-view/hooks/useHoverNodeDetails';
 import { encloseSquareBrackets } from '../../../utils/string.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
@@ -17,7 +17,7 @@ type Props = {
  * Parent node is always a ArrayNode.
  */
 const _ArrayItemPrimitiveCard = ({ nodeId, arrayItemIndex, value }: Props) => {
-  const { seaNodeEntities, edges } = useRecoilValue(seaNodesAndEdgesSelector);
+  const { seaNodeEntities, edges } = useRecoilValue(jsonTreeSelector);
 
   const { cardRef } = useHoverNodeDetails([{ nodeId }]);
 

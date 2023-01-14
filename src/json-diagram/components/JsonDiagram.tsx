@@ -17,7 +17,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { featureFlag } from '../../environment';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
-import { seaNodesAndEdgesSelector } from '../../store/json-engine/json-engine.selector';
+import { JsonTree, jsonTreeSelector } from '../../store/json-engine/json-engine.selector';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { ArrayNode } from './ArrayNode';
 import { FitViewInvoker } from './FitViewInvoker';
@@ -29,7 +29,7 @@ const _JsonDiagram = () => {
   const [edges, setEdges] = useEdgesState([]);
 
   const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
-  const seaNodesAndEdges = useRecoilValue(seaNodesAndEdgesSelector);
+  const jsonTree: JsonTree = useRecoilValue(jsonTreeSelector);
 
   const isMounted = useIsMounted();
 
@@ -43,7 +43,7 @@ const _JsonDiagram = () => {
   );
 
   useEffect(() => {
-    const { seaNodes, edges } = seaNodesAndEdges;
+    const { seaNodes, edges } = jsonTree;
 
     setSeaNodes(seaNodes);
     setEdges(edges);
@@ -51,7 +51,7 @@ const _JsonDiagram = () => {
     if (seaNodes.length > 0) {
       setSelectedNodeId(seaNodes[0].id);
     }
-  }, [seaNodesAndEdges, setSelectedNodeId, setSeaNodes, setEdges]);
+  }, [jsonTree, setSelectedNodeId, setSeaNodes, setEdges]);
 
   const handleNodesChange = useCallback(
     (changes: NodeChange[]) => setSeaNodes((nds) => applyNodeChanges(changes, nds)),

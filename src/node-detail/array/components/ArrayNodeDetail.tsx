@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Edge } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../../store/json-engine/enums/node-type.enum';
-import { seaNodesAndEdgesSelector } from '../../../store/json-engine/json-engine.selector';
+import { jsonTreeSelector } from '../../../store/json-engine/json-engine.selector';
 import { ArrayNodeData } from '../../../store/json-engine/types/sea-node.type';
 import { EmptyNodeMessage } from '../../components/EmptyNodeMessage';
 import { NodeDetailList } from '../../components/NodeDetailList';
@@ -21,7 +21,7 @@ const getArrayItemNodeId = (edges: Edge[], parentNodeId: string, index: number):
 };
 
 const _ArrayNodeDetail = ({ nodeId, nodeData }: Props) => {
-  const { edges } = useRecoilValue(seaNodesAndEdgesSelector);
+  const { edges } = useRecoilValue(jsonTreeSelector);
   const { items } = nodeData;
 
   const isEmpty: boolean = items.length < 1;

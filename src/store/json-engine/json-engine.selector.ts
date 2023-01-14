@@ -23,12 +23,14 @@ export const latestValidJsonSelector = selector<object | any[]>({
   },
 });
 
-export const seaNodesAndEdgesSelector = selector<{
+export type JsonTree = {
   seaNodes: SeaNode[];
   seaNodeEntities: Entities<SeaNode>;
   edges: Edge[];
-}>({
-  key: `${JSON_ENGINE_PREFIX}/seaNodesAndEdgesSelector`,
+};
+
+export const jsonTreeSelector = selector<JsonTree>({
+  key: `${JSON_ENGINE_PREFIX}/jsonTreeSelector`,
   get: ({ get }) => {
     const latestValidJson: object | any[] = get(latestValidJsonSelector);
 
