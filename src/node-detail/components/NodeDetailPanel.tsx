@@ -80,6 +80,16 @@ const StyledHost = styled('div', {
   padding: '$8',
   overflow: 'auto',
   backgroundColor: '$cyan50',
+
+  // Zoom in & out buttons
+  '.leaflet-bar a': {
+    background: '$background',
+    borderBottom: '1px solid $border',
+    color: '$text',
+    width: '24px',
+    height: '24px',
+    lineHeight: '20px',
+  },
 });
 
 export const NodeDetailPanel = memo(_NodeDetailPanel);
