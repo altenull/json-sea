@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { endPoint } from '../../../environment';
-import { isString } from '../../../utils/json.util';
+import { HttpUri } from '../types/http-uri.type';
 
 export type JsonLink = {
   title: string | undefined;
@@ -13,17 +13,15 @@ export type JsonLink = {
   url: string;
 };
 
-export const useJsonLinkApi = (httpUri: string | null) => {
+export const useJsonLinkApi = (httpUri: HttpUri) => {
   const [jsonLink, setJsonLink] = useState<JsonLink | null>(null);
 
   useEffect(() => {
-    if (isString(httpUri)) {
-      const url = `${endPoint.jsonLinkIO}?url=${httpUri}`;
+    const url = `${endPoint.jsonLinkIO}?url=${httpUri}`;
 
-      fetch(url)
-        .then((response) => response.json())
-        .then(setJsonLink);
-    }
+    fetch(url)
+      .then((response) => response.json())
+      .then(setJsonLink);
   }, [httpUri]);
 
   return jsonLink;
