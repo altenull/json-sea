@@ -86,9 +86,31 @@ const _JsonDiagram = () => {
 const StyledHost = styled('div', {
   width: '100%',
   height: '100%',
+
   '.react-flow': {
     backgroundColor: '$backgroundContrast',
   },
+
+  '.react-flow__controls button': {
+    backgroundColor: '$background',
+    border: '1px solid $border',
+    borderBottom: 'none',
+  },
+  '.react-flow__controls button:hover': {
+    backgroundColor: '$gray100',
+  },
+  '.react-flow__controls button:first-child': {
+    borderRadius: '5px 5px 0 0',
+  },
+  '.react-flow__controls button:last-child': {
+    borderBottom: '1px solid $border',
+    borderRadius: '0 0 5px 5px',
+  },
+  '.react-flow__controls button svg': {
+    fill: '$text',
+    stroke: '$text',
+  },
+
   /**
    * To remove attribution, need some money.
    * @see https://reactflow.dev/docs/guides/remove-attribution/
