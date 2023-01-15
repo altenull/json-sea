@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import { Edge, MarkerType } from 'reactflow';
+import { Edge } from 'reactflow';
 import { ARRAY_ROOT_NODE_INDEX } from '../../../json-diagram/constants/root-node.constant';
 import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
@@ -127,8 +127,11 @@ const getEdge = ({ source, target, sourceHandle }: { source: string; target: str
     target,
     sourceHandle,
     animated: true,
-    markerEnd: {
-      type: MarkerType.Arrow,
+    // markerEnd: {
+    //   type: MarkerType.ArrowClosed,
+    // },
+    style: {
+      strokeWidth: 2,
     },
   };
 };
