@@ -5,10 +5,11 @@ import { useCallback, useState } from 'react';
 export const useSimpleFetch = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>();
-  const [error, setError] = useState();
+  const [error, setError] = useState<unknown>(null);
 
   const fetchUrl = useCallback((url: string) => {
     setLoading(true);
+    setError(null);
 
     fetch(url)
       .then((response) => response.json())
@@ -17,5 +18,9 @@ export const useSimpleFetch = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  return { loading, data, error, fetchUrl } as const;
+  const resetError = useCallback(() => {
+    setError(null);
+  }, []);
+
+  return { loading, data, error, fetchUrl, resetError } as const;
 };

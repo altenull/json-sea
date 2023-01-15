@@ -5,7 +5,7 @@ import { memo, useCallback, useEffect } from 'react';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
-import { formatJsonLikeData, isObject, isValidJson, isArray } from '../../utils/json.util';
+import { formatJsonLikeData, isArray, isNull, isObject, isValidJson } from '../../utils/json.util';
 import { useSimpleFetch } from '../../utils/react-hooks/useSimpleFetch';
 import { useString } from '../../utils/react-hooks/useString';
 import { DragDropJsonFile } from './DragDropJsonFile';
@@ -20,9 +20,9 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
   const {
     loading: isGetJsonLoading,
     data: getJsonResponse,
-    // TODO: Handle getJsonError
     error: getJsonError,
     fetchUrl: fetchJsonUrl,
+    resetError: resetGetJsonError,
   } = useSimpleFetch();
 
   const setStringifiedJson = useSetRecoilState(stringifiedJsonAtom);
@@ -32,8 +32,9 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
   const handleJsonUrlValueChange = useCallback(
     (e: React.ChangeEvent<FormElement>) => {
       setJsonUrlValue(e.target.value);
+      resetGetJsonError();
     },
-    [setJsonUrlValue]
+    [setJsonUrlValue, resetGetJsonError]
   );
 
   const handleJsonUrlInputKeyDown: React.KeyboardEventHandler<FormElement> = (e) => {
@@ -64,15 +65,17 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
       </Modal.Header>
 
       <Modal.Body>
-        <Row css={{ gap: '2px' }} align="center">
+        <Row css={{ gap: '2px', marginBottom: '$12' }} align="center">
           <Input
             aria-label="JSON URL input"
             clearable
             bordered
             fullWidth
-            color="primary"
+            color={isNull(getJsonError) ? 'primary' : 'error'}
             size="lg"
             placeholder="Enter a JSON URL to fetch"
+            helperColor="error"
+            helperText={isNull(getJsonError) ? undefined : 'Fetching JSON via URL failed for some reason'}
             disabled={isGetJsonLoading}
             value={jsonUrlValue}
             onChange={handleJsonUrlValueChange}
