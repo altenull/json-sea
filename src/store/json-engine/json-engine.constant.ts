@@ -2,16 +2,49 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
   "app_name": "JSON Sea",
   "lat": 37.566789,
   "lng": 126.97842,
-  "location": "Seoul",
-  "created_year": 2022,
-  "release_date": "${new Date().toISOString()}",
-  "accessed_date": "${new Date().toISOString()}",
+  "location": "Seoul, South Korea",
+  "created_year": 2023,
+  "app_release_date": "${new Date(2023, 0, 16).toISOString()}",
+  "json_sea_access_date": "${new Date().toISOString()}",
   "active": true,
-  "primary_color": "#fff000",
-  "null_field": null,
-  "google_url": "https://www.google.com/",
+  "primary_color": "#0072F5",
+  "null_property": null,
+  "app_url": "https://jsonsea.com/",
   "sea_img_url": "https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  "random_members": [
+  "thanks_to": [
+    {
+      "name": "NextUI",
+      "url": "https://nextui.org/"
+    },
+    {
+      "name": "React Flow",
+      "url": "https://reactflow.dev/"
+    }
+  ],
+  "complex_object": {
+    "long_number_1": 234828153200,
+    "long_number_2": 2123451234.2214,
+    "object": {
+      "boolean_1": true,
+      "boolean_2": false,
+      "array": [
+        "J",
+        "S",
+        "O",
+        "N",
+        "S",
+        "E",
+        "A",
+        [
+          2,
+          0,
+          2,
+          3
+        ]
+      ]
+    }
+  },
+  "random_virtual_members": [
     {
       "id": 1,
       "first_name": "Torrin",
@@ -39,32 +72,5 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
       "random_url": "https://cbc.ca/nunc/commodo/placerat/praesent/blandit/nam.aspx?ipsum=felis&aliquam=ut",
       "random_img_url": "https://dummyimage.com/127x233.png"
     }
-  ],
-  "complex_object": {
-    "field_1": 234828153200,
-    "field_2": 2123451234.2214,
-    "field_3": {
-      "field_3-1": true,
-      "field_3-2": false,
-      "field_3-3": [
-        "J",
-        "S",
-        "O",
-        "N",
-        "S",
-        "E",
-        "A",
-        [
-          2,
-          0,
-          2,
-          2,
-          {
-            "inner_field_1": 1,
-            "inner_field_2": 2
-          }
-        ]
-      ]
-    }
-  }
+  ]
 }`;
