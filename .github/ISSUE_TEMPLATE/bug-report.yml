@@ -1,4 +1,4 @@
-name: 'Bug report'
+name: '🐞 Bug report'
 title: '[BUG] TITLE_HERE_REPLACE_ME'
 description: Create a report to help us improve
 labels: [bug]
@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for reporting a bug :pray:
+        Thank you for reporting a bug 🙏
 
   - type: textarea
     id: description

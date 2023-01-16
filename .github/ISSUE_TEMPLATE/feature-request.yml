@@ -1,0 +1,17 @@
+name: '💡 Feature request'
+title: '[FEATURE] TITLE_HERE_REPLACE_ME'
+description: Request a new feature.
+labels: [feature]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for requesting a feature 👍
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the feature
+      description: Provide a clear and concise description of the desired feature.
+    validations:
+      required: true
