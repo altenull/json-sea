@@ -24,7 +24,7 @@ const _PreviewDatetime = ({ datetime }: Props) => {
     const date: Date = new Date(datetime);
     const gmtDate: Date = addMinutes(date, date.getTimezoneOffset());
 
-    const formatWithoutGMT: string = 'EEE, MMM M, yyyy, HH:mm:ss';
+    const formatWithoutGMT: string = 'EEE, MMM d, yyyy, HH:mm:ss';
     const formatWithGMT: string = `${formatWithoutGMT} OOOO`;
 
     const unixTimestamp = date.getTime(); // (ms)
