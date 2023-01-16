@@ -1,0 +1,64 @@
+name: 'Bug report'
+title: '[BUG] TITLE_HERE_REPLACE_ME'
+description: Create a report to help us improve
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug :pray:
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: Provide a clear and concise description of the challenge you are running into.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce the bug
+      description: Describe the steps we have to take to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots_or_video
+    attributes:
+      label: Screenshots or video
+      description: |
+        If applicable, inlude screenshots or video to help explain your problem.
+      placeholder: |
+        You can drag your video or image files inside of this editor ↓
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: What operating system are you using?
+      placeholder: |
+        - OS: [e.g. macOS, Windows, Linux]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser_type
+    attributes:
+      label: Browser
+      description: Select the browser where the bug can be reproduced.
+      options:
+        - 'Chrome'
+        - 'Safari'
+        - 'Firefox'
+        - 'Edge'
+        - 'Opera'
+        - 'Others'
+    validations:
+      required: true
