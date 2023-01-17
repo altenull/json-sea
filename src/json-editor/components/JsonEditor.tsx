@@ -42,7 +42,6 @@ const _JsonEditor = () => {
           },
           scrollbar: {
             horizontal: 'hidden',
-            vertical: 'hidden',
           },
           overviewRulerLanes: 0,
         }}
