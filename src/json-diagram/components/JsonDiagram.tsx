@@ -7,6 +7,8 @@ import ReactFlow, {
   Background,
   BackgroundVariant,
   Controls,
+  GetMiniMapNodeAttribute,
+  MiniMap,
   NodeChange,
   NodeTypes,
   useEdgesState,
@@ -18,11 +20,19 @@ import { featureFlag } from '../../environment';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { JsonTree, jsonTreeSelector } from '../../store/json-engine/json-engine.selector';
+import { ArrayNodeData, ObjectNodeData, PrimitiveNodeData } from '../../store/json-engine/types/sea-node.type';
+import { sizes } from '../../ui/constants/sizes.constant';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { ArrayNode } from './ArrayNode';
 import { FitViewInvoker } from './FitViewInvoker';
 import { ObjectNode } from './ObjectNode';
 import { PrimitiveNode } from './PrimitiveNode';
+
+const nodeClassNames = {
+  object: 'object-node',
+  array: 'array-node',
+  primitive: 'primitive-node',
+};
 
 const _JsonDiagram = () => {
   const [seaNodes, setSeaNodes] = useNodesState([]);
@@ -53,6 +63,19 @@ const _JsonDiagram = () => {
     }
   }, [jsonTree, setSelectedNodeId, setSeaNodes, setEdges]);
 
+  const nodeClassName: GetMiniMapNodeAttribute<ObjectNodeData | ArrayNodeData | PrimitiveNodeData> = useCallback(
+    (node) => {
+      const nodeTypeToClassNameMap: Record<NodeType, string> = {
+        [NodeType.Object]: nodeClassNames.object,
+        [NodeType.Array]: nodeClassNames.array,
+        [NodeType.Primitive]: nodeClassNames.primitive,
+      };
+
+      return nodeTypeToClassNameMap[node.type as NodeType];
+    },
+    []
+  );
+
   const handleNodesChange = useCallback(
     (changes: NodeChange[]) => setSeaNodes((nds) => applyNodeChanges(changes, nds)),
     [setSeaNodes]
@@ -73,7 +96,7 @@ const _JsonDiagram = () => {
           edges={edges}
           onNodesChange={featureFlag.nodesChange ? handleNodesChange : undefined}
         >
-          {/* <MiniMap position="top-right" /> */}
+          <MiniMap position="bottom-left" pannable zoomable nodeClassName={nodeClassName} />
           <Controls position="bottom-right" showInteractive={false} />
           <Background variant={BackgroundVariant.Dots} />
           <FitViewInvoker seaNodes={seaNodes} />
@@ -109,6 +132,20 @@ const StyledHost = styled('div', {
   '.react-flow__controls button svg': {
     fill: '$text',
     stroke: '$text',
+  },
+
+  // `border-radius` is not supported in <rect> tag.
+  [`.${nodeClassNames.object}`]: {
+    rx: 8,
+    ry: 8,
+  },
+  [`.${nodeClassNames.array}`]: {
+    rx: sizes.arrayNodeSize / 2,
+    ry: sizes.arrayNodeSize / 2,
+  },
+  [`.${nodeClassNames.primitive}`]: {
+    rx: 8,
+    ry: 8,
   },
 
   /**
