@@ -21,7 +21,6 @@ const _ArrayInspector = ({ array }: Props) => {
           },
           scrollbar: {
             horizontal: 'hidden',
-            vertical: 'hidden',
           },
           overviewRulerLanes: 0,
           readOnly: true,
