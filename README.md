@@ -1,7 +1,7 @@
 # JSON Sea
 
 <p align="center">
-  <img height="480" src="https://raw.githubusercontent.com/altenull/json-sea/main/public/json-sea-screenshot.png" alt="JSON Sea" />
+  <img width="auto" height="440" src="https://raw.githubusercontent.com/altenull/json-sea/main/public/screenshot-light.png" alt="JSON Sea (light mode)" />
 </p>
 
 <h2 align="center">🌊 Dive deep into the JSON Sea!</h2>
