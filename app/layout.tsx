@@ -1,4 +1,5 @@
 import { Inter } from '@next/font/google';
+import AnalyticsWrapper from './analytics-wrapper';
 import Providers from './providers';
 
 type Props = {
@@ -13,6 +14,7 @@ const RootLayout = ({ children }: Props) => {
     <html lang="en">
       <body className={inter.className}>
         <Providers>{children}</Providers>
+        <AnalyticsWrapper />
       </body>
     </html>
   );
