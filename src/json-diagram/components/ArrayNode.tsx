@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { NodeProps } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
-import { addPrefixChainEdge } from '../../store/json-engine/helpers/json-parser.helper';
+import { addPrefixChain } from '../../store/json-engine/helpers/json-parser.helper';
 import { ArrayNodeData } from '../../store/json-engine/types/sea-node.type';
 import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
 import { ROOT_NODE_NAME } from '../constants/root-node.constant';
@@ -29,14 +29,14 @@ const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
   return (
     <NodeShell nodeId={id} nodeType={NodeType.Array}>
       {!isRootNode && <DefaultHandle id={id} type="target" />}
-      <ChainHandle id={addPrefixChainEdge(id)} type="target" />
+      <ChainHandle id={addPrefixChain(id)} type="target" />
 
       <Text css={{ margin: 'auto' }}>{isRootNode ? ROOT_NODE_NAME : arrayIndex}</Text>
 
       {!isEmpty && <DefaultHandle id={id} type="source" />}
 
       {isHoveredFromNodeDetail && <HoveringBlueDot />}
-      <ChainHandle id={addPrefixChainEdge(id)} type="source" />
+      <ChainHandle id={addPrefixChain(id)} type="source" />
     </NodeShell>
   );
 };

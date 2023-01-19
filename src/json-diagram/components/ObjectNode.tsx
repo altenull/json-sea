@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react';
 import { NodeProps, useEdges } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
-import { addPrefixChainEdge } from '../../store/json-engine/helpers/json-parser.helper';
+import { addPrefixChain } from '../../store/json-engine/helpers/json-parser.helper';
 import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
 import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
 import { ChainHandle } from './ChainHandle';
@@ -51,12 +51,12 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
   return (
     <NodeShell nodeId={id} nodeType={NodeType.Object}>
       <DefaultHandle id={id} type="target" />
-      {!isRootNode && <ChainHandle id={addPrefixChainEdge(id)} type="target" />}
+      {!isRootNode && <ChainHandle id={addPrefixChain(id)} type="target" />}
 
       {renderProperties()}
 
       {isHoveredFromNodeDetail && <HoveringBlueDot />}
-      <ChainHandle id={addPrefixChainEdge(id)} type="source" />
+      <ChainHandle id={addPrefixChain(id)} type="source" />
     </NodeShell>
   );
 };

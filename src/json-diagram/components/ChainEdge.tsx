@@ -11,14 +11,21 @@ const _ChainEdge = ({ id, sourceX, sourceY, targetX, targetY, style = {}, marker
     targetY,
   });
 
-  // TODO: Styling
+  const strokeWidth = 3;
+
   return (
     <path
       id={id}
-      style={{ ...style, stroke: theme?.colors.blue300.value }}
+      style={{
+        ...style,
+        stroke: theme?.colors.blue400.value,
+        strokeWidth,
+        transform: `translateX(-${strokeWidth / 2}px)`,
+      }}
       className="react-flow__edge-path"
       d={edgePath}
       markerEnd={markerEnd}
+      strokeDasharray="5 8"
     />
   );
 };
