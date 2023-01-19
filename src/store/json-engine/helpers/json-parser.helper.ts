@@ -1,6 +1,9 @@
 import { nanoid } from 'nanoid';
 import { Edge } from 'reactflow';
 import { ARRAY_ROOT_NODE_INDEX } from '../../../json-diagram/constants/root-node.constant';
+import { isLastItemOfArray } from '../../../utils/array.util';
+import { isString } from '../../../utils/json.util';
+import { EdgeType } from '../enums/edge-type.enum';
 import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
 import { SeaNode } from '../types/sea-node.type';
@@ -8,6 +11,10 @@ import { getJsonDataType, validateJsonDataType } from './json-data-type.helper';
 import { getXYPosition } from './sea-node-position.helper';
 
 const formatNodeId = (nodeSequence: number): string => `n${nodeSequence}`;
+
+export const chainEdgePrefix: string = 'chain_edge-';
+
+export const addPrefixChainEdge = (v: string): string => `${chainEdgePrefix}${v}`;
 
 // const formatEdgeId = ({
 //   source,
@@ -108,7 +115,15 @@ const convertPrimitiveToNode = ({
   };
 };
 
-const getEdge = ({ source, target, sourceHandle }: { source: string; target: string; sourceHandle?: string }): Edge => {
+const getDefaultEdge = ({
+  source,
+  target,
+  sourceHandle,
+}: {
+  source: string;
+  target: string;
+  sourceHandle?: string;
+}): Edge => {
   return {
     /**
      * @bugfix
@@ -136,6 +151,21 @@ const getEdge = ({ source, target, sourceHandle }: { source: string; target: str
   };
 };
 
+const getChainEdge = ({ source, target }: { source: string; target: string }): Edge => {
+  return {
+    id: nanoid(),
+    type: EdgeType.Chain,
+    source,
+    target,
+    sourceHandle: addPrefixChainEdge(source),
+    targetHandle: addPrefixChainEdge(target),
+    animated: true,
+    style: {
+      strokeWidth: 2,
+    },
+  };
+};
+
 type TraverseParams = {
   traverseTarget: object | any[];
   depth: number;
@@ -150,7 +180,8 @@ export const jsonParser = (
   edges: Edge[];
 } => {
   let nodeSequence = 0;
-  let edges: Edge[] = [];
+  let defaultEdges: Edge[] = [];
+  let chainEdges: Edge[] = [];
 
   /**
    * `traverse` function flow
@@ -229,8 +260,8 @@ export const jsonParser = (
               },
             })
           );
-          edges = edges.concat(
-            getEdge({
+          defaultEdges = defaultEdges.concat(
+            getDefaultEdge({
               source,
               target,
               sourceHandle,
@@ -238,12 +269,29 @@ export const jsonParser = (
           );
         } else if (propertyVValidator.isArrayData) {
           // Object > Array
-          (propertyV as any[]).forEach((arrayItem: any, arrayIndex: number) => {
+          let sourceOfChainEdgeForPropertyV: string | undefined;
+
+          (propertyV as any[]).forEach((arrayItem: any, arrayIndex: number, selfPropertyVArray: any[]) => {
             const arrayItemValidator = validateJsonDataType(arrayItem);
 
             nodeSequence++;
             const nextNodeId = formatNodeId(nodeSequence);
             const target: string = nextNodeId;
+
+            if (selfPropertyVArray.length > 1) {
+              if (arrayIndex === 0) {
+                sourceOfChainEdgeForPropertyV = target;
+              }
+
+              if (isLastItemOfArray(arrayIndex, selfPropertyVArray) && isString(sourceOfChainEdgeForPropertyV)) {
+                chainEdges = chainEdges.concat(
+                  getChainEdge({
+                    source: sourceOfChainEdgeForPropertyV,
+                    target,
+                  })
+                );
+              }
+            }
 
             if (arrayItemValidator.isObjectData) {
               // Object > Array > Object
@@ -258,8 +306,8 @@ export const jsonParser = (
                   },
                 })
               );
-              edges = edges.concat(
-                getEdge({
+              defaultEdges = defaultEdges.concat(
+                getDefaultEdge({
                   source,
                   target,
                   sourceHandle,
@@ -278,8 +326,8 @@ export const jsonParser = (
                   isRootNode: false,
                 })
               );
-              edges = edges.concat(
-                getEdge({
+              defaultEdges = defaultEdges.concat(
+                getDefaultEdge({
                   source,
                   target,
                   sourceHandle,
@@ -311,8 +359,8 @@ export const jsonParser = (
                   value: arrayItem as string | number | boolean | null,
                 })
               );
-              edges = edges.concat(
-                getEdge({
+              defaultEdges = defaultEdges.concat(
+                getDefaultEdge({
                   source,
                   target,
                   sourceHandle,
@@ -337,12 +385,29 @@ export const jsonParser = (
         );
       }
 
-      (traverseTarget as any[]).forEach((arrayItem: any, arrayIndex: number) => {
+      let sourceOfChainEdgeForTraverseTarget: string | undefined;
+
+      (traverseTarget as any[]).forEach((arrayItem: any, arrayIndex: number, selfTraverseTargetArray: any[]) => {
         const arrayItemValidator = validateJsonDataType(arrayItem);
 
         nodeSequence++;
         const nextNodeId = formatNodeId(nodeSequence);
         const target: string = nextNodeId;
+
+        if (selfTraverseTargetArray.length > 1) {
+          if (arrayIndex === 0) {
+            sourceOfChainEdgeForTraverseTarget = target;
+          }
+
+          if (isLastItemOfArray(arrayIndex, selfTraverseTargetArray) && isString(sourceOfChainEdgeForTraverseTarget)) {
+            chainEdges = chainEdges.concat(
+              getChainEdge({
+                source: sourceOfChainEdgeForTraverseTarget,
+                target,
+              })
+            );
+          }
+        }
 
         if (arrayItemValidator.isObjectData) {
           // Array > Object
@@ -354,8 +419,8 @@ export const jsonParser = (
               sourceSet: { source: currentNodeId },
             })
           );
-          edges = edges.concat(
-            getEdge({
+          defaultEdges = defaultEdges.concat(
+            getDefaultEdge({
               source,
               target,
             })
@@ -373,8 +438,8 @@ export const jsonParser = (
               isRootNode: false,
             })
           );
-          edges = edges.concat(
-            getEdge({
+          defaultEdges = defaultEdges.concat(
+            getDefaultEdge({
               source,
               target,
             })
@@ -404,8 +469,8 @@ export const jsonParser = (
               value: arrayItem as string | number | boolean | null,
             })
           );
-          edges = edges.concat(
-            getEdge({
+          defaultEdges = defaultEdges.concat(
+            getDefaultEdge({
               source,
               target,
             })
@@ -428,6 +493,6 @@ export const jsonParser = (
       arrayIndexForObject: null,
       sourceSet: {},
     }),
-    edges,
+    edges: [...defaultEdges, ...chainEdges],
   };
 };

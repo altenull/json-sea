@@ -40,9 +40,11 @@ export const getLayoutedSeaNodes = (seaNodes: SeaNode[], edges: Edge[]): SeaNode
     dagreGraph.setNode(node.id, { width: sizes.nodeMaxWidth, height: getSeaNodeHeight(node) });
   });
 
-  edges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
-  });
+  edges
+    .filter(({ type }) => type === 'default') // Do not consider 'chain' edge.
+    .forEach((edge) => {
+      dagreGraph.setEdge(edge.source, edge.target);
+    });
 
   dagre.layout(dagreGraph);
 
