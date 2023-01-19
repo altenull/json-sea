@@ -1,12 +1,13 @@
 'use client';
 
 import { styled } from '@nextui-org/react';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import ReactFlow, {
   applyNodeChanges,
   Background,
   BackgroundVariant,
   Controls,
+  EdgeTypes,
   NodeChange,
   NodeTypes,
   useEdgesState,
@@ -16,14 +17,26 @@ import 'reactflow/dist/style.css';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { featureFlag } from '../../environment';
 import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
+import { EdgeType } from '../../store/json-engine/enums/edge-type.enum';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { JsonTree, jsonTreeSelector } from '../../store/json-engine/json-engine.selector';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { ArrayNode } from './ArrayNode';
+import { ChainEdge } from './ChainEdge';
 import { CustomMiniMap } from './CustomMiniMap';
 import { FitViewInvoker } from './FitViewInvoker';
 import { ObjectNode } from './ObjectNode';
 import { PrimitiveNode } from './PrimitiveNode';
+
+const nodeTypes: NodeTypes = {
+  [NodeType.Object]: ObjectNode,
+  [NodeType.Array]: ArrayNode,
+  [NodeType.Primitive]: PrimitiveNode,
+};
+
+const edgeTypes: EdgeTypes = {
+  [EdgeType.Chain]: ChainEdge,
+};
 
 const _JsonDiagram = () => {
   const [seaNodes, setSeaNodes] = useNodesState([]);
@@ -33,15 +46,6 @@ const _JsonDiagram = () => {
   const jsonTree: JsonTree = useRecoilValue(jsonTreeSelector);
 
   const isMounted = useIsMounted();
-
-  const nodeTypes: NodeTypes = useMemo(
-    () => ({
-      [NodeType.Object]: ObjectNode,
-      [NodeType.Array]: ArrayNode,
-      [NodeType.Primitive]: PrimitiveNode,
-    }),
-    []
-  );
 
   useEffect(() => {
     const { seaNodes, edges } = jsonTree;
@@ -71,6 +75,7 @@ const _JsonDiagram = () => {
           edgesFocusable={false}
           nodeTypes={nodeTypes}
           nodes={seaNodes}
+          edgeTypes={edgeTypes}
           edges={edges}
           onNodesChange={featureFlag.nodesChange ? handleNodesChange : undefined}
         >
