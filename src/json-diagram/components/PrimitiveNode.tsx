@@ -3,11 +3,13 @@ import { memo, useMemo } from 'react';
 import { NodeProps } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
+import { addPrefixChainEdge } from '../../store/json-engine/helpers/json-parser.helper';
 import { PrimitiveNodeData } from '../../store/json-engine/types/sea-node.type';
 import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
+import { ChainHandle } from './ChainHandle';
+import { DefaultHandle } from './DefaultHandle';
 import { HoveringBlueDot } from './HoveringBlueDot';
 import { NodeShell } from './NodeShell';
-import { TargetHandle } from './TargetHandle';
 
 /**
  * PrimitiveNode `<Handle>` Details
@@ -33,11 +35,13 @@ const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
 
   return (
     <NodeShell nodeId={id} nodeType={NodeType.Primitive}>
-      <TargetHandle id={id} />
+      <DefaultHandle id={id} type="target" />
+      <ChainHandle id={addPrefixChainEdge(id)} type="target" />
 
       <Text css={textCss}>{data.stringifiedJson}</Text>
 
       {isHoveredFromNodeDetail && <HoveringBlueDot />}
+      <ChainHandle id={addPrefixChainEdge(id)} type="source" />
     </NodeShell>
   );
 };

@@ -1,11 +1,11 @@
 import { styled, Text, useTheme } from '@nextui-org/react';
 import { memo } from 'react';
-import { Handle, Position } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { encloseDoubleQuote } from '../../utils/string.util';
+import { DefaultHandle } from './DefaultHandle';
 import { HoveringBlueDot } from './HoveringBlueDot';
 
 type Props = {
@@ -44,12 +44,7 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
       )}
 
       {hasChildNode && (
-        <Handle
-          style={{ backgroundColor: theme?.colors.gray400.value }}
-          id={propertyK}
-          type="source"
-          position={Position.Right}
-        />
+        <DefaultHandle style={{ backgroundColor: theme?.colors.gray400.value }} id={propertyK} type="source" />
       )}
 
       {isHoveredFromNodeDetail && <HoveringBlueDot />}

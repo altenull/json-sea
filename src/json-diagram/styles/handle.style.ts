@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-export const handleStyle: CSSProperties = {
+export const hiddenHandleStyle: CSSProperties = {
   backgroundColor: 'transparent',
   border: 'none',
 };

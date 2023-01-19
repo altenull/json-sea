@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import { Edge } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../../store/json-engine/enums/node-type.enum';

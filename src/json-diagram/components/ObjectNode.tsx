@@ -2,12 +2,14 @@ import { memo, useCallback } from 'react';
 import { NodeProps, useEdges } from 'reactflow';
 import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
+import { addPrefixChainEdge } from '../../store/json-engine/helpers/json-parser.helper';
 import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
 import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
+import { ChainHandle } from './ChainHandle';
+import { DefaultHandle } from './DefaultHandle';
 import { HoveringBlueDot } from './HoveringBlueDot';
 import { NodeShell } from './NodeShell';
 import { ObjectNodeProperty } from './ObjectNodeProperty';
-import { TargetHandle } from './TargetHandle';
 
 /**
  * ObjectNode `<Handle>` Details
@@ -23,7 +25,9 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
 
   const renderProperties = useCallback(() => {
     return Object.entries(obj).map(([propertyK, propertyV]) => {
-      const hasChildNode: boolean = edges.some((edge) => edge.source === id && edge.sourceHandle === propertyK);
+      const hasChildNode: boolean = edges.some(
+        ({ source, sourceHandle }) => source === id && sourceHandle === propertyK
+      );
 
       return (
         <ObjectNodeProperty
@@ -46,11 +50,13 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
 
   return (
     <NodeShell nodeId={id} nodeType={NodeType.Object}>
-      {!isRootNode && <TargetHandle id={id} />}
+      <DefaultHandle id={id} type="target" />
+      {!isRootNode && <ChainHandle id={addPrefixChainEdge(id)} type="target" />}
 
       {renderProperties()}
 
       {isHoveredFromNodeDetail && <HoveringBlueDot />}
+      <ChainHandle id={addPrefixChainEdge(id)} type="source" />
     </NodeShell>
   );
 };
