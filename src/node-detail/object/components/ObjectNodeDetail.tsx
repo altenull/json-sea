@@ -1,6 +1,7 @@
 import { Fragment, memo, useCallback } from 'react';
 import { NodeType } from '../../../store/json-engine/enums/node-type.enum';
 import { ObjectNodeData } from '../../../store/json-engine/types/sea-node.type';
+import { isEmptyObject } from '../../../utils/object.util';
 import { EmptyNodeMessage } from '../../components/EmptyNodeMessage';
 import { NodeDetailList } from '../../components/NodeDetailList';
 import { inferMap } from '../helpers/infer-map.helper';
@@ -32,10 +33,10 @@ const _ObjectNodeDetail = ({ nodeId, nodeData }: Props) => {
     });
   }, [nodeId, nodeData]);
 
-  const isEmpty: boolean = Object.keys(nodeData.obj).length < 1;
-
   return (
-    <NodeDetailList>{isEmpty ? <EmptyNodeMessage nodeType={NodeType.Object} /> : renderPropertyCards()}</NodeDetailList>
+    <NodeDetailList>
+      {isEmptyObject(nodeData.obj) ? <EmptyNodeMessage nodeType={NodeType.Object} /> : renderPropertyCards()}
+    </NodeDetailList>
   );
 };
 

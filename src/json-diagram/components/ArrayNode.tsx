@@ -6,6 +6,7 @@ import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { addPrefixChain } from '../../store/json-engine/helpers/json-parser.helper';
 import { ArrayNodeData } from '../../store/json-engine/types/sea-node.type';
 import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
+import { isEmptyArray } from '../../utils/array.util';
 import { ROOT_NODE_NAME } from '../constants/root-node.constant';
 import { ChainHandle } from './ChainHandle';
 import { DefaultHandle } from './DefaultHandle';
@@ -23,7 +24,6 @@ const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
 
   const { arrayIndex, items, isRootNode } = data;
 
-  const isEmpty: boolean = items.length < 1;
   const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(({ nodeId }) => nodeId === id);
 
   return (
@@ -33,7 +33,7 @@ const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
 
       <Text css={{ margin: 'auto' }}>{isRootNode ? ROOT_NODE_NAME : arrayIndex}</Text>
 
-      {!isEmpty && <DefaultHandle id={id} type="source" />}
+      {!isEmptyArray(items) && <DefaultHandle id={id} type="source" />}
 
       {isHoveredFromNodeDetail && <HoveringBlueDot />}
       <ChainHandle id={addPrefixChain(id)} type="source" />

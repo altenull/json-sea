@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../../store/json-engine/enums/node-type.enum';
 import { jsonTreeSelector } from '../../../store/json-engine/json-engine.selector';
 import { ArrayNodeData } from '../../../store/json-engine/types/sea-node.type';
+import { isEmptyArray } from '../../../utils/array.util';
 import { EmptyNodeMessage } from '../../components/EmptyNodeMessage';
 import { NodeDetailList } from '../../components/NodeDetailList';
 import { ArrayItemCard } from './ArrayItemCard';
@@ -24,12 +25,11 @@ const _ArrayNodeDetail = ({ nodeId, nodeData }: Props) => {
   const { edges } = useRecoilValue(jsonTreeSelector);
   const { items } = nodeData;
 
-  const isEmpty: boolean = items.length < 1;
   const parentNodeId: string = nodeId; // On each `ArrayItemCard` perspective, their parentNodeId is nodeId.
 
   return (
     <NodeDetailList>
-      {isEmpty ? (
+      {isEmptyArray(items) ? (
         <EmptyNodeMessage nodeType={NodeType.Array} />
       ) : (
         items.map((value: any, index: number) => (

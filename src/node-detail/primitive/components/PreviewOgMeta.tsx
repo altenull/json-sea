@@ -1,5 +1,6 @@
 import { Card, CSS, Text } from '@nextui-org/react';
 import { memo, useMemo } from 'react';
+import { isEmptyArray } from '../../../utils/array.util';
 import { isString } from '../../../utils/json.util';
 import { openLinkAsNewTab } from '../../../utils/window.util';
 import { JsonLink } from '../hooks/useJsonLinkApi';
@@ -20,7 +21,7 @@ const _PreviewOgMeta = ({ jsonLink }: Props) => {
     []
   );
 
-  if (!isString(title) && !isString(description) && images.length < 1) {
+  if (!isString(title) && !isString(description) && isEmptyArray(images)) {
     return null;
   }
 
