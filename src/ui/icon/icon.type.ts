@@ -11,7 +11,11 @@ export const iconNames = tuple(
   'sun',
   'moon',
   'heart',
-  'github'
+  'github',
+  'array',
+  'object',
+  'array-empty',
+  'object-empty'
 );
 
 export type IconName = typeof iconNames[number];
