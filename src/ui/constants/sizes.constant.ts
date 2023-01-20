@@ -1,5 +1,7 @@
 export const sizes = {
-  jsonEditorWidth: 400,
+  jsonSeaRecommendedWidth: 1024,
+
+  jsonEditorWidth: 320,
   jsonEditorMinWidth: 240,
   jsonEditorMaxWidth: 560,
   nodeDetailPanelWidth: 420,
