@@ -4,6 +4,9 @@ import { useRecoilValue } from 'recoil';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
 import { sizes } from '../../ui/constants/sizes.constant';
+import { Icon } from '../../ui/icon/Icon';
+import { isEmptyArray } from '../../utils/array.util';
+import { isEmptyObject } from '../../utils/object.util';
 import { encloseDoubleQuote } from '../../utils/string.util';
 import { DefaultHandle } from './DefaultHandle';
 import { HoveringBlueDot } from './HoveringBlueDot';
@@ -19,7 +22,7 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
   const hoveredNodeDetails = useRecoilValue(hoveredNodeDetailsAtom);
   const { theme } = useTheme();
 
-  const { isPrimitiveData } = validateJsonDataType(propertyV);
+  const { isObjectData, isArrayData, isPrimitiveData } = validateJsonDataType(propertyV);
 
   const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(
     (item) => item.nodeId === nodeId && item.propertyK === propertyK
@@ -30,6 +33,21 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
       <Text color="primary" weight="semibold" css={{ marginRight: '$8' }}>
         {encloseDoubleQuote(propertyK)}
       </Text>
+
+      {isObjectData && (
+        <Icon
+          icon={isEmptyObject(propertyV as object) ? 'object-empty' : 'object'}
+          size={24}
+          color={theme?.colors.accents7.value}
+        />
+      )}
+      {isArrayData && (
+        <Icon
+          icon={isEmptyArray(propertyV as any[]) ? 'array-empty' : 'array'}
+          size={24}
+          color={theme?.colors.accents7.value}
+        />
+      )}
 
       {isPrimitiveData && (
         <Text
