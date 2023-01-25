@@ -7,4 +7,6 @@ export const ALL_FALSE_STRING_SUBTYPE_VALIDATOR: StringSubtypeValidator = {
   isHttpUri: false,
   isImage: false,
   isImageUri: false,
+  isAudio: false,
+  isAudioUri: false,
 };

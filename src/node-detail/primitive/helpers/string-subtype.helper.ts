@@ -51,6 +51,23 @@ const isValidImage = (dirtyImage: string, isHttpUri: boolean): Promise<boolean> 
   }
 };
 
+// FIXME: A video can be played with <audio> tag. A audio can be played with <video> tag too.
+const isValidAudio = (dirtyAudio: string, isHttpUri: boolean): Promise<boolean> => {
+  if (dirtyAudio.startsWith('data:audio/') || isHttpUri) {
+    const audio = new Audio();
+    audio.src = dirtyAudio;
+
+    return new Promise((resolve) => {
+      audio.onerror = () => resolve(false);
+      audio.ondurationchange = () => resolve(true);
+    });
+  } else {
+    return new Promise((resolve) => {
+      resolve(false);
+    });
+  }
+};
+
 export type StringSubtypeValidator = { [P in keyof typeof StringSubtype as `is${P}`]: boolean };
 
 export const validateStringSubtype = async (v: string): Promise<StringSubtypeValidator> => {
@@ -80,13 +97,16 @@ export const validateStringSubtype = async (v: string): Promise<StringSubtypeVal
   if (await isValidImage(v, isHttpUri)) {
     return {
       ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
-      ...(isHttpUri
-        ? {
-            isImageUri: true,
-          }
-        : {
-            isImage: true,
-          }),
+      isImageUri: isHttpUri,
+      isImage: !isHttpUri,
+    };
+  }
+
+  if (await isValidAudio(v, isHttpUri)) {
+    return {
+      ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
+      isAudioUri: isHttpUri,
+      isAudio: !isHttpUri,
     };
   }
 
