@@ -3,7 +3,7 @@
 import { styled } from '@nextui-org/react';
 import { memo } from 'react';
 import { openLinkAsNewTab } from '../../../utils/window.util';
-import { ImageSrc } from '../types/image-src.type';
+import { ImageSrc } from '../types/media-src.type';
 import { MediaViewerBox } from './MediaViewerBox';
 import { MIMETypeAndSize } from './MIMETypeAndSize';
 

@@ -1,9 +1,9 @@
 import { memo } from 'react';
-import { VideoSrc } from '../types/video-src.type';
+import { Base64VideoDataUri } from '../types/media-src.type';
 import { VideoViewer } from './VideoViewer';
 
 type Props = {
-  videoSrc: VideoSrc;
+  videoSrc: Base64VideoDataUri;
 };
 
 const _PreviewVideo = ({ videoSrc }: Props) => {

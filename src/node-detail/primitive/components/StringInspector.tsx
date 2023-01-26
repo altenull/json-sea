@@ -1,10 +1,8 @@
 import { memo } from 'react';
 import { encloseDoubleQuote } from '../../../utils/string.util';
 import { useStringSubtypeValidator } from '../hooks/useStringSubtypeValidator';
-import { Base64AudioSrc } from '../types/audio-src.type';
 import { HttpUri } from '../types/http-uri.type';
-import { Base64ImageSrc } from '../types/image-src.type';
-import { Base64VideoSrc } from '../types/video-src.type';
+import { Base64AudioDataUri, Base64ImageDataUri, Base64VideoDataUri } from '../types/media-src.type';
 import { PreviewAudio } from './PreviewAudio';
 import { PreviewAudioUri } from './PreviewAudioUri';
 import { PreviewColor } from './PreviewColor';
@@ -30,11 +28,11 @@ const _StringInspector = ({ value }: Props) => {
       {isColor && <PreviewColor color={value} />}
       {isDatetime && <PreviewDatetime datetime={value} />}
       {isHttpUri && <PreviewHttpUri httpUri={value as HttpUri} />}
-      {isImage && <PreviewImage imageSrc={value as Base64ImageSrc} />}
+      {isImage && <PreviewImage imageSrc={value as Base64ImageDataUri} />}
       {isImageUri && <PreviewImageUri imageUri={value as HttpUri} />}
-      {isAudio && <PreviewAudio audioSrc={value as Base64AudioSrc} />}
+      {isAudio && <PreviewAudio audioSrc={value as Base64AudioDataUri} />}
       {isAudioUri && <PreviewAudioUri audioUri={value as HttpUri} />}
-      {isVideo && <PreviewVideo videoSrc={value as Base64VideoSrc} />}
+      {isVideo && <PreviewVideo videoSrc={value as Base64VideoDataUri} />}
       {isVideoUri && <PreviewVideoUri videoUri={value as HttpUri} />}
     </>
   );

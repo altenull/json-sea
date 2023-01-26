@@ -1,9 +1,9 @@
 import { memo } from 'react';
-import { ImageSrc } from '../types/image-src.type';
+import { Base64ImageDataUri, ImageSrc } from '../types/media-src.type';
 import { ImageViewer } from './ImageViewer';
 
 type Props = {
-  imageSrc: ImageSrc;
+  imageSrc: Base64ImageDataUri;
 };
 
 const _PreviewImage = ({ imageSrc }: Props) => {

@@ -5,10 +5,15 @@ import prettyBytes from 'pretty-bytes';
 import { memo, useEffect, useState } from 'react';
 import { noop } from '../../../utils/function.util';
 import { isNumber, isString } from '../../../utils/json.util';
-import { AudioSrc, Base64AudioSrc } from '../types/audio-src.type';
 import { HttpUri } from '../types/http-uri.type';
-import { Base64ImageSrc, ImageSrc } from '../types/image-src.type';
-import { VideoSrc, Base64VideoSrc } from '../types/video-src.type';
+import {
+  AudioSrc,
+  Base64AudioDataUri,
+  Base64ImageDataUri,
+  Base64VideoDataUri,
+  ImageSrc,
+  VideoSrc,
+} from '../types/media-src.type';
 
 type Props = {
   mediaSrc: ImageSrc | AudioSrc | VideoSrc;
@@ -18,14 +23,16 @@ const startsWithHttpOrHttps = (v: string): v is HttpUri => {
   return v.startsWith('http:') || v.startsWith('https:');
 };
 
-const extractBase64MediaType = (base64MediaSrc: Base64ImageSrc | Base64AudioSrc | Base64VideoSrc): string => {
-  const sliceEnd: number = base64MediaSrc.indexOf(';base64');
+const extractBase64MediaType = (
+  base64MediaDataUri: Base64ImageDataUri | Base64AudioDataUri | Base64VideoDataUri
+): string => {
+  const sliceEnd: number = base64MediaDataUri.indexOf(';base64');
 
-  return base64MediaSrc.slice(0, sliceEnd).replace('data:', '');
+  return base64MediaDataUri.slice(0, sliceEnd).replace('data:', '');
 };
 
 const _MIMETypeAndSize = ({ mediaSrc }: Props) => {
-  const [mimeType, setMimeType] = useState<string | null>(null); // e.g. 'image/png', 'image/jpeg', 'audio/mp3', ...
+  const [mimeType, setMimeType] = useState<string | null>(null); // e.g. 'image/png', 'video/mp4', 'audio/mp3', ...
   const [mimeBytes, setMimeBytes] = useState<number | null>(null);
 
   useEffect(() => {

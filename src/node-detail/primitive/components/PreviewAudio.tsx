@@ -1,9 +1,9 @@
 import { memo } from 'react';
-import { AudioSrc } from '../types/audio-src.type';
+import { Base64AudioDataUri } from '../types/media-src.type';
 import { AudioViewer } from './AudioViewer';
 
 type Props = {
-  audioSrc: AudioSrc;
+  audioSrc: Base64AudioDataUri;
 };
 
 const _PreviewAudio = ({ audioSrc }: Props) => {

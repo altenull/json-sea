@@ -2,7 +2,7 @@
 
 import { styled } from '@nextui-org/react';
 import { memo } from 'react';
-import { AudioSrc } from '../types/audio-src.type';
+import { AudioSrc } from '../types/media-src.type';
 import { MediaViewerBox } from './MediaViewerBox';
 import { MIMETypeAndSize } from './MIMETypeAndSize';
 
