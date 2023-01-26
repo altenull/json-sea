@@ -52,6 +52,23 @@ const isValidImage = (dirtyImage: string, isHttpUri: boolean): Promise<boolean> 
 };
 
 // FIXME: A video can be played with <audio> tag. A audio can be played with <video> tag too.
+// TODO: Add video, audio mock data
+const isValidVideo = (dirtyVideo: string, isHttpUri: boolean): Promise<boolean> => {
+  if (dirtyVideo.startsWith('data:video/') || isHttpUri) {
+    const video = document.createElement('video');
+    video.src = dirtyVideo;
+
+    return new Promise((resolve) => {
+      video.onerror = () => resolve(false);
+      video.ondurationchange = () => resolve(true);
+    });
+  } else {
+    return new Promise((resolve) => {
+      resolve(false);
+    });
+  }
+};
+
 const isValidAudio = (dirtyAudio: string, isHttpUri: boolean): Promise<boolean> => {
   if (dirtyAudio.startsWith('data:audio/') || isHttpUri) {
     const audio = new Audio();
@@ -99,6 +116,14 @@ export const validateStringSubtype = async (v: string): Promise<StringSubtypeVal
       ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
       isImageUri: isHttpUri,
       isImage: !isHttpUri,
+    };
+  }
+
+  if (await isValidVideo(v, isHttpUri)) {
+    return {
+      ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
+      isVideoUri: isHttpUri,
+      isVideo: !isHttpUri,
     };
   }
 

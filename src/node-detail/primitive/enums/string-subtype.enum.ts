@@ -7,4 +7,6 @@ export enum StringSubtype {
   ImageUri = 'imageUri',
   Audio = 'audio',
   AudioUri = 'audioUri',
+  Video = 'video',
+  VideoUri = 'videoUri',
 }

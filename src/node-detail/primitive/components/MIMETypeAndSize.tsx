@@ -8,16 +8,17 @@ import { isNumber, isString } from '../../../utils/json.util';
 import { AudioSrc, Base64AudioSrc } from '../types/audio-src.type';
 import { HttpUri } from '../types/http-uri.type';
 import { Base64ImageSrc, ImageSrc } from '../types/image-src.type';
+import { VideoSrc, Base64VideoSrc } from '../types/video-src.type';
 
 type Props = {
-  mediaSrc: ImageSrc | AudioSrc;
+  mediaSrc: ImageSrc | AudioSrc | VideoSrc;
 };
 
 const startsWithHttpOrHttps = (v: string): v is HttpUri => {
   return v.startsWith('http:') || v.startsWith('https:');
 };
 
-const extractBase64MediaType = (base64MediaSrc: Base64ImageSrc | Base64AudioSrc): string => {
+const extractBase64MediaType = (base64MediaSrc: Base64ImageSrc | Base64AudioSrc | Base64VideoSrc): string => {
   const sliceEnd: number = base64MediaSrc.indexOf(';base64');
 
   return base64MediaSrc.slice(0, sliceEnd).replace('data:', '');

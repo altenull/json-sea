@@ -9,7 +9,7 @@ type Props = {
  * @returns e.g. '/color', '/image', '/imageUri', etc
  */
 const _StringSubtypeText = ({ value }: Props) => {
-  const { isColor, isDatetime, isEmail, isHttpUri, isImage, isImageUri, isAudio, isAudioUri } =
+  const { isColor, isDatetime, isEmail, isHttpUri, isImage, isImageUri, isAudio, isAudioUri, isVideo, isVideoUri } =
     useStringSubtypeValidator(value);
 
   return (
@@ -22,6 +22,8 @@ const _StringSubtypeText = ({ value }: Props) => {
       {isImageUri && '/imageUri'}
       {isAudio && '/audio'}
       {isAudioUri && '/audioUri'}
+      {isVideo && '/video'}
+      {isVideoUri && '/videoUri'}
     </>
   );
 };
