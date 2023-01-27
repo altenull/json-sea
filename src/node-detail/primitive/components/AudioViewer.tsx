@@ -13,7 +13,7 @@ type Props = {
 const _AudioViewer = ({ audioSrc }: Props) => {
   return (
     <MediaViewerBox>
-      <StyledAudio controls src={audioSrc} />
+      <StyledAudio controls preload="metadata" src={audioSrc} />
       <MIMETypeAndSize mediaSrc={audioSrc} />
     </MediaViewerBox>
   );
