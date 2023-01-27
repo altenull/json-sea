@@ -5,7 +5,7 @@ import { ROOT_NODE_NAME } from '../../json-diagram/constants/root-node.constant'
 import { isArraySeaNode, isObjectSeaNode, isPrimitiveSeaNode } from '../../store/json-engine/helpers/sea-node.helper';
 import { jsonTreeSelector } from '../../store/json-engine/json-engine.selector';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
-import { getParentNodeId } from '../../utils/reactflow.util';
+import { findParentNodeId } from '../../utils/reactflow.util';
 import { nodeTypeToTextMap } from '../array/helpers/node-type.helper';
 import { useNodePath } from '../hooks/useNodePath';
 import { NodeDetailBadge } from './NodeDetailBadge';
@@ -24,7 +24,7 @@ const _NodeDetailPanelHeader = ({ selectedNode }: Props) => {
   );
 
   const parentNodeId: string | null = useMemo(
-    () => (isRootNode ? null : getParentNodeId(edges, selectedNode.id)),
+    () => (isRootNode ? null : findParentNodeId(edges, selectedNode.id)),
     [edges, isRootNode, selectedNode.id]
   );
 

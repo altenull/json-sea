@@ -6,8 +6,8 @@ export const encloseDoubleQuote = (v: string): string => {
 };
 
 /**
- * @param {string} v - the v to enclose with square brackets
+ * @param {string | number} v - the value to enclose with square brackets
  */
-export const encloseSquareBrackets = (v: any): string => {
+export const encloseSquareBrackets = (v: string | number): string => {
   return `[${String(v)}]`;
 };

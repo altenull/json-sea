@@ -3,7 +3,7 @@
 import { useCallback, useState } from 'react';
 
 export const useString = (initialString?: string) => {
-  const [string, setString] = useState<string>(typeof initialString === 'string' ? initialString : '');
+  const [string, setString] = useState<string>(initialString ?? '');
 
   const clearString = useCallback(() => {
     setString('');

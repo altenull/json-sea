@@ -9,6 +9,7 @@ export const isArray = <T extends any[]>(v: unknown): v is T => {
 /**
  * Returns true if argument is an 'object' and false otherwise.
  * Since the result of 'typeof []' is 'object', checks value with isArray() funciton.
+ * And the result of 'typeof null' is 'object' too, validate v is not null.
  * @param {unknown} v - the value to check
  */
 export const isObject = (v: unknown): v is object => {
@@ -71,13 +72,10 @@ export const downloadAsJsonFile = (stringifiedJson: string, fileName: string): v
   anchor.remove();
 };
 
-export const formatJsonLikeData = (data: any): string => {
-  /**
-   * `replacer` is second param of JSON.stringify().
-   * `space` is third param of JSON.stringify().
-   */
+export const formatJsonLikeData = (data: object | any[] | string): string => {
+  const stringifyTarget = isString(data) ? JSON.parse(data) : data;
   const replacer: (number | string)[] | null = null;
   const space: string | number = 2;
 
-  return isString(data) ? JSON.stringify(JSON.parse(data), replacer, space) : JSON.stringify(data, replacer, space);
+  return JSON.stringify(stringifyTarget, replacer, space);
 };
