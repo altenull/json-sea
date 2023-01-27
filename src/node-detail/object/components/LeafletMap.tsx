@@ -1,6 +1,5 @@
 import { styled } from '@nextui-org/react';
 import L, { LatLngTuple } from 'leaflet';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/leaflet.css';
 import { memo, useCallback, useEffect, useRef } from 'react';
 
@@ -14,7 +13,7 @@ const _LeafletMap = ({ latLng }: Props) => {
   useEffect(() => {
     L.Marker.prototype.setIcon(
       L.icon({
-        iconUrl: markerIcon.src,
+        iconUrl: '/map-marker.png',
       })
     );
   }, []);
