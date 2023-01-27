@@ -1,5 +1,6 @@
 import { styled } from '@nextui-org/react';
 import { memo } from 'react';
+import { isFunction } from '../../utils/function.util';
 
 type Props = {
   children: React.ReactNode;
@@ -10,7 +11,7 @@ const _CircleTransparentButton = ({ children, onClick }: Props) => {
   return (
     <StyledHost
       css={{
-        cursor: typeof onClick === 'function' ? 'pointer' : 'initial',
+        cursor: isFunction(onClick) ? 'pointer' : 'initial',
       }}
       onClick={onClick}
     >

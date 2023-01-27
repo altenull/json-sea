@@ -1,5 +1,6 @@
 import { styled } from '@nextui-org/react';
 import { memo } from 'react';
+import { isFunction } from '../../utils/function.util';
 import { iconNameToPathMap } from './icon.helper';
 import { IconName } from './icon.type';
 
@@ -22,8 +23,15 @@ const _Icon = ({ icon, size, color = '#000000', style, onClick }: Props) => {
       style={{
         width: size,
         height: size,
-        cursor: typeof onClick === 'function' ? 'pointer' : 'initial',
-        pointerEvents: typeof onClick === 'function' ? 'initial' : 'none',
+        ...(isFunction(onClick)
+          ? {
+              cursor: 'pointer',
+              pointerEvents: 'initial',
+            }
+          : {
+              cursor: 'initial',
+              pointerEvents: 'none',
+            }),
         ...style,
       }}
       onClick={onClick}
