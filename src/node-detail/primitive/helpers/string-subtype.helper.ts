@@ -51,16 +51,22 @@ const isValidImage = (dirtyImage: string, isHttpUri: boolean): Promise<boolean> 
   }
 };
 
-// FIXME: A video can be played with <audio> tag. A audio can be played with <video> tag too.
-// TODO: Add video, audio mock data
+/**
+ * HACK: For now, we consider a video whose width & height are both 0 to be audio.
+ */
+const hasVideoDimensions = (target: HTMLVideoElement): boolean => {
+  return target.videoWidth > 0 && target.videoHeight > 0;
+};
+
 const isValidVideo = (dirtyVideo: string, isHttpUri: boolean): Promise<boolean> => {
   if (dirtyVideo.startsWith('data:video/') || isHttpUri) {
     const video = document.createElement('video');
+    video.preload = 'metadata';
     video.src = dirtyVideo;
 
     return new Promise((resolve) => {
       video.onerror = () => resolve(false);
-      video.ondurationchange = () => resolve(true);
+      video.onloadedmetadata = () => resolve(hasVideoDimensions(video));
     });
   } else {
     return new Promise((resolve) => {
@@ -72,6 +78,7 @@ const isValidVideo = (dirtyVideo: string, isHttpUri: boolean): Promise<boolean> 
 const isValidAudio = (dirtyAudio: string, isHttpUri: boolean): Promise<boolean> => {
   if (dirtyAudio.startsWith('data:audio/') || isHttpUri) {
     const audio = new Audio();
+    audio.preload = 'metadata';
     audio.src = dirtyAudio;
 
     return new Promise((resolve) => {
@@ -119,6 +126,11 @@ export const validateStringSubtype = async (v: string): Promise<StringSubtypeVal
     };
   }
 
+  /**
+   * @important
+   * `isValidVideo` function should be called before `isValidAudio`.
+   * Because video and audio are compatible with each otehr.
+   */
   if (await isValidVideo(v, isHttpUri)) {
     return {
       ...ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
