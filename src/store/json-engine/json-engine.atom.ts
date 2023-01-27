@@ -4,7 +4,7 @@ import { DEFAULT_STRINGIFIED_JSON } from './json-engine.constant';
 export const JSON_ENGINE_PREFIX = '@json-engine';
 
 export const stringifiedJsonAtom = atom<string>({
-  key: `${JSON_ENGINE_PREFIX}/jsonCodeAtom`,
+  key: `${JSON_ENGINE_PREFIX}/stringifiedJsonAtom`,
   default: DEFAULT_STRINGIFIED_JSON,
 });
 

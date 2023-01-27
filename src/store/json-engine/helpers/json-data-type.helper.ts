@@ -25,7 +25,7 @@ export const validateJsonDataType = (
 };
 
 export const getJsonDataType = (v: unknown): JsonDataType => {
-  const { isArrayData, isObjectData, isStringData, isNumberData, isBooleanData, isNullData } = validateJsonDataType(v);
+  const { isObjectData, isArrayData, isStringData, isNumberData, isBooleanData, isNullData } = validateJsonDataType(v);
 
   return isObjectData
     ? JsonDataType.Object

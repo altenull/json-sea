@@ -4,27 +4,29 @@ import { sizes } from '../../../ui/constants/sizes.constant';
 import { SeaNode } from '../types/sea-node.type';
 import { isArraySeaNode, isObjectSeaNode, isPrimitiveSeaNode } from './sea-node.helper';
 
-/**
- * In `getXYPosition` function, only will set position 'x' with depth.
- * Position 'y' will be calculated with `dagre` library later.
- */
 export const getXYPosition = (depth: number): XYPosition => {
   const x: number = depth * sizes.nodeMaxWidth + depth * sizes.nodeGap;
-  return { x, y: 0 } as XYPosition;
+  const y: number = 0; // y will be calculated in `getLayoutedSeaNodes` function with `dagre` library later.
+
+  return { x, y } as XYPosition;
 };
 
-export const getSeaNodeHeight = (seaNode: SeaNode): number => {
-  const TOP_BOTTOM_PADDING: number = sizes.nodePadding * 2;
+const calculateSeaNodeHeight = (seaNode: SeaNode): number => {
+  if (isArraySeaNode(seaNode)) {
+    return sizes.arrayNodeSize;
+  }
+
+  const NODE_TOP_BOTTOM_PADDING: number = sizes.nodePadding * 2;
 
   if (isObjectSeaNode(seaNode)) {
-    return TOP_BOTTOM_PADDING + sizes.nodeContentHeight * Object.keys(seaNode.data.obj).length;
-  } else if (isArraySeaNode(seaNode)) {
-    return sizes.arrayNodeSize;
-  } else if (isPrimitiveSeaNode(seaNode)) {
-    return TOP_BOTTOM_PADDING + sizes.nodeContentHeight * 1;
-  } else {
-    return 0;
+    return NODE_TOP_BOTTOM_PADDING + sizes.nodeContentHeight * Object.keys(seaNode.data.obj).length;
   }
+
+  if (isPrimitiveSeaNode(seaNode)) {
+    return NODE_TOP_BOTTOM_PADDING + sizes.nodeContentHeight * 1;
+  }
+
+  return 0;
 };
 
 /**
@@ -34,10 +36,10 @@ export const getLayoutedSeaNodes = (seaNodes: SeaNode[], edges: Edge[]): SeaNode
   const dagreGraph = new dagre.graphlib.Graph();
 
   dagreGraph.setDefaultEdgeLabel(() => ({}));
-  dagreGraph.setGraph({ rankdir: 'LR' }); // Left to Right direction.
+  dagreGraph.setGraph({ rankdir: 'LR' }); // 'LR' is Left to Right direction.
 
   seaNodes.forEach((node: SeaNode) => {
-    dagreGraph.setNode(node.id, { width: sizes.nodeMaxWidth, height: getSeaNodeHeight(node) });
+    dagreGraph.setNode(node.id, { width: sizes.nodeMaxWidth, height: calculateSeaNodeHeight(node) });
   });
 
   edges
@@ -50,13 +52,11 @@ export const getLayoutedSeaNodes = (seaNodes: SeaNode[], edges: Edge[]): SeaNode
 
   return seaNodes.map((node: SeaNode) => {
     const nodeWithPosition = dagreGraph.node(node.id);
-    const nodeHeight: number = getSeaNodeHeight(node);
+    const nodeHeight: number = calculateSeaNodeHeight(node);
 
-    /**
-     * Position 'x' is already set at this moment.
-     */
     return {
       ...node,
+      // 'x' is already set at this moment because of `getXYPosition` function.
       position: {
         ...node.position,
         y: nodeWithPosition.y - nodeHeight / 2,

@@ -6,7 +6,7 @@ export const useJsonEditorView = () => {
   const [isJsonEditorVisible, setIsJsonEditorVisible] = useRecoilState(isJsonEditorVisibleAtom);
 
   const toggleJsonEditor = useCallback(() => {
-    setIsJsonEditorVisible((prevBool) => !prevBool);
+    setIsJsonEditorVisible((prev: boolean) => !prev);
   }, [setIsJsonEditorVisible]);
 
   return {

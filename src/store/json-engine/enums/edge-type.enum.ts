@@ -1,3 +1,3 @@
 export enum EdgeType {
-  Chain = 'chain', // Used for connections between array items.
+  Chain = 'chain', // Used to express connections between array items.
 }

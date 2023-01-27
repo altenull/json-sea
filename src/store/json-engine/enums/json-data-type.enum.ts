@@ -9,4 +9,3 @@ export enum JsonDataType {
   Boolean = 'boolean', // For `Primitive` node type
   Null = 'null', // For `Primitive` node type
 }
-// TODO: Make json data type icons.

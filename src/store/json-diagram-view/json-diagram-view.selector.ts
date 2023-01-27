@@ -8,8 +8,13 @@ export const selectedSeaNodeSelector = selector<SeaNode | null>({
   key: `${JSON_DIAGRAM_VIEW_PREFIX}/selectedSeaNodeSelector`,
   get: ({ get }) => {
     const selectedNodeId: string | null = get(selectedNodeIdAtom);
+
+    if (isNull(selectedNodeId)) {
+      return null;
+    }
+
     const { seaNodeEntities } = get(jsonTreeSelector);
 
-    return isNull(selectedNodeId) ? null : seaNodeEntities[selectedNodeId] ?? null;
+    return seaNodeEntities[selectedNodeId] ?? null;
   },
 });

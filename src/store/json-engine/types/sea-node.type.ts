@@ -3,7 +3,7 @@ import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
 
 type SharedNodeData = {
-  depth: number; // The depth of root node is 0.
+  depth: number; // The depth starts from 0. (depth of root node is 0)
   stringifiedJson: string;
 };
 

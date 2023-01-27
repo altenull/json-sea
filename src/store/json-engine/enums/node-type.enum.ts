@@ -8,7 +8,7 @@ export enum NodeType {
 
   /**
    * Primitive node exists to express Array node items only.
-   * It can be `string`, `number`, `boolean` or `null`. (`undefined` doesn't supported in JSON)
+   * It can be `string`, `number`, `boolean` or `null`. (`undefined` can't exist in JSON)
    */
   Primitive = 'primitive',
 }
