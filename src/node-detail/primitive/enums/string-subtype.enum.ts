@@ -2,11 +2,11 @@ export enum StringSubtype {
   Color = 'color',
   Datetime = 'datetime',
   Email = 'email',
-  HttpUri = 'httpUri', // http or https
+  HttpUri = 'http-uri', // http or https
   Image = 'image',
-  ImageUri = 'imageUri',
+  ImageUri = 'image-uri',
   Audio = 'audio',
-  AudioUri = 'audioUri',
+  AudioUri = 'audio-uri',
   Video = 'video',
-  VideoUri = 'videoUri',
+  VideoUri = 'video-uri',
 }

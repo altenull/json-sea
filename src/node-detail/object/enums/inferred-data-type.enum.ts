@@ -1,3 +1,3 @@
 export enum InferredDataType {
-  LatLngMap = 'latLngMap',
+  LatLngMap = 'lat-lng-map',
 }

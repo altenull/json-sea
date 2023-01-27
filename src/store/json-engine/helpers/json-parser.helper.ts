@@ -1,34 +1,18 @@
 import { nanoid } from 'nanoid';
 import { Edge } from 'reactflow';
-import { ARRAY_ROOT_NODE_INDEX } from '../../../json-diagram/constants/root-node.constant';
+import { ARRAY_ROOT_NODE_INDEX, ROOT_NODE_DEPTH } from '../../../json-diagram/constants/root-node.constant';
 import { isLastItemOfArray } from '../../../utils/array.util';
 import { isString } from '../../../utils/json.util';
 import { EdgeType } from '../enums/edge-type.enum';
 import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
-import { SeaNode } from '../types/sea-node.type';
+import { ArraySeaNode, ObjectSeaNode, PrimitiveSeaNode, SeaNode } from '../types/sea-node.type';
 import { getJsonDataType, validateJsonDataType } from './json-data-type.helper';
 import { getXYPosition } from './sea-node-position.helper';
 
 const formatNodeId = (nodeSequence: number): string => `n${nodeSequence}`;
 
-export const chainPrefix: string = 'chain-';
-
-export const addPrefixChain = (v: string): string => `${chainPrefix}${v}`;
-
-// const formatEdgeId = ({
-//   source,
-//   target,
-//   sourceHandle,
-// }: {
-//   source: string;
-//   target: string;
-//   sourceHandle?: string;
-// }): string => {
-//   const concatenatedSource: string = `${source}${isString(sourceHandle) ? `_${sourceHandle}` : ''}`;
-
-//   return `e--${concatenatedSource}--${target}`;
-// };
+export const addPrefixChain = (v: string): string => `chain-${v}`;
 
 const convertObjectToNode = ({
   nodeId,
@@ -42,7 +26,7 @@ const convertObjectToNode = ({
   obj: object;
   arrayIndexForObject: number | null;
   isRootNode: boolean;
-}): SeaNode => {
+}): ObjectSeaNode => {
   return {
     id: nodeId,
     type: NodeType.Object,
@@ -70,7 +54,7 @@ const convertArrayToNode = ({
   arrayIndex: number;
   items: any[];
   isRootNode: boolean;
-}): SeaNode => {
+}): ArraySeaNode => {
   return {
     id: nodeId,
     type: NodeType.Array,
@@ -96,7 +80,7 @@ const convertPrimitiveToNode = ({
   depth: number;
   arrayIndex: number;
   value: string | number | boolean | null;
-}): SeaNode => {
+}): PrimitiveSeaNode => {
   return {
     id: nodeId,
     type: NodeType.Primitive,
@@ -115,28 +99,16 @@ const convertPrimitiveToNode = ({
   };
 };
 
-const createDefaultEdge = ({
-  source,
-  target,
-  sourceHandle,
-}: {
-  source: string;
-  target: string;
-  sourceHandle?: string;
-}): Edge => {
+type SourceTarget = Pick<Edge, 'source' | 'target'>;
+
+const createDefaultEdge = ({ source, target, sourceHandle }: SourceTarget & Pick<Edge, 'sourceHandle'>): Edge => {
   return {
     /**
-     * @bugfix
-     * If the same edge id remains in `JsonDiagram` after update, the following bug occurs.
-     * Use `nanoid()` to resolve it.
-     * https://stackoverflow.com/questions/70114700/react-flow-renderer-edges-remain-in-ui-without-any-parents
+     * @bugfix If the same edge id remains in `JsonDiagram` after update, the following bug occurs.
+     *         https://stackoverflow.com/questions/70114700/react-flow-renderer-edges-remain-in-ui-without-any-parents
+     * @solution Use `nanoid()` for id.
      */
     id: nanoid(),
-    // id: formatEdgeId({
-    //   source,
-    //   target,
-    //   sourceHandle,
-    // }),
     type: 'default',
     source,
     target,
@@ -148,7 +120,7 @@ const createDefaultEdge = ({
   };
 };
 
-const createChainEdge = ({ source, target }: { source: string; target: string }): Edge => {
+const createChainEdge = ({ source, target }: SourceTarget): Edge => {
   return {
     id: nanoid(),
     type: EdgeType.Chain,
@@ -172,11 +144,15 @@ export const jsonParser = (
   seaNodes: SeaNode[];
   edges: Edge[];
 } => {
+  /**
+   * `nodeSequence` will be transformed to `nodeId`.
+   */
   let nodeSequence = 0;
   let defaultEdges: Edge[] = [];
   let chainEdges: Edge[] = [];
 
   /**
+   *  TODO: [2023-01-27] Function `traverse` is too complex, needs to be refactored if possible.
    * `traverse` function flow
    * - if object
    *   - add node(object)
@@ -476,13 +452,9 @@ export const jsonParser = (
   };
 
   return {
-    /**
-     * In JSON, root node can be object or array.
-     * So starts with `traverse` function with depth 0.
-     */
     seaNodes: traverse({
       traverseTarget: json,
-      depth: 0,
+      depth: ROOT_NODE_DEPTH,
       arrayIndexForObject: null,
       sourceSet: {},
     }),

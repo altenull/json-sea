@@ -9,7 +9,10 @@ type SharedNodeData = {
 
 export type ObjectNodeData = SharedNodeData & {
   dataType: JsonDataType.Object;
-  arrayIndexForObject: number | null; // Array can includes `Object` type item.
+  /**
+   * Will be set if parent of `ObjectNode` is an array, so nullable.
+   */
+  arrayIndexForObject: number | null;
   obj: object;
   isRootNode: boolean;
 };
@@ -23,13 +26,14 @@ export type ArrayNodeData = SharedNodeData & {
 
 export type PrimitiveNodeData = SharedNodeData & {
   dataType: JsonDataType.String | JsonDataType.Number | JsonDataType.Boolean | JsonDataType.Null;
+  /**
+   * `PrimitiveNode` is always an item of some array.
+   * It means that the parent is always a `ArrayNode`.
+   */
   arrayIndex: number;
   value: string | number | boolean | null;
 };
 
-/**
- * @property data: ObjectNodeData | ArrayNodeData | PrimitiveNodeData;
- */
 export type ObjectSeaNode = Node<ObjectNodeData> & { type: NodeType };
 export type ArraySeaNode = Node<ArrayNodeData> & { type: NodeType };
 export type PrimitiveSeaNode = Node<PrimitiveNodeData> & { type: NodeType };
