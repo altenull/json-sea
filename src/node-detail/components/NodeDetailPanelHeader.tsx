@@ -30,8 +30,10 @@ const _NodeDetailPanelHeader = ({ selectedNode }: Props) => {
 
   return (
     <Text css={{ display: 'flex', justifyContent: 'space-between' }} h3>
+      {/* Left */}
       {nodeTypeToTextMap[selectedNode.type]}
 
+      {/* Right */}
       {isRootNode ? (
         <NodeDetailBadge value={ROOT_NODE_NAME} />
       ) : (

@@ -1,43 +1,26 @@
-import { Button, Card, Grid } from '@nextui-org/react';
-import { ForwardedRef, forwardRef, isValidElement, memo, ReactElement } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
+import { Card } from '@nextui-org/react';
+import { ForwardedRef, forwardRef, memo, ReactElement } from 'react';
 import { isArray, isString } from '../../utils/json.util';
-import { ArrayInspector } from '../array/components/ArrayInspector';
-import { PrimitiveInspector } from '../primitive/components/PrimitiveInspector';
-import { JsonDataTypeText } from './JsonDataTypeText';
+import { DetailArray } from './DetailArray';
+import { DetailObject } from './DetailObject';
+import { DetailPrimitive } from './DetailPrimitive';
 
 type Props = {
   badge?: ReactElement;
-  value: any;
+  value: object | any[] | string | number | boolean | null;
   childObjectNodeId: string | null;
 };
 
 const _NodeDetailCard = ({ badge, value, childObjectNodeId }: Props, ref: ForwardedRef<HTMLDivElement>) => {
-  const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
-
   return (
     <Card ref={ref} isHoverable>
-      <Card.Header>
-        <Grid.Container direction="column">
-          {isValidElement(badge) && <Grid>{badge}</Grid>}
-          <Grid>
-            <JsonDataTypeText value={value} />
-          </Grid>
-        </Grid.Container>
-      </Card.Header>
-
-      <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
-        {isString(childObjectNodeId) ? (
-          <Button flat size="sm" color="primary" onPress={() => setSelectedNodeId(childObjectNodeId)}>
-            View object
-          </Button>
-        ) : isArray(value) ? (
-          <ArrayInspector array={value} />
-        ) : (
-          <PrimitiveInspector value={value} />
-        )}
-      </Card.Body>
+      {isString(childObjectNodeId) ? (
+        <DetailObject badge={badge} obj={value as object} childObjectNodeId={childObjectNodeId} />
+      ) : isArray(value) ? (
+        <DetailArray badge={badge} array={value as any[]} />
+      ) : (
+        <DetailPrimitive badge={badge} value={value as string | number | boolean | null} />
+      )}
     </Card>
   );
 };

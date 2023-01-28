@@ -22,7 +22,7 @@ const _PropertyCard = ({ nodeId, propertyK, propertyV }: Props) => {
       return null;
     }
 
-    return edges.find((edge) => edge.source === nodeId && edge.sourceHandle === propertyK)?.target ?? null;
+    return edges.find(({ source, sourceHandle }) => source === nodeId && sourceHandle === propertyK)?.target ?? null;
   }, [edges, nodeId, propertyK, propertyV]);
 
   return (
