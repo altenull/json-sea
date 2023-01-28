@@ -1,3 +1,4 @@
+import { Loading } from '@nextui-org/react';
 import { memo } from 'react';
 import { encloseDoubleQuote } from '../../../utils/string.util';
 import { StringSubtypeValidator } from '../helpers/string-subtype.helper';
@@ -17,24 +18,32 @@ import { TextCopyBox } from './TextCopyBox';
 type Props = {
   stringSubtypeValidator: StringSubtypeValidator;
   value: string;
+  isLoading: boolean;
 };
 
-const _StringInspector = ({ stringSubtypeValidator, value }: Props) => {
+const _StringInspector = ({ stringSubtypeValidator, value, isLoading }: Props) => {
   const { isColor, isDatetime, isEmail, isHttpUri, isImage, isImageUri, isAudio, isAudioUri, isVideo, isVideoUri } =
     stringSubtypeValidator;
 
   return (
     <>
       <TextCopyBox text={encloseDoubleQuote(value)} />
-      {isColor && <PreviewColor color={value} />}
-      {isDatetime && <PreviewDatetime datetime={value} />}
-      {isHttpUri && <PreviewHttpUri httpUri={value as HttpUri} />}
-      {isImage && <PreviewImage imageSrc={value as Base64ImageDataUri} />}
-      {isImageUri && <PreviewImageUri imageUri={value as HttpUri} />}
-      {isAudio && <PreviewAudio audioSrc={value as Base64AudioDataUri} />}
-      {isAudioUri && <PreviewAudioUri audioUri={value as HttpUri} />}
-      {isVideo && <PreviewVideo videoSrc={value as Base64VideoDataUri} />}
-      {isVideoUri && <PreviewVideoUri videoUri={value as HttpUri} />}
+
+      {isLoading ? (
+        <Loading size="sm" />
+      ) : (
+        <>
+          {isColor && <PreviewColor color={value} />}
+          {isDatetime && <PreviewDatetime datetime={value} />}
+          {isHttpUri && <PreviewHttpUri httpUri={value as HttpUri} />}
+          {isImage && <PreviewImage imageSrc={value as Base64ImageDataUri} />}
+          {isImageUri && <PreviewImageUri imageUri={value as HttpUri} />}
+          {isAudio && <PreviewAudio audioSrc={value as Base64AudioDataUri} />}
+          {isAudioUri && <PreviewAudioUri audioUri={value as HttpUri} />}
+          {isVideo && <PreviewVideo videoSrc={value as Base64VideoDataUri} />}
+          {isVideoUri && <PreviewVideoUri videoUri={value as HttpUri} />}
+        </>
+      )}
     </>
   );
 };

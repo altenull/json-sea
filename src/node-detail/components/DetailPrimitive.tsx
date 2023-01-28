@@ -32,13 +32,17 @@ const getStringSubtypeText = (stringSubtypeValidator: StringSubtypeValidator): s
 };
 
 const _DetailPrimitive = ({ badge, value }: Props) => {
+  const [isStringSubtypeLoading, setIsStringSubtypeLoading] = useState<boolean>(isString(value));
   const [stringSubtypeValidator, setStringSubtypeValidator] = useState<StringSubtypeValidator>(
     ALL_FALSE_STRING_SUBTYPE_VALIDATOR
   );
 
   useEffect(() => {
     if (isString(value)) {
-      validateStringSubtype(value).then(setStringSubtypeValidator);
+      validateStringSubtype(value).then((result: StringSubtypeValidator) => {
+        setStringSubtypeValidator(result);
+        setIsStringSubtypeLoading(false);
+      });
     }
   }, [value]);
 
@@ -63,7 +67,13 @@ const _DetailPrimitive = ({ badge, value }: Props) => {
       </Card.Header>
 
       <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
-        {isString(value) && <StringInspector stringSubtypeValidator={stringSubtypeValidator} value={value} />}
+        {isString(value) && (
+          <StringInspector
+            stringSubtypeValidator={stringSubtypeValidator}
+            value={value}
+            isLoading={isStringSubtypeLoading}
+          />
+        )}
 
         {isNumber(value) && <NumberInspector value={value} />}
 
