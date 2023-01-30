@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { Edge } from 'reactflow';
 import { ARRAY_ROOT_NODE_INDEX, ROOT_NODE_DEPTH } from '../../../json-diagram/constants/root-node.constant';
 import { isLastItemOfArray } from '../../../utils/array.util';
-import { isString } from '../../../utils/json.util';
+import { isArray, isObject, isString } from '../../../utils/json.util';
 import { EdgeType } from '../enums/edge-type.enum';
 import { JsonDataType } from '../enums/json-data-type.enum';
 import { NodeType } from '../enums/node-type.enum';
@@ -100,8 +100,9 @@ const convertPrimitiveToNode = ({
 };
 
 type SourceTarget = Pick<Edge, 'source' | 'target'>;
+type DefaultEdgeParams = SourceTarget & Pick<Edge, 'sourceHandle'>;
 
-const createDefaultEdge = ({ source, target, sourceHandle }: SourceTarget & Pick<Edge, 'sourceHandle'>): Edge => {
+const createDefaultEdge = ({ source, target, sourceHandle }: DefaultEdgeParams): Edge => {
   return {
     /**
      * @bugfix If the same edge id remains in `JsonDiagram` after update, the following bug occurs.
@@ -147,13 +148,23 @@ export const jsonParser = (
   /**
    * `nodeSequence` will be transformed to `nodeId`.
    */
-  let nodeSequence = 0;
+  let nodeSequence: number = 0;
   let defaultEdges: Edge[] = [];
   let chainEdges: Edge[] = [];
 
+  const addDefaultEdge = ({ source, target, sourceHandle }: DefaultEdgeParams): void => {
+    defaultEdges = defaultEdges.concat(
+      createDefaultEdge({
+        source,
+        target,
+        sourceHandle,
+      })
+    );
+  };
+
   /**
-   *  TODO: [2023-01-27] Function `traverse` is too complex, needs to be refactored if possible.
-   * `traverse` function flow
+   *  2023-01-30 Suprisingly, ChatGPT helps to refactor complex `traverse` code into smaller.
+   *  @implements
    * - if object
    *   - add node(object)
    *   - loop object
@@ -178,200 +189,52 @@ export const jsonParser = (
   const traverse = ({ traverseTarget, depth, arrayIndexForObject, sourceSet }: TraverseParams): SeaNode[] => {
     let seaNodes: SeaNode[] = [];
 
-    const currentNodeId: string = formatNodeId(nodeSequence);
-    const source: string = currentNodeId;
-    const nextDepth: number = depth + 1;
-
-    const traverseTargetValidator = validateJsonDataType(traverseTarget);
-
-    if (traverseTargetValidator.isObjectData) {
-      const isObjectRootNode: boolean = sourceSet.source === undefined;
+    const traverseObject = (_obj: object, _nextDepth: number, _source: string, _sourceHandle: string) => {
+      nodeSequence++;
+      const nextNodeId: string = formatNodeId(nodeSequence);
+      const target: string = nextNodeId;
 
       seaNodes = seaNodes.concat(
-        convertObjectToNode({
-          nodeId: currentNodeId,
-          depth,
-          obj: traverseTarget,
+        traverse({
+          traverseTarget: _obj,
+          depth: _nextDepth,
           arrayIndexForObject,
-          isRootNode: isObjectRootNode,
+          sourceSet: {
+            source: _source,
+            sourceHandle: _sourceHandle,
+          },
         })
       );
-
-      // if (!isRootNode) {
-      //   edges = edges.concat(
-      //     getEdge({
-      //       source: sourceSet.source as string,
-      //       target: currentNodeId,
-      //       sourceHandle: sourceSet.sourceHandle,
-      //     })
-      //   );
-      // }
-
-      Object.entries(traverseTarget as object).forEach(([propertyK, propertyV]) => {
-        const propertyVValidator = validateJsonDataType(propertyV);
-
-        const sourceHandle: string = propertyK;
-
-        if (propertyVValidator.isObjectData) {
-          // Object > Object
-          nodeSequence++;
-          const nextNodeId = formatNodeId(nodeSequence);
-          const target: string = nextNodeId;
-
-          seaNodes = seaNodes.concat(
-            traverse({
-              traverseTarget: propertyV as object,
-              depth: nextDepth,
-              arrayIndexForObject,
-              sourceSet: {
-                source,
-                sourceHandle,
-              },
-            })
-          );
-          defaultEdges = defaultEdges.concat(
-            createDefaultEdge({
-              source,
-              target,
-              sourceHandle,
-            })
-          );
-        } else if (propertyVValidator.isArrayData) {
-          // Object > Array
-          let sourceOfChainEdgeForPropertyV: string | undefined;
-
-          (propertyV as any[]).forEach((arrayItem: any, arrayIndex: number, selfPropertyVArray: any[]) => {
-            const arrayItemValidator = validateJsonDataType(arrayItem);
-
-            nodeSequence++;
-            const nextNodeId = formatNodeId(nodeSequence);
-            const target: string = nextNodeId;
-
-            if (selfPropertyVArray.length > 1) {
-              if (arrayIndex === 0) {
-                sourceOfChainEdgeForPropertyV = target;
-              }
-
-              if (isLastItemOfArray(arrayIndex, selfPropertyVArray) && isString(sourceOfChainEdgeForPropertyV)) {
-                chainEdges = chainEdges.concat(
-                  createChainEdge({
-                    source: sourceOfChainEdgeForPropertyV,
-                    target,
-                  })
-                );
-              }
-            }
-
-            if (arrayItemValidator.isObjectData) {
-              // Object > Array > Object
-              seaNodes = seaNodes.concat(
-                traverse({
-                  traverseTarget: arrayItem as object,
-                  depth: nextDepth,
-                  arrayIndexForObject: arrayIndex,
-                  sourceSet: {
-                    source,
-                    sourceHandle,
-                  },
-                })
-              );
-              defaultEdges = defaultEdges.concat(
-                createDefaultEdge({
-                  source,
-                  target,
-                  sourceHandle,
-                })
-              );
-            } else if (arrayItemValidator.isArrayData) {
-              // Object > Array > Array
-              const items: any[] = arrayItem as any[];
-
-              seaNodes = seaNodes.concat(
-                convertArrayToNode({
-                  nodeId: nextNodeId,
-                  depth: nextDepth,
-                  arrayIndex,
-                  items,
-                  isRootNode: false,
-                })
-              );
-              defaultEdges = defaultEdges.concat(
-                createDefaultEdge({
-                  source,
-                  target,
-                  sourceHandle,
-                })
-              );
-
-              const isEmptyArray: boolean = items.length === 0;
-
-              if (!isEmptyArray) {
-                seaNodes = seaNodes.concat(
-                  traverse({
-                    traverseTarget: items,
-                    depth: nextDepth,
-                    arrayIndexForObject: arrayIndex,
-                    sourceSet: {
-                      source,
-                      sourceHandle,
-                    },
-                  })
-                );
-              }
-            } else if (arrayItemValidator.isPrimitiveData) {
-              // Object > Array > Primitive
-              seaNodes = seaNodes.concat(
-                convertPrimitiveToNode({
-                  nodeId: nextNodeId,
-                  depth: nextDepth,
-                  arrayIndex,
-                  value: arrayItem as string | number | boolean | null,
-                })
-              );
-              defaultEdges = defaultEdges.concat(
-                createDefaultEdge({
-                  source,
-                  target,
-                  sourceHandle,
-                })
-              );
-            }
-          });
-        }
+      addDefaultEdge({
+        source: _source,
+        target,
+        sourceHandle: _sourceHandle,
       });
-    } else if (traverseTargetValidator.isArrayData) {
-      const isArrayRootNode: boolean = sourceSet.source === undefined;
+    };
 
-      if (isArrayRootNode) {
-        seaNodes = seaNodes.concat(
-          convertArrayToNode({
-            nodeId: currentNodeId,
-            depth,
-            arrayIndex: ARRAY_ROOT_NODE_INDEX,
-            items: traverseTarget as any[],
-            isRootNode: true,
-          })
-        );
-      }
+    const traverseArray = (_array: any[], _nextDepth: number, _source: string, _sourceHandle?: string) => {
+      let sourceOfChainEdge: string | undefined;
 
-      let sourceOfChainEdgeForTraverseTarget: string | undefined;
-
-      (traverseTarget as any[]).forEach((arrayItem: any, arrayIndex: number, selfTraverseTargetArray: any[]) => {
+      _array.forEach((arrayItem: any, arrayIndex: number, selfArray: any[]) => {
         const arrayItemValidator = validateJsonDataType(arrayItem);
 
         nodeSequence++;
         const nextNodeId = formatNodeId(nodeSequence);
         const target: string = nextNodeId;
 
-        if (selfTraverseTargetArray.length > 1) {
+        /**
+         * If an array has multiple items, a chain edge should be added.
+         * The chain edge is a blue -dash line which connects between first and last item of array.
+         */
+        if (selfArray.length > 1) {
           if (arrayIndex === 0) {
-            sourceOfChainEdgeForTraverseTarget = target;
+            sourceOfChainEdge = target;
           }
 
-          if (isLastItemOfArray(arrayIndex, selfTraverseTargetArray) && isString(sourceOfChainEdgeForTraverseTarget)) {
+          if (isLastItemOfArray(arrayIndex, selfArray) && isString(sourceOfChainEdge)) {
             chainEdges = chainEdges.concat(
               createChainEdge({
-                source: sourceOfChainEdgeForTraverseTarget,
+                source: sourceOfChainEdge,
                 target,
               })
             );
@@ -383,17 +246,19 @@ export const jsonParser = (
           seaNodes = seaNodes.concat(
             traverse({
               traverseTarget: arrayItem as object,
-              depth: nextDepth,
+              depth: _nextDepth,
               arrayIndexForObject: arrayIndex,
-              sourceSet: { source: currentNodeId },
+              sourceSet: {
+                source: _source,
+                sourceHandle: _sourceHandle,
+              },
             })
           );
-          defaultEdges = defaultEdges.concat(
-            createDefaultEdge({
-              source,
-              target,
-            })
-          );
+          addDefaultEdge({
+            source: _source,
+            target,
+            sourceHandle: _sourceHandle,
+          });
         } else if (arrayItemValidator.isArrayData) {
           // Array > Array
           const items: any[] = arrayItem as any[];
@@ -401,18 +266,17 @@ export const jsonParser = (
           seaNodes = seaNodes.concat(
             convertArrayToNode({
               nodeId: nextNodeId,
-              depth: nextDepth,
+              depth: _nextDepth,
               arrayIndex,
               items,
               isRootNode: false,
             })
           );
-          defaultEdges = defaultEdges.concat(
-            createDefaultEdge({
-              source,
-              target,
-            })
-          );
+          addDefaultEdge({
+            source: _source,
+            target,
+            sourceHandle: _sourceHandle,
+          });
 
           const isEmptyArray: boolean = items.length === 0;
 
@@ -420,10 +284,11 @@ export const jsonParser = (
             seaNodes = seaNodes.concat(
               traverse({
                 traverseTarget: items,
-                depth: nextDepth,
+                depth: _nextDepth,
                 arrayIndexForObject: arrayIndex,
                 sourceSet: {
-                  source,
+                  source: _source,
+                  sourceHandle: _sourceHandle,
                 },
               })
             );
@@ -433,19 +298,62 @@ export const jsonParser = (
           seaNodes = seaNodes.concat(
             convertPrimitiveToNode({
               nodeId: nextNodeId,
-              depth: nextDepth,
+              depth: _nextDepth,
               arrayIndex,
               value: arrayItem as string | number | boolean | null,
             })
           );
-          defaultEdges = defaultEdges.concat(
-            createDefaultEdge({
-              source,
-              target,
-            })
-          );
+          addDefaultEdge({
+            source: _source,
+            target,
+            sourceHandle: _sourceHandle,
+          });
         }
       });
+    };
+
+    const currentNodeId: string = formatNodeId(nodeSequence);
+    const source: string = currentNodeId;
+    const nextDepth: number = depth + 1;
+    const isRootNode: boolean = sourceSet.source === undefined;
+
+    if (isObject(traverseTarget)) {
+      seaNodes = seaNodes.concat(
+        convertObjectToNode({
+          nodeId: currentNodeId,
+          depth,
+          obj: traverseTarget,
+          arrayIndexForObject,
+          isRootNode,
+        })
+      );
+
+      Object.entries(traverseTarget).forEach(([propertyK, propertyV]) => {
+        const sourceHandle: string = propertyK;
+
+        if (isObject(propertyV)) {
+          traverseObject(propertyV, nextDepth, source, sourceHandle);
+        } else if (isArray(propertyV)) {
+          traverseArray(propertyV, nextDepth, source, sourceHandle);
+        }
+      });
+    } else if (isArray(traverseTarget)) {
+      /**
+       * Unlike 'object' JSON code, 'array' JSON code needs to add an extra node if root node.
+       */
+      if (isRootNode) {
+        seaNodes = seaNodes.concat(
+          convertArrayToNode({
+            nodeId: currentNodeId,
+            depth,
+            arrayIndex: ARRAY_ROOT_NODE_INDEX,
+            items: traverseTarget,
+            isRootNode,
+          })
+        );
+      }
+
+      traverseArray(traverseTarget, nextDepth, source, undefined);
     }
 
     return seaNodes;
