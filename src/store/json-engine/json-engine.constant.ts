@@ -1,5 +1,3 @@
-import { assets } from '../../environment';
-
 export const DEFAULT_STRINGIFIED_JSON: string = `{
   "app_name": "JSON Sea",
   "lat": 37.566789,
@@ -12,9 +10,9 @@ export const DEFAULT_STRINGIFIED_JSON: string = `{
   "primary_color": "#0072F5",
   "null_property": null,
   "app_url": "https://jsonsea.com/",
-  "sea_img_url": "${assets.seaImage}",
-  "sea_video_url": "${assets.seaVideo}",
-  "sea_audio_url": "${assets.seaAudio}",
+  "sea_img_url": "https://raw.githubusercontent.com/altenull/json-sea/main/public/sea-image.jpeg",
+  "sea_video_url": "https://raw.githubusercontent.com/altenull/json-sea/main/public/sea-video.mp4",
+  "sea_audio_url": "https://raw.githubusercontent.com/altenull/json-sea/main/public/sea-audio.mp3",
   "thanks_to": [
     {
       "name": "NextUI",
