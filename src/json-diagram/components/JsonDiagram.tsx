@@ -24,6 +24,7 @@ import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { ArrayNode } from './ArrayNode';
 import { ChainEdge } from './ChainEdge';
 import { CustomMiniMap } from './CustomMiniMap';
+import { DefaultEdge } from './DefaultEdge';
 import { FitViewInvoker } from './FitViewInvoker';
 import { ObjectNode } from './ObjectNode';
 import { PrimitiveNode } from './PrimitiveNode';
@@ -35,6 +36,7 @@ const nodeTypes: NodeTypes = {
 };
 
 const edgeTypes: EdgeTypes = {
+  [EdgeType.Default]: DefaultEdge,
   [EdgeType.Chain]: ChainEdge,
 };
 
