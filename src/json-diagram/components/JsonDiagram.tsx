@@ -20,6 +20,7 @@ import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-v
 import { EdgeType } from '../../store/json-engine/enums/edge-type.enum';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { JsonTree, jsonTreeSelector } from '../../store/json-engine/json-engine.selector';
+import { useLanding } from '../../store/landing/hooks/useLanding';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { ArrayNode } from './ArrayNode';
 import { ChainEdge } from './ChainEdge';
@@ -47,6 +48,7 @@ const _JsonDiagram = () => {
   const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
   const jsonTree: JsonTree = useRecoilValue(jsonTreeSelector);
 
+  const { initApp } = useLanding();
   const isMounted = useIsMounted();
 
   useEffect(() => {
@@ -79,6 +81,7 @@ const _JsonDiagram = () => {
           nodes={seaNodes}
           edgeTypes={edgeTypes}
           edges={edges}
+          onInit={initApp}
           onNodesChange={featureFlag.nodesChange ? handleNodesChange : undefined}
         >
           <CustomMiniMap />
