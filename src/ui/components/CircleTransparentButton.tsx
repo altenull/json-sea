@@ -4,15 +4,19 @@ import { isFunction } from '../../utils/function.util';
 
 type Props = {
   children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const _CircleTransparentButton = ({ children, onClick }: Props) => {
+const _CircleTransparentButton = ({ children, className, style, onClick }: Props) => {
   return (
     <StyledHost
       css={{
+        ...style,
         cursor: isFunction(onClick) ? 'pointer' : 'initial',
       }}
+      className={className}
       onClick={onClick}
     >
       {children}

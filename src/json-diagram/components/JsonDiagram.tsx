@@ -26,6 +26,7 @@ import { ArrayNode } from './ArrayNode';
 import { ChainEdge } from './ChainEdge';
 import { CustomMiniMap } from './CustomMiniMap';
 import { DefaultEdge } from './DefaultEdge';
+import { DownloadImageButton } from './DownloadImageButton';
 import { FitViewInvoker } from './FitViewInvoker';
 import { ObjectNode } from './ObjectNode';
 import { PrimitiveNode } from './PrimitiveNode';
@@ -86,6 +87,7 @@ const _JsonDiagram = () => {
         >
           <CustomMiniMap />
           <Controls position="bottom-right" showInteractive={false} />
+          <DownloadImageButton />
           <Background variant={BackgroundVariant.Dots} />
           <FitViewInvoker seaNodes={seaNodes} />
         </ReactFlow>

@@ -164,6 +164,9 @@ export const jsonParser = (
 
   /**
    *  2023-01-30 Suprisingly, ChatGPT helps to refactor complex `traverse` code into smaller.
+   * 
+   * `traverse` function follows `preorder traversal`
+   
    *  @implements
    * - if object
    *   - add node(object)
