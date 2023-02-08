@@ -8,6 +8,7 @@ export const iconNames = tuple(
   'right-arrow-with-bar',
   'download',
   'cloud-upload',
+  'camera',
   'sun',
   'moon',
   'heart',
