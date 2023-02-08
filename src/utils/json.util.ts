@@ -61,17 +61,6 @@ export const isValidJson = (code: string): boolean => {
   }
 };
 
-export const downloadAsJsonFile = (stringifiedJson: string, fileName: string): void => {
-  const anchor: HTMLAnchorElement = document.createElement('a');
-
-  anchor.style.display = 'none';
-  anchor.href = `data:text/json;charset=utf8,${encodeURIComponent(stringifiedJson)}`;
-  anchor.download = fileName;
-
-  anchor.click();
-  anchor.remove();
-};
-
 export const formatJsonLikeData = (data: object | any[] | string): string => {
   const stringifyTarget = isString(data) ? JSON.parse(data) : data;
   const replacer: (number | string)[] | null = null;

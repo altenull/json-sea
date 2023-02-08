@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
 import { isValidJsonSelector } from '../../store/json-engine/json-engine.selector';
 import { Icon } from '../../ui/icon/Icon';
-import { downloadAsJsonFile } from '../../utils/json.util';
+import { downloadAsFile } from '../../utils/file-download.util';
 import { useBoolean } from '../../utils/react-hooks/useBoolean';
 import { ImportJsonModal } from './ImportJsonModal';
 
@@ -34,7 +34,7 @@ const _JsonEditorConsole = ({ style }: Props) => {
   );
 
   const handleDownloadJsonClick = () => {
-    downloadAsJsonFile(stringifiedJson, 'json-sea.json');
+    downloadAsFile(`data:text/json;charset=utf8,${encodeURIComponent(stringifiedJson)}`, 'json-sea.json');
   };
 
   return (
