@@ -2,9 +2,9 @@
 
 import { styled, Text } from '@nextui-org/react';
 import prettyBytes from 'pretty-bytes';
-import { memo, useEffect, useState } from 'react';
-import { noop } from '../../../utils/function.util';
-import { isNumber, isString } from '../../../utils/json.util';
+import { memo } from 'react';
+import { useQuery } from 'react-query';
+import { isNull, isNumber, isString } from '../../../utils/json.util';
 import { HttpUri } from '../types/http-uri.type';
 import {
   AudioSrc,
@@ -31,40 +31,57 @@ const extractBase64MediaType = (
   return base64MediaDataUri.slice(0, sliceEnd).replace('data:', '');
 };
 
+type MimeTypeAndBytes = {
+  mimeType: string | null; // 'image/png', 'video/mp4', 'audio/mp3'
+  mimeBytes: number | null;
+};
+
+const fetchMediaHead = (mediaSrc: HttpUri): Promise<MimeTypeAndBytes> => {
+  return fetch(mediaSrc, { method: 'HEAD' })
+    .then((response) => {
+      const contentType: string | null = response.headers.get('Content-Type');
+      const contentLength: string | null = response.headers.get('Content-Length');
+
+      return {
+        mimeType: contentType,
+        mimeBytes: isString(contentLength) ? Number(contentLength) : null,
+      };
+    })
+    .catch((error) => {
+      return {
+        mimeType: null,
+        mimeBytes: null,
+      };
+    });
+};
+
 const _MIMETypeAndSize = ({ mediaSrc }: Props) => {
-  const [mimeType, setMimeType] = useState<string | null>(null); // e.g. 'image/png', 'video/mp4', 'audio/mp3', ...
-  const [mimeBytes, setMimeBytes] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (startsWithHttpOrHttps(mediaSrc)) {
-      fetch(mediaSrc, { method: 'HEAD' })
-        .then((response) => {
-          if (response.ok) {
-            const contentType: string | null = response.headers.get('Content-Type');
-            const contentLength: string | null = response.headers.get('Content-Length');
-
-            setMimeType(contentType);
-            setMimeBytes(isString(contentLength) ? Number(contentLength) : null);
-          }
-        })
-        .catch(noop);
-    } else {
-      setMimeType(extractBase64MediaType(mediaSrc));
+  const { isSuccess, data } = useQuery<MimeTypeAndBytes, Error>(
+    ['getMediaHeaders', mediaSrc],
+    async () =>
+      startsWithHttpOrHttps(mediaSrc)
+        ? await fetchMediaHead(mediaSrc)
+        : await Promise.resolve({
+            mimeType: extractBase64MediaType(mediaSrc),
+            mimeBytes: null,
+          }),
+    {
+      staleTime: 5 * 60 * 1000, // 5 minutes
     }
-  }, [mediaSrc]);
+  );
 
-  if (!isString(mimeType) && !isNumber(mimeBytes)) {
+  if (!isSuccess || (isNull(data.mimeType) && isNull(data.mimeBytes))) {
     return null;
   }
 
   return (
     <StyledHost>
       <Text size="$xs" color="$gray800">
-        {mimeType}
+        {data.mimeType}
       </Text>
 
       <Text size="$xs" color="$gray800">
-        {isNumber(mimeBytes) ? prettyBytes(mimeBytes) : ''}
+        {isNumber(data.mimeBytes) ? prettyBytes(data.mimeBytes) : ''}
       </Text>
     </StyledHost>
   );

@@ -2,6 +2,7 @@
 
 import { createTheme, NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider } from 'next-themes';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
 type Props = {
@@ -36,6 +37,15 @@ export const darkTheme = createTheme({
   },
 });
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
+  },
+});
+
 const Providers = ({ children }: Props) => {
   return (
     <RecoilRoot>
@@ -48,7 +58,9 @@ const Providers = ({ children }: Props) => {
           dark: darkTheme.className,
         }}
       >
-        <NextUIProvider>{children}</NextUIProvider>
+        <NextUIProvider>
+          <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        </NextUIProvider>
       </ThemeProvider>
     </RecoilRoot>
   );
