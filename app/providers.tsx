@@ -1,8 +1,8 @@
 'use client';
 
 import { createTheme, NextUIProvider } from '@nextui-org/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'next-themes';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
 type Props = {
@@ -42,6 +42,8 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: false,
+      staleTime: 1000 * 20, // 20 seoncds
+      cacheTime: 1000 * 60 * 5, //  5 minutes
     },
   },
 });
@@ -59,7 +61,10 @@ const Providers = ({ children }: Props) => {
         }}
       >
         <NextUIProvider>
-          <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+          <QueryClientProvider client={queryClient}>
+            {children}
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          </QueryClientProvider>
         </NextUIProvider>
       </ThemeProvider>
     </RecoilRoot>
