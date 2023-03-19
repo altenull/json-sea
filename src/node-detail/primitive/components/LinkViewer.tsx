@@ -1,6 +1,6 @@
 import { memo } from 'react';
+import { useJsonLinkApi } from '../../../api/json-link-api/useJsonLinkApi';
 import { isNull } from '../../../utils/json.util';
-import { JsonLink, useJsonLinkApi } from '../hooks/useJsonLinkApi';
 import { HttpUri } from '../types/http-uri.type';
 import { PreviewOgMeta } from './PreviewOgMeta';
 
@@ -9,13 +9,13 @@ type Props = {
 };
 
 const _LinkViewer = ({ httpUri }: Props) => {
-  const jsonLink: JsonLink | null = useJsonLinkApi(httpUri);
+  const { data } = useJsonLinkApi({ httpUri });
 
-  if (isNull(jsonLink)) {
+  if (isNull(data) || data === undefined) {
     return null;
   }
 
-  return <PreviewOgMeta jsonLink={jsonLink} />;
+  return <PreviewOgMeta jsonLink={data} />;
 };
 
 export const LinkViewer = memo(_LinkViewer);

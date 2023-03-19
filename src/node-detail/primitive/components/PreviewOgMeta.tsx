@@ -1,9 +1,9 @@
 import { Card, CSS, Text } from '@nextui-org/react';
 import { memo, useMemo } from 'react';
+import { JsonLink } from '../../../api/json-link-api/json-link.types';
 import { isEmptyArray } from '../../../utils/array.util';
 import { isString } from '../../../utils/json.util';
 import { openLinkAsNewTab } from '../../../utils/window.util';
-import { JsonLink } from '../hooks/useJsonLinkApi';
 
 type Props = {
   jsonLink: JsonLink;
