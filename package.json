@@ -12,6 +12,8 @@
     "@monaco-editor/react": "^4.4.6",
     "@next/font": "^13.1.1",
     "@nextui-org/react": "^1.0.0-beta.11",
+    "@tanstack/react-query": "^4.27.0",
+    "@tanstack/react-query-devtools": "^4.27.0",
     "@vercel/analytics": "^0.1.8",
     "dagre": "^0.8.5",
     "date-fns": "^2.29.3",
@@ -24,7 +26,6 @@
     "re-resizable": "^6.9.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-query": "^3.39.3",
     "reactflow": "^11.3.3",
     "recoil": "^0.7.6",
     "timeago.js": "^4.0.2"
