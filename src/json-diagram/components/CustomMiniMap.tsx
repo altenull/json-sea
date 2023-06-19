@@ -39,12 +39,10 @@ const _CustomMiniMap = () => {
     []
   );
 
-  return (
-    <StyledMiniMap css={memoizedMiniMapCss} position="bottom-left" pannable zoomable nodeClassName={nodeClassName} />
-  );
+  return <S_MiniMap css={memoizedMiniMapCss} position="bottom-left" pannable zoomable nodeClassName={nodeClassName} />;
 };
 
-const StyledMiniMap = styled(MiniMap, {
+const S_MiniMap = styled(MiniMap, {
   // `border-radius` is not supported in <rect> tag.
   [`.${nodeClassNames.object}`]: {
     rx: 8,

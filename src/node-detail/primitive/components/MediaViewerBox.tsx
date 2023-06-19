@@ -6,10 +6,10 @@ type Props = {
 };
 
 const _MediaViewerBox = ({ children }: Props) => {
-  return <StyledHost>{children}</StyledHost>;
+  return <S_Host>{children}</S_Host>;
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   backgroundColor: '$gray50',
   borderRadius: '$xs',
   padding: '$4',

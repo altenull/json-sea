@@ -17,21 +17,21 @@ const _NodeShell = ({ nodeId, nodeType, children }: Props) => {
   const { isLocalhost } = useEnv();
 
   return (
-    <StyledHost isSelected={nodeId === selectedNodeId} nodeType={nodeType} onClick={() => setSelectedNodeId(nodeId)}>
+    <S_Host isSelected={nodeId === selectedNodeId} nodeType={nodeType} onClick={() => setSelectedNodeId(nodeId)}>
       {isLocalhost && (
         <Text h4 color="warning">
           {nodeTypeToAcronymMap[nodeType]} ({nodeId})
         </Text>
       )}
 
-      {nodeType === NodeType.Object && <StyledLeftCenterTip className="left-center-tip" />}
+      {nodeType === NodeType.Object && <S_LeftCenterTip className="left-center-tip" />}
 
       {children}
-    </StyledHost>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
@@ -77,7 +77,7 @@ const StyledHost = styled('div', {
   },
 });
 
-const StyledLeftCenterTip = styled('span', {
+const S_LeftCenterTip = styled('span', {
   position: 'absolute',
   left: '-24px',
   top: '50%',

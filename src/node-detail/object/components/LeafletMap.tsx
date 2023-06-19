@@ -55,10 +55,10 @@ const _LeafletMap = ({ latLng }: Props) => {
     };
   }, [latLng, isLeafletInitialized, addTileLayer]);
 
-  return <StyledMap ref={leafletMapRef} />;
+  return <S_Map ref={leafletMapRef} />;
 };
 
-const StyledMap = styled('div', {
+const S_Map = styled('div', {
   width: '100%',
   height: '240px',
 });

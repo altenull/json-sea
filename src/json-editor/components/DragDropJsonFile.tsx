@@ -13,10 +13,10 @@ const _DragDropJsonFile = ({ afterFileReadSuccess }: Props) => {
   const { dropzoneRef, isDragging, handleFileInputChange } = useDragDropJsonFile(afterFileReadSuccess);
 
   return (
-    <StyledHost>
-      <StyledFileInput type="file" accept="application/JSON" id={fileInputId} onChange={handleFileInputChange} />
+    <S_Host>
+      <S_FileInput type="file" accept="application/JSON" id={fileInputId} onChange={handleFileInputChange} />
 
-      <StyledLabel
+      <S_Label
         ref={dropzoneRef}
         css={{
           backgroundColor: isDragging ? '$successLight' : '$gray50',
@@ -31,23 +31,23 @@ const _DragDropJsonFile = ({ afterFileReadSuccess }: Props) => {
         <Text size="$sm" color={isDragging ? 'success' : 'default'}>
           {isDragging ? 'Drop it to import' : 'Drop a your JSON file, or click here'}
         </Text>
-      </StyledLabel>
-    </StyledHost>
+      </S_Label>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   position: 'relative',
   width: '100%',
   maxWidth: '100%',
   height: '200px',
 });
 
-const StyledFileInput = styled('input', {
+const S_FileInput = styled('input', {
   display: 'none',
 });
 
-const StyledLabel = styled('label', {
+const S_Label = styled('label', {
   width: '100%',
   height: '100%',
   display: 'flex',

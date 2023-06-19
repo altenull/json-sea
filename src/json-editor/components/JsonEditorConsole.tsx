@@ -43,7 +43,7 @@ const _JsonEditorConsole = ({ style }: Props) => {
         <ImportJsonModal isModalOpen={isImportJsonModalOpen} closeModal={closeImportJsonModal} />
       )}
 
-      <StyledHost style={style}>
+      <S_Host style={style}>
         <Tooltip content="Import JSON" color="primary">
           <Button
             {...sharedButtonProps}
@@ -60,12 +60,12 @@ const _JsonEditorConsole = ({ style }: Props) => {
             onPress={handleDownloadJsonClick}
           />
         </Tooltip>
-      </StyledHost>
+      </S_Host>
     </>
   );
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   height: '44px',
   display: 'flex',
   justifyContent: 'space-between',

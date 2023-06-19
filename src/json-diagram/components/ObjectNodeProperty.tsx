@@ -29,7 +29,7 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
   );
 
   return (
-    <StyledHost>
+    <S_Host>
       <Text color="primary" weight="semibold" css={{ marginRight: '$8' }}>
         {encloseDoubleQuote(propertyK)}
       </Text>
@@ -66,11 +66,11 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
       )}
 
       {isHoveredFromNodeDetail && <HoveringBlueDot />}
-    </StyledHost>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   position: 'relative',
   height: sizes.nodeContentHeight,
   display: 'flex',

@@ -30,7 +30,7 @@ const _NodeDetailPanel = () => {
   }, [selectedNode, hostRef]);
 
   return (
-    <StyledHost ref={hostRef} isDark={isDark}>
+    <S_Host ref={hostRef} isDark={isDark}>
       {isNull(selectedNode) ? (
         <Text h3>No selected node.</Text>
       ) : (
@@ -56,11 +56,11 @@ const _NodeDetailPanel = () => {
       )}
 
       <Copyright />
-    </StyledHost>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   variants: {
     isDark: {
       true: {

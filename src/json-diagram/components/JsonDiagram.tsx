@@ -69,7 +69,7 @@ const _JsonDiagram = () => {
   );
 
   return (
-    <StyledHost>
+    <S_Host>
       {isMounted && (
         <ReactFlow
           style={{
@@ -92,11 +92,11 @@ const _JsonDiagram = () => {
           <FitViewInvoker seaNodes={seaNodes} />
         </ReactFlow>
       )}
-    </StyledHost>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   width: '100%',
   height: '100%',
 

@@ -13,17 +13,17 @@ const _JsonValidityStatus = ({ style }: Props) => {
   const { theme } = useTheme();
 
   return (
-    <StyledHost style={style}>
+    <S_Host style={style}>
       <Icon
         icon={isValidJson ? 'file-check' : 'file-block'}
         size={24}
         color={isValidJson ? theme?.colors.success.value : theme?.colors.error.value}
       />
-    </StyledHost>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('span', {
+const S_Host = styled('span', {
   display: 'inline-flex',
   justifyContent: 'center',
   alignItems: 'center',

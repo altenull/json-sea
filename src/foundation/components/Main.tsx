@@ -8,10 +8,10 @@ type Props = {
 };
 
 const _Main = ({ children }: Props) => {
-  return <StyledMain>{children}</StyledMain>;
+  return <S_Main>{children}</S_Main>;
 };
 
-const StyledMain = styled('main', {
+const S_Main = styled('main', {
   display: 'flex',
   justifyContent: 'space-between',
   height: `calc(100vh - ${sizes.globalNavHeight}px)`,

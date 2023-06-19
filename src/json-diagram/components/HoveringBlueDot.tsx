@@ -2,10 +2,10 @@ import { styled } from '@nextui-org/react';
 import { memo } from 'react';
 
 const _HoveringBlueDot = () => {
-  return <StyledHost />;
+  return <S_Host />;
 };
 
-const StyledHost = styled('span', {
+const S_Host = styled('span', {
   position: 'absolute',
   right: 0,
   top: '50%',

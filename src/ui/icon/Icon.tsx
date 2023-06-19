@@ -19,7 +19,7 @@ type Props = {
 
 const _Icon = ({ icon, size, color = '#000000', style, onClick }: Props) => {
   return (
-    <StyledHost
+    <S_Host
       style={{
         width: size,
         height: size,
@@ -47,11 +47,11 @@ const _Icon = ({ icon, size, color = '#000000', style, onClick }: Props) => {
       >
         <path d={iconNameToPathMap[icon]} fill={color} fillRule="evenodd" clipRule="evenodd" />
       </svg>
-    </StyledHost>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('span', {
+const S_Host = styled('span', {
   display: 'inline-block',
 });
 

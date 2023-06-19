@@ -14,13 +14,13 @@ type Props = {
 const _ImageViewer = ({ imageSrc }: Props) => {
   return (
     <MediaViewerBox>
-      <StyledImg src={imageSrc} alt="image preview" onClick={() => openLinkAsNewTab(imageSrc)} />
+      <S_Img src={imageSrc} alt="image preview" onClick={() => openLinkAsNewTab(imageSrc)} />
       <MIMETypeAndSize mediaSrc={imageSrc} />
     </MediaViewerBox>
   );
 };
 
-const StyledImg = styled('img', {
+const S_Img = styled('img', {
   display: 'block',
   width: 'auto',
   height: '120px',

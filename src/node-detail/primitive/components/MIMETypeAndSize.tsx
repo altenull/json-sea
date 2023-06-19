@@ -19,7 +19,7 @@ const _MIMETypeAndSize = ({ mediaSrc }: Props) => {
   }
 
   return (
-    <StyledHost>
+    <S_Host>
       <Text size="$xs" color="$gray800">
         {data.mimeType}
       </Text>
@@ -27,11 +27,11 @@ const _MIMETypeAndSize = ({ mediaSrc }: Props) => {
       <Text size="$xs" color="$gray800">
         {isNumber(data.mimeBytes) ? prettyBytes(data.mimeBytes) : ''}
       </Text>
-    </StyledHost>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',

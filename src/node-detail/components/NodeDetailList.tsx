@@ -6,10 +6,10 @@ type Props = {
 };
 
 const _NodeDetailList = ({ children }: Props) => {
-  return <StyledHost>{children}</StyledHost>;
+  return <S_Host>{children}</S_Host>;
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '$10',

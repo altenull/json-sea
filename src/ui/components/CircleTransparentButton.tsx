@@ -11,7 +11,7 @@ type Props = {
 
 const _CircleTransparentButton = ({ children, className, style, onClick }: Props) => {
   return (
-    <StyledHost
+    <S_Host
       css={{
         ...style,
         cursor: isFunction(onClick) ? 'pointer' : 'initial',
@@ -20,11 +20,11 @@ const _CircleTransparentButton = ({ children, className, style, onClick }: Props
       onClick={onClick}
     >
       {children}
-    </StyledHost>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('button', {
+const S_Host = styled('button', {
   display: 'inline-flex',
   justifyContent: 'center',
   alignItems: 'center',

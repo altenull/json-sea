@@ -13,13 +13,13 @@ type Props = {
 const _VideoViewer = ({ videoSrc }: Props) => {
   return (
     <MediaViewerBox>
-      <StyledVideo controls preload="metadata" src={videoSrc} />
+      <S_Video controls preload="metadata" src={videoSrc} />
       <MIMETypeAndSize mediaSrc={videoSrc} />
     </MediaViewerBox>
   );
 };
 
-const StyledVideo = styled('video', {
+const S_Video = styled('video', {
   display: 'block',
   width: '100%',
 });

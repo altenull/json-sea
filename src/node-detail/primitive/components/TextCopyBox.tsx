@@ -23,11 +23,11 @@ const _TextCopyBox = ({ text }: Props) => {
   }, [clearClipboard, isHostHovered]);
 
   return (
-    <StyledHost ref={hostRef} onClick={copyText}>
+    <S_Host ref={hostRef} onClick={copyText}>
       {isHostHovered && (
-        <StyledBadge variant="flat" color="success" size="xs">
+        <S_Badge variant="flat" color="success" size="xs">
           {isNull(copiedText) ? 'Copy?' : 'Copied!'}
-        </StyledBadge>
+        </S_Badge>
       )}
 
       <Text
@@ -36,11 +36,11 @@ const _TextCopyBox = ({ text }: Props) => {
       >
         {text}
       </Text>
-    </StyledHost>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   position: 'relative',
   padding: '$4',
   borderRadius: '$xs',
@@ -51,7 +51,7 @@ const StyledHost = styled('div', {
   },
 });
 
-const StyledBadge = styled(Badge, {
+const S_Badge = styled(Badge, {
   position: 'absolute',
   left: '$4',
   top: '50%',

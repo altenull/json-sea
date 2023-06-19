@@ -32,7 +32,7 @@ const _JsonEditor = () => {
   );
 
   return (
-    <StyledHost>
+    <S_Host>
       <Editor
         theme={isDark ? 'vs-dark' : 'light'}
         defaultLanguage="json"
@@ -67,11 +67,11 @@ const _JsonEditor = () => {
           bottom: 0,
         }}
       />
-    </StyledHost>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   position: 'relative',
   borderRight: '1px solid $border',
   width: '100%',

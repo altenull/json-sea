@@ -14,17 +14,17 @@ const _EmptyNodeMessage = ({ nodeType }: Props) => {
   }, []);
 
   return (
-    <StyledHost>
+    <S_Host>
       <Image src="/oceania.png" alt="oceania" width="200" height="200" />
       <Text weight="medium" size="$lg" css={{ color: '$gray600' }}>
         {nodeTypeToSyntaxMap[nodeType]}
       </Text>
       <Text weight="semibold">You have just selected an empty {nodeTypeToTextMap[nodeType].toLowerCase()}.</Text>
-    </StyledHost>
+    </S_Host>
   );
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

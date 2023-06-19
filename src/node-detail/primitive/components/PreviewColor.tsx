@@ -6,10 +6,10 @@ type Props = {
 };
 
 const _PreviewColor = ({ color }: Props) => {
-  return <StyledHost css={{ backgroundColor: color }} />;
+  return <S_Host css={{ backgroundColor: color }} />;
 };
 
-const StyledHost = styled('div', {
+const S_Host = styled('div', {
   width: '100%',
   height: '24px',
   borderRadius: '$lg',
