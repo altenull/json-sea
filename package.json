@@ -18,7 +18,7 @@
     "dagre": "^0.8.5",
     "date-fns": "^2.29.3",
     "html-to-image": "^1.11.11",
-    "leaflet": "^1.9.3",
+    "leaflet": "^1.9.4",
     "nanoid": "^4.0.0",
     "next": "^13.1.1",
     "next-themes": "^0.2.1",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/dagre": "^0.7.48",
-    "@types/leaflet": "^1.9.0",
+    "@types/leaflet": "^1.9.3",
     "@types/node": "^18.11.18",
     "@types/react": "18.0.26",
     "@types/react-dom": "^18.0.10",
