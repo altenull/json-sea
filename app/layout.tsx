@@ -1,4 +1,4 @@
-import { Inter } from '@next/font/google';
+import { Inter } from 'next/font/google';
 import AnalyticsWrapper from './analytics-wrapper';
 import Providers from './providers';
 
