@@ -20,12 +20,12 @@
     "html-to-image": "^1.11.11",
     "leaflet": "^1.9.4",
     "nanoid": "^4.0.2",
-    "next": "^13.1.1",
+    "next": "^13.4.6",
     "next-themes": "^0.2.1",
     "pretty-bytes": "^6.1.0",
     "re-resizable": "^6.9.9",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "reactflow": "^11.7.3",
     "recoil": "^0.7.6",
     "timeago.js": "^4.0.2"
@@ -37,7 +37,7 @@
     "@types/react": "18.0.26",
     "@types/react-dom": "^18.0.10",
     "eslint": "^8.31.0",
-    "eslint-config-next": "^13.1.1",
+    "eslint-config-next": "^13.4.6",
     "prettier": "^2.8.1",
     "typescript": "^5.1.3"
   }
