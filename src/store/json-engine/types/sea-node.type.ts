@@ -34,8 +34,8 @@ export type PrimitiveNodeData = SharedNodeData & {
   value: string | number | boolean | null;
 };
 
-export type ObjectSeaNode = Node<ObjectNodeData> & { type: NodeType };
-export type ArraySeaNode = Node<ArrayNodeData> & { type: NodeType };
-export type PrimitiveSeaNode = Node<PrimitiveNodeData> & { type: NodeType };
+export type ObjectSeaNode = Node<ObjectNodeData, NodeType.Object>;
+export type ArraySeaNode = Node<ArrayNodeData, NodeType.Array>;
+export type PrimitiveSeaNode = Node<PrimitiveNodeData, NodeType.Primitive>;
 
 export type SeaNode = ObjectSeaNode | ArraySeaNode | PrimitiveSeaNode;
