@@ -16,7 +16,7 @@
     "@tanstack/react-query-devtools": "^4.27.0",
     "@vercel/analytics": "^0.1.8",
     "dagre": "^0.8.5",
-    "date-fns": "^2.29.3",
+    "date-fns": "^2.30.0",
     "html-to-image": "^1.11.11",
     "leaflet": "^1.9.4",
     "nanoid": "^4.0.0",
