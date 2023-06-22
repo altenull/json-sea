@@ -1,10 +1,10 @@
 'use client';
 
 import { CSSProperties } from 'react';
-import { useLanding } from '../../store/landing/hooks/useLanding';
+import { useLandingStore } from '../../store/landing/landing.store';
 
 const _LandingLoader = () => {
-  const { isAppInitalized } = useLanding();
+  const isAppInitalized = useLandingStore((state) => state.isAppInitalized);
 
   if (isAppInitalized) {
     return null;

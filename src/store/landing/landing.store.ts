@@ -1,7 +1,3 @@
-import { useCallback } from 'react';
-import { useRecoilState } from 'recoil';
-import { isAppInitalizedAtom } from '../landing.atom';
-
 /**
  * [2023-02-02]
  * According to the NextUI official guide, the NextUI currently only works in client-side components.
@@ -12,15 +8,18 @@ import { isAppInitalizedAtom } from '../landing.atom';
  * So I decided to show loading spinner until app UI is stable.
  * @HACK Determine whether to initialize app with `onInit` event of `ReactFlow` component.
  */
-export const useLanding = () => {
-  const [isAppInitalized, setIsAppInitalized] = useRecoilState(isAppInitalizedAtom);
 
-  const initApp = useCallback(() => {
-    setIsAppInitalized(true);
-  }, [setIsAppInitalized]);
+import { create } from 'zustand';
 
-  return {
-    isAppInitalized,
-    initApp,
-  } as const;
+type State = {
+  isAppInitalized: boolean;
 };
+
+type Action = {
+  initApp: () => void;
+};
+
+export const useLandingStore = create<State & Action>((set) => ({
+  isAppInitalized: false,
+  initApp: () => set(() => ({ isAppInitalized: true })),
+}));
