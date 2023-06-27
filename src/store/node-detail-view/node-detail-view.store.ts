@@ -23,7 +23,5 @@ export const useNodeDetailViewStore = create<State & Actions>((set) => ({
   ...initialState,
   setHoveredNodeDetails: (hoveredNodeDetails: HoveredNodeDetail[]) => set(() => ({ hoveredNodeDetails })),
   resetHoveredNodeDetails: () => set(() => ({ hoveredNodeDetails: initialState.hoveredNodeDetails })),
-  resetNodeDetailViewStore: () => {
-    set(initialState);
-  },
+  resetNodeDetailViewStore: () => set(initialState),
 }));

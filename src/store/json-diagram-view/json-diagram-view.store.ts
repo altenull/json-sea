@@ -19,6 +19,6 @@ export const useJsonDiagramViewStore = create<State & Actions>((set) => ({
   ...initialState,
   selectNode: (nodeId: Node['id']) => set(() => ({ selectedNodeId: nodeId })),
   // TODO: Find out the way of calling `resetSelectedNode` when another store's state changed.
-  resetSelectedNode: () => set(() => ({ selectedNodeId: null })),
+  resetSelectedNode: () => set(() => ({ selectedNodeId: initialState.selectedNodeId })),
   resetJsonDiagramViewStore: () => set(initialState),
 }));
