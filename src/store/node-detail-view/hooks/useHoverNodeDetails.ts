@@ -1,17 +1,18 @@
 import { useEffect } from 'react';
-import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { useHover } from '../../../utils/react-hooks/useHover';
-import { HoveredNodeDetail, hoveredNodeDetailsAtom } from '../node-detail-view.atom';
+import { HoveredNodeDetail, useNodeDetailViewStore } from '../node-detail-view.store';
 
 export const useHoverNodeDetails = (hoveredNodeDetails: HoveredNodeDetail[]) => {
-  const setter = useSetRecoilState(hoveredNodeDetailsAtom);
-  const resetter = useResetRecoilState(hoveredNodeDetailsAtom);
+  const [setHoveredNodeDetails, resetHoveredNodeDetails] = useNodeDetailViewStore((state) => [
+    state.setHoveredNodeDetails,
+    state.resetHoveredNodeDetails,
+  ]);
 
   const [cardRef, isCardHovered] = useHover<HTMLDivElement>();
 
   useEffect(() => {
-    isCardHovered ? setter(hoveredNodeDetails) : resetter();
-  }, [isCardHovered, hoveredNodeDetails, setter, resetter]);
+    isCardHovered ? setHoveredNodeDetails(hoveredNodeDetails) : resetHoveredNodeDetails();
+  }, [isCardHovered]);
 
   return { cardRef };
 };

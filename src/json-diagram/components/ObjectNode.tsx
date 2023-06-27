@@ -1,10 +1,9 @@
 import { memo, useCallback } from 'react';
 import { NodeProps, useEdges } from 'reactflow';
-import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { addPrefixChain } from '../../store/json-engine/helpers/json-parser.helper';
 import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
-import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
+import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';
 import { ChainHandle } from './ChainHandle';
 import { DefaultHandle } from './DefaultHandle';
 import { HoveringBlueDot } from './HoveringBlueDot';
@@ -18,7 +17,7 @@ import { ObjectNodeProperty } from './ObjectNodeProperty';
  * target: always have except for RootNode.
  */
 const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
-  const hoveredNodeDetails = useRecoilValue(hoveredNodeDetailsAtom);
+  const hoveredNodeDetails = useNodeDetailViewStore((state) => state.hoveredNodeDetails);
   const edges = useEdges();
 
   const { obj, isRootNode } = data;

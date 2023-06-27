@@ -3,8 +3,7 @@
 import { useTheme } from '@nextui-org/react';
 import { CSSProperties, memo, useMemo } from 'react';
 import { EdgeProps, getBezierPath } from 'reactflow';
-import { useRecoilValue } from 'recoil';
-import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
+import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';
 import { isString } from '../../utils/json.util';
 
 const _DefaultEdge = ({
@@ -24,7 +23,7 @@ const _DefaultEdge = ({
   sourceHandleId,
   target,
 }: EdgeProps) => {
-  const hoveredNodeDetails = useRecoilValue(hoveredNodeDetailsAtom);
+  const hoveredNodeDetails = useNodeDetailViewStore((state) => state.hoveredNodeDetails);
   const { theme } = useTheme();
 
   const dynamicStyle: CSSProperties = useMemo(() => {

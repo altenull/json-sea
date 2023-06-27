@@ -1,8 +1,7 @@
 import { styled, Text, useTheme } from '@nextui-org/react';
 import { memo } from 'react';
-import { useRecoilValue } from 'recoil';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
-import { hoveredNodeDetailsAtom } from '../../store/node-detail-view/node-detail-view.atom';
+import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { Icon } from '../../ui/icon/Icon';
 import { isEmptyArray } from '../../utils/array.util';
@@ -19,7 +18,7 @@ type Props = {
 };
 
 const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Props) => {
-  const hoveredNodeDetails = useRecoilValue(hoveredNodeDetailsAtom);
+  const hoveredNodeDetails = useNodeDetailViewStore((state) => state.hoveredNodeDetails);
   const { theme } = useTheme();
 
   const { isObjectData, isArrayData, isPrimitiveData } = validateJsonDataType(propertyV);
