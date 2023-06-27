@@ -15,11 +15,17 @@ type State = {
   isAppInitalized: boolean;
 };
 
-type Action = {
+type Actions = {
   initApp: () => void;
+  resetLandingStore: () => void;
 };
 
-export const useLandingStore = create<State & Action>((set) => ({
+const initialState: State = {
   isAppInitalized: false,
+};
+
+export const useLandingStore = create<State & Actions>((set) => ({
+  ...initialState,
   initApp: () => set(() => ({ isAppInitalized: true })),
+  resetLandingStore: () => set(initialState),
 }));
