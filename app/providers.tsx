@@ -3,7 +3,6 @@
 import { createTheme, NextUIProvider } from '@nextui-org/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'next-themes';
-import { RecoilRoot } from 'recoil';
 
 type Props = {
   children: React.ReactNode;
@@ -50,24 +49,22 @@ const queryClient = new QueryClient({
 
 const Providers = ({ children }: Props) => {
   return (
-    <RecoilRoot>
-      <ThemeProvider
-        defaultTheme="system"
-        enableSystem
-        attribute="class" // With 'class' `attribute` prop, you don't need to pass `theme` prop to <NextUIProvider>.
-        value={{
-          light: lightTheme.className,
-          dark: darkTheme.className,
-        }}
-      >
-        <NextUIProvider>
-          <QueryClientProvider client={queryClient}>
-            {children}
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          </QueryClientProvider>
-        </NextUIProvider>
-      </ThemeProvider>
-    </RecoilRoot>
+    <ThemeProvider
+      defaultTheme="system"
+      enableSystem
+      attribute="class" // With 'class' `attribute` prop, you don't need to pass `theme` prop to <NextUIProvider>.
+      value={{
+        light: lightTheme.className,
+        dark: darkTheme.className,
+      }}
+    >
+      <NextUIProvider>
+        <QueryClientProvider client={queryClient}>
+          {children}
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        </QueryClientProvider>
+      </NextUIProvider>
+    </ThemeProvider>
   );
 };
 
