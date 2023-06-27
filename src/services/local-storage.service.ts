@@ -16,20 +16,28 @@ const defaultValueMap: DefaultValueMap = {
 
 export const localStorageService = {
   setItem: <K extends LocalStorageKey>(key: K, value: KeyToValueTypeMap<K>) => {
-    localStorage.setItem(key, JSON.stringify(value));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
   },
 
   getItem: <K extends LocalStorageKey>(key: K): KeyToValueTypeMap<K> => {
-    const storedValue: string | null = localStorage.getItem(key);
+    if (typeof window !== 'undefined') {
+      const storedValue: string | null = localStorage.getItem(key);
 
-    if (isString(storedValue)) {
-      return JSON.parse(storedValue) as KeyToValueTypeMap<K>;
+      if (isString(storedValue)) {
+        return JSON.parse(storedValue) as KeyToValueTypeMap<K>;
+      } else {
+        return defaultValueMap[key];
+      }
     } else {
       return defaultValueMap[key];
     }
   },
 
   removeItem: (key: LocalStorageKey) => {
-    localStorage.removeItem(key);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(key);
+    }
   },
 };
