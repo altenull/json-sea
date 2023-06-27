@@ -1,7 +1,6 @@
 import { styled, Text } from '@nextui-org/react';
-import { useRecoilState } from 'recoil';
 import { nodeTypeToAcronymMap } from '../../node-detail/array/helpers/node-type.helper';
-import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
+import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { useEnv } from '../../utils/react-hooks/useEnv';
@@ -13,11 +12,11 @@ type Props = {
 };
 
 const _NodeShell = ({ nodeId, nodeType, children }: Props) => {
-  const [selectedNodeId, setSelectedNodeId] = useRecoilState(selectedNodeIdAtom);
+  const [selectedNodeId, selectNode] = useJsonDiagramViewStore((state) => [state.selectedNodeId, state.selectNode]);
   const { isLocalhost } = useEnv();
 
   return (
-    <S_Host isSelected={nodeId === selectedNodeId} nodeType={nodeType} onClick={() => setSelectedNodeId(nodeId)}>
+    <S_Host isSelected={nodeId === selectedNodeId} nodeType={nodeType} onClick={() => selectNode(nodeId)}>
       {isLocalhost && (
         <Text h4 color="warning">
           {nodeTypeToAcronymMap[nodeType]} ({nodeId})

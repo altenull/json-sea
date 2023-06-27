@@ -14,12 +14,11 @@ import ReactFlow, {
   useNodesState,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { featureFlag } from '../../environment';
-import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
+import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { EdgeType } from '../../store/json-engine/enums/edge-type.enum';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
-import { JsonTree, jsonTreeSelector } from '../../store/json-engine/json-engine.selector';
+import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { useLandingStore } from '../../store/landing/landing.store';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { ArrayNode } from './ArrayNode';
@@ -46,10 +45,10 @@ const _JsonDiagram = () => {
   const [seaNodes, setSeaNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
 
-  const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
-  const jsonTree: JsonTree = useRecoilValue(jsonTreeSelector);
-
+  const jsonTree = useJsonEngineStore((state) => state.jsonTree);
   const initApp = useLandingStore((state) => state.initApp);
+  const selectNode = useJsonDiagramViewStore((state) => state.selectNode);
+
   const isMounted = useIsMounted();
 
   useEffect(() => {
@@ -59,9 +58,9 @@ const _JsonDiagram = () => {
     setEdges(edges);
 
     if (seaNodes.length > 0) {
-      setSelectedNodeId(seaNodes[0].id);
+      selectNode(seaNodes[0].id);
     }
-  }, [jsonTree, setSelectedNodeId, setSeaNodes, setEdges]);
+  }, [jsonTree, selectNode, setSeaNodes, setEdges]);
 
   const handleNodesChange = useCallback(
     (changes: NodeChange[]) => setSeaNodes((nds) => applyNodeChanges(changes, nds)),

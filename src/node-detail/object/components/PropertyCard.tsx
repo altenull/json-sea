@@ -1,6 +1,5 @@
 import { memo, useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
-import { jsonTreeSelector } from '../../../store/json-engine/json-engine.selector';
+import { useJsonEngineStore } from '../../../store/json-engine/json-engine.store';
 import { useHoverNodeDetails } from '../../../store/node-detail-view/hooks/useHoverNodeDetails';
 import { isObject } from '../../../utils/json.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
@@ -13,7 +12,7 @@ type Props = {
 };
 
 const _PropertyCard = ({ nodeId, propertyK, propertyV }: Props) => {
-  const { edges } = useRecoilValue(jsonTreeSelector);
+  const { edges } = useJsonEngineStore((state) => state.jsonTree);
 
   const { cardRef } = useHoverNodeDetails([{ nodeId, propertyK }]);
 

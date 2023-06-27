@@ -1,19 +1,20 @@
 import Editor from '@monaco-editor/react';
 import { styled, useTheme } from '@nextui-org/react';
 import { useCallback } from 'react';
-import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
-import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
+import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { DEFAULT_STRINGIFIED_JSON } from '../../store/json-engine/json-engine.constant';
+import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { isValidJson } from '../../utils/json.util';
 import { JsonEditorConsole } from './JsonEditorConsole';
 import { JsonValidityStatus } from './JsonValidityStatus';
 
 // TODO: useDefferedValue hook to optimize?
 const _JsonEditor = () => {
-  const [stringifiedJson, setStringifiedJson] = useRecoilState(stringifiedJsonAtom);
-  const setLatestValidStringifiedJson = useSetRecoilState(latestValidStringifiedJsonAtom);
-  const resetSelectedNodeId = useResetRecoilState(selectedNodeIdAtom);
+  const [stringifiedJson, setStringifiedJson] = useJsonEngineStore((state) => [
+    state.stringifiedJson,
+    state.setStringifiedJson,
+  ]);
+  const resetSelectedNode = useJsonDiagramViewStore((state) => state.resetSelectedNode);
 
   const { theme, isDark } = useTheme();
 
@@ -24,11 +25,10 @@ const _JsonEditor = () => {
       setStringifiedJson(value);
 
       if (isValidJson(value)) {
-        setLatestValidStringifiedJson(value);
-        resetSelectedNodeId();
+        resetSelectedNode();
       }
     },
-    [setStringifiedJson, setLatestValidStringifiedJson, resetSelectedNodeId]
+    [setStringifiedJson, resetSelectedNode]
   );
 
   return (

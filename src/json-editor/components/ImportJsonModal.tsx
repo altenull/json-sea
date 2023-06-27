@@ -2,9 +2,8 @@
 
 import { Button, FormElement, Input, Loading, Modal, Row, Text } from '@nextui-org/react';
 import { memo, useCallback, useEffect } from 'react';
-import { useResetRecoilState, useSetRecoilState } from 'recoil';
-import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
-import { latestValidStringifiedJsonAtom, stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
+import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
+import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { formatJsonLikeData, isArray, isNull, isObject, isValidJson } from '../../utils/json.util';
 import { useSimpleFetch } from '../../utils/react-hooks/useSimpleFetch';
 import { useString } from '../../utils/react-hooks/useString';
@@ -25,9 +24,8 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
     resetError: resetGetJsonError,
   } = useSimpleFetch();
 
-  const setStringifiedJson = useSetRecoilState(stringifiedJsonAtom);
-  const setLatestValidStringifiedJson = useSetRecoilState(latestValidStringifiedJsonAtom);
-  const resetSelectedNodeId = useResetRecoilState(selectedNodeIdAtom);
+  const setStringifiedJson = useJsonEngineStore((state) => state.setStringifiedJson);
+  const resetSelectedNode = useJsonDiagramViewStore((state) => state.resetSelectedNode);
 
   const handleJsonUrlValueChange = useCallback(
     (e: React.ChangeEvent<FormElement>) => {
@@ -49,12 +47,11 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
 
       if (isValidJson(formattedData)) {
         setStringifiedJson(formattedData);
-        setLatestValidStringifiedJson(formattedData);
-        resetSelectedNodeId();
+        resetSelectedNode();
         closeModal();
       }
     }
-  }, [getJsonResponse, setStringifiedJson, setLatestValidStringifiedJson, resetSelectedNodeId, closeModal]);
+  }, [getJsonResponse, setStringifiedJson, resetSelectedNode, closeModal]);
 
   return (
     <Modal closeButton aria-labelledby="import-json-modal-title" open={isModalOpen} onClose={closeModal}>

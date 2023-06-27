@@ -2,10 +2,10 @@
 
 import { styled, Text, useTheme } from '@nextui-org/react';
 import { memo, useEffect, useRef } from 'react';
-import { useRecoilValue } from 'recoil';
 import { Copyright } from '../../foundation/components/Copyright';
-import { selectedSeaNodeSelector } from '../../store/json-diagram-view/json-diagram-view.selector';
+import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { isArraySeaNode, isObjectSeaNode, isPrimitiveSeaNode } from '../../store/json-engine/helpers/sea-node.helper';
+import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { isNull } from '../../utils/json.util';
@@ -16,8 +16,15 @@ import { ObjectNodeDetail } from '../object/components/ObjectNodeDetail';
 import { PrimitiveNodeDetail } from '../primitive/components/PrimitiveNodeDetail';
 import { NodeDetailPanelHeader } from './NodeDetailPanelHeader';
 
+const useSelectedNode = () => {
+  const selectedNodeId = useJsonDiagramViewStore((state) => state.selectedNodeId);
+  const { seaNodeEntities } = useJsonEngineStore((state) => state.jsonTree);
+
+  return isNull(selectedNodeId) ? null : seaNodeEntities[selectedNodeId] ?? null;
+};
+
 const _NodeDetailPanel = () => {
-  const selectedNode: SeaNode | null = useRecoilValue(selectedSeaNodeSelector);
+  const selectedNode: SeaNode | null = useSelectedNode();
   const hostRef = useRef<HTMLDivElement | null>(null);
 
   const { isDark } = useTheme();

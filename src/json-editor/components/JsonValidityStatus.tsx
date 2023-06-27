@@ -1,7 +1,6 @@
 import { styled, useTheme } from '@nextui-org/react';
 import { memo } from 'react';
-import { useRecoilValue } from 'recoil';
-import { isValidJsonSelector } from '../../store/json-engine/json-engine.selector';
+import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { Icon } from '../../ui/icon/Icon';
 
 type Props = {
@@ -9,7 +8,7 @@ type Props = {
 };
 
 const _JsonValidityStatus = ({ style }: Props) => {
-  const isValidJson: boolean = useRecoilValue(isValidJsonSelector);
+  const isValidJson = useJsonEngineStore((state) => state.isValidJson);
   const { theme } = useTheme();
 
   return (

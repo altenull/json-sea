@@ -1,8 +1,6 @@
 import { Button, ButtonProps, styled, Tooltip, useTheme } from '@nextui-org/react';
 import { memo, useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
-import { stringifiedJsonAtom } from '../../store/json-engine/json-engine.atom';
-import { isValidJsonSelector } from '../../store/json-engine/json-engine.selector';
+import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { Icon } from '../../ui/icon/Icon';
 import { downloadAsFile } from '../../utils/file-download.util';
 import { useBoolean } from '../../utils/react-hooks/useBoolean';
@@ -13,8 +11,7 @@ type Props = {
 };
 
 const _JsonEditorConsole = ({ style }: Props) => {
-  const isValidJson: boolean = useRecoilValue(isValidJsonSelector);
-  const stringifiedJson: string = useRecoilValue(stringifiedJsonAtom);
+  const [stringifiedJson, isValidJson] = useJsonEngineStore((state) => [state.stringifiedJson, state.isValidJson]);
 
   const { bool: isImportJsonModalOpen, setTrue: openImportJsonModal, setFalse: closeImportJsonModal } = useBoolean();
   const { theme } = useTheme();

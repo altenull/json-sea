@@ -1,9 +1,8 @@
 import { Text } from '@nextui-org/react';
 import { memo, useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
 import { ROOT_NODE_NAME } from '../../json-diagram/constants/root-node.constant';
 import { isArraySeaNode, isObjectSeaNode, isPrimitiveSeaNode } from '../../store/json-engine/helpers/sea-node.helper';
-import { jsonTreeSelector } from '../../store/json-engine/json-engine.selector';
+import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
 import { findParentNodeId } from '../../utils/reactflow.util';
 import { nodeTypeToTextMap } from '../array/helpers/node-type.helper';
@@ -15,7 +14,7 @@ type Props = {
 };
 
 const _NodeDetailPanelHeader = ({ selectedNode }: Props) => {
-  const { edges } = useRecoilValue(jsonTreeSelector);
+  const { edges } = useJsonEngineStore((state) => state.jsonTree);
   const { getNodePath } = useNodePath();
 
   const isRootNode: boolean = useMemo(

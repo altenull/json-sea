@@ -1,8 +1,7 @@
 import { memo } from 'react';
 import { Edge } from 'reactflow';
-import { useRecoilValue } from 'recoil';
 import { NodeType } from '../../../store/json-engine/enums/node-type.enum';
-import { jsonTreeSelector } from '../../../store/json-engine/json-engine.selector';
+import { useJsonEngineStore } from '../../../store/json-engine/json-engine.store';
 import { ArrayNodeData } from '../../../store/json-engine/types/sea-node.type';
 import { isEmptyArray } from '../../../utils/array.util';
 import { EmptyNodeMessage } from '../../components/EmptyNodeMessage';
@@ -22,7 +21,7 @@ const getArrayItemNodeId = (edges: Edge[], parentNodeId: string, index: number):
 };
 
 const _ArrayNodeDetail = ({ nodeId, nodeData }: Props) => {
-  const { edges } = useRecoilValue(jsonTreeSelector);
+  const { edges } = useJsonEngineStore((state) => state.jsonTree);
   const { items } = nodeData;
 
   const parentNodeId: string = nodeId; // On each `ArrayItemCard` perspective, their parentNodeId is nodeId.

@@ -1,7 +1,6 @@
 import { Button, Card, Grid } from '@nextui-org/react';
-import { isValidElement, memo, ReactElement, useMemo } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { selectedNodeIdAtom } from '../../store/json-diagram-view/json-diagram-view.atom';
+import { ReactElement, isValidElement, memo, useMemo } from 'react';
+import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { JsonDataType } from '../../store/json-engine/enums/json-data-type.enum';
 import { getJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { formatCounting } from '../../utils/string.util';
@@ -14,7 +13,7 @@ type Props = {
 };
 
 const _DetailObject = ({ badge, obj, childObjectNodeId }: Props) => {
-  const setSelectedNodeId = useSetRecoilState(selectedNodeIdAtom);
+  const selectNode = useJsonDiagramViewStore((state) => state.selectNode);
 
   const dataTypeText: string = useMemo(() => {
     const jsonDataType: JsonDataType = getJsonDataType(obj);
@@ -36,7 +35,7 @@ const _DetailObject = ({ badge, obj, childObjectNodeId }: Props) => {
       </Card.Header>
 
       <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
-        <Button flat size="sm" color="primary" onPress={() => setSelectedNodeId(childObjectNodeId)}>
+        <Button flat size="sm" color="primary" onPress={() => selectNode(childObjectNodeId)}>
           View object
         </Button>
       </Card.Body>

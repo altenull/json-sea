@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import { Edge } from 'reactflow';
-import { useRecoilValue } from 'recoil';
 import { ROOT_NODE_NAME } from '../../json-diagram/constants/root-node.constant';
 import { isArraySeaNode, isObjectSeaNode } from '../../store/json-engine/helpers/sea-node.helper';
-import { jsonTreeSelector } from '../../store/json-engine/json-engine.selector';
+import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
 import { Entities } from '../../utils/array.util';
 import { isNumber } from '../../utils/json.util';
@@ -57,7 +56,7 @@ const tracePath = ({
 };
 
 export const useNodePath = () => {
-  const jsonTree = useRecoilValue(jsonTreeSelector);
+  const jsonTree = useJsonEngineStore((state) => state.jsonTree);
 
   const getNodePath = useCallback(
     (parentNodeId: string, selfNodeId: string, lastArrayItemIndex: number | null): string => {
