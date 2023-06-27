@@ -20,6 +20,7 @@ import { EdgeType } from '../../store/json-engine/enums/edge-type.enum';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { useLandingStore } from '../../store/landing/landing.store';
+import { useSettingsStore } from '../../store/settings/settings.store';
 import { useIsMounted } from '../../utils/react-hooks/useIsMounted';
 import { ArrayNode } from './ArrayNode';
 import { ChainEdge } from './ChainEdge';
@@ -45,6 +46,7 @@ const _JsonDiagram = () => {
   const [seaNodes, setSeaNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
 
+  const isMinimapOn = useSettingsStore((state) => state.isMinimapOn);
   const jsonTree = useJsonEngineStore((state) => state.jsonTree);
   const initApp = useLandingStore((state) => state.initApp);
   const selectNode = useJsonDiagramViewStore((state) => state.selectNode);
@@ -84,7 +86,7 @@ const _JsonDiagram = () => {
           onInit={initApp}
           onNodesChange={featureFlag.nodesChange ? handleNodesChange : undefined}
         >
-          <CustomMiniMap />
+          {isMinimapOn && <CustomMiniMap />}
           <Controls position="bottom-right" showInteractive={false} />
           <DownloadImageButton />
           <Background variant={BackgroundVariant.Dots} />

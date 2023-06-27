@@ -5,6 +5,7 @@ import { useId } from 'react';
 import { GithubButton } from './GithubButton';
 import { JsonEditorToggle } from './JsonEditorToggle';
 import { JsonSeaLogoTitle } from './JsonSeaLogoTitle';
+import { SettingsButton } from './SettingsButton';
 import { ThemeToggle } from './ThemeToggle';
 
 const _GlobalNav = () => {
@@ -15,6 +16,7 @@ const _GlobalNav = () => {
   const navItemId1 = useId();
   const navItemId2 = useId();
   const navItemId3 = useId();
+  const navItemId4 = useId();
 
   return (
     <Navbar isBordered isCompact maxWidth="fluid">
@@ -35,6 +37,10 @@ const _GlobalNav = () => {
 
         <Navbar.Item id={navItemId3}>
           <ThemeToggle />
+        </Navbar.Item>
+
+        <Navbar.Item id={navItemId4}>
+          <SettingsButton />
         </Navbar.Item>
       </Navbar.Content>
     </Navbar>
