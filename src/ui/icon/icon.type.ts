@@ -16,7 +16,8 @@ export const iconNames = tuple(
   'array',
   'object',
   'array-empty',
-  'object-empty'
+  'object-empty',
+  'settings'
 );
 
 export type IconName = typeof iconNames[number];
