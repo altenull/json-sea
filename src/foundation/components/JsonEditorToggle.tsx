@@ -1,10 +1,14 @@
 import { useTheme } from '@nextui-org/react';
-import { useJsonEditorView } from '../../store/json-editor-view/hooks/useJsonEditorView';
+import { useJsonEditorViewStore } from '../../store/json-editor-view/json-editor-view.store';
 import { CircleTransparentButton } from '../../ui/components/CircleTransparentButton';
 import { Icon } from '../../ui/icon/Icon';
 
 const _JsonEditorToggle = () => {
-  const { isJsonEditorVisible, toggleJsonEditor } = useJsonEditorView();
+  const [isJsonEditorVisible, toggleJsonEditor] = useJsonEditorViewStore((state) => [
+    state.isJsonEditorVisible,
+    state.toggleJsonEditor,
+  ]);
+
   const { theme } = useTheme();
 
   return (

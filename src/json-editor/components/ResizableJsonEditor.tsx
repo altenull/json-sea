@@ -1,12 +1,12 @@
 'use client';
 
 import { Resizable } from 're-resizable';
-import { useJsonEditorView } from '../../store/json-editor-view/hooks/useJsonEditorView';
+import { useJsonEditorViewStore } from '../../store/json-editor-view/json-editor-view.store';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { JsonEditor } from './JsonEditor';
 
 const _ResizableJsonEditor = () => {
-  const { isJsonEditorVisible } = useJsonEditorView();
+  const isJsonEditorVisible = useJsonEditorViewStore((state) => state.isJsonEditorVisible);
 
   return (
     <Resizable
