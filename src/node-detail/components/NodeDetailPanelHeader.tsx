@@ -30,7 +30,7 @@ const _NodeDetailPanelHeader = ({ selectedNode }: Props) => {
   return (
     <Text css={{ display: 'flex', justifyContent: 'space-between' }} h3>
       {/* Left */}
-      {nodeTypeToTextMap[selectedNode.type]}
+      {selectedNode.type !== undefined && nodeTypeToTextMap[selectedNode.type]}
 
       {/* Right */}
       {isRootNode ? (
