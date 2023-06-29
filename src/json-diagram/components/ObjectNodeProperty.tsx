@@ -6,7 +6,6 @@ import { sizes } from '../../ui/constants/sizes.constant';
 import { Icon } from '../../ui/icon/Icon';
 import { isEmptyArray } from '../../utils/array.util';
 import { isEmptyObject } from '../../utils/object.util';
-import { encloseDoubleQuote } from '../../utils/string.util';
 import { DefaultHandle } from './DefaultHandle';
 import { HoveringBlueDot } from './HoveringBlueDot';
 
@@ -30,7 +29,7 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
   return (
     <S_Host>
       <Text color="primary" weight="semibold" css={{ marginRight: '$8' }}>
-        {encloseDoubleQuote(propertyK)}
+        {propertyK}
       </Text>
 
       {isObjectData && (
