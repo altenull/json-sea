@@ -2,6 +2,8 @@ import { styled, Text, useTheme } from '@nextui-org/react';
 import { memo } from 'react';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';
+import { BooleanBadge } from '../../ui/components/BooleanBadge';
+import { NullBadge } from '../../ui/components/NullBadge';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { Icon } from '../../ui/icon/Icon';
 import { isEmptyArray } from '../../utils/array.util';
@@ -20,7 +22,8 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
   const hoveredNodeDetails = useNodeDetailViewStore((state) => state.hoveredNodeDetails);
   const { theme } = useTheme();
 
-  const { isObjectData, isArrayData, isPrimitiveData } = validateJsonDataType(propertyV);
+  const { isObjectData, isArrayData, isPrimitiveData, isStringData, isNumberData, isBooleanData, isNullData } =
+    validateJsonDataType(propertyV);
 
   const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(
     (item) => item.nodeId === nodeId && item.propertyK === propertyK
@@ -55,7 +58,13 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
             overflow: 'hidden',
           }}
         >
-          {JSON.stringify(propertyV)}
+          {isStringData && JSON.stringify(propertyV)}
+
+          {isNumberData && JSON.stringify(propertyV)}
+
+          {isBooleanData && <BooleanBadge value={propertyV as boolean} size="xs" />}
+
+          {isNullData && <NullBadge size="xs" />}
         </Text>
       )}
 

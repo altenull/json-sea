@@ -1,9 +1,11 @@
 'use client';
 
-import { Badge, Card, Grid } from '@nextui-org/react';
-import { isValidElement, memo, ReactElement, useEffect, useMemo, useState } from 'react';
+import { Card, Grid } from '@nextui-org/react';
+import { ReactElement, isValidElement, memo, useEffect, useMemo, useState } from 'react';
 import { JsonDataType } from '../../store/json-engine/enums/json-data-type.enum';
 import { getJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
+import { BooleanBadge } from '../../ui/components/BooleanBadge';
+import { NullBadge } from '../../ui/components/NullBadge';
 import { isBoolean, isNull, isNumber, isString } from '../../utils/json.util';
 import { NumberInspector } from '../primitive/components/NumberInspector';
 import { StringInspector } from '../primitive/components/StringInspector';
@@ -77,11 +79,9 @@ const _DetailPrimitive = ({ badge, value }: Props) => {
 
         {isNumber(value) && <NumberInspector value={value} />}
 
-        {(isBoolean(value) || isNull(value)) && (
-          <Badge css={{ marginLeft: 'auto' }} isSquared variant="flat">
-            {JSON.stringify(value)}
-          </Badge>
-        )}
+        {isBoolean(value) && <BooleanBadge css={{ marginLeft: 'auto' }} value={value} />}
+
+        {isNull(value) && <NullBadge css={{ marginLeft: 'auto' }} />}
       </Card.Body>
     </>
   );
