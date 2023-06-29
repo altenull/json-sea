@@ -62,14 +62,14 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
       </Modal.Header>
 
       <Modal.Body>
-        <Row css={{ gap: '2px', marginBottom: '$12' }} align="center">
+        <Row css={{ gap: '8px', marginBottom: '$6' }}>
           <Input
             aria-label="JSON URL input"
             clearable
             bordered
             fullWidth
             color={isNull(getJsonError) ? 'primary' : 'error'}
-            size="lg"
+            size="md"
             placeholder="Enter a JSON URL to fetch"
             helperColor="error"
             helperText={isNull(getJsonError) ? undefined : 'Fetching JSON via URL failed for some reason'}
@@ -87,6 +87,10 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
             {isGetJsonLoading ? <Loading color="currentColor" size="sm" /> : 'Fetch'}
           </Button>
         </Row>
+
+        <Text css={{ textAlign: 'center', marginBottom: '$6' }} size={14}>
+          or
+        </Text>
 
         <DragDropJsonFile afterFileReadSuccess={closeModal} />
       </Modal.Body>
