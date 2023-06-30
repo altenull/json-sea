@@ -1,10 +1,6 @@
 import { isNumber } from '../../../utils/json.util';
 import { InferredLatLngMapCardProps } from '../components/InferredLatLngMapCard';
 
-const isEveryPropertyNumber = (obj: object, propertyKeys: string[]): boolean => {
-  return propertyKeys.every((key: string) => isNumber((obj as any)[key]));
-};
-
 const convertInferredLatLngMapCardProps = (
   obj: object,
   nodeId: string,
@@ -20,34 +16,47 @@ const convertInferredLatLngMapCardProps = (
   };
 };
 
-// TODO: Consider UPPERCASE..
-/**
- * Case 1.   "latitude" x "longitude"
- * Case 2-1. "lat" x "lng"
- * Case 2-2. "lat" x "long"
- *
- * One object node can have maximum 2 `InferredMapCard`. (Case 1 & Case 2)
- * If both 'Case 2-1' and 'Case 2-2' are met, only 'Case 2-1' is shown.
- */
+type InferMapCase = {
+  latWord: string;
+  lngWords: string[];
+};
+
 export const inferMap = (obj: object, nodeId: string): InferredLatLngMapCardProps[] => {
-  const case1: [string, string] = ['latitude', 'longitude'];
-  const case2_1: [string, string] = ['lat', 'lng'];
-  const case2_2: [string, string] = ['lat', 'long'];
+  const inferMapCases: Record<string, InferMapCase> = {
+    // Lowercase
+    lowercase1: {
+      latWord: 'latitude',
+      lngWords: ['longitude'],
+    },
+    lowercase2: {
+      latWord: 'lat',
+      lngWords: ['lng', 'long'],
+    },
+    // Uppercase
+    uppercase1: {
+      latWord: 'LATITUDE',
+      lngWords: ['LONGITUDE'],
+    },
+    uppercase2: {
+      latWord: 'LAT',
+      lngWords: ['LNG', 'LONG'],
+    },
+  };
 
-  let InferredLatLngMapCardProps: InferredLatLngMapCardProps[] = [];
+  let result: InferredLatLngMapCardProps[] = [];
 
-  if (isEveryPropertyNumber(obj, case1)) {
-    InferredLatLngMapCardProps.push(convertInferredLatLngMapCardProps(obj, nodeId, case1));
+  for (let caseKey in inferMapCases) {
+    const { latWord, lngWords } = inferMapCases[caseKey];
+
+    if (isNumber((obj as any)[latWord])) {
+      for (let lngWord of lngWords) {
+        if (isNumber((obj as any)[lngWord])) {
+          result.push(convertInferredLatLngMapCardProps(obj, nodeId, [latWord, lngWord]));
+          break;
+        }
+      }
+    }
   }
 
-  if (isEveryPropertyNumber(obj, case2_1)) {
-    InferredLatLngMapCardProps.push(convertInferredLatLngMapCardProps(obj, nodeId, case2_1));
-    return InferredLatLngMapCardProps;
-  }
-
-  if (isEveryPropertyNumber(obj, case2_2)) {
-    InferredLatLngMapCardProps.push(convertInferredLatLngMapCardProps(obj, nodeId, case2_2));
-  }
-
-  return InferredLatLngMapCardProps;
+  return result;
 };
