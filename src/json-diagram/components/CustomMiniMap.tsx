@@ -16,6 +16,7 @@ const _CustomMiniMap = () => {
 
   const memoizedMiniMapCss: CSS = useMemo(
     () => ({
+      margin: '0 0 0 15px',
       backgroundColor: '$backgroundContrast',
       ...(isDark && {
         '.react-flow__minimap-mask': {
@@ -42,8 +43,11 @@ const _CustomMiniMap = () => {
   return <S_MiniMap css={memoizedMiniMapCss} position="bottom-left" pannable zoomable nodeClassName={nodeClassName} />;
 };
 
+/**
+ * Set `rx` and `ry` instead of `border-radius`.
+ * The `border-radius` is not supported in `<rect>` tag.
+ */
 const S_MiniMap = styled(MiniMap, {
-  // `border-radius` is not supported in <rect> tag.
   [`.${nodeClassNames.object}`]: {
     rx: 8,
     ry: 8,
