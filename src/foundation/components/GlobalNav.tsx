@@ -26,7 +26,13 @@ const _GlobalNav = () => {
         </Navbar.Item>
       </Navbar.Content>
 
-      <Navbar.Brand>
+      <Navbar.Brand
+        css={{
+          position: 'absolute',
+          left: '50%',
+          transform: 'translateX(-50%)',
+        }}
+      >
         <JsonSeaLogoTitle height={36} />
       </Navbar.Brand>
 
