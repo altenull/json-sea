@@ -6,6 +6,7 @@ import { addPrefixChain } from '../../store/json-engine/helpers/json-parser.help
 import { ArrayNodeData } from '../../store/json-engine/types/sea-node.type';
 import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';
 import { isEmptyArray } from '../../utils/array.util';
+import { encloseSquareBrackets } from '../../utils/string.util';
 import { ROOT_NODE_NAME } from '../constants/root-node.constant';
 import { ChainHandle } from './ChainHandle';
 import { DefaultHandle } from './DefaultHandle';
@@ -30,7 +31,7 @@ const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
       {!isRootNode && <DefaultHandle id={id} type="target" />}
       <ChainHandle id={addPrefixChain(id)} type="target" />
 
-      <Text css={{ margin: 'auto' }}>{isRootNode ? ROOT_NODE_NAME : arrayIndex}</Text>
+      <Text css={{ margin: 'auto' }}>{isRootNode ? ROOT_NODE_NAME : encloseSquareBrackets(arrayIndex)}</Text>
 
       {!isEmptyArray(items) && <DefaultHandle id={id} type="source" />}
 
