@@ -27,8 +27,8 @@ export type ArrayNodeData = SharedNodeData & {
 export type PrimitiveNodeData = SharedNodeData & {
   dataType: JsonDataType.String | JsonDataType.Number | JsonDataType.Boolean | JsonDataType.Null;
   /**
-   * `PrimitiveNode` is always an item of some array.
-   * It means that the parent is always a `ArrayNode`.
+   * `PrimitiveNode` is always an item of specific array.
+   * It means that the parent is always an `ArrayNode`.
    */
   arrayIndex: number;
   value: string | number | boolean | null;
