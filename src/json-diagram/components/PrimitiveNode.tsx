@@ -40,10 +40,10 @@ const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
       <DefaultHandle id={id} type="target" />
       <ChainHandle id={addPrefixChain(id)} type="target" />
 
-      <Text css={textCss}>
+      <Text css={textCss} color={data.dataType === JsonDataType.Number ? '$green800' : undefined}>
         {data.dataType === JsonDataType.String && data.stringifiedJson}
 
-        {data.dataType === JsonDataType.Number && data.stringifiedJson}
+        {data.dataType === JsonDataType.Number && data.value}
 
         {data.dataType === JsonDataType.Boolean && <BooleanBadge value={data.value as boolean} size="xs" />}
 

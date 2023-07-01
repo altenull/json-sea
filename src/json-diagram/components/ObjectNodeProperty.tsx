@@ -57,10 +57,11 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
             whiteSpace: 'nowrap',
             overflow: 'hidden',
           }}
+          color={isNumberData ? '$green800' : undefined}
         >
           {isStringData && JSON.stringify(propertyV)}
 
-          {isNumberData && JSON.stringify(propertyV)}
+          {isNumberData && propertyV}
 
           {isBooleanData && <BooleanBadge value={propertyV as boolean} size="xs" />}
 
