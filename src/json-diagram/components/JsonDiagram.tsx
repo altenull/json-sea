@@ -105,6 +105,9 @@ const S_Host = styled('div', {
     backgroundColor: '$backgroundContrast',
   },
 
+  '.react-flow__controls': {
+    boxShadow: 'none',
+  },
   '.react-flow__controls button': {
     backgroundColor: '$background',
     border: '1px solid $border',
