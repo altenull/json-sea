@@ -77,6 +77,9 @@ const _JsonDiagram = () => {
             height: '100%',
             minHeight: '100%',
           }}
+          disableKeyboardA11y
+          nodesFocusable={false}
+          nodesDraggable={false}
           nodesConnectable={false}
           edgesFocusable={false}
           nodeTypes={nodeTypes}
