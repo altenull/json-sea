@@ -3,7 +3,7 @@
 import { useTheme } from '@nextui-org/react';
 import { memo } from 'react';
 import { EdgeProps, getBezierPath } from 'reactflow';
-import { useHighlightedEdges } from '../hooks/useHighlightedEdges';
+import { useHighlighter } from '../hooks/useHighlighter';
 
 const _DefaultEdge = ({
   id,
@@ -24,7 +24,7 @@ const _DefaultEdge = ({
   target,
 }: EdgeProps) => {
   const { theme } = useTheme();
-  const { highlightedEdgeIds } = useHighlightedEdges();
+  const { isHighlightEdge } = useHighlighter();
 
   const [edgePath] = getBezierPath({
     sourceX,
@@ -35,7 +35,7 @@ const _DefaultEdge = ({
     targetPosition,
   });
 
-  const dynamicStyle = highlightedEdgeIds.includes(id)
+  const dynamicStyle = isHighlightEdge(id)
     ? {
         ...style,
         stroke: theme?.colors.primary.value,
