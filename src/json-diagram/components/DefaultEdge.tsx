@@ -1,10 +1,9 @@
 'use client';
 
 import { useTheme } from '@nextui-org/react';
-import { CSSProperties, memo, useMemo } from 'react';
+import { memo } from 'react';
 import { EdgeProps, getBezierPath } from 'reactflow';
-import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';
-import { isString } from '../../utils/json.util';
+import { useHighlightedEdges } from '../hooks/useHighlightedEdges';
 
 const _DefaultEdge = ({
   id,
@@ -19,29 +18,13 @@ const _DefaultEdge = ({
   source,
   /**
    * [2023-02-01] `sourceHandle` property seems to be transformed to `sourceHandleId` internally.
+   * [2023-07-05] It seems that `sourceHandle` and `sourceHandleId` are same.
    */
   sourceHandleId,
   target,
 }: EdgeProps) => {
-  const hoveredNodeDetails = useNodeDetailViewStore((state) => state.hoveredNodeDetails);
   const { theme } = useTheme();
-
-  const dynamicStyle: CSSProperties = useMemo(() => {
-    const isConnectedToHovered: boolean = hoveredNodeDetails.some(({ nodeId, propertyK }) => {
-      if (isString(propertyK)) {
-        return nodeId === source && propertyK === sourceHandleId; // Hovered from `ObjectNode`
-      } else {
-        return nodeId === target; // Hovered from `ArrayNode` or `PrimitiveNode`
-      }
-    });
-
-    return isConnectedToHovered
-      ? {
-          ...style,
-          stroke: theme?.colors.primary.value,
-        }
-      : style;
-  }, [style, source, sourceHandleId, target, hoveredNodeDetails, theme]);
+  const { highlightedEdgeIds } = useHighlightedEdges();
 
   const [edgePath] = getBezierPath({
     sourceX,
@@ -51,6 +34,14 @@ const _DefaultEdge = ({
     targetY,
     targetPosition,
   });
+
+  const dynamicStyle = highlightedEdgeIds.includes(id)
+    ? {
+        ...style,
+        stroke: theme?.colors.primary.value,
+        strokeWidth: 3,
+      }
+    : style;
 
   return <path id={id} style={dynamicStyle} className="react-flow__edge-path" d={edgePath} markerEnd={markerEnd} />;
 };
