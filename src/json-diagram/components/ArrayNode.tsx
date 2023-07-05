@@ -8,6 +8,7 @@ import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail
 import { isEmptyArray } from '../../utils/array.util';
 import { encloseSquareBrackets } from '../../utils/string.util';
 import { ROOT_NODE_NAME } from '../constants/root-node.constant';
+import { useHighlighter } from '../hooks/useHighlighter';
 import { ChainHandle } from './ChainHandle';
 import { DefaultHandle } from './DefaultHandle';
 import { HoveringBlueDot } from './HoveringBlueDot';
@@ -21,13 +22,14 @@ import { NodeShell } from './NodeShell';
  */
 const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
   const hoveredNodeDetails = useNodeDetailViewStore((state) => state.hoveredNodeDetails);
+  const { isHighlightNode } = useHighlighter();
 
   const { arrayIndex, items, isRootNode } = data;
 
   const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(({ nodeId }) => nodeId === id);
 
   return (
-    <NodeShell nodeId={id} nodeType={NodeType.Array}>
+    <NodeShell nodeId={id} nodeType={NodeType.Array} isHighlight={isHighlightNode(id)}>
       {!isRootNode && <DefaultHandle id={id} type="target" />}
       <ChainHandle id={addPrefixChain(id)} type="target" />
 

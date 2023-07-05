@@ -8,6 +8,7 @@ import { PrimitiveNodeData } from '../../store/json-engine/types/sea-node.type';
 import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';
 import { BooleanBadge } from '../../ui/components/BooleanBadge';
 import { NullBadge } from '../../ui/components/NullBadge';
+import { useHighlighter } from '../hooks/useHighlighter';
 import { ChainHandle } from './ChainHandle';
 import { DefaultHandle } from './DefaultHandle';
 import { HoveringBlueDot } from './HoveringBlueDot';
@@ -21,6 +22,7 @@ import { NodeShell } from './NodeShell';
  */
 const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
   const hoveredNodeDetails = useNodeDetailViewStore((state) => state.hoveredNodeDetails);
+  const { isHighlightNode } = useHighlighter();
 
   const textCss: CSS = useMemo(
     () => ({
@@ -36,7 +38,7 @@ const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
   const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(({ nodeId }) => nodeId === id);
 
   return (
-    <NodeShell nodeId={id} nodeType={NodeType.Primitive}>
+    <NodeShell nodeId={id} nodeType={NodeType.Primitive} isHighlight={isHighlightNode(id)}>
       <DefaultHandle id={id} type="target" />
       <ChainHandle id={addPrefixChain(id)} type="target" />
 

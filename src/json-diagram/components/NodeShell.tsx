@@ -8,15 +8,21 @@ import { useEnv } from '../../utils/react-hooks/useEnv';
 type Props = {
   nodeId: string;
   nodeType: NodeType;
+  isHighlight: boolean;
   children: React.ReactNode;
 };
 
-const _NodeShell = ({ nodeId, nodeType, children }: Props) => {
+const _NodeShell = ({ nodeId, nodeType, isHighlight, children }: Props) => {
   const [selectedNodeId, selectNode] = useJsonDiagramViewStore((state) => [state.selectedNodeId, state.selectNode]);
   const { isLocalhost } = useEnv();
 
   return (
-    <S_Host isSelected={nodeId === selectedNodeId} nodeType={nodeType} onClick={() => selectNode(nodeId)}>
+    <S_Host
+      isSelected={nodeId === selectedNodeId}
+      isHighlight={isHighlight}
+      nodeType={nodeType}
+      onClick={() => selectNode(nodeId)}
+    >
       {isLocalhost && (
         <Text h4 color="warning">
           {nodeTypeToAcronymMap[nodeType]} ({nodeId})
@@ -49,6 +55,14 @@ const S_Host = styled('div', {
     isSelected: {
       true: {
         backgroundColor: '$blue100',
+      },
+    },
+    isHighlight: {
+      true: {
+        border: '2px solid $primary',
+        '.left-center-tip': {
+          borderRightColor: '$primary',
+        },
       },
     },
     nodeType: {

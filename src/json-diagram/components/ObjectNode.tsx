@@ -4,6 +4,7 @@ import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { addPrefixChain } from '../../store/json-engine/helpers/json-parser.helper';
 import { ObjectNodeData } from '../../store/json-engine/types/sea-node.type';
 import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';
+import { useHighlighter } from '../hooks/useHighlighter';
 import { ChainHandle } from './ChainHandle';
 import { DefaultHandle } from './DefaultHandle';
 import { HoveringBlueDot } from './HoveringBlueDot';
@@ -18,6 +19,7 @@ import { ObjectNodeProperty } from './ObjectNodeProperty';
  */
 const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
   const hoveredNodeDetails = useNodeDetailViewStore((state) => state.hoveredNodeDetails);
+  const { isHighlightNode } = useHighlighter();
   const edges = useEdges();
 
   const { obj, isRootNode } = data;
@@ -48,7 +50,7 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
   );
 
   return (
-    <NodeShell nodeId={id} nodeType={NodeType.Object}>
+    <NodeShell nodeId={id} nodeType={NodeType.Object} isHighlight={isHighlightNode(id)}>
       <DefaultHandle id={id} type="target" />
       {!isRootNode && <ChainHandle id={addPrefixChain(id)} type="target" />}
 
