@@ -13,7 +13,7 @@
     "@nextui-org/react": "^1.0.0-beta.13",
     "@tanstack/react-query": "^5.0.0",
     "@tanstack/react-query-devtools": "^4.27.0",
-    "@vercel/analytics": "^0.1.8",
+    "@vercel/analytics": "^1.1.1",
     "dagre": "^0.8.5",
     "date-fns": "^2.30.0",
     "html-to-image": "^1.11.11",
