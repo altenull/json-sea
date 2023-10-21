@@ -6,7 +6,7 @@ export const useIntervallyForceUpdate = (ms: number) => {
   const [, setBoolean] = useState<boolean>(false);
 
   useEffect(() => {
-    const intervalId: NodeJS.Timer = setInterval(() => {
+    const intervalId: NodeJS.Timeout = setInterval(() => {
       setBoolean((prev: boolean) => !prev);
     }, ms);
 
