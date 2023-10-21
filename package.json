@@ -11,7 +11,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.5.1",
     "@nextui-org/react": "^1.0.0-beta.13",
-    "@tanstack/react-query": "^4.27.0",
+    "@tanstack/react-query": "^5.0.0",
     "@tanstack/react-query-devtools": "^4.27.0",
     "@vercel/analytics": "^0.1.8",
     "dagre": "^0.8.5",

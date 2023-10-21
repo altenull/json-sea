@@ -26,5 +26,5 @@ export const useJsonLinkApi = (request: UseJsonLinkApiRequest): UseQueryResult<J
     return jsonLink;
   }
 
-  return useQuery<JsonLink | null, Error>(queryKeys.jsonLinkByUri(request.httpUri), getJsonLink);
+  return useQuery<JsonLink | null, Error>({ queryKey: queryKeys.jsonLinkByUri(request.httpUri), queryFn: getJsonLink });
 };

@@ -42,7 +42,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       retry: false,
       staleTime: 1000 * 20, // 20 seoncds
-      cacheTime: 1000 * 60 * 5, //  5 minutes
+      gcTime: 1000 * 60 * 5, //  5 minutes
     },
   },
 });

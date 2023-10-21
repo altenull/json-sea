@@ -59,5 +59,5 @@ export const useMediaHeadApi = (request: UseMediaHeadApiRequest): UseQueryResult
     }
   }
 
-  return useQuery<MediaHead, Error>(queryKeys.mediaHeadBySrc(request.mediaSrc), getMediaHead);
+  return useQuery<MediaHead, Error>({ queryKey: queryKeys.mediaHeadBySrc(request.mediaSrc), queryFn: getMediaHead });
 };
