@@ -1398,10 +1398,10 @@
     "@types/d3-transition" "*"
     "@types/d3-zoom" "*"
 
-"@types/dagre@^0.7.48":
-  version "0.7.48"
-  resolved "https://registry.yarnpkg.com/@types/dagre/-/dagre-0.7.48.tgz#e3ff1962df959c22af44d58d4275d35bd9309043"
-  integrity sha512-rF3yXSwHIrDxEkN6edCE4TXknb5YSEpiXfLaspw1I08grC49ZFuAVGOQCmZGIuLUGoFgcqGlUFBL/XrpgYpQgw==
+"@types/dagre@^0.7.51":
+  version "0.7.51"
+  resolved "https://registry.yarnpkg.com/@types/dagre/-/dagre-0.7.51.tgz#6ec06532d3a21ae97584979f2f129f21b693b659"
+  integrity sha512-OJtLXov4mK9wZ4/TkBqUM5OBCpIQvv+sT9FZFnM1Ais5yqHEMnDObGGPYYrQhkLVIKik/bD8o9WWn7YQfPkDlQ==
 
 "@types/geojson@*":
   version "7946.0.10"
@@ -1413,27 +1413,29 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
-"@types/leaflet@^1.9.3":
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.9.3.tgz#7aac302189eb3aa283f444316167995df42a5467"
-  integrity sha512-Caa1lYOgKVqDkDZVWkto2Z5JtVo09spEaUt2S69LiugbBpoqQu92HYFMGUbYezZbnBkyOxMNPXHSgRrRY5UyIA==
+"@types/leaflet@^1.9.7":
+  version "1.9.7"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.9.7.tgz#c9a216d77bcdd1f9af4e3100ff3d71cffa437af7"
+  integrity sha512-FOfKB1ALYUDnXkH7LfTFreWiZr9R7GErqGP+8lYQGWr2GFq5+jy3Ih0M7e9j41cvRN65kLALJ4dc43yZwyl/6g==
   dependencies:
     "@types/geojson" "*"
 
-"@types/node@^18.11.18":
-  version "18.11.18"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
-  integrity sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==
+"@types/node@^20.8.7":
+  version "20.8.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.8.7.tgz#ad23827850843de973096edfc5abc9e922492a25"
+  integrity sha512-21TKHHh3eUHIi2MloeptJWALuCu5H7HQTdTrWIFReA8ad+aggoX+lRes3ex7/FtpC+sVUpFMQ+QTfYr74mruiQ==
+  dependencies:
+    undici-types "~5.25.1"
 
 "@types/prop-types@*":
   version "15.7.5"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
-"@types/react-dom@^18.0.10":
-  version "18.0.10"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.10.tgz#3b66dec56aa0f16a6cc26da9e9ca96c35c0b4352"
-  integrity sha512-E42GW/JA4Qv15wQdqJq8DL4JhNpB3prJgjgapN3qJT9K2zO5IIAQh4VXvCEDupoqAwnz0cY4RlXeC/ajX5SFHg==
+"@types/react-dom@^18.2.14":
+  version "18.2.14"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.2.14.tgz#c01ba40e5bb57fc1dc41569bb3ccdb19eab1c539"
+  integrity sha512-V835xgdSVmyQmI1KLV2BEIUgqEuinxp9O4G6g3FqO/SqLac049E53aysv0oEFD2kHfejeKU+ZqL2bcFWj9gLAQ==
   dependencies:
     "@types/react" "*"
 
@@ -1446,10 +1448,10 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@18.0.26":
-  version "18.0.26"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.26.tgz#8ad59fc01fef8eaf5c74f4ea392621749f0b7917"
-  integrity sha512-hCR3PJQsAIXyxhTNSiDFY//LhnMZWpNNr5etoCqx/iUfGc5gXWtQR2Phl908jVR6uPXacojQWTg4qRpkxTuGug==
+"@types/react@^18.2.31":
+  version "18.2.31"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.31.tgz#74ae2630e4aa9af599584157abd3b95d96fb9b40"
+  integrity sha512-c2UnPv548q+5DFh03y8lEDeMfDwBn9G3dRwfkrxQMo/dOtRHUUO57k6pHvBIfH/VF4Nh+98mZ5aaSe+2echD5g==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3782,6 +3784,11 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
+
+undici-types@~5.25.1:
+  version "5.25.3"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.25.3.tgz#e044115914c85f0bcbb229f346ab739f064998c3"
+  integrity sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==
 
 uri-js@^4.2.2:
   version "4.4.1"
