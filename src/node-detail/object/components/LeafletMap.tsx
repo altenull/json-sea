@@ -1,4 +1,3 @@
-import { styled } from '@nextui-org/react';
 import L, { LatLngTuple } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { memo, useCallback, useEffect, useRef } from 'react';
@@ -14,7 +13,7 @@ const _LeafletMap = ({ latLng }: Props) => {
     L.Marker.prototype.setIcon(
       L.icon({
         iconUrl: '/map-marker.png',
-      })
+      }),
     );
   }, []);
 
@@ -55,12 +54,7 @@ const _LeafletMap = ({ latLng }: Props) => {
     };
   }, [latLng, isLeafletInitialized, addTileLayer]);
 
-  return <S_Map ref={leafletMapRef} />;
+  return <div className="h-[240px] w-full" ref={leafletMapRef} />;
 };
-
-const S_Map = styled('div', {
-  width: '100%',
-  height: '240px',
-});
 
 export default memo(_LeafletMap);

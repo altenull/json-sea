@@ -1,4 +1,3 @@
-import { styled } from '@nextui-org/react';
 import { memo } from 'react';
 
 type Props = {
@@ -6,13 +5,7 @@ type Props = {
 };
 
 const _MediaViewerBox = ({ children }: Props) => {
-  return <S_Host>{children}</S_Host>;
+  return <div className="rounded-sm bg-gray-50 p-4">{children}</div>;
 };
-
-const S_Host = styled('div', {
-  backgroundColor: '$gray50',
-  borderRadius: '$xs',
-  padding: '$4',
-});
 
 export const MediaViewerBox = memo(_MediaViewerBox);

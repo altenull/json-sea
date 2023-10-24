@@ -1,4 +1,3 @@
-import { styled } from '@nextui-org/react';
 import { memo } from 'react';
 
 type Props = {
@@ -6,13 +5,7 @@ type Props = {
 };
 
 const _NodeDetailList = ({ children }: Props) => {
-  return <S_Host>{children}</S_Host>;
+  return <div className="flex flex-col gap-10">{children}</div>;
 };
-
-const S_Host = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '$10',
-});
 
 export const NodeDetailList = memo(_NodeDetailList);

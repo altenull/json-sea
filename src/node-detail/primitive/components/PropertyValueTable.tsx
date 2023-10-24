@@ -1,4 +1,4 @@
-import { Table } from '@nextui-org/react';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import { Key, memo } from 'react';
 
 type Props = {
@@ -28,37 +28,28 @@ export const PROPERTY_VALUE_TABLE_COLUMNS = [
 
 const _PropertyValueTable = ({ rows, ariaLabel }: Props) => {
   return (
-    <Table
-      lined
-      sticked
-      aria-label={ariaLabel}
-      css={{
-        height: 'auto',
-        minWidth: '100%',
-        padding: '$1',
-      }}
-    >
-      <Table.Header columns={PROPERTY_VALUE_TABLE_COLUMNS}>
+    <Table className="h-auto min-w-full p-1" isStriped aria-label={ariaLabel}>
+      <TableHeader columns={PROPERTY_VALUE_TABLE_COLUMNS}>
         {({ key, label }) => (
-          <Table.Column key={key} css={{ display: 'none' }}>
+          <TableColumn key={key} className="hidden">
             {label}
-          </Table.Column>
+          </TableColumn>
         )}
-      </Table.Header>
+      </TableHeader>
 
-      <Table.Body items={rows} css={{ fontSize: '$xs' }}>
+      <TableBody items={rows} className="text-sm">
         {(row) => (
-          <Table.Row key={row.property}>
+          <TableRow key={row.property}>
             {(columnKey: Key) => (
-              <Table.Cell
-                css={{ fontWeight: columnKey === PropertyValueTableColumnKey.Property ? '$medium' : '$normal' }}
+              <TableCell
+                className={`${columnKey === PropertyValueTableColumnKey.Property ? 'font-medium' : 'font-normal'}`}
               >
                 {row[columnKey as PropertyValueTableColumnKey]}
-              </Table.Cell>
+              </TableCell>
             )}
-          </Table.Row>
+          </TableRow>
         )}
-      </Table.Body>
+      </TableBody>
     </Table>
   );
 };

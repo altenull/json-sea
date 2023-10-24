@@ -1,4 +1,3 @@
-import { styled } from '@nextui-org/react';
 import { memo } from 'react';
 import { isFunction } from '../../utils/function.util';
 import { iconNameToPathMap } from './icon.helper';
@@ -19,21 +18,11 @@ type Props = {
 
 const _Icon = ({ icon, size, color = '#000000', style, onClick }: Props) => {
   return (
-    <S_Host
-      style={{
-        width: size,
-        height: size,
-        ...(isFunction(onClick)
-          ? {
-              cursor: 'pointer',
-              pointerEvents: 'initial',
-            }
-          : {
-              cursor: 'initial',
-              pointerEvents: 'none',
-            }),
-        ...style,
-      }}
+    <span
+      className={`inline-block w-[${size}px] h-[${size}px] ${
+        isFunction(onClick) ? 'pointer-events-auto cursor-pointer' : 'pointer-events-none cursor-auto'
+      }`}
+      style={style}
       onClick={onClick}
     >
       <svg
@@ -47,12 +36,8 @@ const _Icon = ({ icon, size, color = '#000000', style, onClick }: Props) => {
       >
         <path d={iconNameToPathMap[icon]} fill={color} fillRule="evenodd" clipRule="evenodd" />
       </svg>
-    </S_Host>
+    </span>
   );
 };
-
-const S_Host = styled('span', {
-  display: 'inline-block',
-});
 
 export const Icon = memo(_Icon);

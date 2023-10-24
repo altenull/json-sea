@@ -1,40 +1,12 @@
 'use client';
 
-import { createTheme, NextUIProvider } from '@nextui-org/react';
+import { NextUIProvider } from '@nextui-org/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
 
 type Props = {
   children: React.ReactNode;
 };
-
-export const lightTheme = createTheme({
-  type: 'light',
-  theme: {
-    letterSpacings: {
-      tighter: '0',
-      tight: '0',
-      normal: '0',
-      wide: '0',
-      wider: '0',
-      widest: '0',
-    },
-  },
-});
-
-export const darkTheme = createTheme({
-  type: 'dark',
-  theme: {
-    letterSpacings: {
-      tighter: '0',
-      tight: '0',
-      normal: '0',
-      wide: '0',
-      wider: '0',
-      widest: '0',
-    },
-  },
-});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,22 +21,14 @@ const queryClient = new QueryClient({
 
 const Providers = ({ children }: Props) => {
   return (
-    <ThemeProvider
-      defaultTheme="system"
-      enableSystem
-      attribute="class" // With 'class' `attribute` prop, you don't need to pass `theme` prop to <NextUIProvider>.
-      value={{
-        light: lightTheme.className,
-        dark: darkTheme.className,
-      }}
-    >
-      <NextUIProvider>
+    <NextUIProvider>
+      <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
         <QueryClientProvider client={queryClient}>
           {children}
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>
-      </NextUIProvider>
-    </ThemeProvider>
+      </NextThemesProvider>
+    </NextUIProvider>
   );
 };
 
