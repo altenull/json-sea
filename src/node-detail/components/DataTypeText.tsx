@@ -1,23 +1,12 @@
-import { Text } from '@nextui-org/react';
 import { memo } from 'react';
+import { Text } from '../../ui/components/Text';
 
 type Props = {
   children: React.ReactNode;
 };
 
 const _DataTypeText = ({ children }: Props) => {
-  return (
-    <Text
-      i
-      size="$xs"
-      weight="medium"
-      css={{
-        color: '$gray800',
-      }}
-    >
-      {children}
-    </Text>
-  );
+  return <Text className="text-sm font-medium italic text-gray-800">{children}</Text>;
 };
 
 export const DataTypeText = memo(_DataTypeText);

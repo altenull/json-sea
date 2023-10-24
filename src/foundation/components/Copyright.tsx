@@ -1,6 +1,7 @@
-import { Link, Text } from '@nextui-org/react';
+import { Link } from '@nextui-org/react';
 import { memo } from 'react';
 import { externalLink } from '../../environment';
+import { Text } from '../../ui/components/Text';
 
 const _Copyright = () => {
   const renderCreatedBy = () => (
@@ -19,14 +20,7 @@ const _Copyright = () => {
   };
 
   return (
-    <Text
-      css={{
-        marginTop: 'auto',
-        textAlign: 'right',
-        color: '$gray600',
-      }}
-      size="$sm"
-    >
+    <Text className="mt-auto text-right text-sm text-gray-600">
       {renderCreatedBy()} · {renderCopyright()}
     </Text>
   );

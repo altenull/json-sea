@@ -1,10 +1,10 @@
-import { Text } from '@nextui-org/react';
 import { memo } from 'react';
 import { NodeProps } from 'reactflow';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { addPrefixChain } from '../../store/json-engine/helpers/json-parser.helper';
 import { ArrayNodeData } from '../../store/json-engine/types/sea-node.type';
 import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';
+import { Text } from '../../ui/components/Text';
 import { isEmptyArray } from '../../utils/array.util';
 import { encloseSquareBrackets } from '../../utils/string.util';
 import { ROOT_NODE_NAME } from '../constants/root-node.constant';
@@ -33,7 +33,7 @@ const _ArrayNode = ({ id, data }: NodeProps<ArrayNodeData>) => {
       {!isRootNode && <DefaultHandle id={id} type="target" />}
       <ChainHandle id={addPrefixChain(id)} type="target" />
 
-      <Text css={{ margin: 'auto' }}>{isRootNode ? ROOT_NODE_NAME : encloseSquareBrackets(arrayIndex)}</Text>
+      <Text className="m-auto">{isRootNode ? ROOT_NODE_NAME : encloseSquareBrackets(arrayIndex)}</Text>
 
       {!isEmptyArray(items) && <DefaultHandle id={id} type="source" />}
 

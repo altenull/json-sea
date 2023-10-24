@@ -1,5 +1,5 @@
-import { Text } from '@nextui-org/react';
 import { memo } from 'react';
+import { Text } from '../../../ui/components/Text';
 import { useIntlNumberFormat } from '../hooks/useIntlNumberFormat';
 import { TextCopyBox } from './TextCopyBox';
 
@@ -13,9 +13,7 @@ const _NumberInspector = ({ value }: Props) => {
   return (
     <>
       <TextCopyBox text={`${value}`} />
-      <Text css={{ textAlign: 'right', paddingRight: '$4' }} size="$xs" color="$gray800">
-        {intlNumberFormat.format(value)}
-      </Text>
+      <Text className="pr-4 text-right text-sm text-gray-800">{intlNumberFormat.format(value)}</Text>
     </>
   );
 };

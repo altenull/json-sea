@@ -1,9 +1,7 @@
-'use client';
-
-import { styled, Text } from '@nextui-org/react';
 import prettyBytes from 'pretty-bytes';
 import { memo } from 'react';
 import { useMediaHeadApi } from '../../../api/media-head-api/useMediaHeadApi';
+import { Text } from '../../../ui/components/Text';
 import { isNull, isNumber } from '../../../utils/json.util';
 import { AudioSrc, ImageSrc, VideoSrc } from '../types/media-src.type';
 
@@ -19,22 +17,12 @@ const _MIMETypeAndSize = ({ mediaSrc }: Props) => {
   }
 
   return (
-    <S_Host>
-      <Text size="$xs" color="$gray800">
-        {data.mimeType}
-      </Text>
+    <div className="flex items-center justify-between">
+      <Text className="text-sm text-gray-800">{data.mimeType}</Text>
 
-      <Text size="$xs" color="$gray800">
-        {isNumber(data.mimeBytes) ? prettyBytes(data.mimeBytes) : ''}
-      </Text>
-    </S_Host>
+      <Text className="text-sm text-gray-800">{isNumber(data.mimeBytes) ? prettyBytes(data.mimeBytes) : ''}</Text>
+    </div>
   );
 };
-
-const S_Host = styled('div', {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-});
 
 export const MIMETypeAndSize = memo(_MIMETypeAndSize);
