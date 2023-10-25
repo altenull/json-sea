@@ -1,9 +1,10 @@
-import { useTheme } from '@nextui-org/react';
+import { semanticColors } from '@nextui-org/react';
 import { memo } from 'react';
 import { EdgeProps, getStraightPath } from 'reactflow';
+import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 
 const _ChainEdge = ({ id, sourceX, sourceY, targetX, targetY, style = {}, markerEnd }: EdgeProps) => {
-  const { theme } = useTheme();
+  const { theme } = useCustomTheme();
   const [edgePath] = getStraightPath({
     sourceX,
     sourceY,
@@ -18,7 +19,7 @@ const _ChainEdge = ({ id, sourceX, sourceY, targetX, targetY, style = {}, marker
       id={id}
       style={{
         ...style,
-        stroke: theme?.colors.blue400.value,
+        stroke: semanticColors[theme].primary[200],
         strokeWidth,
         transform: `translateX(-${strokeWidth / 2}px)`,
       }}

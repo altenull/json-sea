@@ -1,10 +1,10 @@
 import Editor from '@monaco-editor/react';
-import { styled, useTheme } from '@nextui-org/react';
 import { useCallback } from 'react';
 import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { DEFAULT_STRINGIFIED_JSON } from '../../store/json-engine/json-engine.constant';
 import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { isValidJson } from '../../utils/json.util';
+import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 import { JsonEditorConsole } from './JsonEditorConsole';
 import { JsonValidityStatus } from './JsonValidityStatus';
 
@@ -16,7 +16,7 @@ const _JsonEditor = () => {
   ]);
   const resetSelectedNode = useJsonDiagramViewStore((state) => state.resetSelectedNode);
 
-  const { theme, isDark } = useTheme();
+  const { isDarkMode } = useCustomTheme();
 
   const handleEditorChange = useCallback(
     (value: string | undefined) => {
@@ -28,13 +28,13 @@ const _JsonEditor = () => {
         resetSelectedNode();
       }
     },
-    [setStringifiedJson, resetSelectedNode]
+    [setStringifiedJson, resetSelectedNode],
   );
 
   return (
-    <S_Host>
+    <div className="border-r-border relative h-full w-full border-r-1 border-solid">
       <Editor
-        theme={isDark ? 'vs-dark' : 'light'}
+        theme={isDarkMode ? 'vs-dark' : 'light'}
         defaultLanguage="json"
         options={{
           minimap: {
@@ -55,7 +55,7 @@ const _JsonEditor = () => {
           position: 'absolute',
           right: 0,
           top: 0,
-          borderBottomLeftRadius: theme?.radii.xs.value,
+          borderBottomRightRadius: 7,
         }}
       />
 
@@ -67,15 +67,8 @@ const _JsonEditor = () => {
           bottom: 0,
         }}
       />
-    </S_Host>
+    </div>
   );
 };
-
-const S_Host = styled('div', {
-  position: 'relative',
-  borderRight: '1px solid $border',
-  width: '100%',
-  height: '100%',
-});
 
 export const JsonEditor = _JsonEditor;

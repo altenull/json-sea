@@ -1,8 +1,9 @@
 'use client';
 
-import { useTheme } from '@nextui-org/react';
+import { semanticColors } from '@nextui-org/react';
 import { memo } from 'react';
 import { EdgeProps, getBezierPath } from 'reactflow';
+import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 import { useHighlighter } from '../hooks/useHighlighter';
 
 const _DefaultEdge = ({
@@ -23,7 +24,7 @@ const _DefaultEdge = ({
   sourceHandleId,
   target,
 }: EdgeProps) => {
-  const { theme } = useTheme();
+  const { theme } = useCustomTheme();
   const { isHighlightEdge } = useHighlighter();
 
   const [edgePath] = getBezierPath({
@@ -38,7 +39,7 @@ const _DefaultEdge = ({
   const dynamicStyle = isHighlightEdge(id)
     ? {
         ...style,
-        stroke: theme?.colors.primary.value,
+        stroke: (semanticColors[theme] as any).DEFAULT,
         strokeWidth: 3,
       }
     : style;

@@ -1,26 +1,25 @@
-import { Tooltip, useTheme } from '@nextui-org/react';
+import { Tooltip, commonColors } from '@nextui-org/react';
 import { memo } from 'react';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { useJsonSeaRecommendedWidth } from '../../ui/hooks/useJsonSeaRecommendedWidth';
+import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 
 type Props = {
   height?: number;
 };
 
 const _JsonSeaLogoTitle = ({ height = 64 }: Props) => {
-  const { theme, isDark } = useTheme();
+  const { isDarkMode } = useCustomTheme();
   const { isJsonSeaRecommendedWidth } = useJsonSeaRecommendedWidth();
 
-  const jsonTextColor: string = isDark ? theme?.colors.text.value! : '#00254D'; // 'JSON' of 'JSON SEA'
-  const seaTextcolor: string = isDark ? theme?.colors.text.value! : '#4C76A5'; // 'SEA' of 'JSON SEA'
+  const jsonTextColor: string = isDarkMode ? commonColors.zinc[100] : '#00254D'; // 'JSON' of 'JSON SEA'
+  const seaTextcolor: string = isDarkMode ? commonColors.zinc[100] : '#4C76A5'; // 'SEA' of 'JSON SEA'
 
   return (
     <Tooltip
-      css={{
-        wordBreak: 'break-all',
-      }}
+      className="break-all"
       color="warning"
-      visible={!isJsonSeaRecommendedWidth}
+      isOpen={!isJsonSeaRecommendedWidth}
       isDisabled={isJsonSeaRecommendedWidth}
       content={
         <>
@@ -29,15 +28,7 @@ const _JsonSeaLogoTitle = ({ height = 64 }: Props) => {
       }
       placement="bottom"
     >
-      <svg
-        style={{
-          width: 'auto',
-          height: height,
-        }}
-        viewBox="0 0 225 64"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg className={`w-auto h-[${height}px]`} viewBox="0 0 225 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* 'J' */}
         <path
           d="M82.5924 19.3182H87.4567V35.5455C87.4567 37.0455 87.1195 38.3485 86.4452 39.4545C85.7785 40.5606 84.8503 41.4129 83.6608 42.0114C82.4712 42.6098 81.0884 42.9091 79.5125 42.9091C78.1108 42.9091 76.8379 42.6629 75.6938 42.1705C74.5573 41.6705 73.6556 40.9129 72.9889 39.8977C72.3221 38.875 71.9926 37.5909 72.0001 36.0455H76.8985C76.9137 36.6591 77.0387 37.1856 77.2736 37.625C77.516 38.0568 77.8456 38.3902 78.2623 38.625C78.6866 38.8523 79.1867 38.9659 79.7625 38.9659C80.3687 38.9659 80.8801 38.8371 81.2968 38.5795C81.7211 38.3144 82.0431 37.928 82.2628 37.4205C82.4826 36.9129 82.5924 36.2879 82.5924 35.5455V19.3182Z"

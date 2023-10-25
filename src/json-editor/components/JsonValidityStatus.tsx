@@ -1,7 +1,8 @@
-import { styled, useTheme } from '@nextui-org/react';
+import { semanticColors } from '@nextui-org/react';
 import { memo } from 'react';
 import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { Icon } from '../../ui/icon/Icon';
+import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 
 type Props = {
   style?: React.CSSProperties;
@@ -9,25 +10,19 @@ type Props = {
 
 const _JsonValidityStatus = ({ style }: Props) => {
   const isValidJson = useJsonEngineStore((state) => state.isValidJson);
-  const { theme } = useTheme();
+  const { theme } = useCustomTheme();
 
   return (
-    <S_Host style={style}>
+    <span className="inline-flex items-center justify-center bg-backgroundAlpha p-4" style={style}>
       <Icon
         icon={isValidJson ? 'file-check' : 'file-block'}
         size={24}
-        color={isValidJson ? theme?.colors.success.value : theme?.colors.error.value}
+        color={
+          isValidJson ? (semanticColors[theme].success as any).DEFAULT : (semanticColors[theme].danger as any).DEFAULT
+        }
       />
-    </S_Host>
+    </span>
   );
 };
-
-const S_Host = styled('span', {
-  display: 'inline-flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: '$4',
-  backgroundColor: '$backgroundAlpha',
-});
 
 export const JsonValidityStatus = memo(_JsonValidityStatus);

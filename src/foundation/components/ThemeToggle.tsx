@@ -1,15 +1,14 @@
-import { useTheme } from '@nextui-org/react';
-import { useTheme as useNextThemes } from 'next-themes';
+import { semanticColors } from '@nextui-org/react';
 import { CircleTransparentButton } from '../../ui/components/CircleTransparentButton';
 import { Icon } from '../../ui/icon/Icon';
+import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 
 const _ThemeToggle = () => {
-  const { isDark, theme } = useTheme();
-  const { setTheme } = useNextThemes();
+  const { theme, isDarkMode, setTheme } = useCustomTheme();
 
   return (
-    <CircleTransparentButton onClick={() => setTheme(isDark ? 'light' : 'dark')}>
-      <Icon icon={isDark ? 'sun' : 'moon'} size={24} color={theme?.colors.accents8.value} />
+    <CircleTransparentButton onClick={() => setTheme(isDarkMode ? 'light' : 'dark')}>
+      <Icon icon={isDarkMode ? 'sun' : 'moon'} size={24} color={semanticColors[theme].default[500]} />
     </CircleTransparentButton>
   );
 };
