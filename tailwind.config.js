@@ -3,13 +3,7 @@ const { nextui } = require('@nextui-org/react');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'],
-  theme: {
-    extend: {
-      colors: {
-        backgroundAlpha: 'rgba(255, 255, 255, 0.8)',
-      },
-    },
-  },
+  theme: {},
   darkMode: 'class',
   plugins: [
     nextui({
@@ -19,12 +13,18 @@ module.exports = {
       layout: {}, // common layout tokens (applied to all themes)
       themes: {
         light: {
-          layout: {}, // light theme layout tokens
-          colors: {}, // light theme colors
+          layout: {},
+          colors: {
+            border: 'rgba(0, 0, 0, 0.15)',
+            backgroundAlpha: 'rgba(255, 255, 255, 0.8)',
+          },
         },
         dark: {
-          layout: {}, // dark theme layout tokens
-          colors: {}, // dark theme colors
+          layout: {},
+          colors: {
+            border: 'rgba(255, 255, 255, 0.15)',
+            backgroundAlpha: 'rgba(0, 0, 0, 0.6)',
+          },
         },
       },
     }),
