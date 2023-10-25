@@ -1,13 +1,14 @@
-import { Loading, useTheme } from '@nextui-org/react';
+import { CircularProgress, semanticColors } from '@nextui-org/react';
 import { toPng } from 'html-to-image';
 import { memo, useCallback } from 'react';
 import { CircleTransparentButton } from '../../ui/components/CircleTransparentButton';
 import { Icon } from '../../ui/icon/Icon';
 import { downloadAsFile } from '../../utils/file-download.util';
 import { useBoolean } from '../../utils/react-hooks/useBoolean';
+import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 
 const _DownloadImageButton = () => {
-  const { theme } = useTheme();
+  const { theme } = useCustomTheme();
   const { bool: isDownloading, setTrue: startDownload, setFalse: stopDownload } = useBoolean();
 
   const SELF_CLASSNAME = 'download-image-button';
@@ -20,8 +21,8 @@ const _DownloadImageButton = () => {
         // we don't want to add the minimap, controls and download image button to the image
         const filterTargetTokens = ['react-flow__minimap', 'react-flow__controls', SELF_CLASSNAME];
 
-        const isFilterTargetToken: boolean = filterTargetTokens.some((token: string) =>
-          node?.classList?.contains(token)
+        const isFilterTargetToken: boolean = filterTargetTokens.some(
+          (token: string) => node?.classList?.contains(token),
         );
 
         return !isFilterTargetToken;
@@ -43,9 +44,9 @@ const _DownloadImageButton = () => {
       onClick={isDownloading ? undefined : handleClick}
     >
       {isDownloading ? (
-        <Loading color="currentColor" size="xs" />
+        <CircularProgress color="default" size="sm" />
       ) : (
-        <Icon icon="camera" size={24} color={theme?.colors.accents8.value} />
+        <Icon icon="camera" size={24} color={semanticColors[theme].default[500]} />
       )}
     </CircleTransparentButton>
   );
