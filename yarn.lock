@@ -547,7 +547,7 @@
     "@react-types/overlays" "^3.8.2"
     react-remove-scroll "^2.5.6"
 
-"@nextui-org/navbar@2.0.22":
+"@nextui-org/navbar@2.0.22", "@nextui-org/navbar@^2.0.22":
   version "2.0.22"
   resolved "https://registry.yarnpkg.com/@nextui-org/navbar/-/navbar-2.0.22.tgz#72b3ba9915a667709d73523de645bcf7fea4a5a4"
   integrity sha512-s6XJUcx7p+8tUBVPK5QPqk8jjrnUt083r8hoa0SA5WWe4TY4QiEFWX2maaDFINo00/6mZmMlql0QJh1OrhdsDA==
