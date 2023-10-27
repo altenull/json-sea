@@ -365,7 +365,7 @@
     "@react-types/checkbox" "^3.5.1"
     "@react-types/shared" "^3.20.0"
 
-"@nextui-org/chip@2.0.21":
+"@nextui-org/chip@2.0.21", "@nextui-org/chip@^2.0.21":
   version "2.0.21"
   resolved "https://registry.yarnpkg.com/@nextui-org/chip/-/chip-2.0.21.tgz#640231bf73797edb19d62958a57a5edb70ea15e8"
   integrity sha512-z5akLSpElF/j0b13hCywkRGWbI+9PEgawYMktLUnnokXRoUH7XOaq3XoP4Fa5rzBt4ajVButtXwxCsXc3izspQ==
