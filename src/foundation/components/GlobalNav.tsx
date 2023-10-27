@@ -1,6 +1,6 @@
 'use client';
 
-import { Navbar } from '@nextui-org/react';
+import { Navbar, NavbarContent, NavbarItem } from '@nextui-org/navbar';
 import { useId } from 'react';
 import { GithubButton } from './GithubButton';
 import { JsonEditorToggle } from './JsonEditorToggle';
@@ -19,36 +19,30 @@ const _GlobalNav = () => {
   const navItemId4 = useId();
 
   return (
-    <Navbar isBordered isCompact maxWidth="fluid">
-      <Navbar.Content>
-        <Navbar.Item id={navItemId1}>
+    <Navbar isBordered maxWidth="full">
+      <NavbarContent justify="start">
+        <NavbarItem id={navItemId1}>
           <JsonEditorToggle />
-        </Navbar.Item>
-      </Navbar.Content>
+        </NavbarItem>
+      </NavbarContent>
 
-      <Navbar.Brand
-        css={{
-          position: 'absolute',
-          left: '50%',
-          transform: 'translateX(-50%)',
-        }}
-      >
-        <JsonSeaLogoTitle height={36} />
-      </Navbar.Brand>
+      <NavbarContent justify="center">
+        <JsonSeaLogoTitle />
+      </NavbarContent>
 
-      <Navbar.Content gap="$4">
-        <Navbar.Item id={navItemId2}>
+      <NavbarContent className="gap-2" justify="end">
+        <NavbarItem id={navItemId2}>
           <GithubButton />
-        </Navbar.Item>
+        </NavbarItem>
 
-        <Navbar.Item id={navItemId3}>
+        <NavbarItem id={navItemId3}>
           <ThemeToggle />
-        </Navbar.Item>
+        </NavbarItem>
 
-        <Navbar.Item id={navItemId4}>
+        <NavbarItem id={navItemId4}>
           <SettingsButton />
-        </Navbar.Item>
-      </Navbar.Content>
+        </NavbarItem>
+      </NavbarContent>
     </Navbar>
   );
 };

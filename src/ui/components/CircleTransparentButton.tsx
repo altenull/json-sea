@@ -12,7 +12,7 @@ const _CircleTransparentButton = ({ children, className, style, onClick }: Props
   return (
     <button
       style={style}
-      className={`inline-flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-transparent p-0 hover:bg-gray-100 ${
+      className={`inline-flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-transparent p-0 hover:bg-default-100 ${
         isFunction(onClick) && 'cursor-pointer'
       } ${className}`}
       onClick={onClick}
