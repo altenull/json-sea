@@ -1,9 +1,16 @@
-const { nextui } = require('@nextui-org/react');
+const { nextui } = require('@nextui-org/theme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'],
-  theme: {},
+  content: [
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    // single component styles
+    // './node_modules/@nextui-org/theme/dist/components/button.js',
+    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+  ],
+  theme: {
+    extend: {},
+  },
   darkMode: 'class',
   plugins: [
     nextui({
@@ -17,6 +24,7 @@ module.exports = {
           colors: {
             border: 'rgba(0, 0, 0, 0.15)',
             backgroundAlpha: 'rgba(255, 255, 255, 0.8)',
+            backgroundContrast: '#ffffff',
           },
         },
         dark: {
@@ -24,6 +32,7 @@ module.exports = {
           colors: {
             border: 'rgba(255, 255, 255, 0.15)',
             backgroundAlpha: 'rgba(0, 0, 0, 0.6)',
+            backgroundContrast: '#16181A',
           },
         },
       },
