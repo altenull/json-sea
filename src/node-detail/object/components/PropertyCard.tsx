@@ -3,7 +3,7 @@ import { useJsonEngineStore } from '../../../store/json-engine/json-engine.store
 import { useHoverNodeDetails } from '../../../store/node-detail-view/hooks/useHoverNodeDetails';
 import { isObject } from '../../../utils/json.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
-import { PropertyKeyBadge } from './PropertyKeyBadge';
+import { PropertyKeyChip } from './PropertyKeyChip';
 
 type Props = {
   nodeId: string;
@@ -27,7 +27,7 @@ const _PropertyCard = ({ nodeId, propertyK, propertyV }: Props) => {
   return (
     <NodeDetailCard
       ref={cardRef}
-      badge={<PropertyKeyBadge propertyK={propertyK} />}
+      chip={<PropertyKeyChip propertyK={propertyK} />}
       value={propertyV}
       childObjectNodeId={childObjectNodeId}
     />

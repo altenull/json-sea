@@ -7,7 +7,7 @@ import { Text } from '../../ui/components/Text';
 import { findParentNodeId } from '../../utils/reactflow.util';
 import { nodeTypeToTextMap } from '../array/helpers/node-type.helper';
 import { useNodePath } from '../hooks/useNodePath';
-import { NodeDetailBadge } from './NodeDetailBadge';
+import { NodeDetailChip } from './NodeDetailChip';
 
 type Props = {
   selectedNode: SeaNode;
@@ -34,19 +34,19 @@ const _NodeDetailPanelHeader = ({ selectedNode }: Props) => {
 
       {/* Right */}
       {isRootNode ? (
-        <NodeDetailBadge value={ROOT_NODE_NAME} />
+        <NodeDetailChip value={ROOT_NODE_NAME} />
       ) : (
         <>
           {isObjectSeaNode(selectedNode) && (
-            <NodeDetailBadge
+            <NodeDetailChip
               value={getNodePath(parentNodeId!, selectedNode.id, selectedNode.data.arrayIndexForObject)}
             />
           )}
           {isArraySeaNode(selectedNode) && (
-            <NodeDetailBadge value={getNodePath(parentNodeId!, selectedNode.id, selectedNode.data.arrayIndex)} />
+            <NodeDetailChip value={getNodePath(parentNodeId!, selectedNode.id, selectedNode.data.arrayIndex)} />
           )}
           {isPrimitiveSeaNode(selectedNode) && (
-            <NodeDetailBadge value={getNodePath(parentNodeId!, selectedNode.id, selectedNode.data.arrayIndex)} />
+            <NodeDetailChip value={getNodePath(parentNodeId!, selectedNode.id, selectedNode.data.arrayIndex)} />
           )}
         </>
       )}

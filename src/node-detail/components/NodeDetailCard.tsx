@@ -6,20 +6,20 @@ import { DetailObject } from './DetailObject';
 import { DetailPrimitive } from './DetailPrimitive';
 
 type Props = {
-  badge?: ReactElement;
+  chip?: ReactElement;
   value: object | any[] | string | number | boolean | null;
   childObjectNodeId: string | null;
 };
 
-const _NodeDetailCard = ({ badge, value, childObjectNodeId }: Props, ref: ForwardedRef<HTMLDivElement>) => {
+const _NodeDetailCard = ({ chip, value, childObjectNodeId }: Props, ref: ForwardedRef<HTMLDivElement>) => {
   return (
     <Card ref={ref} isHoverable>
       {isString(childObjectNodeId) ? (
-        <DetailObject badge={badge} obj={value as object} childObjectNodeId={childObjectNodeId} />
+        <DetailObject chip={chip} obj={value as object} childObjectNodeId={childObjectNodeId} />
       ) : isArray(value) ? (
-        <DetailArray badge={badge} array={value as any[]} />
+        <DetailArray chip={chip} array={value as any[]} />
       ) : (
-        <DetailPrimitive badge={badge} value={value as string | number | boolean | null} />
+        <DetailPrimitive chip={chip} value={value as string | number | boolean | null} />
       )}
     </Card>
   );

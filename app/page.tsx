@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { GlobalNav } from '../src/foundation/components/GlobalNav';
 import { LandingLoader } from '../src/foundation/components/LandingLoader';
-import { LocalhostBadge } from '../src/foundation/components/LocalhostBadge';
+import { LocalhostChip } from '../src/foundation/components/LocalhostChip';
 import { Main } from '../src/foundation/components/Main';
 import { JsonDiagram } from '../src/json-diagram/components/JsonDiagram';
 import { ResizableJsonEditor } from '../src/json-editor/components/ResizableJsonEditor';
@@ -51,7 +51,7 @@ const RootPage = () => {
         <NodeDetailPanel />
       </Main>
 
-      <LocalhostBadge />
+      <LocalhostChip />
     </>
   );
 };

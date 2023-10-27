@@ -3,7 +3,7 @@ import { useHoverNodeDetails } from '../../../store/node-detail-view/hooks/useHo
 import { isObject } from '../../../utils/json.util';
 import { NodeDetailCard } from '../../components/NodeDetailCard';
 import { useNodePath } from '../../hooks/useNodePath';
-import { ArrayItemNameBadge } from './ArrayItemNameBadge';
+import { ArrayItemNameChip } from './ArrayItemNameChip';
 
 type Props = {
   parentNodeId: string;
@@ -22,7 +22,7 @@ const _ArrayItemCard = ({ parentNodeId, selfNodeId, arrayItemIndex, value }: Pro
   return (
     <NodeDetailCard
       ref={cardRef}
-      badge={<ArrayItemNameBadge arrayItemName={getNodePath(parentNodeId, selfNodeId, arrayItemIndex)} />}
+      chip={<ArrayItemNameChip arrayItemName={getNodePath(parentNodeId, selfNodeId, arrayItemIndex)} />}
       value={value}
       childObjectNodeId={objectNodeId}
     />
