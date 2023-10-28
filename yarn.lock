@@ -795,7 +795,7 @@
     "@nextui-org/system-rsc" "2.0.6"
     "@nextui-org/theme" "2.1.9"
 
-"@nextui-org/switch@2.0.21":
+"@nextui-org/switch@2.0.21", "@nextui-org/switch@^2.0.21":
   version "2.0.21"
   resolved "https://registry.yarnpkg.com/@nextui-org/switch/-/switch-2.0.21.tgz#00ca0e307cd726ac33bfbf767984fe577012a8ed"
   integrity sha512-FrbSUcHY7RtJHtB5Ddsso2MDo58HgmwWbyHTi1E/zVTawONosBmkdV/v3Y2rKAFcqSz1VK973hrtYztYWUzkTA==
