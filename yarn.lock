@@ -437,7 +437,7 @@
     "@nextui-org/theme" "2.1.9"
     "@nextui-org/use-image" "2.0.3"
 
-"@nextui-org/input@2.1.9":
+"@nextui-org/input@2.1.9", "@nextui-org/input@^2.1.9":
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/@nextui-org/input/-/input-2.1.9.tgz#54a5ed6453e38b62601d4aace188086b6abf5189"
   integrity sha512-Qf5xCjzEtDag7Cd3czXgM0iSmfhOr0DedNekxLSWxPoM12pInZHAx7bVPF103d3/A5ZJi3O9O8Iu+Xro4p9J+A==
