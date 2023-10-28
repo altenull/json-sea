@@ -897,7 +897,7 @@
     tailwind-variants "^0.1.14"
     tailwindcss "^3.2.7"
 
-"@nextui-org/tooltip@2.0.24":
+"@nextui-org/tooltip@2.0.24", "@nextui-org/tooltip@^2.0.24":
   version "2.0.24"
   resolved "https://registry.yarnpkg.com/@nextui-org/tooltip/-/tooltip-2.0.24.tgz#e5f30681113479c3c43eab552e9fcf81ac0365a5"
   integrity sha512-TD7Y2wOLPKDhXRduguhA8/Li7XSI/tkSah5uQmussJX9VybJnlEMpBuW2USU//lfoD+ruFIerd63NGQNYCh86g==
