@@ -1,4 +1,5 @@
-import { Tooltip, commonColors } from '@nextui-org/react';
+import { commonColors } from '@nextui-org/react';
+import { Tooltip } from '@nextui-org/tooltip';
 import { memo } from 'react';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { useJsonSeaRecommendedWidth } from '../../ui/hooks/useJsonSeaRecommendedWidth';
@@ -13,7 +14,7 @@ const _JsonSeaLogoTitle = () => {
 
   return (
     <Tooltip
-      className="break-all"
+      className="break-all p-2"
       color="warning"
       isOpen={!isJsonSeaRecommendedWidth}
       isDisabled={isJsonSeaRecommendedWidth}
