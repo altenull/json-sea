@@ -1,4 +1,5 @@
-import { CircularProgress, semanticColors } from '@nextui-org/react';
+import { CircularProgress } from '@nextui-org/progress';
+import { semanticColors } from '@nextui-org/react';
 import { toPng } from 'html-to-image';
 import { memo, useCallback } from 'react';
 import { CircleTransparentButton } from '../../ui/components/CircleTransparentButton';
@@ -44,7 +45,7 @@ const _DownloadImageButton = () => {
       onClick={isDownloading ? undefined : handleClick}
     >
       {isDownloading ? (
-        <CircularProgress color="default" size="sm" />
+        <CircularProgress color="default" size="sm" aria-label="Loading..." />
       ) : (
         <Icon icon="camera" size={24} color={semanticColors[theme].default[500]} />
       )}

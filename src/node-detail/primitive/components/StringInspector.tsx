@@ -1,4 +1,4 @@
-import { CircularProgress } from '@nextui-org/react';
+import { CircularProgress } from '@nextui-org/progress';
 import { memo } from 'react';
 import { encloseDoubleQuote } from '../../../utils/string.util';
 import { StringSubtypeValidator } from '../helpers/string-subtype.helper';
@@ -30,7 +30,7 @@ const _StringInspector = ({ stringSubtypeValidator, value, isLoading }: Props) =
       <TextCopyBox text={encloseDoubleQuote(value)} />
 
       {isLoading ? (
-        <CircularProgress color="primary" size="sm" />
+        <CircularProgress className="mx-auto" color="primary" size="sm" aria-label="Loading..." />
       ) : (
         <>
           {isColor && <PreviewColor color={value} />}
