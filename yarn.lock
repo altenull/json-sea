@@ -606,7 +606,7 @@
     "@react-types/overlays" "^3.8.2"
     react-remove-scroll "^2.5.6"
 
-"@nextui-org/progress@2.0.21":
+"@nextui-org/progress@2.0.21", "@nextui-org/progress@^2.0.21":
   version "2.0.21"
   resolved "https://registry.yarnpkg.com/@nextui-org/progress/-/progress-2.0.21.tgz#a90164504ddc649ca773a55fd6631475e0290bd2"
   integrity sha512-5g6NdFJfJECcOeRYXZkDx41qoqZvy8LoR1i2EPQMHJ2f5OTJNj8gNqLw99x5ciFalbcCL5yCzrZBIJkCTK8r+A==

@@ -16,6 +16,7 @@
     "@nextui-org/input": "^2.1.9",
     "@nextui-org/modal": "^2.0.23",
     "@nextui-org/navbar": "^2.0.22",
+    "@nextui-org/progress": "^2.0.21",
     "@nextui-org/react": "^2.1.13",
     "@nextui-org/switch": "^2.0.21",
     "@nextui-org/system": "^2.0.10",
