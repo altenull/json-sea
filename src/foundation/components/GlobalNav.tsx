@@ -19,7 +19,7 @@ const _GlobalNav = () => {
   const navItemId4 = useId();
 
   return (
-    <Navbar isBordered maxWidth="full">
+    <Navbar isBordered maxWidth="full" height={'3.375rem'}>
       <NavbarContent justify="start">
         <NavbarItem id={navItemId1}>
           <JsonEditorToggle />
