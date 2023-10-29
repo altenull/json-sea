@@ -1,9 +1,12 @@
-import { Button, ButtonProps, styled, Tooltip, useTheme } from '@nextui-org/react';
-import { memo, useMemo } from 'react';
+import { Button } from '@nextui-org/button';
+import { semanticColors } from '@nextui-org/react';
+import { Tooltip } from '@nextui-org/tooltip';
+import { ComponentProps, memo, useMemo } from 'react';
 import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { Icon } from '../../ui/icon/Icon';
 import { downloadAsFile } from '../../utils/file-download.util';
 import { useBoolean } from '../../utils/react-hooks/useBoolean';
+import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 import { ImportJsonModal } from './ImportJsonModal';
 
 type Props = {
@@ -14,25 +17,32 @@ const _JsonEditorConsole = ({ style }: Props) => {
   const [stringifiedJson, isValidJson] = useJsonEngineStore((state) => [state.stringifiedJson, state.isValidJson]);
 
   const { bool: isImportJsonModalOpen, setTrue: openImportJsonModal, setFalse: closeImportJsonModal } = useBoolean();
-  const { theme } = useTheme();
-
-  const sharedButtonProps: Partial<ButtonProps> = useMemo(
-    () =>
-      ({
-        css: {
-          minWidth: 'initial',
-          width: '100%',
-        },
-        light: true,
-        color: 'primary',
-        size: 'sm',
-      } as ButtonProps),
-    []
-  );
+  const { theme } = useCustomTheme();
 
   const handleDownloadJsonClick = () => {
     downloadAsFile(`data:text/json;charset=utf8,${encodeURIComponent(stringifiedJson)}`, 'json-sea.json');
   };
+
+  const sharedTooltipProps: ComponentProps<typeof Tooltip> = useMemo(
+    () => ({
+      delay: 0,
+      closeDelay: 0,
+      color: 'primary',
+    }),
+    [],
+  );
+
+  const sharedButtonProps: ComponentProps<typeof Button> = useMemo(
+    () => ({
+      className: 'w-full',
+      isIconOnly: true,
+      variant: 'light',
+      color: 'primary',
+    }),
+    [],
+  );
+
+  const iconColor = useMemo(() => (semanticColors[theme].primary as any).DEFAULT, [theme]);
 
   return (
     <>
@@ -40,39 +50,24 @@ const _JsonEditorConsole = ({ style }: Props) => {
         <ImportJsonModal isModalOpen={isImportJsonModalOpen} closeModal={closeImportJsonModal} />
       )}
 
-      <S_Host style={style}>
-        <Tooltip content="Import JSON" color="primary">
-          <Button
-            {...sharedButtonProps}
-            icon={<Icon icon="file-plus" size={24} color={theme?.colors.primary.value} />}
-            onPress={openImportJsonModal}
-          />
+      <div
+        className="flex items-center justify-between gap-1 border-t-1 border-solid border-t-border bg-cyan-50 px-2 py-1 dark:bg-cyan-900"
+        style={style}
+      >
+        <Tooltip {...sharedTooltipProps} content="Import JSON">
+          <Button {...sharedButtonProps} onPress={openImportJsonModal}>
+            <Icon icon="file-plus" size={24} color={iconColor} />
+          </Button>
         </Tooltip>
 
-        <Tooltip content="Download JSON" color="primary">
-          <Button
-            {...sharedButtonProps}
-            disabled={!isValidJson}
-            icon={<Icon icon="download" size={24} color={theme?.colors.primary.value} />}
-            onPress={handleDownloadJsonClick}
-          />
+        <Tooltip {...sharedTooltipProps} content="Download JSON">
+          <Button {...sharedButtonProps} disabled={!isValidJson} onPress={handleDownloadJsonClick}>
+            <Icon icon="download" size={24} color={iconColor} />
+          </Button>
         </Tooltip>
-      </S_Host>
+      </div>
     </>
   );
 };
-
-const S_Host = styled('div', {
-  height: '44px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  backgroundColor: '$cyan50',
-  borderTop: '1px solid $border',
-
-  '*': {
-    flex: 1,
-  },
-});
 
 export const JsonEditorConsole = memo(_JsonEditorConsole);
