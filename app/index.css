@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  /* json-diagram */
+  .node-shell-base {
+    @apply max-w-nodeMaxWidth relative flex flex-col border-2 border-solid border-default-200 bg-background py-3 pl-3 hover:border-default-300;
+  }
+  .node-shell-object {
+    @apply min-w-nodeMinWidth rounded-bl-3xl rounded-tl-3xl py-3 pl-3;
+  }
+  .node-shell-array {
+    @apply min-w-arrayNodeSize max-w-arrayNodeSize min-h-arrayNodeSize max-h-arrayNodeSize rounded-full p-0;
+  }
+  .node-shell-primitive {
+    @apply min-w-nodeMinWidth py-nodePadding pl-nodePadding rounded-bl-full rounded-tl-full;
+  }
+}

@@ -1,4 +1,5 @@
 const { nextui } = require('@nextui-org/theme');
+const { sizes } = require('./src/ui/constants/sizes.constant');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -7,7 +8,28 @@ module.exports = {
     './node_modules/@nextui-org/theme/dist/components/(button|chip|card|navbar|tooltip|switch|modal|input|circular-progress).js',
   ],
   theme: {
-    extend: {},
+    extend: {
+      padding: {
+        nodePadding: sizes.nodePadding,
+      },
+      height: {
+        nodeContentHeight: sizes.nodeContentHeight,
+      },
+      minWidth: {
+        arrayNodeSize: sizes.arrayNodeSize,
+        nodeMinWidth: sizes.nodeMinWidth,
+      },
+      maxWidth: {
+        arrayNodeSize: sizes.arrayNodeSize,
+        nodeMaxWidth: sizes.nodeMaxWidth,
+      },
+      minHeight: {
+        arrayNodeSize: sizes.arrayNodeSize,
+      },
+      maxHeight: {
+        arrayNodeSize: sizes.arrayNodeSize,
+      },
+    },
   },
   darkMode: 'class',
   plugins: [
