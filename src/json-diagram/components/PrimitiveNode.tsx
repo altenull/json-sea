@@ -1,13 +1,15 @@
-import { CSS, Text } from '@nextui-org/react';
-import { memo, useMemo } from 'react';
+import { semanticColors } from '@nextui-org/theme';
+import { memo } from 'react';
 import { NodeProps } from 'reactflow';
 import { JsonDataType } from '../../store/json-engine/enums/json-data-type.enum';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { addPrefixChain } from '../../store/json-engine/helpers/json-parser.helper';
 import { PrimitiveNodeData } from '../../store/json-engine/types/sea-node.type';
 import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';
-import { BooleanBadge } from '../../ui/components/BooleanBadge';
-import { NullBadge } from '../../ui/components/NullBadge';
+import { BooleanChip } from '../../ui/components/BooleanChip';
+import { NullChip } from '../../ui/components/NullChip';
+import { Text } from '../../ui/components/Text';
+import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 import { useHighlighter } from '../hooks/useHighlighter';
 import { ChainHandle } from './ChainHandle';
 import { DefaultHandle } from './DefaultHandle';
@@ -23,17 +25,7 @@ import { NodeShell } from './NodeShell';
 const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
   const hoveredNodeDetails = useNodeDetailViewStore((state) => state.hoveredNodeDetails);
   const { isHighlightNode } = useHighlighter();
-
-  const textCss: CSS = useMemo(
-    () => ({
-      textAlign: 'center',
-      paddingRight: '$4',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-    }),
-    []
-  );
+  const { theme } = useCustomTheme();
 
   const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(({ nodeId }) => nodeId === id);
 
@@ -42,14 +34,19 @@ const _PrimitiveNode = ({ id, data }: NodeProps<PrimitiveNodeData>) => {
       <DefaultHandle id={id} type="target" />
       <ChainHandle id={addPrefixChain(id)} type="target" />
 
-      <Text css={textCss} color={data.dataType === JsonDataType.Number ? '$green800' : undefined}>
+      <Text
+        style={{
+          color: data.dataType === JsonDataType.Number ? semanticColors[theme].success[600] : undefined,
+        }}
+        className="overflow-hidden text-ellipsis whitespace-nowrap pr-4 text-center"
+      >
         {data.dataType === JsonDataType.String && data.stringifiedJson}
 
         {data.dataType === JsonDataType.Number && data.value}
 
-        {data.dataType === JsonDataType.Boolean && <BooleanBadge value={data.value as boolean} size="xs" />}
+        {data.dataType === JsonDataType.Boolean && <BooleanChip value={data.value as boolean} size="sm" />}
 
-        {data.dataType === JsonDataType.Null && <NullBadge size="xs" />}
+        {data.dataType === JsonDataType.Null && <NullChip size="sm" />}
       </Text>
 
       {isHoveredFromNodeDetail && <HoveringBlueDot />}

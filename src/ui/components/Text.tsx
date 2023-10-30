@@ -32,7 +32,7 @@ const _Text = ({
   if (h1) {
     return (
       <h1
-        className={extendClassName('mb-2 text-5xl font-bold leading-normal tracking-tighter text-gray-900')}
+        className={extendClassName('mb-2 text-5xl font-bold leading-normal tracking-tighter text-default-900')}
         {...props}
       >
         {children}
@@ -40,37 +40,37 @@ const _Text = ({
     );
   } else if (h2) {
     return (
-      <h2 className={extendClassName('mb-2 text-4xl font-semibold tracking-tighter text-gray-900')} {...props}>
+      <h2 className={extendClassName('mb-2 text-4xl font-semibold tracking-tighter text-default-900')} {...props}>
         {children}
       </h2>
     );
   } else if (h3) {
     return (
-      <h3 className={extendClassName('mb-2 text-2xl font-semibold tracking-tighter text-gray-900')} {...props}>
+      <h3 className={extendClassName('mb-2 text-2xl font-semibold tracking-tighter text-default-900')} {...props}>
         {children}
       </h3>
     );
   } else if (h4) {
     return (
-      <h4 className={extendClassName('mb-2 text-xl font-semibold tracking-tighter text-gray-900')} {...props}>
+      <h4 className={extendClassName('mb-2 text-xl font-semibold tracking-tighter text-default-900')} {...props}>
         {children}
       </h4>
     );
   } else if (h5) {
     return (
-      <h5 className={extendClassName('mb-2 text-base font-semibold tracking-tighter text-gray-900')} {...props}>
+      <h5 className={extendClassName('mb-2 text-base font-semibold tracking-tighter text-default-900')} {...props}>
         {children}
       </h5>
     );
   } else if (h6) {
     return (
-      <h6 className={extendClassName('mb-2 text-sm font-semibold tracking-tight text-gray-900')} {...props}>
+      <h6 className={extendClassName('mb-2 text-sm font-semibold tracking-tight text-default-900')} {...props}>
         {children}
       </h6>
     );
   } else {
     return (
-      <p className={extendClassName('text-base leading-relaxed tracking-tighter text-gray-900')} {...props}>
+      <p className={extendClassName('text-base leading-relaxed tracking-tighter text-default-900')} {...props}>
         {children}
       </p>
     );

@@ -39,7 +39,7 @@ const _DefaultEdge = ({
   const dynamicStyle = isHighlightEdge(id)
     ? {
         ...style,
-        stroke: (semanticColors[theme] as any).DEFAULT,
+        stroke: (semanticColors[theme].primary as any).DEFAULT,
         strokeWidth: 3,
       }
     : style;

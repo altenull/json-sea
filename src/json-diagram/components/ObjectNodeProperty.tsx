@@ -1,13 +1,14 @@
-import { styled, Text, useTheme } from '@nextui-org/react';
+import { semanticColors } from '@nextui-org/react';
 import { memo } from 'react';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';
-import { BooleanBadge } from '../../ui/components/BooleanBadge';
-import { NullBadge } from '../../ui/components/NullBadge';
-import { sizes } from '../../ui/constants/sizes.constant';
+import { BooleanChip } from '../../ui/components/BooleanChip';
+import { NullChip } from '../../ui/components/NullChip';
+import { Text } from '../../ui/components/Text';
 import { Icon } from '../../ui/icon/Icon';
 import { isEmptyArray } from '../../utils/array.util';
 import { isEmptyObject } from '../../utils/object.util';
+import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 import { DefaultHandle } from './DefaultHandle';
 import { HoveringBlueDot } from './HoveringBlueDot';
 
@@ -20,75 +21,52 @@ type Props = {
 
 const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Props) => {
   const hoveredNodeDetails = useNodeDetailViewStore((state) => state.hoveredNodeDetails);
-  const { theme } = useTheme();
+  const { theme } = useCustomTheme();
 
   const { isObjectData, isArrayData, isPrimitiveData, isStringData, isNumberData, isBooleanData, isNullData } =
     validateJsonDataType(propertyV);
 
   const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(
-    (item) => item.nodeId === nodeId && item.propertyK === propertyK
+    (item) => item.nodeId === nodeId && item.propertyK === propertyK,
   );
 
+  const iconColor = semanticColors[theme].default[500];
+
   return (
-    <S_Host>
-      <Text color="primary" weight="semibold" css={{ marginRight: '$8' }}>
-        {propertyK}
-      </Text>
+    <div className="h-nodeContentHeight relative flex items-center justify-between pr-2 [&+&]:border-t-1 [&+&]:border-solid [&+&]:border-t-default-300">
+      <Text className="mr-4 font-medium text-primary">{propertyK}</Text>
 
       {isObjectData && (
-        <Icon
-          icon={isEmptyObject(propertyV as object) ? 'object-empty' : 'object'}
-          size={24}
-          color={theme?.colors.accents7.value}
-        />
+        <Icon icon={isEmptyObject(propertyV as object) ? 'object-empty' : 'object'} size={24} color={iconColor} />
       )}
       {isArrayData && (
-        <Icon
-          icon={isEmptyArray(propertyV as any[]) ? 'array-empty' : 'array'}
-          size={24}
-          color={theme?.colors.accents7.value}
-        />
+        <Icon icon={isEmptyArray(propertyV as any[]) ? 'array-empty' : 'array'} size={24} color={iconColor} />
       )}
 
       {isPrimitiveData && (
         <Text
-          css={{
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
+          style={{
+            color: isNumberData ? semanticColors[theme].success[600] : undefined,
           }}
-          color={isNumberData ? '$green800' : undefined}
+          className="overflow-hidden text-ellipsis whitespace-nowrap"
         >
           {isStringData && JSON.stringify(propertyV)}
 
           {isNumberData && propertyV}
 
-          {isBooleanData && <BooleanBadge value={propertyV as boolean} size="xs" />}
+          {isBooleanData && <BooleanChip value={propertyV as boolean} size="sm" />}
 
-          {isNullData && <NullBadge size="xs" />}
+          {isNullData && <NullChip size="sm" />}
         </Text>
       )}
 
       {hasChildNode && (
-        <DefaultHandle style={{ backgroundColor: theme?.colors.gray400.value }} id={propertyK} type="source" />
+        <DefaultHandle style={{ backgroundColor: semanticColors[theme].default[300] }} id={propertyK} type="source" />
       )}
 
       {isHoveredFromNodeDetail && <HoveringBlueDot />}
-    </S_Host>
+    </div>
   );
 };
-
-const S_Host = styled('div', {
-  position: 'relative',
-  height: sizes.nodeContentHeight,
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  paddingRight: '$4',
-
-  '& + &': {
-    borderTop: '1px solid $gray400',
-  },
-});
 
 export const ObjectNodeProperty = memo(_ObjectNodeProperty);
