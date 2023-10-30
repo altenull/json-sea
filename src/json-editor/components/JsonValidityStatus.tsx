@@ -13,7 +13,7 @@ const _JsonValidityStatus = ({ style }: Props) => {
   const { theme } = useCustomTheme();
 
   return (
-    <span className="inline-flex items-center justify-center bg-backgroundAlpha p-4" style={style}>
+    <span className="inline-flex items-center justify-center rounded-bl-lg bg-backgroundAlpha p-2" style={style}>
       <Icon
         icon={isValidJson ? 'file-check' : 'file-block'}
         size={24}

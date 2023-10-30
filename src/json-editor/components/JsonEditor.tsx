@@ -32,7 +32,7 @@ const _JsonEditor = () => {
   );
 
   return (
-    <div className="border-r-border relative h-full w-full border-r-1 border-solid">
+    <div className="relative h-full w-full border-r-1 border-solid border-r-border">
       <Editor
         theme={isDarkMode ? 'vs-dark' : 'light'}
         defaultLanguage="json"
@@ -55,7 +55,6 @@ const _JsonEditor = () => {
           position: 'absolute',
           right: 0,
           top: 0,
-          borderBottomRightRadius: 7,
         }}
       />
 

@@ -2,7 +2,6 @@
 
 import { Resizable } from 're-resizable';
 import { useJsonEditorViewStore } from '../../store/json-editor-view/json-editor-view.store';
-import { sizes } from '../../ui/constants/sizes.constant';
 import { JsonEditor } from './JsonEditor';
 
 const _ResizableJsonEditor = () => {
@@ -15,11 +14,11 @@ const _ResizableJsonEditor = () => {
         display: isJsonEditorVisible ? 'initial' : 'none',
       }}
       defaultSize={{
-        width: sizes.jsonEditorWidth,
+        width: 320,
         height: '100%',
       }}
-      minWidth={sizes.jsonEditorMinWidth}
-      maxWidth={sizes.jsonEditorMaxWidth}
+      minWidth={272}
+      maxWidth={560}
       enable={{
         right: true,
       }}
