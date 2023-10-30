@@ -426,7 +426,7 @@
     "@nextui-org/shared-utils" "2.0.3"
     "@nextui-org/system" "2.0.10"
 
-"@nextui-org/image@2.0.21":
+"@nextui-org/image@2.0.21", "@nextui-org/image@^2.0.21":
   version "2.0.21"
   resolved "https://registry.yarnpkg.com/@nextui-org/image/-/image-2.0.21.tgz#54b9c59cb6e6657b922483c54848c8414622bbd1"
   integrity sha512-J1cYO+hBd7Ktr4JI0Hm7/ZW6UlhAyz3hx/BhNLhVQdQPtuUIlIkLWFahdVTIhYiq3hi1hD9JAGdRWhpRs2iDfA==
@@ -467,7 +467,7 @@
     "@nextui-org/theme" "2.1.9"
     "@react-aria/utils" "^3.20.0"
 
-"@nextui-org/link@2.0.22":
+"@nextui-org/link@2.0.22", "@nextui-org/link@^2.0.22":
   version "2.0.22"
   resolved "https://registry.yarnpkg.com/@nextui-org/link/-/link-2.0.22.tgz#548a7e5648c1496b1640d646c065e042d91a42b1"
   integrity sha512-m6M3/tNinrsiIw6elj5JzY6lzK4pWquLVqjRrhDR3kNGRP48ymgKsN64T/pUgKTTlm70hS3ew3xhRs+s4budMw==
@@ -829,7 +829,7 @@
     "@react-aria/i18n" "^3.8.2"
     "@react-aria/overlays" "^3.17.0"
 
-"@nextui-org/table@2.0.23":
+"@nextui-org/table@2.0.23", "@nextui-org/table@^2.0.23":
   version "2.0.23"
   resolved "https://registry.yarnpkg.com/@nextui-org/table/-/table-2.0.23.tgz#47bdc1da9c90089e442b156dfc1c16b8f01d6f3d"
   integrity sha512-xuYvcsmx4lXRFK7NbzQ9+O81PM3cTx3gHHKBg3VXkjAnQmUr8Pik6dUMLHiGwm501FDiY/pxnw91WEmuJ5e/Hg==
