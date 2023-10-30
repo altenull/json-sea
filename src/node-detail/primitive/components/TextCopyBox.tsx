@@ -1,5 +1,6 @@
-import { Badge, styled, Text } from '@nextui-org/react';
+import { Chip } from '@nextui-org/chip';
 import { memo, useCallback, useEffect } from 'react';
+import { Text } from '../../../ui/components/Text';
 import { isNull } from '../../../utils/json.util';
 import useCopyToClipboard from '../../../utils/react-hooks/useCopyToClipboard';
 import { useHover } from '../../../utils/react-hooks/useHover';
@@ -23,39 +24,21 @@ const _TextCopyBox = ({ text }: Props) => {
   }, [clearClipboard, isHostHovered]);
 
   return (
-    <S_Host ref={hostRef} onClick={copyText}>
+    <div ref={hostRef} className="relative cursor-pointer rounded-lg p-2 hover:bg-default-100" onClick={copyText}>
       {isHostHovered && (
-        <S_Badge variant="flat" color="success" size="xs">
+        <Chip
+          className="absolute left-2 top-1/2 -translate-y-1/2 text-xs opacity-100"
+          variant="faded"
+          color="success"
+          size="sm"
+        >
           {isNull(copiedText) ? 'Copy?' : 'Copied!'}
-        </S_Badge>
+        </Chip>
       )}
 
-      <Text
-        css={{ overflowX: 'auto', whiteSpace: 'nowrap', wordBreak: 'break-all', textAlign: 'right' }}
-        weight="medium"
-      >
-        {text}
-      </Text>
-    </S_Host>
+      <Text className="overflow-x-auto whitespace-nowrap break-all text-right font-medium">{text}</Text>
+    </div>
   );
 };
-
-const S_Host = styled('div', {
-  position: 'relative',
-  padding: '$4',
-  borderRadius: '$xs',
-  cursor: 'pointer',
-
-  '&:hover': {
-    backgroundColor: '$gray100',
-  },
-});
-
-const S_Badge = styled(Badge, {
-  position: 'absolute',
-  left: '$4',
-  top: '50%',
-  transform: 'translateY(-50%)',
-});
 
 export const TextCopyBox = memo(_TextCopyBox);

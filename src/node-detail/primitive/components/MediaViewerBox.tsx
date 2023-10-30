@@ -5,7 +5,7 @@ type Props = {
 };
 
 const _MediaViewerBox = ({ children }: Props) => {
-  return <div className="rounded-sm bg-gray-50 p-4">{children}</div>;
+  return <div className="rounded-lg bg-default-100 p-2">{children}</div>;
 };
 
 export const MediaViewerBox = memo(_MediaViewerBox);

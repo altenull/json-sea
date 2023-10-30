@@ -1,6 +1,8 @@
-import { Card, CSS, Text } from '@nextui-org/react';
-import { memo, useMemo } from 'react';
+import { Card, CardBody, CardFooter } from '@nextui-org/card';
+import { Image } from '@nextui-org/image';
+import { memo } from 'react';
 import { JsonLink } from '../../../api/json-link-api/json-link.types';
+import { Text } from '../../../ui/components/Text';
 import { isEmptyArray } from '../../../utils/array.util';
 import { isString } from '../../../utils/json.util';
 import { openLinkAsNewTab } from '../../../utils/window.util';
@@ -12,43 +14,34 @@ type Props = {
 const _PreviewOgMeta = ({ jsonLink }: Props) => {
   const { title, description, images } = jsonLink;
 
-  const textEllipsisCss: CSS = useMemo(
-    () => ({
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-    }),
-    []
-  );
-
   if (!isString(title) && !isString(description) && isEmptyArray(images)) {
     return null;
   }
 
   return (
-    <Card variant="bordered" isPressable onClick={() => openLinkAsNewTab(jsonLink.url)}>
+    <Card isPressable shadow="sm" onClick={() => openLinkAsNewTab(jsonLink.url)}>
       {images.length > 0 && (
-        <Card.Body css={{ p: 0 }}>
-          <Card.Image src={images[0]} objectFit="cover" width="100%" height={120} alt={title} />
-        </Card.Body>
+        <CardBody className="p-0">
+          <Image className="h-[120px] object-cover" src={images[0]} width="100%" alt={title} />
+        </CardBody>
       )}
 
-      <Card.Footer css={{ display: 'block', p: '$xs' }}>
+      <CardFooter className="flex-col items-start">
         {isString(title) && (
-          <Text css={{ ...textEllipsisCss, fontSize: '$sm', fontWeight: '$bold' }} title={title}>
+          <Text className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold" title={title}>
             {title}
           </Text>
         )}
 
         {isString(description) && (
           <Text
-            css={{ ...textEllipsisCss, color: '$accents7', fontSize: '$xs', fontWeight: '$medium' }}
+            className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-normal text-zinc-400"
             title={description}
           >
             {description}
           </Text>
         )}
-      </Card.Footer>
+      </CardFooter>
     </Card>
   );
 };

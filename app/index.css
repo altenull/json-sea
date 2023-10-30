@@ -16,4 +16,12 @@
   .node-shell-primitive {
     @apply min-w-nodeMinWidth py-nodePadding pl-nodePadding rounded-bl-full rounded-tl-full;
   }
+
+  /* shared */
+  .blue-dot-for-node {
+    @apply absolute right-0 top-1/2  min-h-[10px] min-w-[10px] -translate-y-1/2 translate-x-[70%] rounded-full bg-blue-600;
+  }
+  .blue-dot-for-card {
+    @apply absolute right-0 top-[24px] min-h-[40px] min-w-[40px] translate-x-1/2 rounded-full bg-blue-600/40;
+  }
 }

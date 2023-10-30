@@ -1,11 +1,11 @@
 'use client';
 
-import { Card, Grid } from '@nextui-org/react';
+import { CardBody, CardHeader } from '@nextui-org/card';
 import { ReactElement, isValidElement, memo, useEffect, useMemo, useState } from 'react';
 import { JsonDataType } from '../../store/json-engine/enums/json-data-type.enum';
 import { getJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
-import { BooleanBadge } from '../../ui/components/BooleanBadge';
-import { NullBadge } from '../../ui/components/NullBadge';
+import { BooleanChip } from '../../ui/components/BooleanChip';
+import { NullChip } from '../../ui/components/NullChip';
 import { isBoolean, isNull, isNumber, isString } from '../../utils/json.util';
 import { NumberInspector } from '../primitive/components/NumberInspector';
 import { StringInspector } from '../primitive/components/StringInspector';
@@ -14,7 +14,7 @@ import { StringSubtypeValidator, validateStringSubtype } from '../primitive/help
 import { DataTypeText } from './DataTypeText';
 
 type Props = {
-  badge?: ReactElement;
+  chip?: ReactElement;
   value: string | number | boolean | null;
 };
 
@@ -33,10 +33,10 @@ const getStringSubtypeText = (stringSubtypeValidator: StringSubtypeValidator): s
   return '';
 };
 
-const _DetailPrimitive = ({ badge, value }: Props) => {
+const _DetailPrimitive = ({ chip, value }: Props) => {
   const [isStringSubtypeLoading, setIsStringSubtypeLoading] = useState<boolean>(isString(value));
   const [stringSubtypeValidator, setStringSubtypeValidator] = useState<StringSubtypeValidator>(
-    ALL_FALSE_STRING_SUBTYPE_VALIDATOR
+    ALL_FALSE_STRING_SUBTYPE_VALIDATOR,
   );
 
   useEffect(() => {
@@ -58,17 +58,14 @@ const _DetailPrimitive = ({ badge, value }: Props) => {
 
   return (
     <>
-      <Card.Header>
-        <Grid.Container direction="column">
-          {isValidElement(badge) && <Grid>{badge}</Grid>}
+      <CardHeader>
+        <div className="flex flex-col gap-1">
+          {isValidElement(chip) && chip}
+          <DataTypeText value={dataTypeText} />
+        </div>
+      </CardHeader>
 
-          <Grid>
-            <DataTypeText>{dataTypeText}</DataTypeText>
-          </Grid>
-        </Grid.Container>
-      </Card.Header>
-
-      <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
+      <CardBody className="px-3 pb-unit-sm pt-0">
         {isString(value) && (
           <StringInspector
             stringSubtypeValidator={stringSubtypeValidator}
@@ -79,10 +76,10 @@ const _DetailPrimitive = ({ badge, value }: Props) => {
 
         {isNumber(value) && <NumberInspector value={value} />}
 
-        {isBoolean(value) && <BooleanBadge css={{ marginLeft: 'auto' }} value={value} />}
+        {isBoolean(value) && <BooleanChip className="ml-auto" value={value} />}
 
-        {isNull(value) && <NullBadge css={{ marginLeft: 'auto' }} />}
-      </Card.Body>
+        {isNull(value) && <NullChip className="ml-auto" />}
+      </CardBody>
     </>
   );
 };

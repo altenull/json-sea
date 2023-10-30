@@ -1,8 +1,8 @@
-import { Card, Grid } from '@nextui-org/react';
-import { ForwardedRef, forwardRef, Fragment, memo, useCallback } from 'react';
+import { Card, CardBody, CardHeader } from '@nextui-org/card';
+import { ForwardedRef, Fragment, forwardRef, memo, useCallback } from 'react';
 import { InferredDataType } from '../enums/inferred-data-type.enum';
 import { InferredDataTypeText } from './InferredDataTypeText';
-import { PropertyKeyBadge } from './PropertyKeyBadge';
+import { PropertyKeyChip } from './PropertyKeyChip';
 
 type Props = {
   propertyKeys: string[];
@@ -12,15 +12,15 @@ type Props = {
 
 const _InferredDetailCard = (
   { propertyKeys, inferredDataType, children }: Props,
-  ref: ForwardedRef<HTMLDivElement>
+  ref: ForwardedRef<HTMLDivElement>,
 ) => {
-  const renderPropertyKeyBadges = useCallback(() => {
+  const renderPropertyKeyChips = useCallback(() => {
     return propertyKeys.map((propertyK: string, index: number, selfArray: string[]) => {
       const isLast: boolean = index === selfArray.length - 1;
 
       return (
         <Fragment key={propertyK}>
-          <PropertyKeyBadge inferred propertyK={propertyK} />
+          <PropertyKeyChip inferred propertyK={propertyK} />
           {!isLast && ` + `}
         </Fragment>
       );
@@ -28,17 +28,17 @@ const _InferredDetailCard = (
   }, [propertyKeys]);
 
   return (
-    <Card ref={ref} variant="bordered" isHoverable>
-      <Card.Header>
-        <Grid.Container direction="column">
-          <Grid>{renderPropertyKeyBadges()}</Grid>
-          <Grid>
-            <InferredDataTypeText dataType={inferredDataType} />
-          </Grid>
-        </Grid.Container>
-      </Card.Header>
+    <Card ref={ref} fullWidth shadow="sm" className="group">
+      <span className="blue-dot-for-card invisible group-hover:visible" />
 
-      <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>{children}</Card.Body>
+      <CardHeader>
+        <div className="flex flex-col gap-1">
+          <div>{renderPropertyKeyChips()}</div>
+          <InferredDataTypeText dataType={inferredDataType} />
+        </div>
+      </CardHeader>
+
+      <CardBody className="px-3 pb-unit-sm pt-0">{children}</CardBody>
     </Card>
   );
 };

@@ -1,4 +1,4 @@
-import { Card } from '@nextui-org/react';
+import { Card } from '@nextui-org/card';
 import { ForwardedRef, forwardRef, memo, ReactElement } from 'react';
 import { isArray, isString } from '../../utils/json.util';
 import { DetailArray } from './DetailArray';
@@ -13,7 +13,9 @@ type Props = {
 
 const _NodeDetailCard = ({ chip, value, childObjectNodeId }: Props, ref: ForwardedRef<HTMLDivElement>) => {
   return (
-    <Card ref={ref} isHoverable>
+    <Card ref={ref} fullWidth shadow="sm" className="group">
+      <span className="blue-dot-for-card invisible group-hover:visible" />
+
       {isString(childObjectNodeId) ? (
         <DetailObject chip={chip} obj={value as object} childObjectNodeId={childObjectNodeId} />
       ) : isArray(value) ? (

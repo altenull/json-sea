@@ -33,7 +33,7 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
   const iconColor = semanticColors[theme].default[500];
 
   return (
-    <div className="h-nodeContentHeight relative flex items-center justify-between pr-2 [&+&]:border-t-1 [&+&]:border-solid [&+&]:border-t-default-300">
+    <div className="h-nodeContentHeight relative flex items-center justify-between pr-2 [&+&]:border-t-1 [&+&]:border-solid [&+&]:border-t-default-200">
       <Text className="mr-4 font-medium text-primary">{propertyK}</Text>
 
       {isObjectData && (

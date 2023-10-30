@@ -1,19 +1,20 @@
 import Editor from '@monaco-editor/react';
-import { Card, useTheme } from '@nextui-org/react';
+import { Card } from '@nextui-org/card';
 import { memo } from 'react';
 import { formatJsonLikeData } from '../../../utils/json.util';
+import { useCustomTheme } from '../../../utils/react-hooks/useCustomTheme';
 
 type Props = {
   array: any[];
 };
 
 const _ArrayInspector = ({ array }: Props) => {
-  const { isDark } = useTheme();
+  const { isDarkMode } = useCustomTheme();
 
   return (
-    <Card variant="bordered" css={{ height: '160px' }}>
+    <Card className="h-[160px]" shadow="sm">
       <Editor
-        theme={isDark ? 'vs-dark' : 'light'}
+        theme={isDarkMode ? 'vs-dark' : 'light'}
         defaultLanguage="json"
         options={{
           minimap: {

@@ -6,7 +6,7 @@ type Props = {
   className?: any;
 };
 
-const _NullChip = ({ size, className }: Props) => {
+const _NullChip = ({ size = 'md', className }: Props) => {
   return (
     <Chip className={className} variant="flat" size={size} color="default" radius="sm">
       {JSON.stringify(null)}

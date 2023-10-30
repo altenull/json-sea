@@ -1,4 +1,5 @@
-import { Button, Card, Grid } from '@nextui-org/react';
+import { Button } from '@nextui-org/button';
+import { CardBody, CardHeader } from '@nextui-org/card';
 import { ReactElement, isValidElement, memo, useMemo } from 'react';
 import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { JsonDataType } from '../../store/json-engine/enums/json-data-type.enum';
@@ -7,12 +8,12 @@ import { formatCounting } from '../../utils/string.util';
 import { DataTypeText } from './DataTypeText';
 
 type Props = {
-  badge?: ReactElement;
+  chip?: ReactElement;
   obj: object;
   childObjectNodeId: string;
 };
 
-const _DetailObject = ({ badge, obj, childObjectNodeId }: Props) => {
+const _DetailObject = ({ chip, obj, childObjectNodeId }: Props) => {
   const selectNode = useJsonDiagramViewStore((state) => state.selectNode);
 
   const dataTypeText: string = useMemo(() => {
@@ -24,21 +25,18 @@ const _DetailObject = ({ badge, obj, childObjectNodeId }: Props) => {
 
   return (
     <>
-      <Card.Header>
-        <Grid.Container direction="column">
-          {isValidElement(badge) && <Grid>{badge}</Grid>}
+      <CardHeader>
+        <div className="flex flex-col gap-1">
+          {isValidElement(chip) && chip}
+          <DataTypeText value={dataTypeText} />
+        </div>
+      </CardHeader>
 
-          <Grid>
-            <DataTypeText>{dataTypeText}</DataTypeText>
-          </Grid>
-        </Grid.Container>
-      </Card.Header>
-
-      <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
-        <Button flat size="sm" color="primary" onPress={() => selectNode(childObjectNodeId)}>
+      <CardBody className="px-3 pb-unit-sm pt-0">
+        <Button variant="flat" size="sm" color="primary" onPress={() => selectNode(childObjectNodeId)}>
           View object
         </Button>
-      </Card.Body>
+      </CardBody>
     </>
   );
 };

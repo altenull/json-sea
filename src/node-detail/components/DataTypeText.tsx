@@ -2,11 +2,11 @@ import { memo } from 'react';
 import { Text } from '../../ui/components/Text';
 
 type Props = {
-  children: React.ReactNode;
+  value: string;
 };
 
-const _DataTypeText = ({ children }: Props) => {
-  return <Text className="text-sm font-medium italic text-gray-800">{children}</Text>;
+const _DataTypeText = ({ value }: Props) => {
+  return <Text className="text-xs font-normal italic text-zinc-400">{value}</Text>;
 };
 
 export const DataTypeText = memo(_DataTypeText);

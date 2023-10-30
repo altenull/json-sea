@@ -1,4 +1,4 @@
-import { Link } from '@nextui-org/react';
+import { Link } from '@nextui-org/link';
 import { memo } from 'react';
 import { externalLink } from '../../environment';
 import { Text } from '../../ui/components/Text';
@@ -7,7 +7,7 @@ const _Copyright = () => {
   const renderCreatedBy = () => (
     <>
       Created by{' '}
-      <Link href={externalLink.altenullGithub} target="_blank" rel="noopener noreferrer">
+      <Link isExternal href={externalLink.altenullGithub} size="sm">
         altenull
       </Link>
     </>
@@ -20,7 +20,7 @@ const _Copyright = () => {
   };
 
   return (
-    <Text className="mt-auto text-right text-sm text-gray-600">
+    <Text className="mt-auto text-right text-sm text-default-500">
       {renderCreatedBy()} · {renderCopyright()}
     </Text>
   );

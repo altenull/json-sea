@@ -18,9 +18,8 @@ const _MIMETypeAndSize = ({ mediaSrc }: Props) => {
 
   return (
     <div className="flex items-center justify-between">
-      <Text className="text-sm text-gray-800">{data.mimeType}</Text>
-
-      <Text className="text-sm text-gray-800">{isNumber(data.mimeBytes) ? prettyBytes(data.mimeBytes) : ''}</Text>
+      <Text className="text-xs text-zinc-400">{data.mimeType}</Text>
+      <Text className="text-xs text-zinc-400">{isNumber(data.mimeBytes) ? prettyBytes(data.mimeBytes) : ''}</Text>
     </div>
   );
 };

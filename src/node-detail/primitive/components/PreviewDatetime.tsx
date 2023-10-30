@@ -1,7 +1,7 @@
-import { Table } from '@nextui-org/react';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
 import { addMinutes, format } from 'date-fns';
 import { Key, memo, useEffect, useState } from 'react';
-import { PropertyValueTableColumnKey, PROPERTY_VALUE_TABLE_COLUMNS } from './PropertyValueTable';
+import { PROPERTY_VALUE_TABLE_COLUMNS, PropertyValueTableColumnKey } from './PropertyValueTable';
 import { RelativeTimeFormatter } from './RelativeTimeFormatter';
 
 type Props = {
@@ -42,7 +42,7 @@ const _PreviewDatetime = ({ datetime }: Props) => {
         ({
           property: propertyName,
           value: map[propertyName],
-        } as Row)
+        }) as Row,
     );
 
     setRows(rows);
@@ -50,40 +50,40 @@ const _PreviewDatetime = ({ datetime }: Props) => {
 
   return (
     <Table
-      lined
-      sticked
-      aria-label="datetime table"
-      css={{
-        height: 'auto',
-        minWidth: '100%',
-        padding: '$1',
+      className="h-auto min-w-full"
+      classNames={{
+        wrapper: 'py-1 px-2',
       }}
+      hideHeader
+      fullWidth
+      aria-label="datetime table"
     >
-      <Table.Header columns={PROPERTY_VALUE_TABLE_COLUMNS}>
-        {({ key, label }) => (
-          <Table.Column key={key} css={{ display: 'none' }}>
-            {label}
-          </Table.Column>
-        )}
-      </Table.Header>
+      <TableHeader columns={PROPERTY_VALUE_TABLE_COLUMNS}>
+        {({ key, label }) => <TableColumn key={key}>{label}</TableColumn>}
+      </TableHeader>
 
-      <Table.Body items={rows} css={{ fontSize: '$xs' }}>
+      <TableBody items={rows}>
         {(row) => (
-          <Table.Row key={row.property}>
-            {(columnKey: Key) => (
-              <Table.Cell
-                css={{ fontWeight: columnKey === PropertyValueTableColumnKey.Property ? '$medium' : '$normal' }}
-              >
-                {row.property === 'Relative' && columnKey === PropertyValueTableColumnKey.Value ? (
-                  <RelativeTimeFormatter unixTimestamp={row[columnKey as PropertyValueTableColumnKey] as number} />
-                ) : (
-                  row[columnKey as PropertyValueTableColumnKey]
-                )}
-              </Table.Cell>
-            )}
-          </Table.Row>
+          <TableRow key={row.property} className="[&+&]:border-t-1 [&+&]:border-solid [&+&]:border-t-default-200">
+            {(columnKey: Key) => {
+              const isPropertyColumn = columnKey === PropertyValueTableColumnKey.Property;
+              const isValueColumn = columnKey === PropertyValueTableColumnKey.Value;
+
+              return (
+                <TableCell
+                  className={isPropertyColumn ? 'text-xs font-semibold' : 'text-xs font-normal text-default-600'}
+                >
+                  {row.property === 'Relative' && isValueColumn ? (
+                    <RelativeTimeFormatter unixTimestamp={row[columnKey as PropertyValueTableColumnKey] as number} />
+                  ) : (
+                    row[columnKey as PropertyValueTableColumnKey]
+                  )}
+                </TableCell>
+              );
+            }}
+          </TableRow>
         )}
-      </Table.Body>
+      </TableBody>
     </Table>
   );
 };

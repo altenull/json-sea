@@ -45,7 +45,16 @@ const _DownloadImageButton = () => {
       onClick={isDownloading ? undefined : handleClick}
     >
       {isDownloading ? (
-        <CircularProgress color="default" size="sm" aria-label="Loading..." />
+        <CircularProgress
+          classNames={{
+            svg: 'w-5 h-5',
+            indicator: 'stroke-[4px] stroke-default-500',
+            track: 'stroke-[4px] stroke-default-200',
+          }}
+          color="default"
+          size="sm"
+          aria-label="Loading..."
+        />
       ) : (
         <Icon icon="camera" size={24} color={semanticColors[theme].default[500]} />
       )}

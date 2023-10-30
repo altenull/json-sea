@@ -7,8 +7,7 @@ type Props = {
 
 const _NodeDetailChip = ({ value }: Props) => {
   return (
-    // TODO: enableShadow
-    <Chip variant="flat" color="default" size="lg" radius="sm">
+    <Chip variant="faded" color="default" size="lg" radius="sm">
       {value}
     </Chip>
   );

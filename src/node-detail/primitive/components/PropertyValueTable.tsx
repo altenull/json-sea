@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
 import { Key, memo } from 'react';
 
 type Props = {
@@ -28,25 +28,33 @@ export const PROPERTY_VALUE_TABLE_COLUMNS = [
 
 const _PropertyValueTable = ({ rows, ariaLabel }: Props) => {
   return (
-    <Table className="h-auto min-w-full p-1" isStriped aria-label={ariaLabel}>
+    <Table
+      className="h-auto min-w-full"
+      classNames={{
+        wrapper: 'py-1 px-2',
+      }}
+      hideHeader
+      fullWidth
+      aria-label={ariaLabel}
+    >
       <TableHeader columns={PROPERTY_VALUE_TABLE_COLUMNS}>
-        {({ key, label }) => (
-          <TableColumn key={key} className="hidden">
-            {label}
-          </TableColumn>
-        )}
+        {({ key, label }) => <TableColumn key={key}>{label}</TableColumn>}
       </TableHeader>
 
-      <TableBody items={rows} className="text-sm">
+      <TableBody items={rows} className="[&+&]:border-t-1 [&+&]:border-solid [&+&]:border-t-default-200">
         {(row) => (
-          <TableRow key={row.property}>
-            {(columnKey: Key) => (
-              <TableCell
-                className={`${columnKey === PropertyValueTableColumnKey.Property ? 'font-medium' : 'font-normal'}`}
-              >
-                {row[columnKey as PropertyValueTableColumnKey]}
-              </TableCell>
-            )}
+          <TableRow key={row.property} className="[&+&]:border-t-1 [&+&]:border-solid [&+&]:border-t-default-200">
+            {(columnKey: Key) => {
+              const isPropertyColumn = columnKey === PropertyValueTableColumnKey.Property;
+
+              return (
+                <TableCell
+                  className={isPropertyColumn ? 'text-xs font-semibold' : 'text-xs font-normal text-default-600'}
+                >
+                  {row[columnKey as PropertyValueTableColumnKey]}
+                </TableCell>
+              );
+            }}
           </TableRow>
         )}
       </TableBody>

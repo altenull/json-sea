@@ -13,7 +13,7 @@ const _NumberInspector = ({ value }: Props) => {
   return (
     <>
       <TextCopyBox text={`${value}`} />
-      <Text className="pr-4 text-right text-sm text-gray-800">{intlNumberFormat.format(value)}</Text>
+      <Text className="pr-2 text-right text-sm font-light text-default-400">{intlNumberFormat.format(value)}</Text>
     </>
   );
 };

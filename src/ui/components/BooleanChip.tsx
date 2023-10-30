@@ -7,7 +7,7 @@ type Props = {
   className?: any;
 };
 
-const _BooleanChip = ({ value, size, className }: Props) => {
+const _BooleanChip = ({ value, size = 'md', className }: Props) => {
   return (
     <Chip className={className} variant="flat" size={size} color={value ? 'success' : 'danger'} radius="sm">
       {JSON.stringify(value)}

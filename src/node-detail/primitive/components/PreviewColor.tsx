@@ -5,7 +5,7 @@ type Props = {
 };
 
 const _PreviewColor = ({ color }: Props) => {
-  return <div className={`h-[24px] w-full rounded-lg bg-[${color}]`} />;
+  return <div style={{ backgroundColor: color }} className="h-[24px] w-full rounded-full" />;
 };
 
 export const PreviewColor = memo(_PreviewColor);

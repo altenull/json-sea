@@ -1,4 +1,4 @@
-import { Image } from '@nextui-org/react';
+import { Image } from '@nextui-org/image';
 import { memo } from 'react';
 import { openLinkAsNewTab } from '../../../utils/window.util';
 import { ImageSrc } from '../types/media-src.type';
@@ -13,7 +13,10 @@ const _ImageViewer = ({ imageSrc }: Props) => {
   return (
     <MediaViewerBox>
       <Image
-        className="m-auto block h-[120px] w-auto cursor-pointer shadow-md"
+        className="mx-auto block h-[120px] w-auto cursor-pointer"
+        removeWrapper
+        radius="none"
+        shadow="sm"
         src={imageSrc}
         alt="image preview"
         onClick={() => openLinkAsNewTab(imageSrc)}

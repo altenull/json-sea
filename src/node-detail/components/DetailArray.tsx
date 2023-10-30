@@ -1,5 +1,5 @@
-import { Card, Grid } from '@nextui-org/react';
-import { isValidElement, memo, ReactElement, useMemo } from 'react';
+import { CardBody, CardHeader } from '@nextui-org/card';
+import { ReactElement, isValidElement, memo, useMemo } from 'react';
 import { JsonDataType } from '../../store/json-engine/enums/json-data-type.enum';
 import { getJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { formatCounting } from '../../utils/string.util';
@@ -7,11 +7,11 @@ import { ArrayInspector } from '../array/components/ArrayInspector';
 import { DataTypeText } from './DataTypeText';
 
 type Props = {
-  badge?: ReactElement;
+  chip?: ReactElement;
   array: any[];
 };
 
-const _DetailArray = ({ badge, array }: Props) => {
+const _DetailArray = ({ chip, array }: Props) => {
   const dataTypeText: string = useMemo(() => {
     const jsonDataType: JsonDataType = getJsonDataType(array);
     const counting: string = formatCounting(array.length, 'item', 'items');
@@ -21,19 +21,16 @@ const _DetailArray = ({ badge, array }: Props) => {
 
   return (
     <>
-      <Card.Header>
-        <Grid.Container direction="column">
-          {isValidElement(badge) && <Grid>{badge}</Grid>}
+      <CardHeader>
+        <div className="flex flex-col gap-1">
+          {isValidElement(chip) && chip}
+          <DataTypeText value={dataTypeText} />
+        </div>
+      </CardHeader>
 
-          <Grid>
-            <DataTypeText>{dataTypeText}</DataTypeText>
-          </Grid>
-        </Grid.Container>
-      </Card.Header>
-
-      <Card.Body css={{ paddingTop: 0, paddingBottom: '$sm' }}>
+      <CardBody className="px-3 pb-unit-sm pt-2">
         <ArrayInspector array={array} />
-      </Card.Body>
+      </CardBody>
     </>
   );
 };

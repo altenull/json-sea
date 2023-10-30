@@ -18,10 +18,12 @@ module.exports = {
       minWidth: {
         arrayNodeSize: sizes.arrayNodeSize,
         nodeMinWidth: sizes.nodeMinWidth,
+        nodeDetailPanelWidth: sizes.nodeDetailPanelWidth,
       },
       maxWidth: {
         arrayNodeSize: sizes.arrayNodeSize,
         nodeMaxWidth: sizes.nodeMaxWidth,
+        nodeDetailPanelWidth: sizes.nodeDetailPanelWidth,
       },
       minHeight: {
         arrayNodeSize: sizes.arrayNodeSize,

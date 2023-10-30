@@ -9,12 +9,12 @@ type Props = {
 const _InferredDataTypeText = ({ dataType }: Props) => {
   const inferredDataTypeToTextMap: Record<InferredDataType, string> = useMemo(
     () => ({
-      [InferredDataType.LatLngMap]: 'latLng',
+      [InferredDataType.LatLngMap]: 'inferred/latLng',
     }),
-    []
+    [],
   );
 
-  return <DataTypeText>inferred/{inferredDataTypeToTextMap[dataType]}</DataTypeText>;
+  return <DataTypeText value={inferredDataTypeToTextMap[dataType]} />;
 };
 
 export const InferredDataTypeText = memo(_InferredDataTypeText);
