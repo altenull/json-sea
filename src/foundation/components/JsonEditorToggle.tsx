@@ -17,7 +17,7 @@ const _JsonEditorToggle = () => {
       <Icon
         icon={isJsonEditorVisible ? 'left-arrow-with-bar' : 'right-arrow-with-bar'}
         size={24}
-        color={semanticColors[theme].default[600]}
+        color={semanticColors[theme].default[500]}
       />
     </CircleTransparentButton>
   );

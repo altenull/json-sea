@@ -11,7 +11,7 @@ const _GithubButton = () => {
 
   return (
     <CircleTransparentButton onClick={() => openLinkAsNewTab(externalLink.jsonSeaGithubRepo)}>
-      <Icon icon="github" size={24} color={semanticColors[theme].default[600]} />
+      <Icon icon="github" size={24} color={semanticColors[theme].default[500]} />
     </CircleTransparentButton>
   );
 };
