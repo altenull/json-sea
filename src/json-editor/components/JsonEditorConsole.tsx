@@ -1,11 +1,11 @@
 import { Button } from '@nextui-org/button';
+import { useDisclosure } from '@nextui-org/modal';
 import { semanticColors } from '@nextui-org/react';
 import { Tooltip } from '@nextui-org/tooltip';
 import { ComponentProps, memo, useMemo } from 'react';
 import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { Icon } from '../../ui/icon/Icon';
 import { downloadAsFile } from '../../utils/file-download.util';
-import { useBoolean } from '../../utils/react-hooks/useBoolean';
 import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 import { ImportJsonModal } from './ImportJsonModal';
 
@@ -16,7 +16,7 @@ type Props = {
 const _JsonEditorConsole = ({ style }: Props) => {
   const [stringifiedJson, isValidJson] = useJsonEngineStore((state) => [state.stringifiedJson, state.isValidJson]);
 
-  const { bool: isImportJsonModalOpen, setTrue: openImportJsonModal, setFalse: closeImportJsonModal } = useBoolean();
+  const { isOpen: isImportJsonModalOpen, onOpen: openImportJsonModal, onClose: closeImportJsonModal } = useDisclosure();
   const { theme } = useCustomTheme();
 
   const handleDownloadJsonClick = () => {
@@ -46,9 +46,7 @@ const _JsonEditorConsole = ({ style }: Props) => {
 
   return (
     <>
-      {isImportJsonModalOpen && (
-        <ImportJsonModal isModalOpen={isImportJsonModalOpen} closeModal={closeImportJsonModal} />
-      )}
+      <ImportJsonModal isModalOpen={isImportJsonModalOpen} closeModal={closeImportJsonModal} />
 
       <div
         className="flex items-center justify-between gap-1 border-t-1 border-solid border-t-border bg-cyan-50 px-2 py-1 dark:bg-cyan-900"

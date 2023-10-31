@@ -9,6 +9,11 @@ type Props = {
   afterFileReadSuccess: () => void;
 };
 
+const dropzoneClassName = {
+  normal: 'json-dropzone-base bg-default-50',
+  dragging: 'json-dropzone-base bg-success-200',
+};
+
 const _DragDropJsonFile = ({ afterFileReadSuccess }: Props) => {
   const fileInputId: string = useId();
   const { theme } = useCustomTheme();
@@ -26,17 +31,15 @@ const _DragDropJsonFile = ({ afterFileReadSuccess }: Props) => {
 
       <label
         ref={dropzoneRef}
-        className={`${
-          isDragging ? 'bg-success-200' : 'bg-gray-50'
-        } border-border flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed hover:bg-gray-100`}
+        className={isDragging ? dropzoneClassName.dragging : dropzoneClassName.normal}
         htmlFor={fileInputId}
       >
         <Icon
           icon="cloud-upload"
           size={40}
-          color={isDragging ? (semanticColors[theme].success as any).DEFAULT : semanticColors[theme].default[600]}
+          color={isDragging ? (semanticColors[theme].success as any).DEFAULT : semanticColors[theme].default[500]}
         />
-        <Text className={`text-sm ${isDragging ? 'text-success' : 'text-default-900'}`}>
+        <Text className={isDragging ? 'text-sm text-success' : 'text-sm text-default-800'}>
           {isDragging ? 'Drop it to import' : 'Drop a your JSON file, or click here'}
         </Text>
       </label>

@@ -1,9 +1,12 @@
 'use client';
 
-import { Button, FormElement, Input, Loading, Modal, Row, Text } from '@nextui-org/react';
-import { memo, useCallback, useEffect } from 'react';
+import { Button } from '@nextui-org/button';
+import { Input } from '@nextui-org/input';
+import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/modal';
+import { ComponentProps, memo, useCallback, useEffect } from 'react';
 import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
+import { Text } from '../../ui/components/Text';
 import { formatJsonLikeData, isArray, isNull, isObject, isValidJson } from '../../utils/json.util';
 import { useSimpleFetch } from '../../utils/react-hooks/useSimpleFetch';
 import { useString } from '../../utils/react-hooks/useString';
@@ -15,7 +18,12 @@ type Props = {
 };
 
 const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
-  const { string: jsonUrlValue, isEmpty: isJsonUrlValueEmpty, setString: setJsonUrlValue } = useString();
+  const {
+    string: jsonUrlValue,
+    isEmpty: isJsonUrlValueEmpty,
+    setString: setJsonUrlValue,
+    clearString: clearJsonUrlValue,
+  } = useString();
   const {
     loading: isGetJsonLoading,
     data: getJsonResponse,
@@ -27,19 +35,31 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
   const setStringifiedJson = useJsonEngineStore((state) => state.setStringifiedJson);
   const resetSelectedNode = useJsonDiagramViewStore((state) => state.resetSelectedNode);
 
-  const handleJsonUrlValueChange = useCallback(
-    (e: React.ChangeEvent<FormElement>) => {
+  const handleJsonUrlValueChange: ComponentProps<typeof Input>['onChange'] = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       setJsonUrlValue(e.target.value);
       resetGetJsonError();
     },
-    [setJsonUrlValue, resetGetJsonError]
+    [setJsonUrlValue, resetGetJsonError],
   );
 
-  const handleJsonUrlInputKeyDown: React.KeyboardEventHandler<FormElement> = (e) => {
+  const handleJsonUrlValueClear: ComponentProps<typeof Input>['onClear'] = useCallback(() => {
+    clearJsonUrlValue();
+    resetGetJsonError();
+  }, [clearJsonUrlValue, resetGetJsonError]);
+
+  const handleJsonUrlInputKeyDown: ComponentProps<typeof Input>['onKeyDown'] = (e) => {
     if (e.key === 'Enter' && !isJsonUrlValueEmpty) {
       fetchJsonUrl(jsonUrlValue);
     }
   };
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      resetGetJsonError();
+      clearJsonUrlValue();
+    }
+  }, [isModalOpen, resetGetJsonError, clearJsonUrlValue]);
 
   useEffect(() => {
     if (isObject(getJsonResponse) || isArray(getJsonResponse)) {
@@ -53,47 +73,48 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
     }
   }, [getJsonResponse, setStringifiedJson, resetSelectedNode, closeModal]);
 
+  const isInvalid = !isNull(getJsonError);
+
   return (
-    <Modal closeButton aria-labelledby="import-json-modal-title" open={isModalOpen} onClose={closeModal}>
-      <Modal.Header>
-        <Text id="import-json-modal-title" b size={18}>
-          Import JSON via URL or File
-        </Text>
-      </Modal.Header>
+    <Modal closeButton isOpen={isModalOpen} onClose={closeModal}>
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader>Import JSON via URL or File</ModalHeader>
+            <ModalBody className="gap-3">
+              <div className="flex gap-x-2">
+                <Input
+                  aria-label="JSON URL input"
+                  variant="bordered"
+                  isClearable
+                  isDisabled={isGetJsonLoading}
+                  isInvalid={isInvalid}
+                  color={isInvalid ? 'danger' : 'primary'}
+                  errorMessage={isInvalid ? 'Fetching JSON via URL failed for some reason' : undefined}
+                  value={jsonUrlValue}
+                  placeholder="Enter a JSON URL to fetch"
+                  onChange={handleJsonUrlValueChange}
+                  onClear={handleJsonUrlValueClear}
+                  onKeyDown={handleJsonUrlInputKeyDown}
+                />
+                <Button
+                  variant="flat"
+                  color="primary"
+                  isLoading={isGetJsonLoading}
+                  isDisabled={isJsonUrlValueEmpty}
+                  onPress={() => fetchJsonUrl(jsonUrlValue)}
+                >
+                  Fetch
+                </Button>
+              </div>
 
-      <Modal.Body>
-        <Row css={{ gap: '8px', marginBottom: '$6' }}>
-          <Input
-            aria-label="JSON URL input"
-            clearable
-            bordered
-            fullWidth
-            color={isNull(getJsonError) ? 'primary' : 'error'}
-            size="md"
-            placeholder="Enter a JSON URL to fetch"
-            helperColor="error"
-            helperText={isNull(getJsonError) ? undefined : 'Fetching JSON via URL failed for some reason'}
-            disabled={isGetJsonLoading}
-            value={jsonUrlValue}
-            onChange={handleJsonUrlValueChange}
-            onKeyDown={handleJsonUrlInputKeyDown}
-          />
-          <Button
-            css={{ width: '80px', minWidth: '80px' }}
-            flat
-            disabled={isJsonUrlValueEmpty}
-            onPress={() => fetchJsonUrl(jsonUrlValue)}
-          >
-            {isGetJsonLoading ? <Loading color="currentColor" size="sm" /> : 'Fetch'}
-          </Button>
-        </Row>
+              <Text className="text-center text-xs">or</Text>
 
-        <Text css={{ textAlign: 'center', marginBottom: '$6' }} size={14}>
-          or
-        </Text>
-
-        <DragDropJsonFile afterFileReadSuccess={closeModal} />
-      </Modal.Body>
+              <DragDropJsonFile afterFileReadSuccess={closeModal} />
+            </ModalBody>
+          </>
+        )}
+      </ModalContent>
     </Modal>
   );
 };

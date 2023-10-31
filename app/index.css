@@ -17,6 +17,11 @@
     @apply min-w-nodeMinWidth py-nodePadding pl-nodePadding rounded-bl-full rounded-tl-full;
   }
 
+  /* json-editor */
+  .json-dropzone-base {
+    @apply flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-border hover:bg-default-100;
+  }
+
   /* shared */
   .blue-dot-for-node {
     @apply absolute right-0 top-1/2  min-h-[10px] min-w-[10px] -translate-y-1/2 translate-x-[70%] rounded-full bg-blue-600;
