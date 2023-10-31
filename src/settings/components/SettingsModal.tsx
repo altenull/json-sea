@@ -1,6 +1,7 @@
 'use client';
 
-import { Modal, Row, Switch, Text } from '@nextui-org/react';
+import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/modal';
+import { Switch } from '@nextui-org/switch';
 import { memo } from 'react';
 import { useSettingsStore } from '../../store/settings/settings.store';
 
@@ -13,19 +14,19 @@ const _SettingsModal = ({ isModalOpen, closeModal }: Props) => {
   const [isMinimapOn, toggleMinimap] = useSettingsStore((state) => [state.isMinimapOn, state.toggleMinimap]);
 
   return (
-    <Modal closeButton aria-labelledby="settings-modal-title" open={isModalOpen} onClose={closeModal}>
-      <Modal.Header>
-        <Text id="settings-modal-title" b size={18}>
-          Settings
-        </Text>
-      </Modal.Header>
-
-      <Modal.Body>
-        <Row css={{ gap: '8px', marginBottom: '$12' }} align="center">
-          <Switch checked={isMinimapOn} onChange={toggleMinimap} />
-          <Text>Minimap</Text>
-        </Row>
-      </Modal.Body>
+    <Modal closeButton size="sm" isOpen={isModalOpen} onClose={closeModal}>
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader>Settings</ModalHeader>
+            <ModalBody>
+              <Switch isSelected={isMinimapOn} onChange={toggleMinimap}>
+                Minimap
+              </Switch>
+            </ModalBody>
+          </>
+        )}
+      </ModalContent>
     </Modal>
   );
 };

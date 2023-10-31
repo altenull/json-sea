@@ -5,7 +5,7 @@ const { sizes } = require('./src/ui/constants/sizes.constant');
 module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/@nextui-org/theme/dist/components/(button|chip|card|navbar|tooltip|switch|modal|input|circular-progress|table|image|link).js',
+    './node_modules/@nextui-org/theme/dist/components/(button|chip|card|navbar|toggle|tooltip|modal|input|circular-progress|table|image|link).js',
   ],
   theme: {
     extend: {
