@@ -1,6 +1,5 @@
 'use client';
 
-import { styled } from '@nextui-org/react';
 import { useCallback, useEffect } from 'react';
 import ReactFlow, {
   Background,
@@ -66,17 +65,17 @@ const _JsonDiagram = () => {
 
   const handleNodesChange = useCallback(
     (changes: NodeChange[]) => setSeaNodes((nds) => applyNodeChanges(changes, nds)),
-    [setSeaNodes]
+    [setSeaNodes],
   );
 
   return (
-    <S_Host>
+    /**
+     * Please refer `nodeClassName` prop of `<MiniMap>` in `<CustomMiniMap>`, If you wonder the class names(object-node, array-node, ...)
+     */
+    <div className="[&_.object-node]:minimap-node-object [&_.array-node]:minimap-node-array [&_.primitive-node]:minimap-node-primitive h-full w-full">
       {isMounted && (
         <ReactFlow
-          style={{
-            height: '100%',
-            minHeight: '100%',
-          }}
+          className="h-full min-h-full bg-backgroundContrast"
           disableKeyboardA11y
           nodesFocusable={false}
           nodesDraggable={false}
@@ -90,54 +89,18 @@ const _JsonDiagram = () => {
           onNodesChange={featureFlag.nodesChange ? handleNodesChange : undefined}
         >
           {isMinimapOn && <CustomMiniMap />}
-          <Controls position="bottom-right" showInteractive={false} />
+          <Controls
+            className="[&_button]:react-flow-controls-button [&_button_svg]:react-flow-controls-button-icon !shadow-none"
+            position="bottom-right"
+            showInteractive={false}
+          />
           <DownloadImageButton />
           <Background variant={BackgroundVariant.Dots} />
           <FitViewInvoker seaNodes={seaNodes} />
         </ReactFlow>
       )}
-    </S_Host>
+    </div>
   );
 };
-
-const S_Host = styled('div', {
-  width: '100%',
-  height: '100%',
-
-  '.react-flow': {
-    backgroundColor: '$backgroundContrast',
-  },
-
-  '.react-flow__controls': {
-    boxShadow: 'none',
-  },
-  '.react-flow__controls button': {
-    backgroundColor: '$background',
-    border: '1px solid $border',
-    borderBottom: 'none',
-  },
-  '.react-flow__controls button:hover': {
-    backgroundColor: '$gray100',
-  },
-  '.react-flow__controls button:first-child': {
-    borderRadius: '5px 5px 0 0',
-  },
-  '.react-flow__controls button:last-child': {
-    borderBottom: '1px solid $border',
-    borderRadius: '0 0 5px 5px',
-  },
-  '.react-flow__controls button svg': {
-    fill: '$text',
-    stroke: '$text',
-  },
-
-  /**
-   * To remove attribution, need some money.
-   * @see https://reactflow.dev/docs/guides/remove-attribution/
-   */
-  '.react-flow__attribution': {
-    backgroundColor: 'transparent',
-  },
-});
 
 export const JsonDiagram = _JsonDiagram;

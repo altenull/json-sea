@@ -1,65 +1,56 @@
-import { CSS, styled, useTheme } from '@nextui-org/react';
-import { memo, useCallback, useMemo } from 'react';
+import { CSSProperties, ComponentProps, memo, useCallback, useMemo } from 'react';
 import { GetMiniMapNodeAttribute, MiniMap } from 'reactflow';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { ArrayNodeData, ObjectNodeData, PrimitiveNodeData } from '../../store/json-engine/types/sea-node.type';
-import { sizes } from '../../ui/constants/sizes.constant';
+import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';
 
-const nodeClassNames = {
-  object: 'object-node',
-  array: 'array-node',
-  primitive: 'primitive-node',
+type MinimapTheme = {
+  backgroundColor: CSSProperties['backgroundColor'];
+  maskColor: ComponentProps<typeof MiniMap>['maskColor'];
 };
 
 const _CustomMiniMap = () => {
-  const { isDark } = useTheme();
-
-  const memoizedMiniMapCss: CSS = useMemo(
-    () => ({
-      margin: '0 0 0 15px',
-      backgroundColor: '$backgroundContrast',
-      ...(isDark && {
-        '.react-flow__minimap-mask': {
-          fill: 'rgba(15, 15, 15, 0.7)',
-        },
-      }),
-    }),
-    [isDark]
-  );
+  const { isDarkMode } = useCustomTheme();
 
   const nodeClassName: GetMiniMapNodeAttribute<ObjectNodeData | ArrayNodeData | PrimitiveNodeData> = useCallback(
     (node) => {
       const nodeTypeToClassNameMap: Record<NodeType, string> = {
-        [NodeType.Object]: nodeClassNames.object,
-        [NodeType.Array]: nodeClassNames.array,
-        [NodeType.Primitive]: nodeClassNames.primitive,
+        [NodeType.Object]: 'object-node',
+        [NodeType.Array]: 'array-node',
+        [NodeType.Primitive]: 'primitive-node',
       };
 
       return nodeTypeToClassNameMap[node.type as NodeType];
     },
-    []
+    [],
   );
 
-  return <S_MiniMap css={memoizedMiniMapCss} position="bottom-left" pannable zoomable nodeClassName={nodeClassName} />;
-};
+  const minimapTheme = useMemo(() => {
+    const lightMinimapTheme: MinimapTheme = {
+      backgroundColor: '#ffffff', // backgroundContrast
+      maskColor: undefined,
+    };
+    const darkMinimapTheme: MinimapTheme = {
+      backgroundColor: '#16181A', // backgroundContrast
+      maskColor: 'rgba(15, 15, 15, 0.7)',
+    };
 
-/**
- * Set `rx` and `ry` instead of `border-radius`.
- * The `border-radius` is not supported in `<rect>` tag.
- */
-const S_MiniMap = styled(MiniMap, {
-  [`.${nodeClassNames.object}`]: {
-    rx: 8,
-    ry: 8,
-  },
-  [`.${nodeClassNames.array}`]: {
-    rx: sizes.arrayNodeSize / 2,
-    ry: sizes.arrayNodeSize / 2,
-  },
-  [`.${nodeClassNames.primitive}`]: {
-    rx: 8,
-    ry: 8,
-  },
-});
+    return isDarkMode ? darkMinimapTheme : lightMinimapTheme;
+  }, [isDarkMode]);
+
+  return (
+    <MiniMap
+      style={{
+        backgroundColor: minimapTheme.backgroundColor,
+        margin: '0 0 0 15px',
+      }}
+      maskColor={minimapTheme.maskColor}
+      position="bottom-left"
+      pannable
+      zoomable
+      nodeClassName={nodeClassName}
+    />
+  );
+};
 
 export const CustomMiniMap = memo(_CustomMiniMap);

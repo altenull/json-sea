@@ -1,13 +1,12 @@
 'use client';
 
-import { styled, Text, useTheme } from '@nextui-org/react';
 import { memo, useEffect, useRef } from 'react';
 import { Copyright } from '../../foundation/components/Copyright';
 import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { isArraySeaNode, isObjectSeaNode, isPrimitiveSeaNode } from '../../store/json-engine/helpers/sea-node.helper';
 import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
-import { sizes } from '../../ui/constants/sizes.constant';
+import { Text } from '../../ui/components/Text';
 import { isNull } from '../../utils/json.util';
 import { useEnv } from '../../utils/react-hooks/useEnv';
 import { encloseDoubleQuote } from '../../utils/string.util';
@@ -27,7 +26,6 @@ const _NodeDetailPanel = () => {
   const selectedNode: SeaNode | null = useSelectedNode();
   const hostRef = useRef<HTMLDivElement | null>(null);
 
-  const { isDark } = useTheme();
   const { isLocalhost } = useEnv();
 
   useEffect(() => {
@@ -37,7 +35,10 @@ const _NodeDetailPanel = () => {
   }, [selectedNode, hostRef]);
 
   return (
-    <S_Host ref={hostRef} isDark={isDark}>
+    <div
+      ref={hostRef}
+      className="dark:[&_.leaflet-tile]:leaflet-dark-tile [&_.leaflet-bar]:leaflet-zoom-button-group [&_.leaflet-bar_a]:leaflet-zoom-button node-detail-panel"
+    >
       {isNull(selectedNode) ? (
         <Text h3>No selected node.</Text>
       ) : (
@@ -45,7 +46,7 @@ const _NodeDetailPanel = () => {
           <NodeDetailPanelHeader selectedNode={selectedNode} />
 
           {isLocalhost && (
-            <Text h5 color="warning">
+            <Text h5 className="text-warning">
               nodeId is {encloseDoubleQuote(selectedNode.id)}
             </Text>
           )}
@@ -63,40 +64,8 @@ const _NodeDetailPanel = () => {
       )}
 
       <Copyright />
-    </S_Host>
+    </div>
   );
 };
-
-const S_Host = styled('div', {
-  variants: {
-    isDark: {
-      true: {
-        // [Leaflet Darkmode] https://blog.jamie.holdings/2022/05/15/dark-mode-for/
-        '.leaflet-tile': {
-          filter: 'brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7)',
-        },
-      },
-    },
-  },
-  display: 'flex',
-  flexDirection: 'column',
-  width: sizes.nodeDetailPanelWidth,
-  minWidth: sizes.nodeDetailPanelWidth,
-  minHeight: '100%',
-  borderLeft: '1px solid $border',
-  padding: '$8',
-  overflow: 'auto',
-  backgroundColor: '$cyan50',
-
-  // Zoom in & out buttons
-  '.leaflet-bar a': {
-    background: '$background',
-    borderBottom: '1px solid $border',
-    color: '$text',
-    width: '24px',
-    height: '24px',
-    lineHeight: '20px',
-  },
-});
 
 export const NodeDetailPanel = memo(_NodeDetailPanel);
