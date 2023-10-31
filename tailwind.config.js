@@ -1,4 +1,4 @@
-const { nextui } = require('@nextui-org/theme');
+const { nextui, commonColors } = require('@nextui-org/theme');
 const { sizes } = require('./src/ui/constants/sizes.constant');
 
 /** @type {import('tailwindcss').Config} */
@@ -47,6 +47,8 @@ module.exports = {
             border: 'rgba(0, 0, 0, 0.15)',
             backgroundAlpha: 'rgba(255, 255, 255, 0.8)',
             backgroundContrast: '#ffffff',
+            titleJson: '#00254D', // 'JSON' of 'JSON SEA'
+            titleSea: '#4C76A5', // 'SEA' of 'JSON SEA'
           },
         },
         dark: {
@@ -55,6 +57,8 @@ module.exports = {
             border: 'rgba(255, 255, 255, 0.15)',
             backgroundAlpha: 'rgba(0, 0, 0, 0.6)',
             backgroundContrast: '#16181A',
+            titleJson: commonColors.zinc[100], // 'JSON' of 'JSON SEA'
+            titleSea: commonColors.zinc[100], // 'SEA' of 'JSON SEA'
           },
         },
       },
