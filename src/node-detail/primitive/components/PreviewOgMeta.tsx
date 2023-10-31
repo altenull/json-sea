@@ -3,7 +3,6 @@ import { Image } from '@nextui-org/image';
 import { memo } from 'react';
 import { JsonLink } from '../../../api/json-link-api/json-link.types';
 import { Text } from '../../../ui/components/Text';
-import { isEmptyArray } from '../../../utils/array.util';
 import { isString } from '../../../utils/json.util';
 import { openLinkAsNewTab } from '../../../utils/window.util';
 
@@ -12,9 +11,9 @@ type Props = {
 };
 
 const _PreviewOgMeta = ({ jsonLink }: Props) => {
-  const { title, description, images } = jsonLink;
+  const { title, description, images = [] } = jsonLink;
 
-  if (!isString(title) && !isString(description) && isEmptyArray(images)) {
+  if (!isString(title) && !isString(description)) {
     return null;
   }
 
@@ -27,20 +26,16 @@ const _PreviewOgMeta = ({ jsonLink }: Props) => {
       )}
 
       <CardFooter className="flex-col items-start">
-        {isString(title) && (
-          <Text className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold" title={title}>
-            {title}
-          </Text>
-        )}
+        <Text className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold" title={title as string}>
+          {title as string}
+        </Text>
 
-        {isString(description) && (
-          <Text
-            className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-normal text-zinc-400"
-            title={description}
-          >
-            {description}
-          </Text>
-        )}
+        <Text
+          className="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-normal text-zinc-400"
+          title={description as string}
+        >
+          {description as string}
+        </Text>
       </CardFooter>
     </Card>
   );
