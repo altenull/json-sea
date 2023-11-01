@@ -54,7 +54,7 @@ const _LeafletMap = ({ latLng }: Props) => {
     };
   }, [latLng, isLeafletInitialized, addTileLayer]);
 
-  return <div className="h-[240px] w-full" ref={leafletMapRef} />;
+  return <div className="z-0 h-[240px] w-full" ref={leafletMapRef} />;
 };
 
 export default memo(_LeafletMap);
