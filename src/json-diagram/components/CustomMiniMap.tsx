@@ -42,7 +42,7 @@ const _CustomMiniMap = () => {
     <MiniMap
       style={{
         backgroundColor: minimapTheme.backgroundColor,
-        margin: '0 0 0 15px',
+        margin: '0 0 8px 8px',
       }}
       maskColor={minimapTheme.maskColor}
       position="bottom-left"

@@ -2,6 +2,7 @@
 
 import { CSSProperties } from 'react';
 import { useLandingStore } from '../../store/landing/landing.store';
+import { Text } from '../../ui/components/Text';
 
 const _LandingLoader = () => {
   const isAppInitalized = useLandingStore((state) => state.isAppInitalized);
@@ -41,48 +42,13 @@ const _LandingLoader = () => {
           }`}
       </style>
 
-      <div
-        style={{
-          position: 'fixed',
-          inset: '0',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          minHeight: '100vh',
-          backgroundColor: '#96C1F2',
-          overflow: 'hidden',
-          zIndex: 9999,
-        }}
-      >
-        <div
-          data-name="wave1"
-          style={{
-            ...waveStyle,
-            bottom: '15vh',
-            borderRadius: '45%',
-          }}
-        />
-        <div
-          data-name="wave2"
-          style={{
-            ...waveStyle,
-            bottom: '12vh',
-            opacity: '0.5',
-            borderRadius: '47%',
-          }}
-        />
+      <div className="fixed inset-0 z-[9999] flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#96C1F2]">
+        <div data-name="wave1" className="bottom-[15vh] rounded-[45%]" style={waveStyle} />
+        <div data-name="wave2" className="bottom-[12vh] rounded-[47%] opacity-50" style={waveStyle} />
 
-        <div
-          style={{
-            color: '#11181C !important', // text color in light mode
-            fontSize: '18px',
-            fontWeight: 600,
-            zIndex: 10,
-          }}
-        >
+        <Text className="z-10 text-lg font-semibold text-zinc-800">
           You are diving into {`'`}JSON Sea{`'`}...
-        </div>
+        </Text>
       </div>
     </>
   );

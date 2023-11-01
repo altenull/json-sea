@@ -20,7 +20,7 @@ const _Copyright = () => {
   };
 
   return (
-    <Text className="mt-auto text-right text-sm text-default-500">
+    <Text className="mt-auto text-right text-sm text-default-400">
       {renderCreatedBy()} · {renderCopyright()}
     </Text>
   );

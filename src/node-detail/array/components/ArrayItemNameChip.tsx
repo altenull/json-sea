@@ -8,7 +8,7 @@ type Props = {
 const _ArrayItemNameChip = ({ arrayItemName }: Props) => {
   return (
     <Chip variant="flat" color="secondary" size="md">
-      {arrayItemName}asjdiofjsdaf
+      {arrayItemName}
     </Chip>
   );
 };
