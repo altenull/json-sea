@@ -25,6 +25,7 @@ const _JsonEditorConsole = ({ style }: Props) => {
 
   const sharedTooltipProps: ComponentProps<typeof Tooltip> = useMemo(
     () => ({
+      className: 'px-2',
       delay: 0,
       closeDelay: 0,
       color: 'primary',

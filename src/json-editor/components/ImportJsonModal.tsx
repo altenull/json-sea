@@ -85,6 +85,10 @@ const _ImportJsonModal = ({ isModalOpen, closeModal }: Props) => {
               <div className="flex gap-x-2">
                 <Input
                   aria-label="JSON URL input"
+                  classNames={{
+                    inputWrapper: ['h-10'],
+                  }}
+                  size="sm"
                   variant="bordered"
                   isClearable
                   isDisabled={isGetJsonLoading}
