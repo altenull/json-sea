@@ -1,6 +1,10 @@
 import { nanoid } from 'nanoid';
 import { Edge } from 'reactflow';
-import { ARRAY_ROOT_NODE_INDEX, ROOT_NODE_DEPTH } from '../../../json-diagram/constants/root-node.constant';
+import {
+  ARRAY_ROOT_NODE_INDEX,
+  ROOT_NODE_DEPTH,
+  ROOT_PARENT_NODE_PATH,
+} from '../../../json-diagram/constants/root-node.constant';
 import { isLastItemOfArray } from '../../../utils/array.util';
 import { isArray, isObject, isString } from '../../../utils/json.util';
 import { EdgeType } from '../enums/edge-type.enum';
@@ -14,19 +18,23 @@ const formatNodeId = (nodeSequence: number): string => `n${nodeSequence}`;
 
 export const addPrefixChain = (v: string): string => `chain-${v}`;
 
+type BeforeObjectSeaNode = {
+  nodeId: string;
+  depth: number;
+  obj: object;
+  parentNodePath: string[];
+  arrayIndexForObject: number | null;
+  isRootNode: boolean;
+};
+
 const convertObjectToNode = ({
   nodeId,
   depth,
   obj,
+  parentNodePath,
   arrayIndexForObject,
   isRootNode,
-}: {
-  nodeId: string;
-  depth: number;
-  obj: object;
-  arrayIndexForObject: number | null;
-  isRootNode: boolean;
-}): ObjectSeaNode => {
+}: BeforeObjectSeaNode): ObjectSeaNode => {
   return {
     id: nodeId,
     type: NodeType.Object,
@@ -35,6 +43,7 @@ const convertObjectToNode = ({
       depth,
       dataType: JsonDataType.Object,
       stringifiedJson: JSON.stringify(obj),
+      parentNodePath,
       obj,
       arrayIndexForObject,
       isRootNode,
@@ -42,19 +51,23 @@ const convertObjectToNode = ({
   };
 };
 
+type BeforeArraySeaNode = {
+  nodeId: string;
+  depth: number;
+  arrayIndex: number;
+  items: any[];
+  parentNodePath: string[];
+  isRootNode: boolean;
+};
+
 const convertArrayToNode = ({
   nodeId,
   depth,
   arrayIndex,
   items,
+  parentNodePath,
   isRootNode,
-}: {
-  nodeId: string;
-  depth: number;
-  arrayIndex: number;
-  items: any[];
-  isRootNode: boolean;
-}): ArraySeaNode => {
+}: BeforeArraySeaNode): ArraySeaNode => {
   return {
     id: nodeId,
     type: NodeType.Array,
@@ -63,6 +76,7 @@ const convertArrayToNode = ({
       depth,
       dataType: JsonDataType.Array,
       stringifiedJson: JSON.stringify(arrayIndex),
+      parentNodePath,
       arrayIndex,
       items,
       isRootNode,
@@ -70,17 +84,21 @@ const convertArrayToNode = ({
   };
 };
 
+type BeforePrimitiveSeaNode = {
+  nodeId: string;
+  depth: number;
+  arrayIndex: number;
+  value: string | number | boolean | null;
+  parentNodePath: string[];
+};
+
 const convertPrimitiveToNode = ({
   nodeId,
   depth,
   arrayIndex,
   value,
-}: {
-  nodeId: string;
-  depth: number;
-  arrayIndex: number;
-  value: string | number | boolean | null;
-}): PrimitiveSeaNode => {
+  parentNodePath,
+}: BeforePrimitiveSeaNode): PrimitiveSeaNode => {
   return {
     id: nodeId,
     type: NodeType.Primitive,
@@ -93,6 +111,7 @@ const convertPrimitiveToNode = ({
         | JsonDataType.Boolean
         | JsonDataType.Null,
       stringifiedJson: JSON.stringify(value),
+      parentNodePath,
       arrayIndex,
       value,
     },
@@ -137,10 +156,25 @@ type TraverseParams = {
   depth: number;
   arrayIndexForObject: number | null;
   sourceSet: { source?: string; sourceHandle?: string };
+  parentNodePath: string[];
+};
+type TraverseObjectParams = {
+  _obj: object;
+  _nextDepth: number;
+  _parentNodePath: string[];
+  _source: string;
+  _sourceHandle: string;
+};
+type TraverseArrayParams = {
+  _array: any[];
+  _nextDepth: number;
+  _parentNodePath: string[];
+  _source: string;
+  _sourceHandle?: string;
 };
 
 export const jsonParser = (
-  json: object | any[]
+  json: object | any[],
 ): {
   seaNodes: SeaNode[];
   edges: Edge[];
@@ -158,7 +192,7 @@ export const jsonParser = (
         source,
         target,
         sourceHandle,
-      })
+      }),
     );
   };
 
@@ -189,10 +223,16 @@ export const jsonParser = (
    * - [string, undefined] -> Parent is array node
    * - [string, string] -> Parent is object node (arrow is from object field)
    */
-  const traverse = ({ traverseTarget, depth, arrayIndexForObject, sourceSet }: TraverseParams): SeaNode[] => {
+  const traverse = ({
+    traverseTarget,
+    depth,
+    arrayIndexForObject,
+    sourceSet,
+    parentNodePath,
+  }: TraverseParams): SeaNode[] => {
     let seaNodes: SeaNode[] = [];
 
-    const traverseObject = (_obj: object, _nextDepth: number, _source: string, _sourceHandle: string) => {
+    const traverseObject = ({ _obj, _nextDepth, _parentNodePath, _source, _sourceHandle }: TraverseObjectParams) => {
       nodeSequence++;
       const nextNodeId: string = formatNodeId(nodeSequence);
       const target: string = nextNodeId;
@@ -206,7 +246,8 @@ export const jsonParser = (
             source: _source,
             sourceHandle: _sourceHandle,
           },
-        })
+          parentNodePath: _parentNodePath,
+        }),
       );
       addDefaultEdge({
         source: _source,
@@ -215,7 +256,7 @@ export const jsonParser = (
       });
     };
 
-    const traverseArray = (_array: any[], _nextDepth: number, _source: string, _sourceHandle?: string) => {
+    const traverseArray = ({ _array, _nextDepth, _parentNodePath, _source, _sourceHandle }: TraverseArrayParams) => {
       let sourceOfChainEdge: string | undefined;
 
       _array.forEach((arrayItem: any, arrayIndex: number, selfArray: any[]) => {
@@ -227,7 +268,7 @@ export const jsonParser = (
 
         /**
          * If an array has multiple items, a chain edge should be added.
-         * The chain edge is a blue -dash line which connects between first and last item of array.
+         * The chain edge is a blue-dash line which connects between first and last item of array.
          */
         if (selfArray.length > 1) {
           if (arrayIndex === 0) {
@@ -239,7 +280,7 @@ export const jsonParser = (
               createChainEdge({
                 source: sourceOfChainEdge,
                 target,
-              })
+              }),
             );
           }
         }
@@ -255,7 +296,8 @@ export const jsonParser = (
                 source: _source,
                 sourceHandle: _sourceHandle,
               },
-            })
+              parentNodePath: _parentNodePath,
+            }),
           );
           addDefaultEdge({
             source: _source,
@@ -272,8 +314,9 @@ export const jsonParser = (
               depth: _nextDepth,
               arrayIndex,
               items,
+              parentNodePath: _parentNodePath,
               isRootNode: false,
-            })
+            }),
           );
           addDefaultEdge({
             source: _source,
@@ -293,7 +336,8 @@ export const jsonParser = (
                   source: _source,
                   sourceHandle: _sourceHandle,
                 },
-              })
+                parentNodePath: _parentNodePath,
+              }),
             );
           }
         } else if (arrayItemValidator.isPrimitiveData) {
@@ -304,7 +348,8 @@ export const jsonParser = (
               depth: _nextDepth,
               arrayIndex,
               value: arrayItem as string | number | boolean | null,
-            })
+              parentNodePath: _parentNodePath,
+            }),
           );
           addDefaultEdge({
             source: _source,
@@ -318,6 +363,7 @@ export const jsonParser = (
     const currentNodeId: string = formatNodeId(nodeSequence);
     const source: string = currentNodeId;
     const nextDepth: number = depth + 1;
+    const nextParentNodePath: string[] = parentNodePath.concat([currentNodeId]);
     const isRootNode: boolean = sourceSet.source === undefined;
 
     if (isObject(traverseTarget)) {
@@ -326,18 +372,31 @@ export const jsonParser = (
           nodeId: currentNodeId,
           depth,
           obj: traverseTarget,
+          parentNodePath,
           arrayIndexForObject,
           isRootNode,
-        })
+        }),
       );
 
       Object.entries(traverseTarget).forEach(([propertyK, propertyV]) => {
         const sourceHandle: string = propertyK;
 
         if (isObject(propertyV)) {
-          traverseObject(propertyV, nextDepth, source, sourceHandle);
+          traverseObject({
+            _obj: propertyV,
+            _nextDepth: nextDepth,
+            _parentNodePath: nextParentNodePath,
+            _source: source,
+            _sourceHandle: sourceHandle,
+          });
         } else if (isArray(propertyV)) {
-          traverseArray(propertyV, nextDepth, source, sourceHandle);
+          traverseArray({
+            _array: propertyV,
+            _nextDepth: nextDepth,
+            _parentNodePath: nextParentNodePath,
+            _source: source,
+            _sourceHandle: sourceHandle,
+          });
         }
       });
     } else if (isArray(traverseTarget)) {
@@ -351,12 +410,19 @@ export const jsonParser = (
             depth,
             arrayIndex: ARRAY_ROOT_NODE_INDEX,
             items: traverseTarget,
+            parentNodePath: ROOT_PARENT_NODE_PATH,
             isRootNode,
-          })
+          }),
         );
       }
 
-      traverseArray(traverseTarget, nextDepth, source, undefined);
+      traverseArray({
+        _array: traverseTarget,
+        _nextDepth: nextDepth,
+        _parentNodePath: nextParentNodePath,
+        _source: source,
+        _sourceHandle: undefined,
+      });
     }
 
     return seaNodes;
@@ -366,6 +432,7 @@ export const jsonParser = (
     seaNodes: traverse({
       traverseTarget: json,
       depth: ROOT_NODE_DEPTH,
+      parentNodePath: ROOT_PARENT_NODE_PATH,
       arrayIndexForObject: null,
       sourceSet: {},
     }),

@@ -46,9 +46,14 @@ const _NodeDetailPanel = () => {
           <NodeDetailPanelHeader selectedNode={selectedNode} />
 
           {isLocalhost && (
-            <Text h5 className="text-warning">
-              nodeId is {encloseDoubleQuote(selectedNode.id)}
-            </Text>
+            <>
+              <Text h4 className="text-warning">
+                nodeId is {encloseDoubleQuote(selectedNode.id)}
+              </Text>
+              <Text h4 className="text-warning">
+                parentNodePath is [{selectedNode.data.parentNodePath.join(' > ')}]
+              </Text>
+            </>
           )}
 
           <>

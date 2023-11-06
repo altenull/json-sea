@@ -5,6 +5,7 @@ import { NodeType } from '../enums/node-type.enum';
 type SharedNodeData = {
   depth: number; // The depth starts from 0. (depth of root node is 0)
   stringifiedJson: string;
+  parentNodePath: string[]; // It consists of node ids. (e.g. [], ['n0'], ['n0', 'n3', 'n5'], ...)
 };
 
 export type ObjectNodeData = SharedNodeData & {
