@@ -51,7 +51,7 @@ const _NodeDetailPanel = () => {
                 nodeId is {encloseDoubleQuote(selectedNode.id)}
               </Text>
               <Text h4 className="text-warning">
-                parentNodePath is [{selectedNode.data.parentNodePath.join(' > ')}]
+                parentNodePath is [{selectedNode.data.parentNodePathIds.join(' > ')}]
               </Text>
             </>
           )}
