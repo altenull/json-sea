@@ -1,5 +1,7 @@
+import { Chip } from '@nextui-org/chip';
 import { semanticColors } from '@nextui-org/theme';
 import { nodeTypeToAcronymMap } from '../../node-detail/array/helpers/node-type.helper';
+import { useNodePath } from '../../node-detail/hooks/useNodePath';
 import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { NodeType } from '../../store/json-engine/enums/node-type.enum';
 import { Text } from '../../ui/components/Text';
@@ -21,6 +23,7 @@ const hostClassNames: Record<NodeType, string> = {
 
 const _NodeShell = ({ nodeId, nodeType, isHighlight, children }: Props) => {
   const [selectedNodeId, selectNode] = useJsonDiagramViewStore((state) => [state.selectedNodeId, state.selectNode]);
+  const { fullNodePath } = useNodePath(nodeId);
   const { theme } = useCustomTheme();
   const { isLocalhost } = useEnv();
 
@@ -51,6 +54,15 @@ const _NodeShell = ({ nodeId, nodeType, isHighlight, children }: Props) => {
       )}
 
       {children}
+
+      <Chip
+        color="primary"
+        size="sm"
+        radius="sm"
+        className="invisible absolute -bottom-8 left-1/2 -translate-x-1/2 group-hover:visible"
+      >
+        {fullNodePath}
+      </Chip>
     </div>
   );
 };
