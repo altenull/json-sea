@@ -27,7 +27,7 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
   const renderProperties = useCallback(() => {
     return Object.entries(obj).map(([propertyK, propertyV]) => {
       const hasChildNode: boolean = edges.some(
-        ({ source, sourceHandle }) => source === id && sourceHandle === propertyK
+        ({ source, sourceHandle }) => source === id && sourceHandle === propertyK,
       );
 
       return (
@@ -46,7 +46,7 @@ const _ObjectNode = ({ id, data }: NodeProps<ObjectNodeData>) => {
    * undefined `propertyK` means a `ArrayItemCard` is hovered, not `PropertyCard`.
    */
   const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(
-    ({ nodeId, propertyK }) => nodeId === id && propertyK === undefined
+    ({ nodeId, propertyK }) => nodeId === id && propertyK === undefined,
   );
 
   return (

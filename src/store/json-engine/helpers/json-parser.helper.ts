@@ -241,7 +241,7 @@ export const jsonParser = (
         traverse({
           traverseTarget: _obj,
           depth: _nextDepth,
-          arrayIndexForObject,
+          arrayIndexForObject: null,
           sourceSet: {
             source: _source,
             sourceHandle: _sourceHandle,
@@ -331,7 +331,7 @@ export const jsonParser = (
               traverse({
                 traverseTarget: items,
                 depth: _nextDepth,
-                arrayIndexForObject: arrayIndex,
+                arrayIndexForObject: null,
                 sourceSet: {
                   source: _source,
                   sourceHandle: _sourceHandle,

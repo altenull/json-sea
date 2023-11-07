@@ -45,7 +45,7 @@ export const useJsonEngineStore = create<State & Actions>((set) => ({
         : {
             stringifiedJson,
             isValidJson: false,
-          }
+          },
     );
   },
   resetJsonEngineStore: () => set(initialState),

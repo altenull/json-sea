@@ -1,3 +1,5 @@
+export const CURLY_ROOT_NODE_NAME = '{root}';
+
 export const ROOT_NODE_NAME = 'root';
 
 export const ROOT_NODE_DEPTH = 0;
