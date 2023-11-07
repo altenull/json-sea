@@ -20,7 +20,7 @@ const _InferredDetailCard = (
 
       return (
         <Fragment key={propertyK}>
-          <PropertyKeyChip inferred propertyK={propertyK} />
+          <PropertyKeyChip inferred value={propertyK} />
           {!isLast && ` + `}
         </Fragment>
       );

@@ -32,13 +32,7 @@ const _ArrayNodeDetail = ({ nodeId, nodeData }: Props) => {
         <EmptyNodeMessage nodeType={NodeType.Array} />
       ) : (
         items.map((value: any, index: number) => (
-          <ArrayItemCard
-            key={index}
-            parentNodeId={parentNodeId}
-            selfNodeId={getArrayItemNodeId(edges, parentNodeId, index)}
-            arrayItemIndex={index}
-            value={value}
-          />
+          <ArrayItemCard key={index} selfNodeId={getArrayItemNodeId(edges, parentNodeId, index)} value={value} />
         ))
       )}
     </NodeDetailList>

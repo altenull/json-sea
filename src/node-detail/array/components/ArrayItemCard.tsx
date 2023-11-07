@@ -6,23 +6,20 @@ import { useNodePath } from '../../hooks/useNodePath';
 import { ArrayItemNameChip } from './ArrayItemNameChip';
 
 type Props = {
-  parentNodeId: string;
   selfNodeId: string;
-  arrayItemIndex: number;
   value: any;
 };
 
-const _ArrayItemCard = ({ parentNodeId, selfNodeId, arrayItemIndex, value }: Props) => {
+const _ArrayItemCard = ({ selfNodeId, value }: Props) => {
   const { cardRef } = useHoverNodeDetails([{ nodeId: selfNodeId }]);
-
-  const { getNodePath } = useNodePath();
+  const { selfNodePath } = useNodePath(selfNodeId);
 
   const objectNodeId: string | null = useMemo(() => (isObject(value) ? selfNodeId : null), [value, selfNodeId]);
 
   return (
     <NodeDetailCard
       ref={cardRef}
-      chip={<ArrayItemNameChip arrayItemName={getNodePath(parentNodeId, selfNodeId, arrayItemIndex)} />}
+      chip={<ArrayItemNameChip arrayItemName={selfNodePath} />}
       value={value}
       childObjectNodeId={objectNodeId}
     />

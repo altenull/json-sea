@@ -27,7 +27,7 @@ const _PropertyCard = ({ nodeId, propertyK, propertyV }: Props) => {
   return (
     <NodeDetailCard
       ref={cardRef}
-      chip={<PropertyKeyChip propertyK={propertyK} />}
+      chip={<PropertyKeyChip value={propertyK} />}
       value={propertyV}
       childObjectNodeId={childObjectNodeId}
     />

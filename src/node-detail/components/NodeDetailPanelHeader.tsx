@@ -1,12 +1,12 @@
-import { memo, useMemo } from 'react';
-import { ROOT_NODE_NAME } from '../../json-diagram/constants/root-node.constant';
-import { isArraySeaNode, isObjectSeaNode, isPrimitiveSeaNode } from '../../store/json-engine/helpers/sea-node.helper';
-import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
+import { Card, CardBody, CardHeader } from '@nextui-org/card';
+import { Chip } from '@nextui-org/chip';
+import { Spacer } from '@nextui-org/react';
+import { memo } from 'react';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
 import { Text } from '../../ui/components/Text';
-import { findParentNodeId } from '../../utils/reactflow.util';
 import { nodeTypeToTextMap } from '../array/helpers/node-type.helper';
 import { useNodePath } from '../hooks/useNodePath';
+import { TextCopyBox } from '../primitive/components/TextCopyBox';
 import { NodeDetailChip } from './NodeDetailChip';
 
 type Props = {
@@ -14,43 +14,31 @@ type Props = {
 };
 
 const _NodeDetailPanelHeader = ({ selectedNode }: Props) => {
-  const { edges } = useJsonEngineStore((state) => state.jsonTree);
-  const { getNodePath } = useNodePath();
-
-  const isRootNode: boolean = useMemo(
-    () => (isObjectSeaNode(selectedNode) || isArraySeaNode(selectedNode)) && selectedNode.data.isRootNode,
-    [selectedNode],
-  );
-
-  const parentNodeId: string | null = useMemo(
-    () => (isRootNode ? null : findParentNodeId(edges, selectedNode.id)),
-    [edges, isRootNode, selectedNode.id],
-  );
+  const { fullNodePath, selfNodePath } = useNodePath(selectedNode.id);
 
   return (
-    <Text className="flex justify-between" h3>
-      {/* Left */}
-      {selectedNode.type !== undefined && nodeTypeToTextMap[selectedNode.type]}
+    <div>
+      <div className="flex justify-between">
+        <Text h3>{selectedNode.type !== undefined && nodeTypeToTextMap[selectedNode.type]}</Text>
+        <NodeDetailChip value={selfNodePath} />
+      </div>
 
-      {/* Right */}
-      {isRootNode ? (
-        <NodeDetailChip value={ROOT_NODE_NAME} />
-      ) : (
-        <>
-          {isObjectSeaNode(selectedNode) && (
-            <NodeDetailChip
-              value={getNodePath(parentNodeId!, selectedNode.id, selectedNode.data.arrayIndexForObject)}
-            />
-          )}
-          {isArraySeaNode(selectedNode) && (
-            <NodeDetailChip value={getNodePath(parentNodeId!, selectedNode.id, selectedNode.data.arrayIndex)} />
-          )}
-          {isPrimitiveSeaNode(selectedNode) && (
-            <NodeDetailChip value={getNodePath(parentNodeId!, selectedNode.id, selectedNode.data.arrayIndex)} />
-          )}
-        </>
-      )}
-    </Text>
+      <Spacer y={2} />
+
+      <Card fullWidth shadow="sm">
+        <CardHeader>
+          <Chip variant="faded" color="default" size="md">
+            Node Path
+          </Chip>
+        </CardHeader>
+
+        <CardBody className="px-3 pb-unit-sm pt-0">
+          <TextCopyBox text={fullNodePath} />
+        </CardBody>
+      </Card>
+
+      <Spacer y={6} />
+    </div>
   );
 };
 

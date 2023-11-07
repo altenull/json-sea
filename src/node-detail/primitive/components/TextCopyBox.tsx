@@ -24,7 +24,11 @@ const _TextCopyBox = ({ text }: Props) => {
   }, [clearClipboard, isHostHovered]);
 
   return (
-    <div ref={hostRef} className="relative cursor-pointer rounded-lg p-2 hover:bg-default-100" onClick={copyText}>
+    <div
+      ref={hostRef}
+      className="relative flex-1 cursor-pointer rounded-lg p-2 hover:bg-default-100"
+      onClick={copyText}
+    >
       {isHostHovered && (
         <Chip
           className="absolute left-2 top-1/2 -translate-y-1/2 text-xs opacity-100"
