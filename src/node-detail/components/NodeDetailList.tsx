@@ -5,7 +5,7 @@ type Props = {
 };
 
 const _NodeDetailList = ({ children }: Props) => {
-  return <div className="flex flex-col gap-6">{children}</div>;
+  return <div className="flex flex-1 flex-col gap-6">{children}</div>;
 };
 
 export const NodeDetailList = memo(_NodeDetailList);

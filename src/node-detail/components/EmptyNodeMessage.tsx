@@ -15,7 +15,7 @@ const nodeTypeToSyntaxMap: Record<NodeType.Object | NodeType.Array, string> = {
 
 const _EmptyNodeMessage = ({ nodeType }: Props) => {
   return (
-    <div className="mt-[25vh] flex flex-col items-center">
+    <div className="m-auto flex flex-col items-center">
       <Image src="/oceania.png" alt="oceania" width="200" height="200" />
       <Text className="text-lg font-medium text-gray-600">{nodeTypeToSyntaxMap[nodeType]}</Text>
       <Text className="font-semibold">
