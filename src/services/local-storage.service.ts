@@ -1,9 +1,10 @@
 import { isString } from '../utils/json.util';
 
-type LocalStorageKey = 'settings:minimap';
+type LocalStorageKey = 'settings:minimap' | 'settings:nodePath';
 
 type KeyToValueTypeMap<K extends LocalStorageKey> = {
   'settings:minimap': boolean;
+  'settings:nodePath': boolean;
 }[K];
 
 type DefaultValueMap = {
@@ -12,6 +13,7 @@ type DefaultValueMap = {
 
 const defaultValueMap: DefaultValueMap = {
   'settings:minimap': true,
+  'settings:nodePath': true,
 };
 
 export const localStorageService = {

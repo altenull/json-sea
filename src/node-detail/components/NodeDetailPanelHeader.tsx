@@ -3,6 +3,7 @@ import { Chip } from '@nextui-org/chip';
 import { Spacer } from '@nextui-org/react';
 import { memo } from 'react';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
+import { useSettingsStore } from '../../store/settings/settings.store';
 import { Text } from '../../ui/components/Text';
 import { nodeTypeToTextMap } from '../array/helpers/node-type.helper';
 import { useNodePath } from '../hooks/useNodePath';
@@ -14,6 +15,7 @@ type Props = {
 };
 
 const _NodeDetailPanelHeader = ({ selectedNode }: Props) => {
+  const isNodePathOn = useSettingsStore((state) => state.isNodePathOn);
   const { fullNodePath, selfNodePath } = useNodePath(selectedNode.id);
 
   return (
@@ -25,19 +27,23 @@ const _NodeDetailPanelHeader = ({ selectedNode }: Props) => {
 
       <Spacer y={2} />
 
-      <Card fullWidth shadow="sm">
-        <CardHeader>
-          <Chip variant="faded" color="default" size="md">
-            Node Path
-          </Chip>
-        </CardHeader>
+      {isNodePathOn && (
+        <>
+          <Card fullWidth shadow="sm">
+            <CardHeader>
+              <Chip variant="faded" color="default" size="md">
+                Node Path
+              </Chip>
+            </CardHeader>
 
-        <CardBody className="px-3 pb-unit-sm pt-0">
-          <TextCopyBox text={fullNodePath} />
-        </CardBody>
-      </Card>
+            <CardBody className="px-3 pb-unit-sm pt-0">
+              <TextCopyBox text={fullNodePath} />
+            </CardBody>
+          </Card>
 
-      <Spacer y={6} />
+          <Spacer y={6} />
+        </>
+      )}
     </div>
   );
 };

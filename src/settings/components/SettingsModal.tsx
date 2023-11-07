@@ -11,7 +11,12 @@ type Props = {
 };
 
 const _SettingsModal = ({ isModalOpen, closeModal }: Props) => {
-  const [isMinimapOn, toggleMinimap] = useSettingsStore((state) => [state.isMinimapOn, state.toggleMinimap]);
+  const [isMinimapOn, isNodePathOn, toggleMinimap, toggleNodePath] = useSettingsStore((state) => [
+    state.isMinimapOn,
+    state.isNodePathOn,
+    state.toggleMinimap,
+    state.toggleNodePath,
+  ]);
 
   return (
     <Modal closeButton size="sm" isOpen={isModalOpen} onClose={closeModal}>
@@ -22,6 +27,9 @@ const _SettingsModal = ({ isModalOpen, closeModal }: Props) => {
             <ModalBody>
               <Switch isSelected={isMinimapOn} onChange={toggleMinimap}>
                 Minimap
+              </Switch>
+              <Switch isSelected={isNodePathOn} onChange={toggleNodePath}>
+                Node Path
               </Switch>
             </ModalBody>
           </>
