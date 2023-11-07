@@ -3,13 +3,17 @@ import { CURLY_ROOT_NODE_NAME, ROOT_NODE_NAME } from '../../json-diagram/constan
 import { isArraySeaNode, isObjectSeaNode, isPrimitiveSeaNode } from '../../store/json-engine/helpers/sea-node.helper';
 import { JsonTree, useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
-import { isEmptyArray } from '../../utils/array.util';
 import { isNumber } from '../../utils/json.util';
 import { encloseSquareBrackets } from '../../utils/string.util';
 
 type NodePath = {
   fullNodePath: string; // e.g. `{root}`, `{root}.field_1`, `{root}.something[0].field_2`, `{root}.array[3][2].field_3[4]`, `{root}[1][2]`, ...
   selfNodePath: string; // e.g. `{root}`, `field_1`, `field_2`, `field_3[4]`, `{root}[1][2]`, ...
+};
+
+const ROOT_NODE_PATH: NodePath = {
+  fullNodePath: CURLY_ROOT_NODE_NAME,
+  selfNodePath: ROOT_NODE_NAME,
 };
 
 const getObjectPropertyK = ({
@@ -24,15 +28,21 @@ const getObjectPropertyK = ({
 
 const getNodePath = (jsonTree: JsonTree, selfNodeId: string): NodePath => {
   const { seaNodeEntities, edges } = jsonTree;
-
   const selfNode = seaNodeEntities[selfNodeId];
-  const isRootSelfNode = isEmptyArray(selfNode.data.parentNodePathIds);
+
+  /**
+   * [Unknown Issue]
+   * If empty [] or {} json code is entered, 'n1' selfNodeId is passed for some reason.
+   * (Only root node is rendered)
+   */
+  if (selfNode === undefined) {
+    return ROOT_NODE_PATH;
+  }
+
+  const isRootSelfNode = (isObjectSeaNode(selfNode) || isArraySeaNode(selfNode)) && selfNode.data.isRootNode;
 
   if (isRootSelfNode) {
-    return {
-      fullNodePath: CURLY_ROOT_NODE_NAME,
-      selfNodePath: ROOT_NODE_NAME,
-    };
+    return ROOT_NODE_PATH;
   }
 
   const fullNodePathIds = selfNode.data.parentNodePathIds.concat([selfNodeId]);
