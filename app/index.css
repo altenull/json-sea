@@ -5,16 +5,16 @@
 @layer components {
   /* json-diagram */
   .node-shell-base {
-    @apply max-w-nodeMaxWidth relative flex flex-col border-2 border-solid border-default-200 bg-background py-3 pl-3 hover:border-default-300;
+    @apply relative flex max-w-nodeMaxWidth flex-col border-2 border-solid border-default-200 bg-background py-3 pl-3 hover:border-default-300;
   }
   .node-shell-object {
     @apply min-w-nodeMinWidth rounded-bl-3xl rounded-tl-3xl py-3 pl-3;
   }
   .node-shell-array {
-    @apply min-w-arrayNodeSize max-w-arrayNodeSize min-h-arrayNodeSize max-h-arrayNodeSize rounded-full p-0;
+    @apply max-h-arrayNodeSize min-h-arrayNodeSize min-w-arrayNodeSize max-w-arrayNodeSize rounded-full p-0;
   }
   .node-shell-primitive {
-    @apply min-w-nodeMinWidth py-nodePadding pl-nodePadding rounded-bl-full rounded-tl-full;
+    @apply min-w-nodeMinWidth rounded-bl-full rounded-tl-full py-nodePadding pl-nodePadding;
   }
   /**
    * Set `rx` and `ry` instead of `border-radius`.
@@ -47,7 +47,7 @@
 
   /* node-detail-panel */
   .node-detail-panel {
-    @apply min-w-nodeDetailPanelWidth max-w-nodeDetailPanelWidth flex min-h-full flex-col overflow-auto border-l-1 border-solid border-l-border bg-cyan-50 p-4 dark:bg-cyan-900;
+    @apply flex min-h-full min-w-nodeDetailPanelWidth max-w-nodeDetailPanelWidth flex-col overflow-auto border-l-1 border-solid border-l-border bg-cyan-50 p-4 dark:bg-cyan-900;
   }
   .leaflet-zoom-button-group {
     @apply !border-1 border-solid !border-border shadow-none;
@@ -58,6 +58,9 @@
   .leaflet-dark-tile {
     /* [Leaflet Darkmode] https://blog.jamie.holdings/2022/05/15/dark-mode-for/ */
     filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+  }
+  .calendar-day {
+    @apply inline-flex h-7 w-7 items-center justify-center text-center text-xs text-default-600;
   }
 
   /* shared */

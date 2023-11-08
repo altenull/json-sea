@@ -1,6 +1,7 @@
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
 import { addMinutes, format } from 'date-fns';
 import { Key, memo, useEffect, useState } from 'react';
+import { Calendar } from './Calendar';
 import { PROPERTY_VALUE_TABLE_COLUMNS, PropertyValueTableColumnKey } from './PropertyValueTable';
 import { RelativeTimeFormatter } from './RelativeTimeFormatter';
 
@@ -49,42 +50,46 @@ const _PreviewDatetime = ({ datetime }: Props) => {
   }, [datetime]);
 
   return (
-    <Table
-      className="h-auto min-w-full"
-      classNames={{
-        wrapper: 'py-1 px-2',
-      }}
-      hideHeader
-      fullWidth
-      aria-label="datetime table"
-    >
-      <TableHeader columns={PROPERTY_VALUE_TABLE_COLUMNS}>
-        {({ key, label }) => <TableColumn key={key}>{label}</TableColumn>}
-      </TableHeader>
+    <>
+      <Calendar date={new Date(datetime)} />
 
-      <TableBody items={rows}>
-        {(row) => (
-          <TableRow key={row.property} className="[&+&]:border-t-1 [&+&]:border-solid [&+&]:border-t-default-200">
-            {(columnKey: Key) => {
-              const isPropertyColumn = columnKey === PropertyValueTableColumnKey.Property;
-              const isValueColumn = columnKey === PropertyValueTableColumnKey.Value;
+      <Table
+        className="h-auto min-w-full"
+        classNames={{
+          wrapper: 'py-1 px-2',
+        }}
+        hideHeader
+        fullWidth
+        aria-label="datetime table"
+      >
+        <TableHeader columns={PROPERTY_VALUE_TABLE_COLUMNS}>
+          {({ key, label }) => <TableColumn key={key}>{label}</TableColumn>}
+        </TableHeader>
 
-              return (
-                <TableCell
-                  className={isPropertyColumn ? 'text-xs font-semibold' : 'text-xs font-normal text-default-600'}
-                >
-                  {row.property === 'Relative' && isValueColumn ? (
-                    <RelativeTimeFormatter unixTimestamp={row[columnKey as PropertyValueTableColumnKey] as number} />
-                  ) : (
-                    row[columnKey as PropertyValueTableColumnKey]
-                  )}
-                </TableCell>
-              );
-            }}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+        <TableBody items={rows}>
+          {(row) => (
+            <TableRow key={row.property} className="[&+&]:border-t-1 [&+&]:border-solid [&+&]:border-t-default-200">
+              {(columnKey: Key) => {
+                const isPropertyColumn = columnKey === PropertyValueTableColumnKey.Property;
+                const isValueColumn = columnKey === PropertyValueTableColumnKey.Value;
+
+                return (
+                  <TableCell
+                    className={isPropertyColumn ? 'text-xs font-semibold' : 'text-xs font-normal text-default-600'}
+                  >
+                    {row.property === 'Relative' && isValueColumn ? (
+                      <RelativeTimeFormatter unixTimestamp={row[columnKey as PropertyValueTableColumnKey] as number} />
+                    ) : (
+                      row[columnKey as PropertyValueTableColumnKey]
+                    )}
+                  </TableCell>
+                );
+              }}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </>
   );
 };
 
