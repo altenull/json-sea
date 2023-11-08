@@ -23,7 +23,7 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
   const hoveredNodeDetails = useNodeDetailViewStore((state) => state.hoveredNodeDetails);
   const { theme } = useCustomTheme();
 
-  const { isObjectData, isArrayData, isPrimitiveData, isStringData, isNumberData, isBooleanData, isNullData } =
+  const { isObjectData, isArrayData, isStringData, isNumberData, isBooleanData, isNullData } =
     validateJsonDataType(propertyV);
 
   const isHoveredFromNodeDetail: boolean = hoveredNodeDetails.some(
@@ -33,7 +33,7 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
   const iconColor = semanticColors[theme].default[500];
 
   return (
-    <div className="h-nodeContentHeight relative flex items-center justify-between pr-2 [&+&]:border-t-1 [&+&]:border-solid [&+&]:border-t-default-200">
+    <div className="relative flex h-nodeContentHeight items-center justify-between pr-2 [&+&]:border-t-1 [&+&]:border-solid [&+&]:border-t-default-200">
       <Text className="mr-4 font-medium text-primary">{propertyK}</Text>
 
       {isObjectData && (
@@ -43,22 +43,14 @@ const _ObjectNodeProperty = ({ nodeId, propertyK, propertyV, hasChildNode }: Pro
         <Icon icon={isEmptyArray(propertyV as any[]) ? 'array-empty' : 'array'} size={24} color={iconColor} />
       )}
 
-      {isPrimitiveData && (
-        <Text
-          style={{
-            color: isNumberData ? semanticColors[theme].success[600] : undefined,
-          }}
-          className="overflow-hidden text-ellipsis whitespace-nowrap"
-        >
-          {isStringData && JSON.stringify(propertyV)}
-
-          {isNumberData && propertyV}
-
-          {isBooleanData && <BooleanChip value={propertyV as boolean} size="sm" />}
-
-          {isNullData && <NullChip size="sm" />}
-        </Text>
+      {isStringData && (
+        <Text className="overflow-hidden text-ellipsis whitespace-nowrap">{JSON.stringify(propertyV)}</Text>
       )}
+      {isNumberData && (
+        <Text className="overflow-hidden text-ellipsis whitespace-nowrap text-success-600">{propertyV}</Text>
+      )}
+      {isBooleanData && <BooleanChip value={propertyV as boolean} size="sm" />}
+      {isNullData && <NullChip size="sm" />}
 
       {hasChildNode && (
         <DefaultHandle style={{ backgroundColor: semanticColors[theme].default[300] }} id={propertyK} type="source" />
