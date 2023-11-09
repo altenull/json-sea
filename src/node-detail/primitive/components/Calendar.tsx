@@ -9,8 +9,6 @@ type Props = {
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
 const _Calendar = ({ date }: Props) => {
-  const title = format(date, 'MMM yyyy'); // e.g. `Jan 2023`
-
   const firstDateOfMonth = startOfMonth(date);
   const firstDayColumnStart = firstDateOfMonth.getDay() + 1;
 
@@ -20,8 +18,8 @@ const _Calendar = ({ date }: Props) => {
   return (
     <div className="mx-auto my-2 w-fit">
       <div className="mb-2 flex items-end justify-center gap-1">
-        <Text style={{ margin: 0 }} h6 className="text-center text-default-600">
-          {title}
+        <Text style={{ margin: 0 }} h6 className="text-center text-default-500">
+          {format(date, 'MMM yyyy')} {/* e.g. `Jan 2023` */}
         </Text>
         <Text style={{ fontSize: 10 }} className="text-center text-default-400">
           ({format(date, 'OOOO')}) {/* e.g. `(GMT+09:00)` */}
@@ -30,7 +28,7 @@ const _Calendar = ({ date }: Props) => {
 
       <ul className="grid grid-cols-7">
         {WEEKDAYS.map((weekday) => (
-          <li key={weekday} className="text-center text-xs text-default-500">
+          <li key={weekday} style={{ fontVariant: 'small-caps' }} className="text-center text-xs text-default-400">
             {weekday}
           </li>
         ))}
