@@ -18,7 +18,7 @@ const _ResizableJsonEditor = () => {
         height: '100%',
       }}
       minWidth={272}
-      maxWidth={560}
+      maxWidth={typeof window !== 'undefined' ? window.innerWidth / 2 : undefined}
       enable={{
         right: true,
       }}
