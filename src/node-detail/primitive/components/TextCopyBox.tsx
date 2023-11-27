@@ -1,8 +1,8 @@
 import { Chip } from '@nextui-org/chip';
-import { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback } from 'react';
 import { Text } from '../../../ui/components/Text';
 import { isNull } from '../../../utils/json.util';
-import useCopyToClipboard from '../../../utils/react-hooks/useCopyToClipboard';
+import { useCopyToClipboard } from '../../../utils/react-hooks/useCopyToClipboard';
 import { useHover } from '../../../utils/react-hooks/useHover';
 
 type Props = {
@@ -11,17 +11,11 @@ type Props = {
 
 const _TextCopyBox = ({ text }: Props) => {
   const [hostRef, isHostHovered] = useHover<HTMLDivElement>();
-  const { copiedText, copyToClipboard, clearClipboard } = useCopyToClipboard();
+  const { copiedText, copyToClipboard } = useCopyToClipboard();
 
   const copyText = useCallback(() => {
     copyToClipboard(text);
   }, [copyToClipboard, text]);
-
-  useEffect(() => {
-    if (!isHostHovered) {
-      clearClipboard();
-    }
-  }, [clearClipboard, isHostHovered]);
 
   return (
     <div
