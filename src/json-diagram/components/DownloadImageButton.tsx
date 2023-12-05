@@ -1,6 +1,5 @@
 import { CircularProgress } from '@nextui-org/progress';
 import { semanticColors } from '@nextui-org/react';
-import { toPng } from 'html-to-image';
 import { memo, useCallback } from 'react';
 import { CircleTransparentButton } from '../../ui/components/CircleTransparentButton';
 import { Icon } from '../../ui/icon/Icon';
@@ -14,9 +13,10 @@ const _DownloadImageButton = () => {
 
   const SELF_CLASSNAME = 'download-image-button';
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback(async () => {
     startDownload();
 
+    const { toPng } = await import('html-to-image');
     toPng(document.querySelector('.react-flow') as HTMLElement, {
       filter: (node) => {
         // we don't want to add the minimap, controls and download image button to the image
