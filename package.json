@@ -41,7 +41,7 @@
     "react-dom": "^18.2.0",
     "reactflow": "^11.10.1",
     "timeago.js": "^4.0.2",
-    "zustand": "^4.4.5"
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/dagre": "^0.7.51",

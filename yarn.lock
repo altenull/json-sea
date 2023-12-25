@@ -4897,9 +4897,9 @@ zustand@^4.4.1:
   dependencies:
     use-sync-external-store "1.2.0"
 
-zustand@^4.4.5:
-  version "4.4.5"
-  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.4.5.tgz#0d5571affb30906b0c07c16557f2779ede9f4d8c"
-  integrity sha512-jgIrBBLKncQW74PA2Lclct3gwD4aPughwGE4FqlXrv3rDqQox7JCn8rwUiFK6ygJcbBAvfTf8fF+ICg7HLD2FQ==
+zustand@^4.4.7:
+  version "4.4.7"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.4.7.tgz#355406be6b11ab335f59a66d2cf9815e8f24038c"
+  integrity sha512-QFJWJMdlETcI69paJwhSMJz7PPWjVP8Sjhclxmxmxv/RYI7ZOvR5BHX+ktH0we9gTWQMxcne8q1OY8xxz604gw==
   dependencies:
     use-sync-external-store "1.2.0"
