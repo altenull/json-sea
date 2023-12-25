@@ -42,7 +42,7 @@
 
   /* json-editor */
   .json-dropzone-base {
-    @apply flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-border hover:bg-default-100;
+    @apply size-full flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-border hover:bg-default-100;
   }
 
   /* node-detail-panel */
@@ -53,19 +53,19 @@
     @apply !border-1 border-solid !border-border shadow-none;
   }
   .leaflet-zoom-button {
-    @apply !h-6 !w-6 bg-background !leading-5 text-default-700 first:border-b-1 first:border-solid first:border-b-border hover:bg-default-100;
+    @apply !size-6 bg-background !leading-5 text-default-700 first:border-b-1 first:border-solid first:border-b-border hover:bg-default-100;
   }
   .leaflet-dark-tile {
     /* [Leaflet Darkmode] https://blog.jamie.holdings/2022/05/15/dark-mode-for/ */
     filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
   }
   .calendar-day {
-    @apply inline-flex h-7 w-7 items-center justify-center text-center text-xs text-default-600;
+    @apply size-7 inline-flex items-center justify-center text-center text-xs text-default-600;
   }
 
   /* shared */
   .blue-dot-for-node {
-    @apply absolute right-0 top-1/2  min-h-[10px] min-w-[10px] -translate-y-1/2 translate-x-[70%] rounded-full bg-blue-600;
+    @apply absolute right-0 top-1/2 min-h-[10px] min-w-[10px] -translate-y-1/2 translate-x-[70%] rounded-full bg-blue-600;
   }
   .blue-dot-for-card {
     @apply absolute right-0 top-[24px] min-h-[40px] min-w-[40px] translate-x-1/2 rounded-full bg-blue-600/40;
