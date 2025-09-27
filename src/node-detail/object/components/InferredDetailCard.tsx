@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from '@nextui-org/card';
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import { ForwardedRef, Fragment, forwardRef, memo, useCallback } from 'react';
 import { InferredDataType } from '../enums/inferred-data-type.enum';
 import { InferredDataTypeText } from './InferredDataTypeText';

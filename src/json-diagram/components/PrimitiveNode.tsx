@@ -1,4 +1,4 @@
-import { semanticColors } from '@nextui-org/theme';
+import { semanticColors } from "@heroui/theme";
 import { memo } from 'react';
 import { NodeProps } from 'reactflow';
 import { JsonDataType } from '../../store/json-engine/enums/json-data-type.enum';

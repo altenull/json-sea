@@ -1,6 +1,6 @@
 'use client';
 
-import { Navbar, NavbarContent, NavbarItem } from '@nextui-org/navbar';
+import { Navbar, NavbarContent, NavbarItem } from "@heroui/navbar";
 import { useId } from 'react';
 import { GithubButton } from './GithubButton';
 import { JsonEditorToggle } from './JsonEditorToggle';

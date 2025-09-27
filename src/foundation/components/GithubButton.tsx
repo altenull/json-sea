@@ -1,4 +1,4 @@
-import { semanticColors } from '@nextui-org/theme';
+import { semanticColors } from "@heroui/theme";
 import { memo } from 'react';
 import { externalLink } from '../../environment';
 import { CircleTransparentButton } from '../../ui/components/CircleTransparentButton';

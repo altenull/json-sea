@@ -1,5 +1,5 @@
-import { Card, CardBody, CardFooter } from '@nextui-org/card';
-import { Image } from '@nextui-org/image';
+import { Card, CardBody, CardFooter } from "@heroui/card";
+import { Image } from "@heroui/image";
 import { memo } from 'react';
 import { JsonLink } from '../../../api/json-link-api/json-link.types';
 import { Text } from '../../../ui/components/Text';

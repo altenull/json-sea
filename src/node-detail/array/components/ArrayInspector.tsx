@@ -1,5 +1,5 @@
 import Editor from '@monaco-editor/react';
-import { Card } from '@nextui-org/card';
+import { Card } from "@heroui/card";
 import { memo } from 'react';
 import { formatJsonLikeData } from '../../../utils/json.util';
 import { useCustomTheme } from '../../../utils/react-hooks/useCustomTheme';

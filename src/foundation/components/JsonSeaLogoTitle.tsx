@@ -1,4 +1,4 @@
-import { Tooltip } from '@nextui-org/tooltip';
+import { Tooltip } from "@heroui/tooltip";
 import { memo } from 'react';
 import { sizes } from '../../ui/constants/sizes.constant';
 import { useJsonSeaRecommendedWidth } from '../../ui/hooks/useJsonSeaRecommendedWidth';

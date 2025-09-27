@@ -1,6 +1,6 @@
-import { Card, CardBody, CardHeader } from '@nextui-org/card';
-import { Chip } from '@nextui-org/chip';
-import { Spacer } from '@nextui-org/react';
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Chip } from "@heroui/chip";
+import { Spacer } from "@heroui/react";
 import { memo } from 'react';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
 import { useSettingsStore } from '../../store/settings/settings.store';

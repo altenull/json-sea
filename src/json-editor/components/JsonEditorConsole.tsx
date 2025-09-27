@@ -1,7 +1,7 @@
-import { Button } from '@nextui-org/button';
-import { useDisclosure } from '@nextui-org/modal';
-import { semanticColors } from '@nextui-org/react';
-import { Tooltip } from '@nextui-org/tooltip';
+import { Button } from "@heroui/button";
+import { useDisclosure } from "@heroui/modal";
+import { semanticColors } from "@heroui/react";
+import { Tooltip } from "@heroui/tooltip";
 import { ComponentProps, memo, useMemo } from 'react';
 import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { Icon } from '../../ui/icon/Icon';

@@ -1,4 +1,4 @@
-import { Chip } from '@nextui-org/chip';
+import { Chip } from "@heroui/chip";
 import { memo, useCallback } from 'react';
 import { Text } from '../../../ui/components/Text';
 import { isNull } from '../../../utils/json.util';

@@ -1,4 +1,4 @@
-import { CircularProgress } from '@nextui-org/progress';
+import { CircularProgress } from "@heroui/progress";
 import { memo } from 'react';
 import { encloseDoubleQuote } from '../../../utils/string.util';
 import { StringSubtypeValidator } from '../helpers/string-subtype.helper';

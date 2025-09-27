@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '@nextui-org/button';
-import { Input } from '@nextui-org/input';
-import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/modal';
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
+import { Modal, ModalBody, ModalContent, ModalHeader } from "@heroui/modal";
 import { ComponentProps, memo, useCallback, useEffect } from 'react';
 import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';

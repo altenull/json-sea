@@ -1,4 +1,4 @@
-import { semanticColors } from '@nextui-org/react';
+import { semanticColors } from "@heroui/react";
 import { memo } from 'react';
 import { EdgeProps, getStraightPath } from 'reactflow';
 import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';

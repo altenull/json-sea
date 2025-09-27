@@ -1,4 +1,4 @@
-import { semanticColors } from '@nextui-org/react';
+import { semanticColors } from "@heroui/react";
 import { memo } from 'react';
 import { validateJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
 import { useNodeDetailViewStore } from '../../store/node-detail-view/node-detail-view.store';

@@ -1,5 +1,5 @@
-import { Chip } from '@nextui-org/chip';
-import { semanticColors } from '@nextui-org/theme';
+import { Chip } from "@heroui/chip";
+import { semanticColors } from "@heroui/theme";
 import { nodeTypeToAcronymMap } from '../../node-detail/array/helpers/node-type.helper';
 import { useNodePath } from '../../node-detail/hooks/useNodePath';
 import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';

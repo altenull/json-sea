@@ -1,5 +1,5 @@
-import { CircularProgress } from '@nextui-org/progress';
-import { semanticColors } from '@nextui-org/react';
+import { CircularProgress } from "@heroui/progress";
+import { semanticColors } from "@heroui/react";
 import { memo, useCallback } from 'react';
 import { CircleTransparentButton } from '../../ui/components/CircleTransparentButton';
 import { Icon } from '../../ui/icon/Icon';

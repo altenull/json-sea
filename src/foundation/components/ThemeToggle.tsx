@@ -1,4 +1,4 @@
-import { semanticColors } from '@nextui-org/react';
+import { semanticColors } from "@heroui/react";
 import { CircleTransparentButton } from '../../ui/components/CircleTransparentButton';
 import { Icon } from '../../ui/icon/Icon';
 import { useCustomTheme } from '../../utils/react-hooks/useCustomTheme';

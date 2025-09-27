@@ -1,4 +1,4 @@
-import { Link } from '@nextui-org/link';
+import { Link } from "@heroui/link";
 import { memo } from 'react';
 import { externalLink } from '../../environment';
 import { Text } from '../../ui/components/Text';

@@ -1,5 +1,5 @@
-import { useDisclosure } from '@nextui-org/modal';
-import { semanticColors } from '@nextui-org/react';
+import { useDisclosure } from "@heroui/modal";
+import { semanticColors } from "@heroui/react";
 import { memo } from 'react';
 import { SettingsModal } from '../../settings/components/SettingsModal';
 import { CircleTransparentButton } from '../../ui/components/CircleTransparentButton';

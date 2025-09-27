@@ -1,5 +1,5 @@
-import { Button } from '@nextui-org/button';
-import { CardBody, CardHeader } from '@nextui-org/card';
+import { Button } from "@heroui/button";
+import { CardBody, CardHeader } from "@heroui/card";
 import { ReactElement, isValidElement, memo, useMemo } from 'react';
 import { useJsonDiagramViewStore } from '../../store/json-diagram-view/json-diagram-view.store';
 import { JsonDataType } from '../../store/json-engine/enums/json-data-type.enum';

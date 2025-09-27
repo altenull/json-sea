@@ -1,4 +1,4 @@
-import { Card } from '@nextui-org/card';
+import { Card } from "@heroui/card";
 import { ForwardedRef, forwardRef, memo, ReactElement } from 'react';
 import { isArray, isString } from '../../utils/json.util';
 import { DetailArray } from './DetailArray';

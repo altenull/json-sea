@@ -1,4 +1,4 @@
-import { Image } from '@nextui-org/image';
+import { Image } from "@heroui/image";
 import { memo } from 'react';
 import { openLinkAsNewTab } from '../../../utils/window.util';
 import { ImageSrc } from '../types/media-src.type';

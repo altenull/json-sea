@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/table";
 import { addMinutes, format } from 'date-fns';
 import { Key, memo, useEffect, useState } from 'react';
 import { Calendar } from './Calendar';
@@ -40,10 +40,10 @@ const _PreviewDatetime = ({ datetime }: Props) => {
 
     const rows: Row[] = PROPERTY_NAMES.map(
       (propertyName) =>
-        ({
+        (({
           property: propertyName,
-          value: map[propertyName],
-        }) as Row,
+          value: map[propertyName]
+        }) as Row),
     );
 
     setRows(rows);

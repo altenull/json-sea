@@ -1,4 +1,4 @@
-import { Chip } from '@nextui-org/chip';
+import { Chip } from "@heroui/chip";
 import { memo } from 'react';
 
 type Props = {

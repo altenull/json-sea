@@ -1,4 +1,4 @@
-import { semanticColors } from '@nextui-org/react';
+import { semanticColors } from "@heroui/react";
 import { memo } from 'react';
 import { useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { Icon } from '../../ui/icon/Icon';

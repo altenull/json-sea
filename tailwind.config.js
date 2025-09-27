@@ -1,11 +1,11 @@
-const { nextui, commonColors } = require('@nextui-org/theme');
+const { heroui, commonColors } = require("@heroui/theme");
 const { sizes } = require('./src/ui/constants/sizes.constant');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/@nextui-org/theme/dist/components/(button|chip|card|navbar|toggle|tooltip|modal|input|circular-progress|table|image|link).js',
+    "./node_modules/@heroui/theme/dist/components/(button|chip|card|navbar|toggle|tooltip|modal|input|circular-progress|table|image|link).js",
   ],
   theme: {
     extend: {
@@ -35,7 +35,7 @@ module.exports = {
   },
   darkMode: 'class',
   plugins: [
-    nextui({
+    heroui({
       addCommonColors: true, // override common colors (e.g. "blue", "green", "pink").
       defaultTheme: 'light', // default theme from the themes object
       defaultExtendTheme: 'light', // default theme to extend on custom themes

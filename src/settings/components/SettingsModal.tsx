@@ -1,7 +1,7 @@
 'use client';
 
-import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/modal';
-import { Switch } from '@nextui-org/switch';
+import { Modal, ModalBody, ModalContent, ModalHeader } from "@heroui/modal";
+import { Switch } from "@heroui/switch";
 import { memo } from 'react';
 import { useSettingsStore } from '../../store/settings/settings.store';
 

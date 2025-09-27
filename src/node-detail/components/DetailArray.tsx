@@ -1,4 +1,4 @@
-import { CardBody, CardHeader } from '@nextui-org/card';
+import { CardBody, CardHeader } from "@heroui/card";
 import { ReactElement, isValidElement, memo, useMemo } from 'react';
 import { JsonDataType } from '../../store/json-engine/enums/json-data-type.enum';
 import { getJsonDataType } from '../../store/json-engine/helpers/json-data-type.helper';
