@@ -42,7 +42,7 @@ const convertObjectToNode = ({
     data: {
       depth,
       dataType: JsonDataType.Object,
-      stringifiedJson: JSON.stringify(obj),
+      stringifiedJson: '', // Optimized: No longer stringifying object to avoid O(N^2)
       parentNodePathIds,
       obj,
       arrayIndexForObject,
@@ -183,11 +183,11 @@ export const jsonParser = (
    * `nodeSequence` will be transformed to `nodeId`.
    */
   let nodeSequence: number = 0;
-  let defaultEdges: Edge[] = [];
-  let chainEdges: Edge[] = [];
+  const seaNodes: SeaNode[] = [];
+  const edges: Edge[] = [];
 
   const addDefaultEdge = ({ source, target, sourceHandle }: DefaultEdgeParams): void => {
-    defaultEdges = defaultEdges.concat(
+    edges.push(
       createDefaultEdge({
         source,
         target,
@@ -198,7 +198,7 @@ export const jsonParser = (
 
   /**
    *  2023-01-30 Suprisingly, ChatGPT helps to refactor complex `traverse` code into smaller.
-   * 
+   *
    * `traverse` function follows `preorder traversal`
    
    *  @implements
@@ -229,26 +229,23 @@ export const jsonParser = (
     arrayIndexForObject,
     sourceSet,
     parentNodePathIds,
-  }: TraverseParams): SeaNode[] => {
-    let seaNodes: SeaNode[] = [];
-
+  }: TraverseParams): void => {
     const traverseObject = ({ _obj, _nextDepth, _parentNodePathIds, _source, _sourceHandle }: TraverseObjectParams) => {
       nodeSequence++;
       const nextNodeId: string = formatNodeId(nodeSequence);
       const target: string = nextNodeId;
 
-      seaNodes = seaNodes.concat(
-        traverse({
-          traverseTarget: _obj,
-          depth: _nextDepth,
-          arrayIndexForObject: null,
-          sourceSet: {
-            source: _source,
-            sourceHandle: _sourceHandle,
-          },
-          parentNodePathIds: _parentNodePathIds,
-        }),
-      );
+      traverse({
+        traverseTarget: _obj,
+        depth: _nextDepth,
+        arrayIndexForObject: null,
+        sourceSet: {
+          source: _source,
+          sourceHandle: _sourceHandle,
+        },
+        parentNodePathIds: _parentNodePathIds,
+      });
+
       addDefaultEdge({
         source: _source,
         target,
@@ -276,7 +273,7 @@ export const jsonParser = (
           }
 
           if (isLastItemOfArray(arrayIndex, selfArray) && isString(sourceOfChainEdge)) {
-            chainEdges = chainEdges.concat(
+            edges.push(
               createChainEdge({
                 source: sourceOfChainEdge,
                 target,
@@ -287,18 +284,17 @@ export const jsonParser = (
 
         if (arrayItemValidator.isObjectData) {
           // Array > Object
-          seaNodes = seaNodes.concat(
-            traverse({
-              traverseTarget: arrayItem as object,
-              depth: _nextDepth,
-              arrayIndexForObject: arrayIndex,
-              sourceSet: {
-                source: _source,
-                sourceHandle: _sourceHandle,
-              },
-              parentNodePathIds: _parentNodePathIds,
-            }),
-          );
+          traverse({
+            traverseTarget: arrayItem as object,
+            depth: _nextDepth,
+            arrayIndexForObject: arrayIndex,
+            sourceSet: {
+              source: _source,
+              sourceHandle: _sourceHandle,
+            },
+            parentNodePathIds: _parentNodePathIds,
+          });
+
           addDefaultEdge({
             source: _source,
             target,
@@ -308,7 +304,7 @@ export const jsonParser = (
           // Array > Array
           const items: any[] = arrayItem as any[];
 
-          seaNodes = seaNodes.concat(
+          seaNodes.push(
             convertArrayToNode({
               nodeId: nextNodeId,
               depth: _nextDepth,
@@ -318,6 +314,7 @@ export const jsonParser = (
               isRootNode: false,
             }),
           );
+
           addDefaultEdge({
             source: _source,
             target,
@@ -327,22 +324,20 @@ export const jsonParser = (
           const isEmptyArray: boolean = items.length === 0;
 
           if (!isEmptyArray) {
-            seaNodes = seaNodes.concat(
-              traverse({
-                traverseTarget: items,
-                depth: _nextDepth,
-                arrayIndexForObject: null,
-                sourceSet: {
-                  source: _source,
-                  sourceHandle: _sourceHandle,
-                },
-                parentNodePathIds: _parentNodePathIds,
-              }),
-            );
+            traverse({
+              traverseTarget: items,
+              depth: _nextDepth,
+              arrayIndexForObject: null,
+              sourceSet: {
+                source: _source,
+                sourceHandle: _sourceHandle,
+              },
+              parentNodePathIds: _parentNodePathIds,
+            });
           }
         } else if (arrayItemValidator.isPrimitiveData) {
           // Array > Primitive
-          seaNodes = seaNodes.concat(
+          seaNodes.push(
             convertPrimitiveToNode({
               nodeId: nextNodeId,
               depth: _nextDepth,
@@ -351,6 +346,7 @@ export const jsonParser = (
               parentNodePathIds: _parentNodePathIds,
             }),
           );
+
           addDefaultEdge({
             source: _source,
             target,
@@ -367,7 +363,7 @@ export const jsonParser = (
     const isRootNode: boolean = sourceSet.source === undefined;
 
     if (isObject(traverseTarget)) {
-      seaNodes = seaNodes.concat(
+      seaNodes.push(
         convertObjectToNode({
           nodeId: currentNodeId,
           depth,
@@ -404,7 +400,7 @@ export const jsonParser = (
        * Unlike 'object' JSON code, 'array' JSON code needs to add an extra node if root node.
        */
       if (isRootNode) {
-        seaNodes = seaNodes.concat(
+        seaNodes.push(
           convertArrayToNode({
             nodeId: currentNodeId,
             depth,
@@ -424,18 +420,18 @@ export const jsonParser = (
         _sourceHandle: undefined,
       });
     }
-
-    return seaNodes;
   };
 
+  traverse({
+    traverseTarget: json,
+    depth: ROOT_NODE_DEPTH,
+    parentNodePathIds: ROOT_PARENT_NODE_PATH_IDS,
+    arrayIndexForObject: null,
+    sourceSet: {},
+  });
+
   return {
-    seaNodes: traverse({
-      traverseTarget: json,
-      depth: ROOT_NODE_DEPTH,
-      parentNodePathIds: ROOT_PARENT_NODE_PATH_IDS,
-      arrayIndexForObject: null,
-      sourceSet: {},
-    }),
-    edges: [...defaultEdges, ...chainEdges],
+    seaNodes,
+    edges,
   };
 };
