@@ -1,5 +1,5 @@
 import { Chip } from "@heroui/chip";
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { Text } from '../../../ui/components/Text';
 import { isNull } from '../../../utils/json.util';
 import { useCopyToClipboard } from '../../../utils/react-hooks/useCopyToClipboard';
@@ -11,11 +11,17 @@ type Props = {
 
 const _TextCopyBox = ({ text }: Props) => {
   const [hostRef, isHostHovered] = useHover<HTMLDivElement>();
-  const { copiedText, copyToClipboard } = useCopyToClipboard();
+  const { copiedText, copyToClipboard, reset } = useCopyToClipboard();
 
   const copyText = useCallback(() => {
     copyToClipboard(text);
   }, [copyToClipboard, text]);
+
+  useEffect(() => {
+    if (!isHostHovered) {
+      reset();
+    }
+  }, [isHostHovered, reset]);
 
   return (
     <div

@@ -26,5 +26,7 @@ export const useCopyToClipboard = () => {
     }
   };
 
-  return { copiedText, copyToClipboard };
+  const reset = () => setCopiedText(null);
+
+  return { copiedText, copyToClipboard, reset };
 };
