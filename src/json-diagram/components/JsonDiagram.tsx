@@ -27,6 +27,7 @@ import { CustomMiniMap } from './CustomMiniMap';
 import { DefaultEdge } from './DefaultEdge';
 import { DownloadImageButton } from './DownloadImageButton';
 import { FitViewInvoker } from './FitViewInvoker';
+import { NodePathBreadcrumbs } from './NodePathBreadcrumbs';
 import { ObjectNode } from './ObjectNode';
 import { PrimitiveNode } from './PrimitiveNode';
 
@@ -88,6 +89,7 @@ const _JsonDiagram = () => {
           onInit={initApp}
           onNodesChange={featureFlag.nodesChange ? handleNodesChange : undefined}
         >
+          <NodePathBreadcrumbs />
           {isMinimapOn && <CustomMiniMap />}
           <Controls
             className="[&_button]:react-flow-controls-button [&_button_svg]:react-flow-controls-button-icon !shadow-none"

@@ -3,15 +3,22 @@ import { CURLY_ROOT_NODE_NAME, ROOT_NODE_NAME } from '../../json-diagram/constan
 import { isArraySeaNode, isObjectSeaNode, isPrimitiveSeaNode } from '../../store/json-engine/helpers/sea-node.helper';
 import { JsonTree, useJsonEngineStore } from '../../store/json-engine/json-engine.store';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
-import { isNumber } from '../../utils/json.util';
+import { isNull, isNumber } from '../../utils/json.util';
 import { encloseSquareBrackets } from '../../utils/string.util';
 
+type NodeIdName = {
+  nodeId: string;
+  nodeName: string;
+};
+
 type NodePath = {
+  fullNodeIdNames: NodeIdName[];
   fullNodePath: string; // e.g. `{root}`, `{root}.field_1`, `{root}.something[0].field_2`, `{root}.array[3][2].field_3[4]`, `{root}[1][2]`, ...
   selfNodePath: string; // e.g. `{root}`, `field_1`, `field_2`, `field_3[4]`, `{root}[1][2]`, ...
 };
 
 const ROOT_NODE_PATH: NodePath = {
+  fullNodeIdNames: [],
   fullNodePath: CURLY_ROOT_NODE_NAME,
   selfNodePath: ROOT_NODE_NAME,
 };
@@ -26,7 +33,11 @@ const getObjectPropertyK = ({
   target: string;
 }): string | null | undefined => edges.find((edge) => edge.source === source && edge.target === target)?.sourceHandle;
 
-const getNodePath = (jsonTree: JsonTree, selfNodeId: string): NodePath => {
+const getNodePath = (jsonTree: JsonTree, selfNodeId: string | null): NodePath => {
+  if (isNull(selfNodeId)) {
+    return ROOT_NODE_PATH;
+  }
+
   const { seaNodeEntities, edges } = jsonTree;
   const selfNode = seaNodeEntities[selfNodeId];
 
@@ -47,9 +58,9 @@ const getNodePath = (jsonTree: JsonTree, selfNodeId: string): NodePath => {
 
   const fullNodePathIds = selfNode.data.parentNodePathIds.concat([selfNodeId]);
 
-  const fullNodePath = fullNodePathIds
+  const fullNodeIdNames = fullNodePathIds
     .reverse()
-    .reduce((acc: string, nodeId: string, index: number, _fullNodePathIds: string[]) => {
+    .reduce((acc: NodeIdName[], nodeId: string, index: number, _fullNodePathIds: string[]) => {
       const node: SeaNode = seaNodeEntities[nodeId];
 
       const parentNodeId = index + 1 <= _fullNodePathIds.length ? _fullNodePathIds[index + 1] : undefined;
@@ -58,11 +69,11 @@ const getNodePath = (jsonTree: JsonTree, selfNodeId: string): NodePath => {
       const isParentObjectNode = parentNode !== undefined && isObjectSeaNode(parentNode);
       const isParentArrayNode = parentNode !== undefined && isArraySeaNode(parentNode);
 
-      let segment = '';
+      let nodeName = '';
 
       if (isObjectSeaNode(node)) {
         if (node.data.isRootNode) {
-          segment = CURLY_ROOT_NODE_NAME;
+          nodeName = CURLY_ROOT_NODE_NAME;
         } else {
           const objectSegment = isNumber(node.data.arrayIndexForObject)
             ? encloseSquareBrackets(node.data.arrayIndexForObject)
@@ -70,11 +81,11 @@ const getNodePath = (jsonTree: JsonTree, selfNodeId: string): NodePath => {
 
           if (isParentObjectNode) {
             const propertyK = getObjectPropertyK({ edges, source: parentNode.id, target: node.id }) as string;
-            segment = `.${propertyK}${objectSegment}`;
+            nodeName = `.${propertyK}${objectSegment}`;
           }
 
           if (isParentArrayNode) {
-            segment = objectSegment;
+            nodeName = objectSegment;
           }
         }
       }
@@ -83,15 +94,15 @@ const getNodePath = (jsonTree: JsonTree, selfNodeId: string): NodePath => {
         const arraySegment = encloseSquareBrackets(node.data.arrayIndex); // e.g. `[0]`, `[32]`, `[128]`, ....
 
         if (node.data.isRootNode) {
-          segment = CURLY_ROOT_NODE_NAME;
+          nodeName = CURLY_ROOT_NODE_NAME;
         } else {
           if (isParentObjectNode) {
             const propertyK = getObjectPropertyK({ edges, source: parentNode.id, target: node.id }) as string;
-            segment = `.${propertyK}${arraySegment}`;
+            nodeName = `.${propertyK}${arraySegment}`;
           }
 
           if (isParentArrayNode) {
-            segment = arraySegment;
+            nodeName = arraySegment;
           }
         }
       }
@@ -101,24 +112,25 @@ const getNodePath = (jsonTree: JsonTree, selfNodeId: string): NodePath => {
 
         if (isParentObjectNode) {
           const propertyK = getObjectPropertyK({ edges, source: parentNode.id, target: node.id }) as string;
-          segment = `.${propertyK}${primitiveSegment}`;
+          nodeName = `.${propertyK}${primitiveSegment}`;
         }
 
         if (isParentArrayNode) {
-          segment = primitiveSegment;
+          nodeName = primitiveSegment;
         }
       }
 
-      return `${segment}${acc}`;
-    }, '');
+      return [{ nodeId, nodeName } satisfies NodeIdName, ...acc];
+    }, [] satisfies NodeIdName[]);
 
   return {
-    fullNodePath, // e.g. `{root}.array[3][2].field_3[4]`
-    selfNodePath: fullNodePath.split('.').pop() ?? '', // e.g. `field_3[4]`
+    fullNodeIdNames,
+    fullNodePath: fullNodeIdNames.map(({ nodeName }) => nodeName).join(''), // e.g. `{root}.array[3][2].field_3[4]`
+    selfNodePath: fullNodeIdNames.at(-1)?.nodeName ?? '', // e.g. 'root', `.field_3[4]`
   };
 };
 
-export const useNodePath = (nodeId: string): NodePath => {
+export const useNodePath = (nodeId: string | null): NodePath => {
   const jsonTree = useJsonEngineStore((state) => state.jsonTree);
 
   return getNodePath(jsonTree, nodeId);

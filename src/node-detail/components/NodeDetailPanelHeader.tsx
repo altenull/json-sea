@@ -1,14 +1,12 @@
-import { Card, CardBody, CardHeader } from "@heroui/card";
-import { Chip } from "@heroui/chip";
-import { Spacer } from "@heroui/react";
+import { Spacer } from '@heroui/react';
 import { memo } from 'react';
 import { SeaNode } from '../../store/json-engine/types/sea-node.type';
 import { useSettingsStore } from '../../store/settings/settings.store';
 import { Text } from '../../ui/components/Text';
 import { nodeTypeToTextMap } from '../array/helpers/node-type.helper';
 import { useNodePath } from '../hooks/useNodePath';
-import { TextCopyBox } from '../primitive/components/TextCopyBox';
 import { NodeDetailChip } from './NodeDetailChip';
+import { NodePathCard } from './NodePathCard';
 
 type Props = {
   selectedNode: SeaNode;
@@ -29,18 +27,7 @@ const _NodeDetailPanelHeader = ({ selectedNode }: Props) => {
 
       {isNodePathOn && (
         <>
-          <Card fullWidth shadow="sm">
-            <CardHeader>
-              <Chip variant="faded" color="default" size="md">
-                Node Path
-              </Chip>
-            </CardHeader>
-
-            <CardBody className="px-3 pb-unit-sm pt-0">
-              <TextCopyBox text={fullNodePath} />
-            </CardBody>
-          </Card>
-
+          <NodePathCard fullNodePath={fullNodePath} />
           <Spacer y={6} />
         </>
       )}

@@ -1,4 +1,4 @@
-import { Chip } from "@heroui/chip";
+import { Chip } from '@heroui/chip';
 import { memo } from 'react';
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 
 const _NodeDetailChip = ({ value }: Props) => {
   return (
-    <Chip variant="faded" color="default" size="lg" radius="sm">
+    <Chip variant="faded" color="default" size="md" radius="sm">
       {value}
     </Chip>
   );
