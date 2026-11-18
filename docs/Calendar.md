@@ -1,0 +1,85 @@
+# Module: Calendar
+
+**File:** `\src\node-detail\primitive\components\Calendar.tsx`
+
+## Overview
+
+Module `Calendar` contains 0 analyzed entities.
+
+```
+import { format, getDate, getDaysInMonth, startOfMonth } from 'date-fns';
+import { memo } from 'react';
+import { Text } from '../../../ui/components/Text';
+
+type Props = {
+  date: Date;
+};
+
+const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+const _Calendar = ({ date }: Props) => {
+  const firstDateOfMonth = startOfMonth(date);
+  const firstDayColumnStart = firstDateOfMonth.getDay() + 1;
+
+  const daysInMonth = getDaysInMonth(date);
+  const days = Array.from({ length: daysInMonth }, (v, i) => i + 1); // If `daysInMonth` is 28, then [1, 2, 3, ..., 28]
+
+  return (
+    <div className="mx-auto my-2 w-fit">
+      <div className="mb-2 flex items-end justify-center gap-1">
+        <Text style={{ margin: 0 }} h6 className="text-center text-default-500">
+          {format(date, 'MMM yyyy')} {/* e.g. `Jan 2023` */}
+        </Text>
+        <Text style={{ fontSize: 10 }} className="text-center text-default-400">
+          ({format(date, 'OOOO')}) {/* e.g. `(GMT+09:00)` */}
+        </Text>
+      </div>
+
+      <ul className="grid grid-cols-7">
+        {WEEKDAYS.map((weekday) => (
+          <li key={weekday} style={{ fontVariant: 'small-caps' }} className="text-center text-xs text-default-400">
+            {weekday}
+          </li>
+        ))}
+      </ul>
+
+      <ul className="grid grid-cols-7">
+        {days.map((day) => {
+          const isGivenDate = day === getDate(date);
+
+          return (
+            <li
+              key={day}
+              className={isGivenDate ? 'calendar-day bg-primary-200' : 'calendar-day'}
+              style={{ gridColumnStart: day === 1 ? firstDayColumnStart : undefined }}
+            >
+              {day}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
+
+export const Calendar = memo(_Calendar);
+```
+
+## Key Components
+
+| Entity | Type | Description |
+|--------|------|-------------|
+| _none_ | — | — |
+
+## Git History
+
+- Commits: 2
+- Authors: 1
+- Bug fixes: 0
+- Features: 2
+
+## Note
+
+Connect an NVIDIA Nemotron model (Ollama locally or Nebius Serverless) and re-run
+`documentor generate` to upgrade these pages to AI-generated narrative docs with
+purpose, usage examples, and gotchas.
